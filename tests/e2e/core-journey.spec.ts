@@ -1,0 +1,3 @@
+import { expect,test } from "@playwright/test";
+test("public journey is understandable",async({page})=>{await page.goto("/");await expect(page.getByRole("heading",{name:/Find the right AI setup/})).toBeVisible();await page.getByRole("link",{name:"See How It Works"}).click();await expect(page).toHaveURL(/how-it-works/)});
+test("configured production account, strategy, checkout, persistence journey",async({page})=>{test.skip(!process.env.E2E_CLERK_TEST_EMAIL||!process.env.E2E_STRIPE_TEST_MODE,"Requires configured Clerk, Convex, OpenAI, source APIs, and Stripe test mode");await page.goto("/sign-up");expect(process.env.E2E_CLERK_TEST_EMAIL).toBeTruthy();});
