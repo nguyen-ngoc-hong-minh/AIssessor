@@ -3,10 +3,10 @@ import { v } from "convex/values";
 
 export default defineSchema({
   users: defineTable({
-    clerkUserId: v.string(), email: v.string(), name: v.optional(v.string()), avatarUrl: v.optional(v.string()),
+    email: v.string(), name: v.optional(v.string()), avatarUrl: v.optional(v.string()),
     accountType: v.optional(v.union(v.literal("individual"), v.literal("team"), v.literal("enterprise"))),
     onboardingComplete: v.boolean(), preferredLanguage: v.string(), createdAt: v.number(), updatedAt: v.number(),
-  }).index("by_clerk_user", ["clerkUserId"]).index("by_email", ["email"]),
+  }).index("by_email", ["email"]),
   profiles: defineTable({
     userId: v.id("users"), answers: v.any(), AIExperience: v.optional(v.string()), monthlyBudget: v.optional(v.string()),
     teamSize: v.optional(v.string()), companySize: v.optional(v.string()), industry: v.optional(v.string()), updatedAt: v.number(),

@@ -5,6 +5,7 @@ import { v } from "convex/values";
 import { validatePriorityRanking, WorkflowStepSchema, type WorkflowStep } from "../../lib/planner/schema";
 import { generateStrategyPlan } from "../../lib/recommendation/engine";
 import type { CanonicalModel, StrategyVariant } from "../../lib/recommendation/types";
+import { hostedAuthArgs, requireServerAuth } from "../lib/auth";
 
 type StoredModel = {
   _id: string; name: string; provider: string; active: boolean; modalities: string[]; capabilities: string[]; contextWindow?: number;
@@ -27,18 +28,18 @@ function toStep(record: { _id: string; order: number; name: string; description:
   return WorkflowStepSchema.parse({ id: record._id, order: record.order, name: record.name, plainLanguageDescription: record.description, inputDescription: requirements.inputDescription ?? "User-provided material", outputDescription: requirements.outputDescription ?? "Completed step", dependencies: requirements.dependencies ?? [], canRunInParallel: requirements.canRunInParallel ?? false, estimatedInputTokensLow: estimates.inputLow ?? 0, estimatedInputTokensExpected: estimates.inputExpected ?? 0, estimatedInputTokensHigh: estimates.inputHigh ?? 0, estimatedOutputTokensLow: estimates.outputLow ?? 0, estimatedOutputTokensExpected: estimates.outputExpected ?? 0, estimatedOutputTokensHigh: estimates.outputHigh ?? 0, estimatedRequestCount: estimates.requests ?? 0, estimatedImageCount: estimates.images ?? 0, estimatedAudioMinutes: estimates.audioMinutes ?? 0, estimatedVideoMinutes: estimates.videoMinutes ?? 0, requiredModalities: requirements.requiredModalities ?? [], requiredCapabilities: requirements.requiredCapabilities ?? [], requiresCurrentInformation: requirements.requiresCurrentInformation ?? false, privacyRequirement: requirements.privacyRequirement ?? "standard", commercialUseRequired: requirements.commercialUseRequired ?? false, minimumQuality: requirements.minimumQuality ?? "good", importance: requirements.importance ?? "medium", noAIEligible: requirements.noAIEligible ?? false, noAIAlternative: requirements.noAIAlternative ?? "Complete manually", humanReviewRecommended: requirements.humanReviewRecommended ?? true, assumptions: requirements.assumptions ?? [] });
 }
 
-export const generate = action({ args: { strategyId: v.id("strategies"), region: v.string() }, handler: async (ctx, { strategyId, region }) => {
-  if (!(await ctx.auth.getUserIdentity())) throw new Error("Unauthenticated");
-  const owned = await ctx.runQuery(anyApi.strategies.getOwned, { strategyId });
+export const generate = action({ args: { ...hostedAuthArgs, strategyId: v.id("strategies"), region: v.string() }, handler: async (ctx, args) => {
+  requireServerAuth(args.authKey); const { strategyId, region } = args; const auth = { authKey: args.authKey, userEmail: args.userEmail, userName: args.userName };
+  const owned = await ctx.runQuery(anyApi.strategies.getOwned, { ...auth, strategyId });
   if (owned.strategy.status !== "approved" && owned.strategy.status !== "complete") throw new Error("Approve the workflow before requesting recommendations");
   const snapshot = await ctx.runQuery(anyApi.modelSync.latestValidSnapshot, { source: "artificial_analysis" });
   if (!snapshot) throw new Error("No valid model-data snapshot is available");
-  const storedModels = await ctx.runQuery(anyApi.models.catalog, {}) as StoredModel[];
+  const storedModels = await ctx.runQuery(anyApi.models.catalog, auth) as StoredModel[];
   const priorities = validatePriorityRanking(owned.strategy.priorities);
   const context = { priorities, budgetUsd: owned.strategy.budget ?? null, region, now: Date.now() };
   const variants: StrategyVariant[] = ["recommended", "lowest_cost", "highest_quality", "fastest", "privacy"];
   const plans = variants.map((variant) => generateStrategyPlan(owned.steps.map(toStep), storedModels.map(toModel), context, variant));
-  const entitlement = await ctx.runQuery(anyApi.subscriptions.entitlement, {});
+  const entitlement = await ctx.runQuery(anyApi.subscriptions.entitlement, auth);
   if (!entitlement.canViewFullResults) return { locked: true, plans: [{ ...plans[0], steps: plans[0].steps.slice(0, 1).map((step) => ({ ...step, alternatives: [] })) }], dataSnapshot: { id: snapshot._id, fetchedAt: snapshot.fetchedAt } };
   await ctx.runMutation(anyApi.strategies.saveGeneratedPlans, { strategyId, dataSnapshotId: snapshot._id, plans });
   return { locked: false, plans, dataSnapshot: { id: snapshot._id, fetchedAt: snapshot.fetchedAt } };

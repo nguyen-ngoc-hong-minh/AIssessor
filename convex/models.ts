@@ -1,6 +1,6 @@
 import { internalMutationGeneric as internalMutation, queryGeneric as query } from "convex/server";
 import { v } from "convex/values";
-import { requireUser } from "./lib/auth";
+import { hostedAuthArgs, requireUser } from "./lib/auth";
 
 const modelValidator = v.object({
   canonicalId: v.string(), name: v.string(), provider: v.string(), modalities: v.array(v.string()), capabilities: v.array(v.string()),
@@ -22,8 +22,8 @@ export const ingest = internalMutation({ args: { source: v.string(), retrievedAt
   return { createdCount, updatedCount };
 } });
 
-export const catalog = query({ args: {}, handler: async (ctx) => {
-  await requireUser(ctx); const models = await ctx.db.query("canonicalModels").collect();
+export const catalog = query({ args: hostedAuthArgs, handler: async (ctx, args) => {
+  await requireUser(ctx, args); const models = await ctx.db.query("canonicalModels").collect();
   return Promise.all(models.filter((model) => model.active).map(async (model) => {
     const benchmarks = await ctx.db.query("benchmarkObservations").withIndex("by_model_metric", (q) => q.eq("modelId", model._id)).order("desc").collect();
     const prices = await ctx.db.query("pricingObservations").withIndex("by_model_type", (q) => q.eq("modelId", model._id)).order("desc").collect();

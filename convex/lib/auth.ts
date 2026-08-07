@@ -1,18 +1,21 @@
 import type { GenericDatabaseReader, GenericMutationCtx, GenericQueryCtx } from "convex/server";
+import { v } from "convex/values";
 
 // Generic helpers are used before Convex code generation creates the project DataModel.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AuthContext = GenericQueryCtx<any> | GenericMutationCtx<any>;
 
-export async function requireIdentity(ctx: AuthContext) {
-  const identity = await ctx.auth.getUserIdentity();
-  if (!identity) throw new Error("Unauthenticated");
-  return identity;
+export const hostedAuthArgs = { authKey: v.string(), userEmail: v.string(), userName: v.optional(v.string()) };
+export type HostedAuth = { authKey: string; userEmail: string; userName?: string };
+
+export function requireServerAuth(authKey: string) {
+  const expected = process.env.BENCHFLOW_SERVER_KEY;
+  if (!expected || authKey !== expected) throw new Error("Unauthenticated");
 }
 
-export async function requireUser(ctx: AuthContext) {
-  const identity = await requireIdentity(ctx);
-  const user = await ctx.db.query("users").withIndex("by_clerk_user", (q) => q.eq("clerkUserId", identity.subject)).unique();
+export async function requireUser(ctx: AuthContext, auth: HostedAuth) {
+  requireServerAuth(auth.authKey);
+  const user = await ctx.db.query("users").withIndex("by_email", (q) => q.eq("email", auth.userEmail.toLowerCase())).unique();
   if (!user) throw new Error("User profile is not synchronized");
   return user;
 }

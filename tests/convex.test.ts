@@ -7,13 +7,23 @@ import schema from "@/convex/schema";
 const modules = import.meta.glob("../convex/**/*.ts");
 
 describe("Convex persistence contracts", () => {
-  it("synchronizes a Clerk user without storing a password", async () => {
+  it("synchronizes a hosted ChatGPT user without storing a password", async () => {
+    process.env.BENCHFLOW_SERVER_KEY = "test-server-key";
     const t = convexTest({ schema, modules });
-    await t.mutation(anyApi.users.upsertFromClerk, { clerkUserId: "user_123", email: "test@example.com", name: "Test User" });
+    await t.mutation(anyApi.users.ensureFromHostedIdentity, { authKey: "test-server-key", userEmail: "test@example.com", userName: "Test User" });
     const users = await t.run((ctx) => ctx.db.query("users").collect());
     expect(users).toHaveLength(1);
-    expect(users[0].clerkUserId).toBe("user_123");
+    expect(users[0].email).toBe("test@example.com");
     expect(users[0]).not.toHaveProperty("password");
+
+    await t.mutation(anyApi.profiles.completeOnboarding, {
+      authKey: "test-server-key", userEmail: "test@example.com", userName: "Test User",
+      accountType: "individual", answers: { q1: "Research and analysis", q2: "Weekly", q3: "USD 10–30" },
+      AIExperience: "Weekly", monthlyBudget: "USD 10–30",
+    });
+    const profiles = await t.run((ctx) => ctx.db.query("profiles").collect());
+    expect(profiles).toHaveLength(1);
+    expect(profiles[0].monthlyBudget).toBe("USD 10–30");
   });
 
   it("stores only valid dated source snapshots", async () => {

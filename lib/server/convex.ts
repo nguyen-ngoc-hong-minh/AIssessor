@@ -1,12 +1,28 @@
-import { auth } from "@clerk/nextjs/server";
+import { anyApi } from "convex/server";
 import { ConvexHttpClient } from "convex/browser";
+import { getChatGPTUser } from "@/app/chatgpt-auth";
+
+type QueryReference = Parameters<ConvexHttpClient["query"]>[0];
+type MutationReference = Parameters<ConvexHttpClient["mutation"]>[0];
+type ActionReference = Parameters<ConvexHttpClient["action"]>[0];
+type Args = Record<string, unknown>;
 
 export async function authenticatedConvex() {
   const url = process.env.NEXT_PUBLIC_CONVEX_URL;
-  if (!url || !process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) throw new Error("Live Clerk and Convex services are not configured");
-  const session = await auth(); if (!session.userId) throw new Error("Unauthenticated");
-  const token = await session.getToken({ template: "convex" }); if (!token) throw new Error("Convex token is unavailable");
-  const client = new ConvexHttpClient(url); client.setAuth(token); return client;
+  const authKey = process.env.BENCHFLOW_SERVER_KEY;
+  if (!url || !authKey) throw new Error("Live Convex service is not configured");
+  const user = await getChatGPTUser();
+  if (!user) throw new Error("Unauthenticated");
+
+  const client = new ConvexHttpClient(url);
+  const auth = { authKey, userEmail: user.email.toLowerCase(), userName: user.fullName ?? undefined };
+  await client.mutation(anyApi.users.ensureFromHostedIdentity, auth);
+
+  return {
+    query: (reference: QueryReference, args: Args) => client.query(reference, { ...args, ...auth }),
+    mutation: (reference: MutationReference, args: Args) => client.mutation(reference, { ...args, ...auth }),
+    action: (reference: ActionReference, args: Args) => client.action(reference, { ...args, ...auth }),
+  };
 }
 
 export function apiError(error: unknown) {

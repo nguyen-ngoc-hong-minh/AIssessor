@@ -2,7 +2,7 @@
 
 ## Delivery posture
 
-BENCHFLOW is being rebuilt as a strict TypeScript Next.js application with a Convex data layer, Clerk identity, OpenAI planning, deterministic server-side recommendations, live model-source adapters, and Stripe entitlements. Production integrations fail closed: no benchmark, recommendation, payment, or entitlement data is invented when a provider is unavailable.
+BENCHFLOW is being rebuilt as a strict TypeScript Next.js application with a Convex data layer, hosted ChatGPT identity, OpenAI planning, deterministic server-side recommendations, live model-source adapters, and Stripe entitlements. Production integrations fail closed: no benchmark, recommendation, payment, or entitlement data is invented when a provider is unavailable.
 
 The current workspace remains compatible with the existing Sites preview while the application is prepared for the requested Vercel + Convex production deployment. Live acceptance requires the environment variables and provider configuration listed in `.env.example`.
 
@@ -10,7 +10,7 @@ The current workspace remains compatible with the existing Sites preview while t
 
 1. **Foundation** — dependencies, environment validation, shared UI primitives, route layout, and provider wiring.
 2. **Domain and data** — Zod planner contracts, deterministic scoring engine, source adapters, Convex schema, indexes, queries, mutations, actions, HTTP routes, and cron sync.
-3. **Identity and billing** — Clerk UI/provider integration, Clerk-to-Convex webhook contract, Stripe Checkout/Portal/webhook handlers, and server-authoritative subscription entitlements.
+3. **Identity and billing** — Sites-provided ChatGPT identity, a signed server-to-Convex boundary, Stripe Checkout/Portal/webhook handlers, and server-authoritative subscription entitlements.
 4. **Product journey** — landing, onboarding, usage choice, one-off/monthly forms, editable workflow approval, explainable results, dashboard, billing, settings, and minimal team pages.
 5. **Quality** — unit tests for schemas and recommendation behavior, adapter and webhook contracts, Playwright journey specifications, lint, TypeScript, tests, and production build.
 
@@ -31,11 +31,11 @@ The current workspace remains compatible with the existing Sites preview while t
 - `npm run typecheck`
 - `npm run test:unit`
 - `npm run build`
-- `npm run test:e2e` after Clerk, Convex, Stripe, and provider test environments are configured
+- `npm run test:e2e` after hosted identity, Convex, Stripe, and provider test environments are configured
 
 ## Live setup gates
 
-1. Create and configure Clerk email, Google, and Apple providers; add the Convex JWT template and webhook secret.
+1. Configure Sites ChatGPT sign-in and use an identical strong `BENCHFLOW_SERVER_KEY` in Sites and Convex.
 2. Create Convex development and production deployments; set server environment variables and deploy functions.
 3. Add OpenAI, Artificial Analysis, and OpenRouter credentials.
 4. Create Stripe Plus and Team prices; configure Checkout, Portal, and the webhook endpoint.
