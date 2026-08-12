@@ -1,42 +1,20 @@
 # BENCHFLOW implementation plan
 
-## Delivery posture
+## Completed in this update
 
-BENCHFLOW is being rebuilt as a strict TypeScript Next.js application with a Convex data layer, hosted ChatGPT identity, OpenAI planning, deterministic server-side recommendations, live model-source adapters, and Stripe entitlements. Production integrations fail closed: no benchmark, recommendation, payment, or entitlement data is invented when a provider is unavailable.
+1. Replaced hosting-header identity with Clerk and official Clerk/Convex JWT verification.
+2. Added replay-safe Clerk user synchronization and soft deletion.
+3. Moved stakeholder onboarding behind account creation and added stakeholder-specific profile fields.
+4. Split one-off project input from the monthly multi-task workload builder.
+5. Expanded evidence normalization, task-aware scoring, source disclosure, and explicit failure states.
+6. Added authorization, webhook, form, scoring, attribution, and subscription-reuse tests.
 
-The current workspace remains compatible with the existing Sites preview while the application is prepared for the requested Vercel + Convex production deployment. Live acceptance requires the environment variables and provider configuration listed in `.env.example`.
+## Production gates
 
-## Workstreams
-
-1. **Foundation** — dependencies, environment validation, shared UI primitives, route layout, and provider wiring.
-2. **Domain and data** — Zod planner contracts, deterministic scoring engine, source adapters, Convex schema, indexes, queries, mutations, actions, HTTP routes, and cron sync.
-3. **Identity and billing** — Sites-provided ChatGPT identity, a signed server-to-Convex boundary, Stripe Checkout/Portal/webhook handlers, and server-authoritative subscription entitlements.
-4. **Product journey** — landing, onboarding, usage choice, one-off/monthly forms, editable workflow approval, explainable results, dashboard, billing, settings, and minimal team pages.
-5. **Quality** — unit tests for schemas and recommendation behavior, adapter and webhook contracts, Playwright journey specifications, lint, TypeScript, tests, and production build.
-
-## Safety and correctness rules
-
-- Planner AI produces task requirements only; it never selects a model.
-- Recommendations are computed by deterministic TypeScript from stored observations.
-- Missing critical evidence creates an exclusion or a `Limited Evidence` result.
-- Production reads the latest valid stored snapshot; stale snapshots are dated and labelled.
-- Development fixtures are opt-in and visibly labelled.
-- Protected Convex functions derive identity from `ctx.auth.getUserIdentity()` and verify ownership or team membership.
-- Stripe entitlements change only after a verified webhook.
-- No passwords, invented benchmarks, invented prices, or client-controlled access grants are stored.
-
-## Verification gates
-
-- `npm run lint`
-- `npm run typecheck`
-- `npm run test:unit`
-- `npm run build`
-- `npm run test:e2e` after hosted identity, Convex, Stripe, and provider test environments are configured
-
-## Live setup gates
-
-1. Configure Sites ChatGPT sign-in and use an identical strong `BENCHFLOW_SERVER_KEY` in Sites and Convex.
-2. Create Convex development and production deployments; set server environment variables and deploy functions.
-3. Add OpenAI, Artificial Analysis, and OpenRouter credentials.
-4. Create Stripe Plus and Team prices; configure Checkout, Portal, and the webhook endpoint.
-5. Add the complete environment set to Vercel, deploy, then run the Playwright acceptance journey against that deployment.
+1. Configure Clerk email, Google, Apple, verification, recovery, and deletion settings.
+2. Configure Clerk keys and issuer domain in the frontend and Convex environments.
+3. Deploy Convex functions and register the Clerk and Stripe webhooks.
+4. Configure source credentials, run initial syncs, and inspect minimum evidence coverage.
+5. Run credentialed Clerk/Convex/Stripe E2E tests against staging.
+6. Add source-specific adapters for the benchmark sources listed in `BENCHMARK_AUDIT.md`.
+7. Add a background evaluator that persists new-model refresh opportunities for saved strategies.

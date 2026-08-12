@@ -1,5 +1,19 @@
+import { redirect } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
-import { requireChatGPTUser } from "@/app/chatgpt-auth";
+import { IntegrationNotice } from "@/components/integration-notice";
+import { integrationsConfigured } from "@/components/providers";
+import { authenticatedConvex } from "@/lib/server/convex";
+import { anyApi } from "convex/server";
 
 export const dynamic = "force-dynamic";
-export default async function ProductLayout({children}:{children:React.ReactNode}){const user=await requireChatGPTUser("/dashboard");return <AppShell user={{name:user.displayName,email:user.email}}>{children}</AppShell>}
+
+export default async function ProductLayout({ children }: { children: React.ReactNode }) {
+  if (!integrationsConfigured) return <div className="page-wrap"><IntegrationNotice /></div>;
+  const client = await authenticatedConvex();
+  const [current, admin] = await Promise.all([
+    client.query(anyApi.users.current, {}) as Promise<{ user: { name?: string; email: string; onboardingComplete: boolean } }>,
+    client.query(anyApi.modelSync.adminStatus, {}) as Promise<{ isAdmin: boolean }>,
+  ]);
+  if (!current.user.onboardingComplete) redirect("/onboarding");
+  return <AppShell user={{ name: current.user.name ?? current.user.email, email: current.user.email }} isAdmin={admin.isAdmin}>{children}</AppShell>;
+}

@@ -17,6 +17,7 @@ import type * as http from "../http.js";
 import type * as lib_auth from "../lib/auth.js";
 import type * as modelSync from "../modelSync.js";
 import type * as models from "../models.js";
+import type * as plannerDiagnostics from "../plannerDiagnostics.js";
 import type * as profiles from "../profiles.js";
 import type * as strategies from "../strategies.js";
 import type * as subscriptions from "../subscriptions.js";
@@ -39,6 +40,7 @@ declare const fullApi: ApiFromModules<{
   "lib/auth": typeof lib_auth;
   modelSync: typeof modelSync;
   models: typeof models;
+  plannerDiagnostics: typeof plannerDiagnostics;
   profiles: typeof profiles;
   strategies: typeof strategies;
   subscriptions: typeof subscriptions;

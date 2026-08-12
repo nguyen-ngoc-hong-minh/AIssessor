@@ -1,52 +1,68 @@
 # BENCHFLOW
 
-BENCHFLOW turns a plain-language goal into an editable AI workflow, then recommends models from dated external evidence using deterministic, auditable scoring. The LLM plans the workflow; it never selects models.
+BENCHFLOW turns a project brief or recurring workload into an editable AI workflow, then applies hard eligibility filters, task-specific evidence selection, workload cost calculation, and deterministic scoring. An LLM decomposes the workflow; it does not choose models or manufacture evidence.
 
 ## Architecture
 
-- Next.js App Router, React, TypeScript, Tailwind CSS, shadcn-style primitives, Lucide, React Hook Form, Zod, and React Flow
-- Sites-provided ChatGPT sign-in for authentication and identity lifecycle
-- Convex for persistent data, server functions, schedules, and signed webhook endpoints
-- OpenAI Responses API Structured Outputs for task analysis and workflow planning
-- Artificial Analysis and OpenRouter adapters for benchmarks, capabilities, and pricing
-- Stripe Checkout, Customer Portal, subscriptions, and webhook-synchronized entitlements
-- Vitest, React Testing Library, `convex-test`, and Playwright
-
-The recommendation engine applies hard eligibility filters before scoring. Missing critical evidence excludes a model; it never silently invents a value or substitutes fixtures in production.
+- Next.js App Router, React, TypeScript, Tailwind CSS, Lucide, React Hook Form, Zod, and React Flow
+- Clerk authentication with an official Clerk/Convex JWT integration
+- Convex for profiles, strategies, subscriptions, immutable source snapshots, timestamped observations, sync history, and cron jobs
+- OpenAI Responses API Structured Outputs for workflow decomposition only
+- Deterministic recommendation scoring configured in `lib/recommendation/config.ts`
+- Stripe Checkout, Customer Portal, and webhook-synchronized entitlements
 
 ## Local setup
 
-Prerequisites: Node.js 22+, Convex, OpenAI, Artificial Analysis/OpenRouter, and Stripe accounts.
+1. Use Node.js 22.13 or newer and run `npm install`.
+2. Create `.env.local` from `.env.example` and add development credentials.
+3. Configure Clerk email/password and desired OAuth providers. Activate Clerk's Convex integration and set `CLERK_JWT_ISSUER_DOMAIN` in Convex.
+4. Set `EVIDENCE_ADMIN_EMAILS` in Convex to a comma-separated list of administrators.
+5. Configure the Planner AI variables in the Convex development deployment. They are read by Convex Actions and must not use a `NEXT_PUBLIC_` prefix:
 
-1. Install packages with `npm install`.
-2. Copy `.env.example` to `.env.local` and supply provider credentials.
-3. Run `npm run convex:dev`. This creates the Convex deployment, generates typed bindings, and prints the URL values to place in `.env.local`.
-4. Generate one strong `BENCHFLOW_SERVER_KEY` and set the identical value in the frontend host and Convex environments.
-5. Configure the signed Stripe webhook below.
-6. Start the app with `npm run dev`.
+   ```bash
+   npx convex env set OPENAI_API_KEY <server-api-key>
+   npx convex env set OPENAI_PLANNER_MODEL <responses-api-model-id>
+   ```
 
-The checked-in `convex/_generated` files are generated from the linked deployment. Refresh them with `npm run convex:codegen` after function changes.
+   Adding these only to `.env.local` does not configure the remote Convex Action runtime. `.env.local` is for the local Next.js host and public Convex/Clerk connection values.
+6. Set `ARTIFICIAL_ANALYSIS_API_KEY` in Convex. `OPENROUTER_API_KEY` is optional because its models endpoint is public.
+7. Run `npm run convex:dev`, then `npm run dev`.
+8. Open `/admin/evidence` as a configured administrator and confirm Planner AI shows `Configured: Yes` before creating a strategy.
 
-## Required environment variables
+## Planner AI configuration
 
-See `.env.example` for the complete list. The essential groups are:
+The planner uses exactly two server-side variables:
 
-- App: `NEXT_PUBLIC_APP_URL`
-- Identity: provided by Sites through verified ChatGPT user headers
-- Convex: public URL, HTTP Actions URL, deployment identifier, and shared server key
-- OpenAI: API key and planner model
-- Model sources: Artificial Analysis and OpenRouter keys/base URLs
-- Stripe: secret, webhook secret, price IDs, and public key
+- `OPENAI_API_KEY`: OpenAI server API key used by the Convex Action
+- `OPENAI_PLANNER_MODEL`: OpenAI Responses API model ID used for structured workflow generation
 
-The application deliberately displays an integration notice and refuses persistent/product actions if Convex is unavailable.
+For local development against the Convex development deployment, set both with `npx convex env set` as shown above or in the Convex development deployment dashboard. For a preview/staging Convex deployment, select that deployment and set both variables in its environment. For production, set them on the production Convex deployment:
 
-## Webhooks and scheduled data sync
+```bash
+npx convex env set --prod OPENAI_API_KEY <server-api-key>
+npx convex env set --prod OPENAI_PLANNER_MODEL <responses-api-model-id>
+```
 
-- Stripe webhook: `POST https://<your-convex-site>/webhooks/stripe`
+The frontend hosting environment does not need `OPENAI_API_KEY` or `OPENAI_PLANNER_MODEL`; planner calls execute in Convex. Never add the API key to browser code or a `NEXT_PUBLIC_*` variable. `/admin/evidence` reports configuration status, provider, model, last successful analysis, and the latest safe error without returning the key.
 
-Subscribe Stripe to checkout completion, subscription created/updated/deleted, and invoice payment failure events. The endpoint verifies signatures before writing data.
+## Evidence system
 
-Convex cron jobs refresh Artificial Analysis and OpenRouter every 12 hours. Each run creates immutable source observations and a dated snapshot. Failed syncs are recorded and do not overwrite the previous snapshot.
+Supported adapters:
+
+| Source | Evidence | Schedule | Credential |
+| --- | --- | ---: | --- |
+| Artificial Analysis free API | Published indices, coding/agentic metrics where present, speed, and pricing | 12 hours | Required |
+| OpenRouter models API | Canonical route IDs, modalities, capabilities, context, and route pricing | 6 hours | Optional |
+| MMLU-Pro official leaderboard CSV | Overall and subject-category benchmark results | 24 hours | None |
+| OpenAI official model/data-control docs | Provider pricing, context, modalities, capabilities, and default API privacy controls | 12 hours | None |
+
+Each changed response creates a raw snapshot with a SHA-256 hash, retrieval time, source URL, attribution, and source revision where exposed. Observations are append-only. An unchanged response records a successful audit run without duplicating the snapshot or observations. A failed refresh preserves the last valid snapshot.
+
+Cross-source model joins require exact source IDs or aliases declared in `lib/model-data/model-registry.ts`. Unknown benchmark names are retained as manual-review identities and cannot enter recommendations.
+
+The engine excludes candidates missing required task evidence, prices, context, modalities, capabilities, privacy controls, commercial-use proof, region availability, or budget fit. Missing values remain unavailable. Commercial-use proof is currently unavailable for the integrated OpenAI model because a stable machine-readable official terms source has not been verified; commercially constrained tasks therefore fail closed.
+
+See [BENCHMARK_SOURCES.md](./BENCHMARK_SOURCES.md) for source URLs, licenses, attribution, parser contracts, and unsupported-source reasons. `/admin/evidence` shows freshness, errors, counts, unchanged runs, unsupported sources, and the identity review queue.
 
 ## Verification
 
@@ -56,30 +72,20 @@ npm run typecheck
 npm run test:unit
 npm run test:e2e
 npm run build
-npm run build:vercel
 ```
 
-The public Playwright smoke flow runs locally. The credentialed production gate requires `E2E_BASE_URL`, `E2E_HOSTED_USER_EMAIL`, and `E2E_STRIPE_TEST_MODE`; it skips rather than faking a signed-in account or payment journey when those values are absent. Expand that gate against the configured staging tenant before launch.
+Credentialed Clerk, Convex, source, and Stripe journeys are gated by environment variables and skip locally instead of impersonating a real user.
 
 ## Deployment
 
-### Convex
+Deploy Convex first with the Clerk issuer, webhook relay key, evidence administrator emails, `OPENAI_API_KEY`, `OPENAI_PLANNER_MODEL`, source credentials, and Stripe credentials in its environment. Deploy the frontend with public Convex and Clerk configuration, webhook secrets, and application URL; do not place the planner key in the frontend environment. Register production Clerk and Stripe webhooks, run supported evidence syncs, and inspect `/admin/evidence` before enabling recommendations.
 
-Run `npm run convex:deploy`, copy the production Convex URLs into the frontend environment, add all server-only secrets in the Convex dashboard, and register the production webhook URLs.
+Do not describe the evidence network as fully live unless Artificial Analysis, OpenRouter, at least one specialized benchmark, and official provider pricing have each completed a successful deployment sync.
 
-### Vercel
+## Known limitations
 
-Import the repository, select Next.js, add all frontend/server environment variables, and deploy. `vercel.json` uses the native Next.js production build. A non-Sites host must provide an equivalent trusted identity-header layer. Set `NEXT_PUBLIC_APP_URL` to the final HTTPS origin and use that same origin in Stripe redirect allowlists.
-
-### Post-deploy checks
-
-Verify ChatGPT sign-in/sign-out, the three-question onboarding gate, one-off and monthly strategy flows, workflow edits, result tabs, duplicate/delete actions, Stripe checkout/portal, team permissions, webhook replay protection, and the timestamp/source links on every recommendation.
-
-## Security and production limitations
-
-- API routes require the verified ChatGPT identity header, then call Convex with a rotated server-to-server key.
-- Convex functions enforce ownership or team role checks server-side.
-- Stripe entitlements are derived from signed webhook state, never from client flags.
-- Planner output is Zod-validated Structured Output and cannot name or recommend models.
-- Provider tokens remain server-only.
-- Full recommendation and payment acceptance still requires OpenAI, model-source, and Stripe credentials plus seeded model evidence.
+- Artificial Analysis cannot sync without its API key.
+- Current explicit cross-source coverage is deliberately narrow; unmatched records wait for manual alias review.
+- Stable official result artifacts were not verified for LiveCodeBench, SWE-bench, Open LLM Leaderboard, MMMU, MMBench, LongBench, or OpenCompass. They are visible as unsupported in diagnostics rather than simulated.
+- Currency conversion for AUD and VND uses conservative planning constants in `lib/currency.ts`, not a current foreign-exchange feed.
+- Material-improvement comparison is deterministic, but persistent user notifications still need a background notification channel.

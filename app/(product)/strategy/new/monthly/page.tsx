@@ -1,4 +1,4 @@
 import type { Metadata } from "next";
-import { StrategyForm } from "@/components/strategy-form";
+import { MonthlyTaskBuilder } from "@/components/monthly-task-builder";
 export const metadata:Metadata={title:"New monthly strategy"};
-export default function MonthlyPage(){return <div className="page-wrap"><div className="page-title"><div><span className="kicker">Monthly use</span><h1>Describe the work that keeps coming back.</h1><p>Volume and frequency help estimate a realistic monthly subscription and API mix.</p></div></div><StrategyForm usageType="monthly"/></div>}
+export default function MonthlyPage(){return <div className="page-wrap"><div className="page-title"><div><span className="kicker">Monthly workflows</span><h1>Build the workload that repeats each month.</h1><p>Add each task separately so frequency, quality, and existing subscriptions shape the stack.</p></div></div><MonthlyTaskBuilder /></div>}

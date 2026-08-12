@@ -1,41 +1,252 @@
+import { parse } from "csv-parse/sync";
+import { resolveCanonicalIdentity } from "./model-registry";
+import type { SourceId } from "./source-registry";
+
+export const NORMALIZER_VERSIONS: Record<SourceId, number> = {
+  artificial_analysis: 2,
+  openrouter: 2,
+  mmlu_pro: 2,
+  openai_official: 2,
+};
+
+export type NormalizedBenchmark = {
+  metric: string;
+  score: number;
+  rawValue?: unknown;
+  normalizedValue?: number;
+  category?: string;
+  sourceUrl?: string;
+  modelVersion?: string;
+  sourceVersion?: string;
+  measuredAt: number;
+  confidence: string;
+  notes?: string;
+};
+
+export type NormalizedPrice = {
+  pricingType: string;
+  amount: number;
+  unit: string;
+  currency: string;
+  sourceUrl?: string;
+  modelVersion?: string;
+  sourceVersion?: string;
+  confidence?: string;
+  notes?: string;
+  effectiveAt: number;
+};
+
 export type NormalizedModel = {
-  canonicalId: string; name: string; provider: string; modalities: string[]; capabilities: string[];
-  contextWindow?: number; active: boolean; commercialUse?: boolean; privacyLevel?: string; regions: string[];
-  benchmarks: Array<{ metric: string; score: number; measuredAt: number; confidence: string }>;
-  prices: Array<{ pricingType: string; amount: number; unit: string; currency: string; effectiveAt: number }>;
+  canonicalId: string;
+  name: string;
+  provider: string;
+  aliases: string[];
+  modalities: string[];
+  capabilities: string[];
+  contextWindow?: number;
+  releaseDate?: string;
+  active: boolean;
+  status: "pending_evidence" | "eligible" | "manual_review" | "inactive";
+  mappingConfidence: "exact" | "explicit_alias" | "unmatched";
+  manualReviewRequired: boolean;
+  regions: string[];
+  benchmarks: NormalizedBenchmark[];
+  prices: NormalizedPrice[];
+  privacy: Array<{ level: string; sourceUrl: string; confidence: string; notes?: string }>;
+  licenses: Array<{ commercialUse: boolean; sourceUrl: string; confidence: string; notes?: string }>;
 };
 
 type JsonRecord = Record<string, unknown>;
 function record(value: unknown): JsonRecord { return typeof value === "object" && value !== null ? value as JsonRecord : {}; }
 function list(value: unknown): unknown[] { return Array.isArray(value) ? value : []; }
-function text(value: unknown): string | undefined { return typeof value === "string" && value.trim() ? value : undefined; }
-function number(value: unknown): number | undefined { const n = typeof value === "number" ? value : typeof value === "string" ? Number(value) : NaN; return Number.isFinite(n) ? n : undefined; }
-function canonical(provider: string, name: string) { return `${provider}:${name}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
+function text(value: unknown): string | undefined { return typeof value === "string" && value.trim() ? value.trim() : undefined; }
+function number(value: unknown): number | undefined {
+  const candidate = typeof value === "object" && value !== null ? record(value).score ?? record(value).value : value;
+  const parsed = typeof candidate === "number" ? candidate : typeof candidate === "string" ? Number(candidate.replace(/[$,%]/g, "")) : NaN;
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+function normalized(score: number) { return Math.max(0, Math.min(100, score <= 1 ? score * 100 : score)); }
+function unique(values: string[]) { return [...new Set(values)]; }
+function manualIdentity(source: string, sourceId: string, name: string, provider = "Unknown") {
+  const stableId = sourceId.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return { canonicalId: `unmatched/${source}/${stableId}`, name, provider, aliases: [sourceId, name], mappingConfidence: "unmatched" as const };
+}
 
-export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number): NormalizedModel[] {
+const MMLU_CATEGORIES: Record<string, string> = {
+  "Computer Science": "coding_knowledge",
+  Engineering: "reasoning",
+  Business: "finance",
+  Economics: "finance",
+  Math: "finance",
+  Law: "legal",
+  Health: "healthcare",
+  Biology: "healthcare",
+  Psychology: "healthcare",
+  History: "research",
+  Philosophy: "reasoning",
+  Physics: "reasoning",
+  Chemistry: "reasoning",
+  Overall: "general",
+  Other: "general",
+};
+
+function benchmarkCategory(metric: string) {
+  if (/swe|software.engineer/i.test(metric)) return "software_engineering";
+  if (/code|coding|program/i.test(metric)) return "coding";
+  if (/law|legal/i.test(metric)) return "legal";
+  if (/health|biology|medical|psychology/i.test(metric)) return "healthcare";
+  if (/business|econom|finance/i.test(metric)) return "finance";
+  if (/long|context/i.test(metric)) return "long_document";
+  if (/mmmu|mmbench|multimodal/i.test(metric)) return "multimodal";
+  if (/gpqa|mmlu|reason|intelligence|math/i.test(metric)) return "reasoning";
+  if (/arena|preference|writing/i.test(metric)) return "writing";
+  if (/speed|latency|token.*second/i.test(metric)) return "speed";
+  return "general";
+}
+
+function pendingModel(identity: { canonicalId: string; name: string; provider: string; aliases: string[]; mappingConfidence: "exact" | "explicit_alias" | "unmatched" }, overrides: Partial<NormalizedModel> = {}): NormalizedModel {
+  return {
+    canonicalId: identity.canonicalId,
+    name: identity.name,
+    provider: identity.provider,
+    aliases: identity.aliases,
+    modalities: [],
+    capabilities: [],
+    active: true,
+    status: "pending_evidence",
+    mappingConfidence: identity.mappingConfidence,
+    manualReviewRequired: false,
+    regions: [],
+    benchmarks: [],
+    prices: [],
+    privacy: [],
+    licenses: [],
+    ...overrides,
+  };
+}
+
+export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
+  const sourceUrl = "https://artificialanalysis.ai/models";
   return list(record(payload).data).flatMap((raw) => {
-    const item = record(raw); const name = text(item.name); const creator = record(item.model_creator); const provider = text(creator.name);
-    if (!name || !provider) return [];
-    const evaluations = record(item.evaluations); const pricing = record(item.pricing); const performance = record(item.performance);
-    const quality = number(evaluations.artificial_analysis_intelligence_index); const speed = number(performance.median_output_tokens_per_second);
-    const benchmarks: NormalizedModel["benchmarks"] = [];
-    if (quality !== undefined) benchmarks.push({ metric: "artificial_analysis_intelligence_index", score: quality, measuredAt: fetchedAt, confidence: "source_reported" });
-    if (speed !== undefined) benchmarks.push({ metric: "output_tokens_per_second", score: speed, measuredAt: fetchedAt, confidence: "source_reported" });
-    const prices: NormalizedModel["prices"] = []; const input = number(pricing.price_1m_input_tokens); const output = number(pricing.price_1m_output_tokens);
-    if (input !== undefined) prices.push({ pricingType: "input_tokens", amount: input, unit: "1m_tokens", currency: "USD", effectiveAt: fetchedAt });
-    if (output !== undefined) prices.push({ pricingType: "output_tokens", amount: output, unit: "1m_tokens", currency: "USD", effectiveAt: fetchedAt });
-    return [{ canonicalId: canonical(provider, name), name, provider, modalities: list(item.input_modalities).filter((v): v is string => typeof v === "string"), capabilities: [], contextWindow: number(item.context_window), active: true, regions: [], benchmarks, prices }];
+    const item = record(raw);
+    const name = text(item.name);
+    const sourceId = text(item.slug) ?? text(item.id) ?? name;
+    if (!name || !sourceId) return [];
+    const creator = record(item.model_creator);
+    const identity = resolveCanonicalIdentity("artificial_analysis", sourceId, name) ?? manualIdentity("artificial_analysis", sourceId, name, text(creator.name) ?? "Unknown");
+    const evaluations = record(item.evaluations);
+    const pricing = record(item.pricing);
+    const performance = record(item.performance);
+    const benchmarks: NormalizedBenchmark[] = Object.entries(evaluations).flatMap(([metric, rawValue]) => {
+      const score = number(rawValue);
+      if (score === undefined) return [];
+      return [{ metric, score, rawValue, normalizedValue: normalized(score), category: benchmarkCategory(metric), sourceUrl, modelVersion: sourceId, sourceVersion, measuredAt: fetchedAt, confidence: "official_api", notes: "Reported by the Artificial Analysis API." }];
+    });
+    const speed = number(performance.median_output_tokens_per_second);
+    if (speed !== undefined) benchmarks.push({ metric: "output_tokens_per_second", score: speed, rawValue: speed, category: "speed", sourceUrl, modelVersion: sourceId, sourceVersion, measuredAt: fetchedAt, confidence: "official_api" });
+    const prices: NormalizedPrice[] = [];
+    const input = number(pricing.price_1m_input_tokens);
+    const output = number(pricing.price_1m_output_tokens);
+    if (input !== undefined) prices.push({ pricingType: "input_tokens", amount: input, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: sourceId, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt });
+    if (output !== undefined) prices.push({ pricingType: "output_tokens", amount: output, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: sourceId, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt });
+    return [pendingModel(identity, { releaseDate: text(item.release_date), contextWindow: number(item.context_window_tokens ?? item.context_window), benchmarks, prices, status: identity.mappingConfidence === "unmatched" ? "manual_review" : "pending_evidence", manualReviewRequired: identity.mappingConfidence === "unmatched" })];
   });
 }
 
-export function normalizeOpenRouter(payload: unknown, fetchedAt: number): NormalizedModel[] {
+export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
   return list(record(payload).data).flatMap((raw) => {
-    const item = record(raw); const id = text(item.id); const name = text(item.name) ?? id; if (!id || !name) return [];
-    const provider = id.split("/")[0] || "unknown"; const architecture = record(item.architecture); const pricing = record(item.pricing);
-    const promptPrice = number(pricing.prompt); const completionPrice = number(pricing.completion); const prices: NormalizedModel["prices"] = [];
-    if (promptPrice !== undefined) prices.push({ pricingType: "input_tokens", amount: promptPrice * 1_000_000, unit: "1m_tokens", currency: "USD", effectiveAt: fetchedAt });
-    if (completionPrice !== undefined) prices.push({ pricingType: "output_tokens", amount: completionPrice * 1_000_000, unit: "1m_tokens", currency: "USD", effectiveAt: fetchedAt });
-    const modalities = [...list(architecture.input_modalities), ...list(architecture.output_modalities)].filter((v): v is string => typeof v === "string");
-    return [{ canonicalId: canonical(provider, name), name, provider, modalities: [...new Set(modalities)], capabilities: list(item.supported_parameters).filter((v): v is string => typeof v === "string"), contextWindow: number(item.context_length), active: true, regions: [], benchmarks: [], prices }];
+    const item = record(raw);
+    const id = text(item.id);
+    const sourceName = text(item.name);
+    if (!id) return [];
+    const identity = resolveCanonicalIdentity("openrouter", id, sourceName);
+    if (!identity) return [];
+    const architecture = record(item.architecture);
+    const pricing = record(item.pricing);
+    const sourceUrl = `https://openrouter.ai/${id}`;
+    const promptPrice = number(pricing.prompt);
+    const completionPrice = number(pricing.completion);
+    const prices: NormalizedPrice[] = [];
+    if (promptPrice !== undefined) prices.push({ pricingType: "input_tokens", amount: promptPrice * 1_000_000, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter route price; provider-direct pricing may differ." });
+    if (completionPrice !== undefined) prices.push({ pricingType: "output_tokens", amount: completionPrice * 1_000_000, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter route price; provider-direct pricing may differ." });
+    const modalities = unique([...list(architecture.input_modalities), ...list(architecture.output_modalities)].filter((value): value is string => typeof value === "string"));
+    return [pendingModel(identity, {
+      name: identity.name === id ? sourceName ?? id : identity.name,
+      modalities,
+      capabilities: list(item.supported_parameters).filter((value): value is string => typeof value === "string"),
+      contextWindow: number(item.context_length),
+      prices,
+    })];
+  });
+}
+
+export function normalizeMmluPro(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
+  if (typeof payload !== "string") throw new Error("MMLU-Pro payload must be CSV text");
+  // The official dataset currently contains a row missing its final `Other` value.
+  // Accept only short rows; csv-parse preserves every preceding header alignment and leaves the trailing field unavailable.
+  const rows = parse(payload, { columns: true, skip_empty_lines: true, trim: true, relax_column_count_less: true }) as Record<string, string>[];
+  if (!rows.length || !("Models" in rows[0]) || !("Overall" in rows[0])) throw new Error("MMLU-Pro CSV is missing required Models or Overall columns");
+  const sourceUrl = "https://huggingface.co/datasets/TIGER-Lab/mmlu_pro_leaderboard_submission/resolve/main/results.csv";
+  return rows.flatMap((row) => {
+    const sourceName = text(row.Models);
+    if (!sourceName) return [];
+    const identity = resolveCanonicalIdentity("mmlu_pro", sourceName, sourceName) ?? manualIdentity("mmlu_pro", sourceName, sourceName, text(row["Data Source"]) ?? "Unknown");
+    const benchmarks: NormalizedBenchmark[] = Object.entries(MMLU_CATEGORIES).flatMap(([column, category]) => {
+      const score = number(row[column]);
+      if (score === undefined) return [];
+      return [{ metric: column === "Overall" ? "mmlu_pro_overall" : `mmlu_pro_${column.toLowerCase().replace(/[^a-z0-9]+/g, "_")}`, score, rawValue: row[column], normalizedValue: normalized(score), category, sourceUrl, modelVersion: sourceName, sourceVersion, measuredAt: fetchedAt, confidence: "official_dataset", notes: `MMLU-Pro leaderboard submission attributed to ${row["Data Source"] || "the listed submitter"}.` }];
+    });
+    return [pendingModel(identity, { benchmarks, status: identity.mappingConfidence === "unmatched" ? "manual_review" : "pending_evidence", manualReviewRequired: identity.mappingConfidence === "unmatched" })];
+  });
+}
+
+function section(markdown: string, heading: string, nextHeading = "## ") {
+  const start = markdown.indexOf(heading);
+  if (start < 0) return "";
+  const end = markdown.indexOf(nextHeading, start + heading.length);
+  return markdown.slice(start + heading.length, end < 0 ? undefined : end);
+}
+
+function parsePrice(markdown: string, label: string) {
+  const match = markdown.match(new RegExp(`\\|\\s*${label}\\s*\\|\\s*\\$([0-9.]+)\\s*\\|\\s*1M tokens\\s*\\|`, "i"));
+  return match ? Number(match[1]) : undefined;
+}
+
+export function normalizeOpenAiOfficial(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
+  const root = record(payload);
+  const privacy = record(root.privacy);
+  const privacyMarkdown = text(privacy.markdown);
+  const privacyUrl = text(privacy.url);
+  if (!privacyMarkdown || !privacyUrl || !privacyMarkdown.includes("retained for up to 30 days") || !privacyMarkdown.includes("not used to train")) throw new Error("OpenAI privacy documentation did not contain the expected data-control statements");
+
+  return list(root.models).map(record).flatMap((item) => {
+    const markdown = text(item.markdown);
+    const sourceUrl = text(item.url);
+    if (!markdown || !sourceUrl) return [];
+    const modelId = markdown.match(/Model ID:\s*`([^`]+)`/)?.[1];
+    const heading = markdown.match(/^#\s+(.+)$/m)?.[1];
+    if (!modelId || !heading) throw new Error(`OpenAI model documentation at ${sourceUrl} is missing its model ID or title`);
+    const identity = resolveCanonicalIdentity("openai_official", modelId, heading);
+    if (!identity) return [];
+    const contextWindow = number(markdown.match(/-\s*([0-9,]+) context window/i)?.[1]?.replace(/,/g, ""));
+    const inputModalities = markdown.match(/- Input modalities:\s*([^\n]+)/i)?.[1]?.split(",").map((value) => value.trim()) ?? [];
+    const outputModalities = markdown.match(/- Output modalities:\s*([^\n]+)/i)?.[1]?.split(",").map((value) => value.trim()) ?? [];
+    const featureSection = section(markdown, "## Supported features");
+    const capabilities = [...featureSection.matchAll(/^-\s+([a-z0-9_ -]+)$/gim)].map((match) => match[1].trim());
+    const prices: NormalizedPrice[] = [];
+    const input = parsePrice(markdown, "Input");
+    const cachedInput = parsePrice(markdown, "Cached input");
+    const output = parsePrice(markdown, "Output");
+    for (const [pricingType, amount] of [["input_tokens", input], ["cached_input_tokens", cachedInput], ["output_tokens", output]] as const) {
+      if (amount !== undefined) prices.push({ pricingType, amount, unit: "1m_tokens", currency: "USD", sourceUrl: sourceUrl.replace(/\.md$/, ""), modelVersion: modelId, sourceVersion, confidence: "official_provider_docs", effectiveAt: fetchedAt });
+    }
+    if (!contextWindow || input === undefined || output === undefined) throw new Error(`OpenAI model documentation at ${sourceUrl} is missing required context or pricing fields`);
+    return [pendingModel(identity, {
+      modalities: unique([...inputModalities, ...outputModalities]),
+      capabilities,
+      contextWindow,
+      prices,
+      privacy: [{ level: "standard", sourceUrl: privacyUrl.replace(/\.md$/, ""), confidence: "official_provider_docs", notes: "API data is not used for training by default. Abuse-monitoring logs may retain customer content for up to 30 days; approved customers may configure additional controls." }],
+    })];
   });
 }

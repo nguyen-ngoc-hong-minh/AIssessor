@@ -1,5 +1,22 @@
 import { anyApi } from "convex/server";
-import { apiError, authenticatedConvex } from "@/lib/server/convex";
 import { OnboardingSchema } from "@/lib/onboarding";
+import { apiError, authenticatedConvex } from "@/lib/server/convex";
 
-export async function POST(request:Request){try{const input=OnboardingSchema.parse(await request.json());const client=await authenticatedConvex();await client.mutation(anyApi.profiles.completeOnboarding,{accountType:input.accountType,answers:input.answers,AIExperience:input.accountType==="individual"?input.answers.q2:undefined,monthlyBudget:input.answers.q3,teamSize:input.accountType==="team"?input.answers.q2:undefined,companySize:input.accountType==="enterprise"?input.answers.q2:undefined,industry:input.accountType==="enterprise"?input.answers.q1:undefined});return Response.json({ok:true});}catch(error){return apiError(error)}}
+async function save(request: Request, update: boolean) {
+  try {
+    const input = OnboardingSchema.parse(await request.json());
+    const client = await authenticatedConvex();
+    const fields = {
+      accountType: input.accountType, profession: "profession" in input ? input.profession : undefined,
+      industry: input.industry, teamSize: "teamSize" in input ? input.teamSize : undefined,
+      companySize: "companySize" in input ? input.companySize : undefined,
+      departments: "departments" in input ? input.departments : undefined,
+      country: input.country, preferredLanguage: input.preferredLanguage,
+    };
+    await client.mutation(update ? anyApi.profiles.updateCurrent : anyApi.profiles.completeOnboarding, fields);
+    return Response.json({ ok: true });
+  } catch (error) { return apiError(error); }
+}
+
+export async function POST(request: Request) { return save(request, false); }
+export async function PUT(request: Request) { return save(request, true); }

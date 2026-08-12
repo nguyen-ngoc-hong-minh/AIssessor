@@ -1,23 +1,52 @@
-import type { GenericDatabaseReader, GenericMutationCtx, GenericQueryCtx } from "convex/server";
-import { v } from "convex/values";
+import type { GenericDatabaseReader } from "convex/server";
 
-// Generic helpers are used before Convex code generation creates the project DataModel.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AuthContext = GenericQueryCtx<any> | GenericMutationCtx<any>;
+type ClerkIdentity = {
+  subject: string;
+  email?: string;
+  name?: string;
+  pictureUrl?: string;
+};
 
-export const hostedAuthArgs = { authKey: v.string(), userEmail: v.string(), userName: v.optional(v.string()) };
-export type HostedAuth = { authKey: string; userEmail: string; userName?: string };
+type IdentityContext = {
+  auth: { getUserIdentity(): Promise<ClerkIdentity | null> };
+};
 
-export function requireServerAuth(authKey: string) {
-  const expected = process.env.BENCHFLOW_SERVER_KEY;
-  if (!expected || authKey !== expected) throw new Error("Unauthenticated");
+type DatabaseAuthContext = IdentityContext & {
+  // The generated data model is intentionally avoided so this helper remains usable during code generation.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  db: GenericDatabaseReader<any>;
+};
+
+export async function requireIdentity(ctx: IdentityContext) {
+  const identity = await ctx.auth.getUserIdentity();
+  if (!identity) throw new Error("Unauthenticated");
+  return identity;
 }
 
-export async function requireUser(ctx: AuthContext, auth: HostedAuth) {
-  requireServerAuth(auth.authKey);
-  const user = await ctx.db.query("users").withIndex("by_email", (q) => q.eq("email", auth.userEmail.toLowerCase())).unique();
-  if (!user) throw new Error("User profile is not synchronized");
+export async function requireUser(ctx: DatabaseAuthContext) {
+  const identity = await requireIdentity(ctx);
+  const user = await ctx.db
+    .query("users")
+    .withIndex("by_clerk_user_id", (q) => q.eq("clerkUserId", identity.subject))
+    .unique();
+  if (!user || user.deletedAt) throw new Error("User profile is not synchronized");
   return user;
+}
+
+export async function requireAdmin(ctx: DatabaseAuthContext) {
+  const identity = await requireIdentity(ctx);
+  const user = await ctx.db
+    .query("users")
+    .withIndex("by_clerk_user_id", (q) => q.eq("clerkUserId", identity.subject))
+    .unique();
+  const email = (user?.email ?? identity.email ?? "").toLowerCase();
+  if (!user || user.deletedAt || !email || !isEvidenceAdminEmail(email)) throw new Error("Administrator access required");
+  return user;
+}
+
+export function isEvidenceAdminEmail(email: string) {
+  const configured = (process.env.EVIDENCE_ADMIN_EMAILS ?? "").split(",").map((item) => item.trim().toLowerCase()).filter(Boolean);
+  return configured.includes(email.trim().toLowerCase());
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

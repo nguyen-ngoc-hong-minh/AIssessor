@@ -3,18 +3,22 @@ import { v } from "convex/values";
 
 export default defineSchema({
   users: defineTable({
-    email: v.string(), name: v.optional(v.string()), avatarUrl: v.optional(v.string()),
+    clerkUserId: v.optional(v.string()), email: v.string(), name: v.optional(v.string()), avatarUrl: v.optional(v.string()),
     accountType: v.optional(v.union(v.literal("individual"), v.literal("team"), v.literal("enterprise"))),
-    onboardingComplete: v.boolean(), preferredLanguage: v.string(), createdAt: v.number(), updatedAt: v.number(),
-  }).index("by_email", ["email"]),
+    onboardingComplete: v.boolean(), preferredLanguage: v.string(), deletedAt: v.optional(v.number()), createdAt: v.number(), updatedAt: v.number(),
+  }).index("by_email", ["email"]).index("by_clerk_user_id", ["clerkUserId"]),
   profiles: defineTable({
-    userId: v.id("users"), answers: v.any(), AIExperience: v.optional(v.string()), monthlyBudget: v.optional(v.string()),
-    teamSize: v.optional(v.string()), companySize: v.optional(v.string()), industry: v.optional(v.string()), updatedAt: v.number(),
+    userId: v.id("users"), answers: v.optional(v.any()), profession: v.optional(v.string()), industry: v.optional(v.string()),
+    teamSize: v.optional(v.string()), companySize: v.optional(v.string()), departments: v.optional(v.array(v.string())),
+    country: v.optional(v.string()), preferredLanguage: v.optional(v.string()), AIExperience: v.optional(v.string()),
+    monthlyBudget: v.optional(v.string()), updatedAt: v.number(),
   }).index("by_user", ["userId"]),
   strategies: defineTable({
     userId: v.id("users"), teamId: v.optional(v.id("teams")), usageType: v.union(v.literal("one_off"), v.literal("monthly")),
     title: v.string(), originalInput: v.string(), expectedResult: v.string(), deadline: v.optional(v.string()), budget: v.optional(v.number()),
-    priorities: v.array(v.string()), status: v.union(v.literal("draft"), v.literal("planned"), v.literal("approved"), v.literal("complete")),
+    budgetAmount: v.optional(v.number()), budgetCurrency: v.optional(v.string()), monthlyTasks: v.optional(v.array(v.any())),
+    existingTools: v.optional(v.array(v.string())), priorities: v.array(v.string()), estimatedCompletionTime: v.optional(v.string()),
+    status: v.union(v.literal("draft"), v.literal("planned"), v.literal("approved"), v.literal("complete")),
     createdAt: v.number(), updatedAt: v.number(),
   }).index("by_user", ["userId", "updatedAt"]).index("by_team", ["teamId", "updatedAt"]),
   workflowSteps: defineTable({
@@ -28,20 +32,38 @@ export default defineSchema({
   canonicalModels: defineTable({
     canonicalId: v.string(), name: v.string(), provider: v.string(), modalities: v.array(v.string()), capabilities: v.array(v.string()),
     contextWindow: v.optional(v.number()), active: v.boolean(), commercialUse: v.optional(v.boolean()), privacyLevel: v.optional(v.string()),
-    regions: v.array(v.string()), updatedAt: v.number(),
+    aliases: v.optional(v.array(v.string())), releaseDate: v.optional(v.string()),
+    status: v.optional(v.union(v.literal("pending_evidence"), v.literal("eligible"), v.literal("manual_review"), v.literal("inactive"))),
+    mappingConfidence: v.optional(v.union(v.literal("exact"), v.literal("explicit_alias"), v.literal("unmatched"))),
+    manualReviewRequired: v.optional(v.boolean()), regions: v.array(v.string()), updatedAt: v.number(),
   }).index("by_canonical_id", ["canonicalId"]).index("by_provider", ["provider", "active"]),
   benchmarkObservations: defineTable({
-    modelId: v.id("canonicalModels"), metric: v.string(), score: v.number(), source: v.string(), measuredAt: v.number(), retrievedAt: v.number(), confidence: v.string(),
+    modelId: v.id("canonicalModels"), metric: v.string(), score: v.number(), rawValue: v.optional(v.any()), normalizedValue: v.optional(v.number()),
+    category: v.optional(v.string()), source: v.string(), sourceUrl: v.optional(v.string()), modelVersion: v.optional(v.string()),
+    sourceVersion: v.optional(v.string()), measuredAt: v.number(), retrievedAt: v.number(), confidence: v.string(), notes: v.optional(v.string()),
   }).index("by_model_metric", ["modelId", "metric", "retrievedAt"]),
   pricingObservations: defineTable({
-    modelId: v.id("canonicalModels"), pricingType: v.string(), amount: v.number(), unit: v.string(), currency: v.string(), source: v.string(), effectiveAt: v.number(), retrievedAt: v.number(),
+    modelId: v.id("canonicalModels"), pricingType: v.string(), amount: v.number(), unit: v.string(), currency: v.string(),
+    source: v.string(), sourceUrl: v.optional(v.string()), modelVersion: v.optional(v.string()), sourceVersion: v.optional(v.string()), confidence: v.optional(v.string()),
+    notes: v.optional(v.string()), effectiveAt: v.number(), retrievedAt: v.number(),
   }).index("by_model_type", ["modelId", "pricingType", "retrievedAt"]),
-  dataSnapshots: defineTable({ source: v.string(), rawPayload: v.any(), payloadHash: v.string(), fetchedAt: v.number(), valid: v.boolean() })
+  privacyObservations: defineTable({
+    modelId: v.id("canonicalModels"), level: v.string(), source: v.string(), sourceUrl: v.string(), retrievedAt: v.number(), confidence: v.string(), notes: v.optional(v.string()),
+  }).index("by_model", ["modelId", "retrievedAt"]),
+  licenseObservations: defineTable({
+    modelId: v.id("canonicalModels"), commercialUse: v.boolean(), source: v.string(), sourceUrl: v.string(), retrievedAt: v.number(), confidence: v.string(), notes: v.optional(v.string()),
+  }).index("by_model", ["modelId", "retrievedAt"]),
+  dataSnapshots: defineTable({ source: v.string(), sourceUrl: v.optional(v.string()), rawPayload: v.any(), payloadHash: v.string(), fetchedAt: v.number(), valid: v.boolean(), attribution: v.optional(v.string()), sourceVersion: v.optional(v.string()), metadata: v.optional(v.any()) })
     .index("by_source", ["source", "fetchedAt"]),
   syncRuns: defineTable({
     source: v.string(), status: v.string(), createdCount: v.number(), updatedCount: v.number(), failedCount: v.number(),
+    recordsImported: v.optional(v.number()), unchanged: v.optional(v.boolean()), snapshotId: v.optional(v.id("dataSnapshots")),
     startedAt: v.number(), completedAt: v.optional(v.number()), error: v.optional(v.string()),
   }).index("by_source", ["source", "startedAt"]),
+  plannerRuns: defineTable({
+    strategyId: v.id("strategies"), provider: v.string(), model: v.optional(v.string()), status: v.union(v.literal("running"), v.literal("success"), v.literal("failed")),
+    startedAt: v.number(), completedAt: v.optional(v.number()), errorCode: v.optional(v.string()), errorMessage: v.optional(v.string()),
+  }).index("by_status", ["status", "startedAt"]),
   subscriptions: defineTable({
     userId: v.id("users"), stripeCustomerId: v.string(), stripeSubscriptionId: v.optional(v.string()), stripePriceId: v.optional(v.string()),
     plan: v.union(v.literal("free"), v.literal("plus"), v.literal("team"), v.literal("enterprise")), status: v.string(),
@@ -50,4 +72,6 @@ export default defineSchema({
   teams: defineTable({ ownerId: v.id("users"), name: v.string(), createdAt: v.number() }).index("by_owner", ["ownerId"]),
   teamMembers: defineTable({ teamId: v.id("teams"), userId: v.id("users"), role: v.union(v.literal("owner"), v.literal("admin"), v.literal("member")), createdAt: v.number() })
     .index("by_team", ["teamId"]).index("by_user", ["userId"]).index("by_team_user", ["teamId", "userId"]),
+  webhookEvents: defineTable({ provider: v.string(), eventId: v.string(), eventType: v.string(), processedAt: v.number() })
+    .index("by_provider_event", ["provider", "eventId"]),
 });

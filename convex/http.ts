@@ -13,12 +13,12 @@ http.route({ path: "/stripe-webhook", method: "POST", handler: httpAction(async 
 
   if (["customer.subscription.created", "customer.subscription.updated", "customer.subscription.deleted"].includes(event.type)) {
     const subscription = event.data.object as Stripe.Subscription;
-    const userEmail = subscription.metadata.userEmail; const plan = subscription.metadata.plan;
-    if (userEmail && ["plus", "team"].includes(plan)) {
+    const clerkUserId = subscription.metadata.clerkUserId; const plan = subscription.metadata.plan;
+    if (clerkUserId && ["plus", "team"].includes(plan)) {
       const item = subscription.items.data[0];
       const periodEnd = item?.current_period_end ? item.current_period_end * 1000 : undefined;
       await ctx.runMutation(anyApi.subscriptions.upsertVerified, {
-        userEmail, stripeCustomerId: String(subscription.customer), stripeSubscriptionId: subscription.id,
+        clerkUserId, stripeCustomerId: String(subscription.customer), stripeSubscriptionId: subscription.id,
         stripePriceId: item?.price.id, plan, status: subscription.status, currentPeriodEnd: periodEnd,
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
       });
