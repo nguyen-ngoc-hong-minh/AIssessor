@@ -58,9 +58,13 @@ export const diagnostics = query({ args: {}, handler: async (ctx) => {
     sources,
     planner: {
       name: "Planner AI",
-      configured: Boolean(process.env.OPENAI_API_KEY?.trim() && process.env.OPENAI_PLANNER_MODEL?.trim()),
-      provider: "OpenAI",
-      model: process.env.OPENAI_PLANNER_MODEL?.trim() || null,
+      configured: process.env.GEMINI_API_KEY?.trim() || process.env.GEMINI_PLANNER_MODEL?.trim()
+        ? Boolean(process.env.GEMINI_API_KEY?.trim() && process.env.GEMINI_PLANNER_MODEL?.trim())
+        : Boolean(process.env.OPENAI_API_KEY?.trim() && process.env.OPENAI_PLANNER_MODEL?.trim()),
+      provider: process.env.GEMINI_API_KEY?.trim() || process.env.GEMINI_PLANNER_MODEL?.trim() ? "Google Gemini" : "OpenAI",
+      model: (process.env.GEMINI_API_KEY?.trim() || process.env.GEMINI_PLANNER_MODEL?.trim()
+        ? process.env.GEMINI_PLANNER_MODEL
+        : process.env.OPENAI_PLANNER_MODEL)?.trim() || null,
       lastSuccessfulAnalysis: successfulPlannerRuns[0]?.completedAt ?? null,
       lastError: failedPlannerRuns[0] ? { at: failedPlannerRuns[0].completedAt ?? failedPlannerRuns[0].startedAt, code: failedPlannerRuns[0].errorCode ?? "PLANNER_FAILED", message: failedPlannerRuns[0].errorMessage ?? "Planner analysis failed" } : null,
     },

@@ -7,7 +7,7 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 - Next.js App Router, React, TypeScript, Tailwind CSS, Lucide, React Hook Form, Zod, and React Flow
 - Clerk authentication with an official Clerk/Convex JWT integration
 - Convex for profiles, strategies, subscriptions, immutable source snapshots, timestamped observations, sync history, and cron jobs
-- OpenAI Responses API Structured Outputs for workflow decomposition only
+- Google Gemini or OpenAI Structured Outputs for workflow decomposition only
 - Deterministic recommendation scoring configured in `lib/recommendation/config.ts`
 - Stripe Checkout, Customer Portal, and webhook-synchronized entitlements
 
@@ -20,8 +20,8 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 5. Configure the Planner AI variables in the Convex development deployment. They are read by Convex Actions and must not use a `NEXT_PUBLIC_` prefix:
 
    ```bash
-   npx convex env set OPENAI_API_KEY <server-api-key>
-   npx convex env set OPENAI_PLANNER_MODEL <responses-api-model-id>
+   npx convex env set GEMINI_API_KEY <server-api-key>
+   npx convex env set GEMINI_PLANNER_MODEL gemini-2.5-flash-lite
    ```
 
    Adding these only to `.env.local` does not configure the remote Convex Action runtime. `.env.local` is for the local Next.js host and public Convex/Clerk connection values.
@@ -31,19 +31,24 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 
 ## Planner AI configuration
 
-The planner uses exactly two server-side variables:
+The planner prefers Gemini when either Gemini variable is present:
+
+- `GEMINI_API_KEY`: Google AI Studio API key used by the Convex Action
+- `GEMINI_PLANNER_MODEL`: Gemini model ID; `gemini-2.5-flash-lite` supports the limited free tier
+
+OpenAI remains available as an optional paid fallback:
 
 - `OPENAI_API_KEY`: OpenAI server API key used by the Convex Action
 - `OPENAI_PLANNER_MODEL`: OpenAI Responses API model ID used for structured workflow generation
 
-For local development against the Convex development deployment, set both with `npx convex env set` as shown above or in the Convex development deployment dashboard. For a preview/staging Convex deployment, select that deployment and set both variables in its environment. For production, set them on the production Convex deployment:
+For local development against the Convex development deployment, set one complete provider pair with `npx convex env set` as shown above or in the Convex development deployment dashboard. For a preview/staging Convex deployment, select that deployment and set both variables in its environment. For production with Gemini, set:
 
 ```bash
-npx convex env set --prod OPENAI_API_KEY <server-api-key>
-npx convex env set --prod OPENAI_PLANNER_MODEL <responses-api-model-id>
+npx convex env set --prod GEMINI_API_KEY <server-api-key>
+npx convex env set --prod GEMINI_PLANNER_MODEL gemini-2.5-flash-lite
 ```
 
-The frontend hosting environment does not need `OPENAI_API_KEY` or `OPENAI_PLANNER_MODEL`; planner calls execute in Convex. Never add the API key to browser code or a `NEXT_PUBLIC_*` variable. `/admin/evidence` reports configuration status, provider, model, last successful analysis, and the latest safe error without returning the key.
+The frontend hosting environment does not need planner credentials; planner calls execute in Convex. Never add an API key to browser code or a `NEXT_PUBLIC_*` variable. `/admin/evidence` reports configuration status, provider, model, last successful analysis, and the latest safe error without returning the key.
 
 ## Evidence system
 
@@ -78,7 +83,7 @@ Credentialed Clerk, Convex, source, and Stripe journeys are gated by environment
 
 ## Deployment
 
-Deploy Convex first with the Clerk issuer, webhook relay key, evidence administrator emails, `OPENAI_API_KEY`, `OPENAI_PLANNER_MODEL`, source credentials, and Stripe credentials in its environment. Deploy the frontend with public Convex and Clerk configuration, webhook secrets, and application URL; do not place the planner key in the frontend environment. Register production Clerk and Stripe webhooks, run supported evidence syncs, and inspect `/admin/evidence` before enabling recommendations.
+Deploy Convex first with the Clerk issuer, webhook relay key, evidence administrator emails, one complete planner provider pair, source credentials, and Stripe credentials in its environment. Deploy the frontend with public Convex and Clerk configuration, webhook secrets, and application URL; do not place the planner key in the frontend environment. Register production Clerk and Stripe webhooks, run supported evidence syncs, and inspect `/admin/evidence` before enabling recommendations.
 
 Do not describe the evidence network as fully live unless Artificial Analysis, OpenRouter, at least one specialized benchmark, and official provider pricing have each completed a successful deployment sync.
 
