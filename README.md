@@ -21,7 +21,7 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 
    ```bash
    npx convex env set GEMINI_API_KEY <server-api-key>
-   npx convex env set GEMINI_PLANNER_MODEL gemini-2.5-flash-lite
+   npx convex env set GEMINI_PLANNER_MODEL gemini-3.5-flash-lite
    ```
 
    Adding these only to `.env.local` does not configure the remote Convex Action runtime. `.env.local` is for the local Next.js host and public Convex/Clerk connection values.
@@ -34,7 +34,7 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 The planner prefers Gemini when either Gemini variable is present:
 
 - `GEMINI_API_KEY`: Google AI Studio API key used by the Convex Action
-- `GEMINI_PLANNER_MODEL`: Gemini model ID; `gemini-2.5-flash-lite` supports the limited free tier
+- `GEMINI_PLANNER_MODEL`: Gemini model ID; `gemini-3.5-flash-lite` supports the limited free tier
 
 OpenAI remains available as an optional paid fallback:
 
@@ -45,7 +45,7 @@ For local development against the Convex development deployment, set one complet
 
 ```bash
 npx convex env set --prod GEMINI_API_KEY <server-api-key>
-npx convex env set --prod GEMINI_PLANNER_MODEL gemini-2.5-flash-lite
+npx convex env set --prod GEMINI_PLANNER_MODEL gemini-3.5-flash-lite
 ```
 
 The frontend hosting environment does not need planner credentials; planner calls execute in Convex. Never add an API key to browser code or a `NEXT_PUBLIC_*` variable. `/admin/evidence` reports configuration status, provider, model, last successful analysis, and the latest safe error without returning the key.

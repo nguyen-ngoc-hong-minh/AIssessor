@@ -33,8 +33,8 @@ describe("Planner AI", () => {
   it("reports configured only when both exact Convex variables are present", () => {
     expect(getPlannerConfiguration({ OPENAI_API_KEY: "key", OPENAI_PLANNER_MODEL: "planner-model" })).toEqual({ provider: "OpenAI", model: "planner-model", configured: true });
     expect(getPlannerConfiguration({ OPENAI_PLANNER_MODEL: "planner-model" }).configured).toBe(false);
-    expect(getPlannerConfiguration({ GEMINI_API_KEY: "key", GEMINI_PLANNER_MODEL: "gemini-2.5-flash-lite" })).toEqual({ provider: "Google Gemini", model: "gemini-2.5-flash-lite", configured: true });
-    expect(getPlannerConfiguration({ GEMINI_PLANNER_MODEL: "gemini-2.5-flash-lite", OPENAI_API_KEY: "key", OPENAI_PLANNER_MODEL: "planner-model" })).toEqual({ provider: "Google Gemini", model: "gemini-2.5-flash-lite", configured: false });
+    expect(getPlannerConfiguration({ GEMINI_API_KEY: "key", GEMINI_PLANNER_MODEL: "gemini-3.5-flash-lite" })).toEqual({ provider: "Google Gemini", model: "gemini-3.5-flash-lite", configured: true });
+    expect(getPlannerConfiguration({ GEMINI_PLANNER_MODEL: "gemini-3.5-flash-lite", OPENAI_API_KEY: "key", OPENAI_PLANNER_MODEL: "planner-model" })).toEqual({ provider: "Google Gemini", model: "gemini-3.5-flash-lite", configured: false });
   });
   it("returns PLANNER_NOT_CONFIGURED when the server key is missing", async () => {
     await expect(createTaskAnalysis(plannerInput, { environment: { OPENAI_PLANNER_MODEL: "planner-model" } })).rejects.toMatchObject({ code: "PLANNER_NOT_CONFIGURED", userMessage: "The AI workflow planner is temporarily unavailable." });
@@ -47,8 +47,8 @@ describe("Planner AI", () => {
   });
   it("returns a validated workflow from the Gemini free-tier planner", async () => {
     const parse = vi.fn().mockResolvedValue({ choices: [{ message: { parsed: plannerOutput } }] });
-    const analysis = await createTaskAnalysis(plannerInput, { environment: { GEMINI_API_KEY: "key", GEMINI_PLANNER_MODEL: "gemini-2.5-flash-lite" }, client: { chat: { completions: { parse } } } as never });
+    const analysis = await createTaskAnalysis(plannerInput, { environment: { GEMINI_API_KEY: "key", GEMINI_PLANNER_MODEL: "gemini-3.5-flash-lite" }, client: { chat: { completions: { parse } } } as never });
     expect(analysis.workflowSteps[0].name).toBe("Research market");
-    expect(parse).toHaveBeenCalledWith(expect.objectContaining({ model: "gemini-2.5-flash-lite" }));
+    expect(parse).toHaveBeenCalledWith(expect.objectContaining({ model: "gemini-3.5-flash-lite" }));
   });
 });
