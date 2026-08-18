@@ -67,6 +67,6 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
         {step.selected.limitations.length > 0 && <p className="error-message"><AlertTriangle /> {step.selected.limitations.join(" · ")}</p>}
       </> : <div className="uncertain-step"><p>We don’t have enough current evidence to make a reliable recommendation for this step.</p>{step.exclusions.length > 0 && <details><summary>View eligibility reasons</summary>{step.exclusions.slice(0, 8).map((item) => <div key={item.modelName}><strong>{item.modelName}</strong><span>{item.reasons.join(" · ")}</span></div>)}</details>}</div>}
     </article>)}
-    {result.locked && <div className="card empty-state" style={{ marginTop: 15 }}><LockKeyhole /><h2>Unlock the complete strategy and alternatives.</h2><p>A verified Stripe webhook activates Plus or Team access in Convex.</p><Link className="button button-primary" href="/pricing" style={{ marginTop: 18 }}>View plans</Link></div>}
+    {result.locked && <div className="card empty-state" style={{ marginTop: 15 }}><LockKeyhole /><h2>Unlock ranked alternatives and specialized strategy variants.</h2><p>Your complete recommended workflow is included. Plus or Team adds budget, premium, speed, and privacy-first comparisons.</p><Link className="button button-primary" href="/pricing" style={{ marginTop: 18 }}>View plans</Link></div>}
   </>;
 }

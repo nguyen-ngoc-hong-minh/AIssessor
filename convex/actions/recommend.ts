@@ -57,7 +57,7 @@ export const generate = action({ args: { strategyId: v.id("strategies"), region:
   const models = storedModels.map(toModel).map((model) => ({ ...model, existingTool: existingTools.some((tool: string) => `${model.provider} ${model.name}`.toLowerCase().includes(tool.toLowerCase())) }));
   const plans = variants.map((variant) => generateStrategyPlan(owned.steps.map(toStep), models, context, variant));
   const entitlement = await ctx.runQuery(anyApi.subscriptions.entitlement, {});
-  if (!entitlement.canViewFullResults) return { locked: true, usageType: owned.strategy.usageType, estimatedCompletionTime: owned.strategy.estimatedCompletionTime, plans: [{ ...plans[0], steps: plans[0].steps.slice(0, 1).map((step) => ({ ...step, alternatives: [] })) }], dataSnapshot: { id: snapshot._id, fetchedAt: oldestEvidenceAt, sources: snapshotSummary } };
+  if (!entitlement.canViewFullResults) return { locked: true, usageType: owned.strategy.usageType, estimatedCompletionTime: owned.strategy.estimatedCompletionTime, plans: [{ ...plans[0], steps: plans[0].steps.map((step) => ({ ...step, alternatives: [] })) }], dataSnapshot: { id: snapshot._id, fetchedAt: oldestEvidenceAt, sources: snapshotSummary } };
   await ctx.runMutation(anyApi.strategies.saveGeneratedPlans, { strategyId, dataSnapshotId: snapshot._id, plans });
   return { locked: false, usageType: owned.strategy.usageType, estimatedCompletionTime: owned.strategy.estimatedCompletionTime, plans, dataSnapshot: { id: snapshot._id, fetchedAt: oldestEvidenceAt, sources: snapshotSummary } };
 } });
