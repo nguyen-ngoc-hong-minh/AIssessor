@@ -35,7 +35,9 @@ export default defineSchema({
     aliases: v.optional(v.array(v.string())), releaseDate: v.optional(v.string()),
     status: v.optional(v.union(v.literal("pending_evidence"), v.literal("eligible"), v.literal("manual_review"), v.literal("inactive"))),
     mappingConfidence: v.optional(v.union(v.literal("exact"), v.literal("explicit_alias"), v.literal("unmatched"))),
-    manualReviewRequired: v.optional(v.boolean()), regions: v.array(v.string()), updatedAt: v.number(),
+    manualReviewRequired: v.optional(v.boolean()), regions: v.array(v.string()),
+    accessOptions: v.optional(v.array(v.object({ label: v.string(), url: v.string(), modelId: v.string(), sourceUrl: v.string(), verifiedAt: v.number() }))),
+    updatedAt: v.number(),
   }).index("by_canonical_id", ["canonicalId"]).index("by_provider", ["provider", "active"]),
   benchmarkObservations: defineTable({
     modelId: v.id("canonicalModels"), metric: v.string(), score: v.number(), rawValue: v.optional(v.any()), normalizedValue: v.optional(v.number()),

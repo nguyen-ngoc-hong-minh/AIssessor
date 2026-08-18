@@ -45,6 +45,7 @@ describe("source normalizers", () => {
     expect(aa[0].prices).toHaveLength(1);
     const openRouter = normalizeOpenRouter({ data: [{ id: "lab/model", name: "Model", context_length: 1000, pricing: { prompt: "0.000001" }, architecture: { input_modalities: ["text"] } }] }, 100);
     expect(openRouter[0].prices[0].amount).toBe(1);
+    expect(openRouter[0].accessOptions[0]).toMatchObject({ modelId: "lab/model", url: "https://openrouter.ai/lab/model" });
   });
 
   it("normalizes public image and video benchmarks with their published prices", () => {
@@ -52,6 +53,11 @@ describe("source normalizers", () => {
     expect(models[0]).toMatchObject({ modalities: ["text", "image"], capabilities: ["image_generation"] });
     expect(models[0].prices[0]).toMatchObject({ pricingType: "image_generation", amount: 40, unit: "1k_images" });
     expect(models[1].benchmarks[0]).toMatchObject({ category: "video", normalizedValue: 100 });
+  });
+
+  it("only exposes a Google media model when the live Gemini catalog confirms its API id", () => {
+    const [model] = normalizeArtificialAnalysis({ googleModels: [{ name: "models/gemini-3.1-flash-lite-image" }], imageModels: [{ name: "Nano Banana 2 Lite (Gemini 3.1 Flash Lite Image)", sourcePath: "/image/model-families/google-nano-banana", qualityElo: 1200, normalizedQuality: 95, price: 40 }] }, 100);
+    expect(model.accessOptions[0]).toMatchObject({ label: "Open in Google AI Studio", modelId: "gemini-3.1-flash-lite-image" });
   });
 
   it("retains unknown benchmark identities for manual review without fuzzy merging", () => {

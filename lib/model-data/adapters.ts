@@ -121,7 +121,7 @@ export function parseArtificialAnalysisPublicPages(languageHtml: string, imageHt
 
 export class ArtificialAnalysisAdapter implements ModelSourceAdapter {
   readonly source = "artificial_analysis" as const;
-  constructor(private readonly apiKey: string, private readonly baseUrl = "https://artificialanalysis.ai/api/v2") {}
+  constructor(private readonly apiKey: string, private readonly baseUrl = "https://artificialanalysis.ai/api/v2", private readonly geminiApiKey = "") {}
   async fetchSnapshot(): Promise<SourceSnapshot> {
     const sourceUrl = "https://artificialanalysis.ai/models";
     const [languageResponse, imageResponse, videoResponse] = await Promise.all([
@@ -130,7 +130,9 @@ export class ArtificialAnalysisAdapter implements ModelSourceAdapter {
       checkedFetch("https://artificialanalysis.ai/video/models"),
     ]);
     const publicPayload = parseArtificialAnalysisPublicPages(await languageResponse.text(), await imageResponse.text(), await videoResponse.text());
-    if (!this.apiKey) return snapshot(this.source, sourceUrl, "Artificial Analysis public benchmark datasets", publicPayload, languageResponse);
+    const googleModels = this.geminiApiKey ? await checkedFetch("https://generativelanguage.googleapis.com/v1beta/models", { headers: { "x-goog-api-key": this.geminiApiKey } }).then((response) => response.json()).then((payload) => (payload as { models?: unknown[] }).models ?? []) : [];
+    const publicPayloadWithAccess = { ...publicPayload, googleModels };
+    if (!this.apiKey) return snapshot(this.source, sourceUrl, "Artificial Analysis public benchmark datasets and Google Gemini model catalog", publicPayloadWithAccess, languageResponse);
 
     const apiUrl = `${this.baseUrl}/language/models/free`;
     const pages: unknown[] = [];
@@ -146,7 +148,7 @@ export class ArtificialAnalysisAdapter implements ModelSourceAdapter {
       if (!Number.isFinite(total) || current >= total) break;
       page = current + 1;
     }
-    return snapshot(this.source, apiUrl, "Artificial Analysis official API and public benchmark datasets", { ...publicPayload, data: pages }, apiResponse ?? languageResponse);
+    return snapshot(this.source, apiUrl, "Artificial Analysis official API, public benchmark datasets, and Google Gemini model catalog", { ...publicPayloadWithAccess, data: pages }, apiResponse ?? languageResponse);
   }
 }
 

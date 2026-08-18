@@ -3,10 +3,18 @@ import { resolveCanonicalIdentity } from "./model-registry";
 import type { SourceId } from "./source-registry";
 
 export const NORMALIZER_VERSIONS: Record<SourceId, number> = {
-  artificial_analysis: 3,
-  openrouter: 3,
+  artificial_analysis: 4,
+  openrouter: 4,
   mmlu_pro: 2,
   openai_official: 2,
+};
+
+export type NormalizedAccessOption = {
+  label: string;
+  url: string;
+  modelId: string;
+  sourceUrl: string;
+  verifiedAt: number;
 };
 
 export type NormalizedBenchmark = {
@@ -50,6 +58,7 @@ export type NormalizedModel = {
   mappingConfidence: "exact" | "explicit_alias" | "unmatched";
   manualReviewRequired: boolean;
   regions: string[];
+  accessOptions: NormalizedAccessOption[];
   benchmarks: NormalizedBenchmark[];
   prices: NormalizedPrice[];
   privacy: Array<{ level: string; sourceUrl: string; confidence: string; notes?: string }>;
@@ -118,6 +127,7 @@ function pendingModel(identity: { canonicalId: string; name: string; provider: s
     mappingConfidence: identity.mappingConfidence,
     manualReviewRequired: false,
     regions: [],
+    accessOptions: [],
     benchmarks: [],
     prices: [],
     privacy: [],
@@ -129,6 +139,17 @@ function pendingModel(identity: { canonicalId: string; name: string; provider: s
 export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
   const sourceUrl = "https://artificialanalysis.ai/models";
   const root = record(payload);
+  const availableGoogleModels = new Set(list(root.googleModels).flatMap((raw) => {
+    const name = text(record(raw).name);
+    return name ? [name.replace(/^models\//, "")] : [];
+  }));
+  const googleAccess = (modelId: string): NormalizedAccessOption[] => availableGoogleModels.has(modelId) ? [{
+    label: "Open in Google AI Studio",
+    url: `https://aistudio.google.com/prompts/new_chat?model=${encodeURIComponent(modelId)}`,
+    modelId,
+    sourceUrl: "https://ai.google.dev/gemini-api/docs/models",
+    verifiedAt: fetchedAt,
+  }] : [];
   const languageModels = list(root.data).flatMap((raw) => {
     const item = record(raw);
     const name = text(item.name);
@@ -152,7 +173,8 @@ export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number,
     const output = number(pricing.price_1m_output_tokens);
     if (input !== undefined) prices.push({ pricingType: "input_tokens", amount: input, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: sourceId, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt });
     if (output !== undefined) prices.push({ pricingType: "output_tokens", amount: output, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: sourceId, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt });
-    return [pendingModel(identity, { releaseDate: text(item.release_date), contextWindow: number(item.context_window_tokens ?? item.context_window), benchmarks, prices, status: identity.mappingConfidence === "unmatched" ? "manual_review" : "pending_evidence", manualReviewRequired: identity.mappingConfidence === "unmatched" })];
+    const googleModelId = identity.provider === "Google" && identity.canonicalId.startsWith("google/") ? identity.canonicalId.slice("google/".length) : "";
+    return [pendingModel(identity, { releaseDate: text(item.release_date), contextWindow: number(item.context_window_tokens ?? item.context_window), benchmarks, prices, accessOptions: googleModelId ? googleAccess(googleModelId) : [], status: identity.mappingConfidence === "unmatched" ? "manual_review" : "pending_evidence", manualReviewRequired: identity.mappingConfidence === "unmatched" })];
   });
 
   const providerForMediaPath = (path: string) => {
@@ -190,9 +212,21 @@ export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number,
       aliases: [name, sourcePath],
       mappingConfidence: "exact" as const,
     };
+    const googleMediaModelId = identity.provider === "Google" ? (() => {
+      const value = name.toLowerCase();
+      if (value.includes("nano banana 2 lite")) return "gemini-3.1-flash-lite-image";
+      if (value.includes("nano banana 2")) return "gemini-3.1-flash-image";
+      if (value.includes("nano banana pro")) return "gemini-3-pro-image";
+      if (value.includes("gemini omni flash")) return "gemini-omni-flash-preview";
+      if (value.includes("veo 3.1 lite")) return "veo-3.1-lite-generate-preview";
+      if (value.includes("veo 3.1 fast")) return "veo-3.1-fast-generate-preview";
+      if (value.includes("veo 3.1")) return "veo-3.1-generate-preview";
+      return "";
+    })() : "";
     return [pendingModel(identity, {
       modalities: kind === "image" ? ["text", "image"] : ["text", "image", "video"],
       capabilities: kind === "image" ? ["image_generation"] : ["video_generation"],
+      accessOptions: googleMediaModelId ? googleAccess(googleMediaModelId) : [],
       benchmarks: [{
         metric: kind === "image" ? "artificial_analysis_image_arena_elo" : "artificial_analysis_video_arena_elo",
         score: quality,
@@ -247,6 +281,7 @@ export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceV
       capabilities: list(item.supported_parameters).filter((value): value is string => typeof value === "string"),
       contextWindow: number(item.context_length),
       prices,
+      accessOptions: [{ label: "View on OpenRouter", url: sourceUrl, modelId: id, sourceUrl: "https://openrouter.ai/api/v1/models", verifiedAt: fetchedAt }],
     })];
   });
 }

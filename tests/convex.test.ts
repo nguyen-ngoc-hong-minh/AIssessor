@@ -74,6 +74,7 @@ describe("Convex identity and authorization", () => {
     const base = {
       canonicalId: "openai/gpt-4o", name: "GPT-4o", provider: "OpenAI", aliases: ["openai/gpt-4o", "gpt-4o"],
       active: true, status: "pending_evidence" as const, mappingConfidence: "exact" as const, manualReviewRequired: false, regions: [], licenses: [],
+      accessOptions: [{ label: "View on OpenRouter", url: "https://openrouter.ai/openai/gpt-4o", modelId: "openai/gpt-4o", sourceUrl: "https://openrouter.ai/api/v1/models", verifiedAt: 100 }],
     };
     await t.mutation(anyApi.models.ingest, { source: "openrouter", retrievedAt: 100, models: [{ ...base, modalities: ["text", "image"], capabilities: ["structured_outputs"], contextWindow: 128000, benchmarks: [], privacy: [], prices: [{ pricingType: "input_tokens", amount: 2.5, unit: "1m_tokens", currency: "USD", effectiveAt: 100 }, { pricingType: "output_tokens", amount: 10, unit: "1m_tokens", currency: "USD", effectiveAt: 100 }] }] });
     expect(await user.query(anyApi.models.catalog, {})).toHaveLength(0);

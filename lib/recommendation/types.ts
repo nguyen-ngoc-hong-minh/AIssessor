@@ -8,7 +8,7 @@ export type EvidenceReference = {
 };
 
 export type CanonicalModel = {
-  id: string; name: string; provider: string; active: boolean; modalities: string[]; capabilities: string[];
+  id: string; canonicalId?: string; name: string; provider: string; active: boolean; modalities: string[]; capabilities: string[];
   contextWindow: number | null; inputPricePerMillion: number | null; outputPricePerMillion: number | null;
   imagePricePerThousand?: number | null; videoPricePerMinute?: number | null;
   qualityScore: number | null; outputTokensPerSecond: number | null;
@@ -16,15 +16,20 @@ export type CanonicalModel = {
   regions: string[]; source: string; sourceUrl?: string | null; measuredAt: number | null; retrievedAt: number;
   existingTool: boolean; evidence?: EvidenceReference[];
   mappingConfidence?: "exact" | "explicit_alias" | "unmatched";
+  accessOptions?: Array<{ label: string; url: string; modelId: string; sourceUrl: string; verifiedAt: number }>;
 };
 
 export type Exclusion = { modelId: string; modelName: string; reasons: string[] };
 export type FitLabel = "Strong Fit" | "Good Fit" | "Possible Fit" | "Limited Evidence";
 export type CandidateScore = {
   model: CanonicalModel; roundedScore: number; label: FitLabel; estimatedCostUsd: number; estimatedSavingsUsd: number;
-  explanation: string[]; limitations: string[]; evidence: EvidenceReference[]; evidenceConfidence: "High" | "Moderate" | "Limited";
+  costBasis: string; explanation: string[]; limitations: string[]; evidence: EvidenceReference[]; evidenceConfidence: "High" | "Moderate" | "Limited";
 };
-export type StepRecommendation = { stepId: string; selected: CandidateScore | null; alternatives: CandidateScore[]; exclusions: Exclusion[]; dataUpdatedAt: number | null };
+export type StepRecommendation = {
+  stepId: string;
+  step: Pick<WorkflowStep, "name" | "plainLanguageDescription" | "inputDescription" | "outputDescription" | "humanReviewRecommended" | "noAIEligible" | "noAIAlternative">;
+  selected: CandidateScore | null; alternatives: CandidateScore[]; exclusions: Exclusion[]; dataUpdatedAt: number | null;
+};
 export type RecommendationContext = { priorities: Priority[]; budgetUsd: number | null; region: string; now: number; existingTools?: string[] };
 export type StrategyVariant = "recommended" | "lowest_cost" | "highest_quality" | "fastest" | "privacy";
 export type StrategyPlan = {

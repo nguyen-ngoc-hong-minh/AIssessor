@@ -58,6 +58,7 @@ export function selectTaskEvidence(step: WorkflowStep, model: CanonicalModel): E
 export function getExclusionReasons(step: WorkflowStep, model: CanonicalModel, context: RecommendationContext): string[] {
   const reasons: string[] = [];
   if (!model.active) reasons.push("Model is inactive");
+  if (!(model.accessOptions ?? []).length) reasons.push("No verified access path is available");
   for (const modality of step.requiredModalities) if (!model.modalities.includes(modality)) reasons.push(`Missing ${modality} support`);
   const hardCapabilities = new Set(["image_generation", "video_generation", "audio_generation", "speech_to_text", "text_to_speech"]);
   for (const capability of step.requiredCapabilities) if (hardCapabilities.has(capability) && !model.capabilities.includes(capability)) reasons.push(`Missing required capability: ${capability}`);
@@ -90,6 +91,14 @@ function confidenceLabel(model: CanonicalModel, taskEvidence: EvidenceReference 
   return "Limited" as const;
 }
 
+function costBasis(step: WorkflowStep, model: CanonicalModel) {
+  if (model.capabilities.includes("video_generation")) return `${step.estimatedVideoMinutes} video minute${step.estimatedVideoMinutes === 1 ? "" : "s"} × $${(model.videoPricePerMinute ?? 0).toFixed(4)}/minute`;
+  if (model.capabilities.includes("image_generation")) return `${step.estimatedImageCount} image${step.estimatedImageCount === 1 ? "" : "s"} × $${(model.imagePricePerThousand ?? 0).toFixed(2)}/1,000 images`;
+  const input = step.estimatedInputTokensExpected * step.estimatedRequestCount;
+  const output = step.estimatedOutputTokensExpected * step.estimatedRequestCount;
+  return `${input.toLocaleString("en-US")} input + ${output.toLocaleString("en-US")} output tokens at $${(model.inputPricePerMillion ?? 0).toFixed(2)}/$${(model.outputPricePerMillion ?? 0).toFixed(2)} per 1M`;
+}
+
 export function scoreCandidate(step: WorkflowStep, model: CanonicalModel, context: RecommendationContext): CandidateScore {
   const cost = estimateStepCost(step, model) ?? 0; const fullCost = baseStepCost(step, model) ?? 0;
   const taskEvidence = selectTaskEvidence(step, model); const performance = taskEvidence?.normalizedValue ?? (typeof taskEvidence?.rawValue === "number" ? taskEvidence.rawValue : model.qualityScore) ?? 0;
@@ -115,15 +124,16 @@ export function scoreCandidate(step: WorkflowStep, model: CanonicalModel, contex
   const evidence = (model.evidence ?? []).filter((item) => item === taskEvidence || item.kind !== "benchmark" || item.category === "speed");
   const evidenceConfidence = confidenceLabel(model, taskEvidence, evidenceCoverage, ageDays);
   if (evidenceConfidence === "Limited") limitations.push("Evidence confidence is limited for this task");
-  return { model, roundedScore, label: fitLabel(roundedScore, evidenceCoverage), estimatedCostUsd: Number(cost.toFixed(4)), estimatedSavingsUsd: Number(Math.max(0, fullCost - cost).toFixed(4)), explanation, limitations, evidence, evidenceConfidence };
+  return { model, roundedScore, label: fitLabel(roundedScore, evidenceCoverage), estimatedCostUsd: Number(cost.toFixed(4)), estimatedSavingsUsd: Number(Math.max(0, fullCost - cost).toFixed(4)), costBasis: costBasis(step, model), explanation, limitations, evidence, evidenceConfidence };
 }
 
 export function recommendStep(step: WorkflowStep, models: CanonicalModel[], context: RecommendationContext): StepRecommendation {
-  if (step.noAIEligible) return { stepId: step.id, selected: null, alternatives: [], exclusions: [], dataUpdatedAt: null };
+  const stepSummary = { name: step.name, plainLanguageDescription: step.plainLanguageDescription, inputDescription: step.inputDescription, outputDescription: step.outputDescription, humanReviewRecommended: step.humanReviewRecommended, noAIEligible: step.noAIEligible, noAIAlternative: step.noAIAlternative };
+  if (step.noAIEligible) return { stepId: step.id, step: stepSummary, selected: null, alternatives: [], exclusions: [], dataUpdatedAt: null };
   const exclusions: Exclusion[] = []; const eligible: CandidateScore[] = [];
   for (const model of models) { const reasons = getExclusionReasons(step, model, context); if (reasons.length) exclusions.push({ modelId: model.id, modelName: model.name, reasons }); else eligible.push(scoreCandidate(step, model, context)); }
   eligible.sort((a, b) => b.roundedScore - a.roundedScore || a.estimatedCostUsd - b.estimatedCostUsd || a.model.name.localeCompare(b.model.name));
-  return { stepId: step.id, selected: eligible[0] ?? null, alternatives: eligible.slice(1, 4), exclusions, dataUpdatedAt: eligible.length ? Math.min(...eligible.map((item) => item.model.retrievedAt)) : null };
+  return { stepId: step.id, step: stepSummary, selected: eligible[0] ?? null, alternatives: eligible.slice(1, 4), exclusions, dataUpdatedAt: eligible.length ? Math.min(...eligible.map((item) => item.model.retrievedAt)) : null };
 }
 
 function prioritiesForVariant(original: Priority[], variant: StrategyVariant): Priority[] {

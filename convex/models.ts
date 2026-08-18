@@ -15,12 +15,18 @@ const modelValidator = v.object({
   contextWindow: v.optional(v.number()), releaseDate: v.optional(v.string()), active: v.boolean(),
   status: v.union(v.literal("pending_evidence"), v.literal("eligible"), v.literal("manual_review"), v.literal("inactive")),
   mappingConfidence: v.union(v.literal("exact"), v.literal("explicit_alias"), v.literal("unmatched")), manualReviewRequired: v.boolean(), regions: v.array(v.string()),
+  accessOptions: v.optional(v.array(v.object({ label: v.string(), url: v.string(), modelId: v.string(), sourceUrl: v.string(), verifiedAt: v.number() }))),
   benchmarks: v.array(benchmarkValidator), prices: v.array(priceValidator),
   privacy: v.array(v.object({ level: v.string(), sourceUrl: v.string(), confidence: v.string(), notes: v.optional(v.string()) })),
   licenses: v.array(v.object({ commercialUse: v.boolean(), sourceUrl: v.string(), confidence: v.string(), notes: v.optional(v.string()) })),
 });
 
 function union(left: string[] | undefined, right: string[]) { return [...new Set([...(left ?? []), ...right])]; }
+function mergeAccessOptions(left: Array<{ label: string; url: string; modelId: string; sourceUrl: string; verifiedAt: number }> | undefined, right: Array<{ label: string; url: string; modelId: string; sourceUrl: string; verifiedAt: number }>) {
+  const options = new Map<string, { label: string; url: string; modelId: string; sourceUrl: string; verifiedAt: number }>();
+  for (const option of [...(left ?? []), ...right].sort((a, b) => a.verifiedAt - b.verifiedAt)) options.set(`${option.modelId}:${option.url}`, option);
+  return [...options.values()];
+}
 
 export const ingest = internalMutation({
   args: { source: v.string(), retrievedAt: v.number(), models: v.array(modelValidator) },
@@ -44,6 +50,7 @@ export const ingest = internalMutation({
         mappingConfidence: existing?.mappingConfidence === "exact" || model.mappingConfidence === "exact" ? "exact" as const : model.mappingConfidence,
         manualReviewRequired: Boolean(existing?.manualReviewRequired || model.manualReviewRequired),
         regions: union(existing?.regions, model.regions),
+        accessOptions: mergeAccessOptions(existing?.accessOptions, model.accessOptions ?? []),
         updatedAt: args.retrievedAt,
       };
       const modelId = existing ? existing._id : await ctx.db.insert("canonicalModels", values);

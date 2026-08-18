@@ -10,7 +10,7 @@ import { requireIdentity } from "../lib/auth";
 const sourceValidator = v.union(v.literal("artificial_analysis"), v.literal("openrouter"), v.literal("mmlu_pro"), v.literal("openai_official"));
 
 function adapterFor(source: SourceId): ModelSourceAdapter {
-  if (source === "artificial_analysis") return new ArtificialAnalysisAdapter(process.env.ARTIFICIAL_ANALYSIS_API_KEY ?? "");
+  if (source === "artificial_analysis") return new ArtificialAnalysisAdapter(process.env.ARTIFICIAL_ANALYSIS_API_KEY ?? "", "https://artificialanalysis.ai/api/v2", process.env.GEMINI_API_KEY ?? "");
   if (source === "openrouter") return new OpenRouterAdapter(process.env.OPENROUTER_API_KEY ?? "");
   if (source === "mmlu_pro") return new MmluProAdapter();
   return new OpenAiOfficialAdapter();
