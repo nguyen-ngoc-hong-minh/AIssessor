@@ -39,23 +39,106 @@ function snapshot(source: SourceId, sourceUrl: string, attribution: string, payl
 }
 
 async function checkedFetch(url: string, init?: RequestInit) {
-  const response = await fetch(url, { ...init, signal: AbortSignal.timeout(20_000) });
+  const response = await fetch(url, { ...init, headers: { "User-Agent": "BENCHFLOW/1.0 evidence-sync", ...init?.headers }, signal: AbortSignal.timeout(20_000) });
   if (!response.ok) throw new Error(`${url} returned ${response.status}`);
   return response;
+}
+
+type PublicDataset = { name?: string; description?: string; data?: Array<Record<string, unknown>> };
+
+function publicDatasets(html: string): PublicDataset[] {
+  return [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].flatMap((match) => {
+    try {
+      const parsed = JSON.parse(match[1]) as PublicDataset;
+      return Array.isArray(parsed.data) ? [parsed] : [];
+    } catch {
+      return [];
+    }
+  });
+}
+
+function propertyValue(value: unknown, name: string) {
+  if (!Array.isArray(value)) return undefined;
+  const item = value.find((entry) => entry && typeof entry === "object" && (entry as Record<string, unknown>).name === name) as Record<string, unknown> | undefined;
+  return typeof item?.value === "number" ? item.value : undefined;
+}
+
+function rankPercentiles(rows: Array<Record<string, unknown>>, scoreKey: string) {
+  const ranked = rows.filter((row) => typeof row[scoreKey] === "number").sort((a, b) => Number(b[scoreKey]) - Number(a[scoreKey]));
+  return new Map(ranked.map((row, index) => [String(row.detailsUrl ?? row.label), ranked.length === 1 ? 100 : 40 + ((ranked.length - 1 - index) / (ranked.length - 1)) * 60]));
+}
+
+function mergeLanguageDatasets(datasets: PublicDataset[]) {
+  const quality = datasets.find((item) => item.name === "Artificial Analysis Intelligence Index")?.data ?? [];
+  const pricing = datasets.find((item) => item.name === "Pricing: Cache Hit, Input, and Output")?.data ?? [];
+  const context = datasets.find((item) => item.name === "Context Window")?.data ?? [];
+  const speed = datasets.find((item) => item.name === "Output Speed")?.data ?? [];
+  const qualityPercentiles = rankPercentiles(quality, "intelligenceIndex");
+  const rows = new Map<string, Record<string, unknown>>();
+  const row = (item: Record<string, unknown>) => {
+    const key = String(item.detailsUrl ?? item.label ?? "");
+    const current = rows.get(key) ?? { name: item.label, slug: key.split("/").filter(Boolean).at(-1), model_creator: {} };
+    rows.set(key, current);
+    return current;
+  };
+  for (const item of quality) row(item).evaluations = { artificial_analysis_intelligence_index: { score: item.intelligenceIndex, normalizedValue: qualityPercentiles.get(String(item.detailsUrl ?? item.label)) } };
+  for (const item of pricing) {
+    const current = row(item);
+    current.pricing = {
+      price_1m_input_tokens: propertyValue(item.pricing, "inputPrice"),
+      price_1m_output_tokens: propertyValue(item.pricing, "outputPrice"),
+    };
+  }
+  for (const item of context) row(item).context_window_tokens = item.contextWindowTokens;
+  for (const item of speed) row(item).performance = { median_output_tokens_per_second: item.outputSpeed };
+  return [...rows.values()];
+}
+
+function mergeMediaDatasets(datasets: PublicDataset[], kind: "image" | "video") {
+  const qualityName = kind === "image" ? "Image Arena Quality Elo" : "Video Arena Quality Elo";
+  const priceName = kind === "image" ? "Price ($/1k images)" : "Price ($/min)";
+  const quality = datasets.find((item) => item.name === qualityName)?.data ?? [];
+  const prices = datasets.find((item) => item.name === priceName)?.data ?? [];
+  const percentiles = rankPercentiles(quality.map((item) => ({ ...item, score: propertyValue(item.elo, "mid") })), "score");
+  const priceByName = new Map(prices.map((item) => [String(item.label), item.price]));
+  return quality.flatMap((item) => {
+    const name = typeof item.label === "string" ? item.label : undefined;
+    const sourcePath = typeof item.detailsUrl === "string" ? item.detailsUrl : undefined;
+    const qualityElo = propertyValue(item.elo, "mid");
+    const price = name ? priceByName.get(name) : undefined;
+    if (!name || !sourcePath || qualityElo === undefined || typeof price !== "number") return [];
+    return [{ name, sourcePath, qualityElo, normalizedQuality: percentiles.get(sourcePath), price }];
+  });
+}
+
+export function parseArtificialAnalysisPublicPages(languageHtml: string, imageHtml: string, videoHtml: string) {
+  return {
+    data: mergeLanguageDatasets(publicDatasets(languageHtml)),
+    imageModels: mergeMediaDatasets(publicDatasets(imageHtml), "image"),
+    videoModels: mergeMediaDatasets(publicDatasets(videoHtml), "video"),
+  };
 }
 
 export class ArtificialAnalysisAdapter implements ModelSourceAdapter {
   readonly source = "artificial_analysis" as const;
   constructor(private readonly apiKey: string, private readonly baseUrl = "https://artificialanalysis.ai/api/v2") {}
   async fetchSnapshot(): Promise<SourceSnapshot> {
-    if (!this.apiKey) throw new Error("ARTIFICIAL_ANALYSIS_API_KEY is not configured");
-    const sourceUrl = `${this.baseUrl}/language/models/free`;
+    const sourceUrl = "https://artificialanalysis.ai/models";
+    const [languageResponse, imageResponse, videoResponse] = await Promise.all([
+      checkedFetch(sourceUrl),
+      checkedFetch("https://artificialanalysis.ai/image/models"),
+      checkedFetch("https://artificialanalysis.ai/video/models"),
+    ]);
+    const publicPayload = parseArtificialAnalysisPublicPages(await languageResponse.text(), await imageResponse.text(), await videoResponse.text());
+    if (!this.apiKey) return snapshot(this.source, sourceUrl, "Artificial Analysis public benchmark datasets", publicPayload, languageResponse);
+
+    const apiUrl = `${this.baseUrl}/language/models/free`;
     const pages: unknown[] = [];
     let page = 1;
-    let response: Response | undefined;
+    let apiResponse: Response | undefined;
     while (page <= 100) {
-      response = await checkedFetch(page === 1 ? sourceUrl : `${sourceUrl}?page=${page}`, { headers: { "x-api-key": this.apiKey } });
-      const payload = await response.json() as Record<string, unknown>;
+      apiResponse = await checkedFetch(page === 1 ? apiUrl : `${apiUrl}?page=${page}`, { headers: { "x-api-key": this.apiKey } });
+      const payload = await apiResponse.json() as Record<string, unknown>;
       pages.push(...(Array.isArray(payload.data) ? payload.data : []));
       const pagination = (payload.pagination && typeof payload.pagination === "object" ? payload.pagination : {}) as Record<string, unknown>;
       const current = Number(pagination.current_page ?? pagination.page ?? page);
@@ -63,7 +146,7 @@ export class ArtificialAnalysisAdapter implements ModelSourceAdapter {
       if (!Number.isFinite(total) || current >= total) break;
       page = current + 1;
     }
-    return snapshot(this.source, sourceUrl, "Artificial Analysis official API", { data: pages }, response);
+    return snapshot(this.source, apiUrl, "Artificial Analysis official API and public benchmark datasets", { ...publicPayload, data: pages }, apiResponse ?? languageResponse);
   }
 }
 

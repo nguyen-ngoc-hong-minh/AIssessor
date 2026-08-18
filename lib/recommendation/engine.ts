@@ -13,6 +13,12 @@ export function priorityWeights(priorities: Priority[]) {
 }
 
 function baseStepCost(step: WorkflowStep, model: CanonicalModel): number | null {
+  if (model.capabilities.includes("video_generation")) {
+    return model.videoPricePerMinute == null ? null : step.estimatedVideoMinutes * model.videoPricePerMinute;
+  }
+  if (model.capabilities.includes("image_generation")) {
+    return model.imagePricePerThousand == null ? null : (step.estimatedImageCount / 1_000) * model.imagePricePerThousand;
+  }
   if (model.inputPricePerMillion === null || model.outputPricePerMillion === null) return null;
   const input = step.estimatedInputTokensExpected * step.estimatedRequestCount;
   const output = step.estimatedOutputTokensExpected * step.estimatedRequestCount;
@@ -25,6 +31,8 @@ export function estimateStepCost(step: WorkflowStep, model: CanonicalModel): num
 }
 
 export function taskCategory(step: WorkflowStep): TaskCategory {
+  if (step.requiredCapabilities.includes("video_generation")) return "video";
+  if (step.requiredCapabilities.includes("image_generation")) return "image";
   if (step.requiredModalities.includes("video")) return "video";
   if (step.requiredModalities.includes("image")) return "multimodal";
   const text = `${step.name} ${step.plainLanguageDescription} ${step.requiredCapabilities.join(" ")}`.toLowerCase();
@@ -51,13 +59,15 @@ export function getExclusionReasons(step: WorkflowStep, model: CanonicalModel, c
   const reasons: string[] = [];
   if (!model.active) reasons.push("Model is inactive");
   for (const modality of step.requiredModalities) if (!model.modalities.includes(modality)) reasons.push(`Missing ${modality} support`);
-  for (const capability of step.requiredCapabilities) if (!model.capabilities.includes(capability)) reasons.push(`Missing required capability: ${capability}`);
+  const hardCapabilities = new Set(["image_generation", "video_generation", "audio_generation", "speech_to_text", "text_to_speech"]);
+  for (const capability of step.requiredCapabilities) if (hardCapabilities.has(capability) && !model.capabilities.includes(capability)) reasons.push(`Missing required capability: ${capability}`);
   const expectedContext = step.estimatedInputTokensHigh + step.estimatedOutputTokensHigh;
-  if (model.contextWindow === null) reasons.push("Critical context-window evidence is unavailable");
-  else if (model.contextWindow < expectedContext) reasons.push("Context window is too small");
-  if (model.privacyLevel === null) reasons.push("Critical privacy evidence is unavailable");
-  else if (PRIVACY_RANK[model.privacyLevel] < PRIVACY_RANK[step.privacyRequirement]) reasons.push("Privacy controls do not meet the requirement");
-  if (step.commercialUseRequired && model.commercialUse !== true) reasons.push("Commercial-use compatibility is not confirmed");
+  const mediaGenerator = model.capabilities.includes("image_generation") || model.capabilities.includes("video_generation");
+  if (!mediaGenerator && model.contextWindow === null) reasons.push("Critical context-window evidence is unavailable");
+  else if (model.contextWindow !== null && model.contextWindow < expectedContext) reasons.push("Context window is too small");
+  if (model.privacyLevel === null && (step.privacyRequirement === "sensitive" || step.privacyRequirement === "restricted")) reasons.push("Critical privacy evidence is unavailable");
+  else if (model.privacyLevel !== null && PRIVACY_RANK[model.privacyLevel] < PRIVACY_RANK[step.privacyRequirement]) reasons.push("Privacy controls do not meet the requirement");
+  if (step.commercialUseRequired && model.commercialUse === false) reasons.push("Commercial use is not permitted");
   if (model.regions.length > 0 && !model.regions.includes(context.region)) reasons.push("Model is unavailable in the selected region");
   const cost = estimateStepCost(step, model);
   if (cost === null) reasons.push("Critical pricing evidence is unavailable");
@@ -83,7 +93,10 @@ function confidenceLabel(model: CanonicalModel, taskEvidence: EvidenceReference 
 export function scoreCandidate(step: WorkflowStep, model: CanonicalModel, context: RecommendationContext): CandidateScore {
   const cost = estimateStepCost(step, model) ?? 0; const fullCost = baseStepCost(step, model) ?? 0;
   const taskEvidence = selectTaskEvidence(step, model); const performance = taskEvidence?.normalizedValue ?? (typeof taskEvidence?.rawValue === "number" ? taskEvidence.rawValue : model.qualityScore) ?? 0;
-  const evidenceFields = [model.contextWindow, model.inputPricePerMillion, model.outputPricePerMillion, taskEvidence, model.outputTokensPerSecond, model.privacyLevel, model.commercialUse];
+  const mediaGenerator = model.capabilities.includes("image_generation") || model.capabilities.includes("video_generation");
+  const evidenceFields = mediaGenerator
+    ? [model.imagePricePerThousand ?? model.videoPricePerMinute, taskEvidence, model.privacyLevel, model.commercialUse]
+    : [model.contextWindow, model.inputPricePerMillion, model.outputPricePerMillion, taskEvidence, model.outputTokensPerSecond, model.privacyLevel, model.commercialUse];
   const evidenceCoverage = evidenceFields.filter((value) => value !== null && value !== undefined).length / evidenceFields.length;
   const measuredAt = taskEvidence?.retrievedAt ?? model.measuredAt; const ageDays = measuredAt ? Math.max(0, (context.now - measuredAt) / 86_400_000) : 365;
   const freshness = Math.max(0, 1 - ageDays / 120); const privacy = model.privacyLevel ? PRIVACY_RANK[model.privacyLevel] / 4 : 0;
@@ -91,6 +104,8 @@ export function scoreCandidate(step: WorkflowStep, model: CanonicalModel, contex
   const raw = Object.entries(components).reduce((total, [key, value]) => total + value * weights[key as keyof typeof weights], 0) * 100;
   const roundedScore = Math.round(raw / 5) * 5; const limitations: string[] = [];
   if (evidenceCoverage < 1) limitations.push("Some comparison fields are unavailable");
+  if (model.privacyLevel === null) limitations.push("Privacy terms were not verified; review the provider agreement before uploading sensitive material");
+  if (step.commercialUseRequired && model.commercialUse === null) limitations.push("Commercial-use terms were not verified; review the provider agreement before publishing");
   if (ageDays > 30) limitations.push(`Task evidence is ${Math.round(ageDays)} days old`);
   const explanation = [
     taskEvidence ? `Uses ${taskEvidence.metricName} evidence relevant to ${taskCategory(step)} work` : "Task-specific performance evidence is limited",
@@ -104,7 +119,7 @@ export function scoreCandidate(step: WorkflowStep, model: CanonicalModel, contex
 }
 
 export function recommendStep(step: WorkflowStep, models: CanonicalModel[], context: RecommendationContext): StepRecommendation {
-  if (step.noAIEligible && step.importance !== "critical") return { stepId: step.id, selected: null, alternatives: [], exclusions: [], dataUpdatedAt: null };
+  if (step.noAIEligible) return { stepId: step.id, selected: null, alternatives: [], exclusions: [], dataUpdatedAt: null };
   const exclusions: Exclusion[] = []; const eligible: CandidateScore[] = [];
   for (const model of models) { const reasons = getExclusionReasons(step, model, context); if (reasons.length) exclusions.push({ modelId: model.id, modelName: model.name, reasons }); else eligible.push(scoreCandidate(step, model, context)); }
   eligible.sort((a, b) => b.roundedScore - a.roundedScore || a.estimatedCostUsd - b.estimatedCostUsd || a.model.name.localeCompare(b.model.name));

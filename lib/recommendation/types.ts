@@ -10,6 +10,7 @@ export type EvidenceReference = {
 export type CanonicalModel = {
   id: string; name: string; provider: string; active: boolean; modalities: string[]; capabilities: string[];
   contextWindow: number | null; inputPricePerMillion: number | null; outputPricePerMillion: number | null;
+  imagePricePerThousand?: number | null; videoPricePerMinute?: number | null;
   qualityScore: number | null; outputTokensPerSecond: number | null;
   privacyLevel: "standard" | "business" | "sensitive" | "restricted" | null; commercialUse: boolean | null;
   regions: string[]; source: string; sourceUrl?: string | null; measuredAt: number | null; retrievedAt: number;

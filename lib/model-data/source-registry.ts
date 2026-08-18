@@ -19,10 +19,9 @@ export const EVIDENCE_SOURCES: readonly EvidenceSourceDefinition[] = [
     id: "artificial_analysis",
     name: "Artificial Analysis",
     kind: "benchmark",
-    sourceUrl: "https://artificialanalysis.ai/data-api/docs",
+    sourceUrl: "https://artificialanalysis.ai/models",
     refreshHours: 12,
-    attribution: "Artificial Analysis official API",
-    requiredEnvironment: "ARTIFICIAL_ANALYSIS_API_KEY",
+    attribution: "Artificial Analysis public benchmark datasets",
     supported: true,
   },
   {

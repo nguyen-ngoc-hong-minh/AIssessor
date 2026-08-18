@@ -25,7 +25,7 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
    ```
 
    Adding these only to `.env.local` does not configure the remote Convex Action runtime. `.env.local` is for the local Next.js host and public Convex/Clerk connection values.
-6. Set `ARTIFICIAL_ANALYSIS_API_KEY` in Convex. `OPENROUTER_API_KEY` is optional because its models endpoint is public.
+6. `ARTIFICIAL_ANALYSIS_API_KEY` and `OPENROUTER_API_KEY` are optional. Without keys, BENCHFLOW reads the public machine-readable benchmark datasets and the public OpenRouter catalog.
 7. Run `npm run convex:dev`, then `npm run dev`.
 8. Open `/admin/evidence` as a configured administrator and confirm Planner AI shows `Configured: Yes` before creating a strategy.
 
@@ -56,7 +56,7 @@ Supported adapters:
 
 | Source | Evidence | Schedule | Credential |
 | --- | --- | ---: | --- |
-| Artificial Analysis free API | Published indices, coding/agentic metrics where present, speed, and pricing | 12 hours | Required |
+| Artificial Analysis public datasets / free API | Language, image, and video quality benchmarks, speed, context, and representative API pricing | 12 hours | Optional |
 | OpenRouter models API | Canonical route IDs, modalities, capabilities, context, and route pricing | 6 hours | Optional |
 | MMLU-Pro official leaderboard CSV | Overall and subject-category benchmark results | 24 hours | None |
 | OpenAI official model/data-control docs | Provider pricing, context, modalities, capabilities, and default API privacy controls | 12 hours | None |

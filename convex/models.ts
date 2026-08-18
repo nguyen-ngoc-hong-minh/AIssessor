@@ -32,8 +32,8 @@ export const ingest = internalMutation({
       const existing = await ctx.db.query("canonicalModels").withIndex("by_canonical_id", (q) => q.eq("canonicalId", model.canonicalId)).unique();
       const values = {
         canonicalId: model.canonicalId,
-        name: existing?.name ?? model.name,
-        provider: existing?.provider ?? model.provider,
+        name: model.mappingConfidence === "unmatched" ? existing?.name ?? model.name : model.name,
+        provider: model.mappingConfidence === "unmatched" ? existing?.provider ?? model.provider : model.provider,
         aliases: union(existing?.aliases, model.aliases),
         modalities: union(existing?.modalities, model.modalities),
         capabilities: union(existing?.capabilities, model.capabilities),
@@ -66,14 +66,28 @@ export const ingest = internalMutation({
         recordsImported += 1;
       }
 
-      const [benchmarks, prices] = await Promise.all([
+      const pricesFor = (pricingType: string) => ctx.db.query("pricingObservations").withIndex(
+        "by_model_type",
+        // Generic Convex server types do not expose chained equality fields, but the declared index does.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (q: any) => q.eq("modelId", modelId).eq("pricingType", pricingType),
+      ).take(1);
+      const [benchmarks, inputPrices, outputPrices, imagePrices, videoPrices] = await Promise.all([
         ctx.db.query("benchmarkObservations").withIndex("by_model_metric", (q) => q.eq("modelId", modelId)).take(1),
-        ctx.db.query("pricingObservations").withIndex("by_model_type", (q) => q.eq("modelId", modelId)).collect(),
+        pricesFor("input_tokens"),
+        pricesFor("output_tokens"),
+        pricesFor("image_generation"),
+        pricesFor("video_generation"),
       ]);
       const current = await ctx.db.get(modelId);
-      const hasInput = prices.some((item) => item.pricingType === "input_tokens");
-      const hasOutput = prices.some((item) => item.pricingType === "output_tokens");
-      const eligible = Boolean(current && !current.manualReviewRequired && current.active && current.modalities.length && current.contextWindow && benchmarks.length && hasInput && hasOutput);
+      const hasInput = inputPrices.length > 0;
+      const hasOutput = outputPrices.length > 0;
+      const isImageGenerator = current?.capabilities.includes("image_generation") ?? false;
+      const isVideoGenerator = current?.capabilities.includes("video_generation") ?? false;
+      const hasMediaPricing = isImageGenerator ? imagePrices.length > 0 : isVideoGenerator ? videoPrices.length > 0 : false;
+      const hasRequiredContext = isImageGenerator || isVideoGenerator || Boolean(current?.contextWindow);
+      const hasRequiredPricing = isImageGenerator || isVideoGenerator ? hasMediaPricing : hasInput && hasOutput;
+      const eligible = Boolean(current && !current.manualReviewRequired && current.active && current.modalities.length && hasRequiredContext && benchmarks.length && hasRequiredPricing);
       await ctx.db.patch(modelId, { status: current?.active === false ? "inactive" : eligible ? "eligible" : current?.manualReviewRequired ? "manual_review" : "pending_evidence" });
     }
     return { createdCount, updatedCount, recordsImported };

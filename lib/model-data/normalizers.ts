@@ -3,8 +3,8 @@ import { resolveCanonicalIdentity } from "./model-registry";
 import type { SourceId } from "./source-registry";
 
 export const NORMALIZER_VERSIONS: Record<SourceId, number> = {
-  artificial_analysis: 2,
-  openrouter: 2,
+  artificial_analysis: 3,
+  openrouter: 3,
   mmlu_pro: 2,
   openai_official: 2,
 };
@@ -67,6 +67,7 @@ function number(value: unknown): number | undefined {
 }
 function normalized(score: number) { return Math.max(0, Math.min(100, score <= 1 ? score * 100 : score)); }
 function unique(values: string[]) { return [...new Set(values)]; }
+function slug(value: string) { return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""); }
 function manualIdentity(source: string, sourceId: string, name: string, provider = "Unknown") {
   const stableId = sourceId.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   return { canonicalId: `unmatched/${source}/${stableId}`, name, provider, aliases: [sourceId, name], mappingConfidence: "unmatched" as const };
@@ -127,7 +128,8 @@ function pendingModel(identity: { canonicalId: string; name: string; provider: s
 
 export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
   const sourceUrl = "https://artificialanalysis.ai/models";
-  return list(record(payload).data).flatMap((raw) => {
+  const root = record(payload);
+  const languageModels = list(root.data).flatMap((raw) => {
     const item = record(raw);
     const name = text(item.name);
     const sourceId = text(item.slug) ?? text(item.id) ?? name;
@@ -140,7 +142,8 @@ export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number,
     const benchmarks: NormalizedBenchmark[] = Object.entries(evaluations).flatMap(([metric, rawValue]) => {
       const score = number(rawValue);
       if (score === undefined) return [];
-      return [{ metric, score, rawValue, normalizedValue: normalized(score), category: benchmarkCategory(metric), sourceUrl, modelVersion: sourceId, sourceVersion, measuredAt: fetchedAt, confidence: "official_api", notes: "Reported by the Artificial Analysis API." }];
+      const suppliedNormalized = number(record(rawValue).normalizedValue);
+      return [{ metric, score, rawValue, normalizedValue: suppliedNormalized ?? normalized(score), category: benchmarkCategory(metric), sourceUrl, modelVersion: sourceId, sourceVersion, measuredAt: fetchedAt, confidence: "official_dataset", notes: suppliedNormalized === undefined ? "Reported by Artificial Analysis." : "Raw score reported by Artificial Analysis; the normalized value is its percentile within the current published comparison set." }];
     });
     const speed = number(performance.median_output_tokens_per_second);
     if (speed !== undefined) benchmarks.push({ metric: "output_tokens_per_second", score: speed, rawValue: speed, category: "speed", sourceUrl, modelVersion: sourceId, sourceVersion, measuredAt: fetchedAt, confidence: "official_api" });
@@ -151,6 +154,74 @@ export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number,
     if (output !== undefined) prices.push({ pricingType: "output_tokens", amount: output, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: sourceId, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt });
     return [pendingModel(identity, { releaseDate: text(item.release_date), contextWindow: number(item.context_window_tokens ?? item.context_window), benchmarks, prices, status: identity.mappingConfidence === "unmatched" ? "manual_review" : "pending_evidence", manualReviewRequired: identity.mappingConfidence === "unmatched" })];
   });
+
+  const providerForMediaPath = (path: string) => {
+    const provider = path.split("/").filter(Boolean).at(-1)?.toLowerCase() ?? "";
+    if (/openai|gpt|sora/.test(provider)) return "OpenAI";
+    if (/gemini|google|veo/.test(provider)) return "Google";
+    if (/microsoft/.test(provider)) return "Microsoft";
+    if (/qwen|wan|happyhorse/.test(provider)) return "Alibaba";
+    if (/seedream|seedance/.test(provider)) return "ByteDance";
+    if (/grok/.test(provider)) return "xAI";
+    if (/flux/.test(provider)) return "Black Forest Labs";
+    if (/minimax|hailuo/.test(provider)) return "MiniMax";
+    if (/kling/.test(provider)) return "Kuaishou";
+    if (/skyreels/.test(provider)) return "SkyReels";
+    if (/reve/.test(provider)) return "Reve";
+    if (/hidream/.test(provider)) return "HiDream";
+    return "Unknown";
+  };
+
+  const mediaModels = ([
+    ...list(root.imageModels).map((raw) => ({ kind: "image" as const, item: record(raw) })),
+    ...list(root.videoModels).map((raw) => ({ kind: "video" as const, item: record(raw) })),
+  ]).flatMap(({ kind, item }) => {
+    const name = text(item.name);
+    const sourcePath = text(item.sourcePath);
+    const quality = number(item.qualityElo);
+    const normalizedQuality = number(item.normalizedQuality);
+    const price = number(item.price);
+    if (!name || !sourcePath || quality === undefined || price === undefined) return [];
+    const mediaSourceUrl = `https://artificialanalysis.ai${sourcePath}`;
+    const identity = {
+      canonicalId: `artificial-analysis/${kind}/${slug(name)}`,
+      name,
+      provider: providerForMediaPath(sourcePath),
+      aliases: [name, sourcePath],
+      mappingConfidence: "exact" as const,
+    };
+    return [pendingModel(identity, {
+      modalities: kind === "image" ? ["text", "image"] : ["text", "image", "video"],
+      capabilities: kind === "image" ? ["image_generation"] : ["video_generation"],
+      benchmarks: [{
+        metric: kind === "image" ? "artificial_analysis_image_arena_elo" : "artificial_analysis_video_arena_elo",
+        score: quality,
+        rawValue: quality,
+        normalizedValue: normalizedQuality,
+        category: kind,
+        sourceUrl: mediaSourceUrl,
+        modelVersion: sourcePath,
+        sourceVersion,
+        measuredAt: fetchedAt,
+        confidence: "official_dataset",
+        notes: "Blind-preference Arena Elo reported by Artificial Analysis; normalized value is its percentile within the current published comparison set.",
+      }],
+      prices: [{
+        pricingType: kind === "image" ? "image_generation" : "video_generation",
+        amount: price,
+        unit: kind === "image" ? "1k_images" : "minute",
+        currency: "USD",
+        sourceUrl: mediaSourceUrl,
+        modelVersion: sourcePath,
+        sourceVersion,
+        confidence: "official_dataset",
+        notes: kind === "image" ? "Representative API price per 1,000 generated images." : "Representative API price per minute of generated video.",
+        effectiveAt: fetchedAt,
+      }],
+    })];
+  });
+
+  return [...languageModels, ...mediaModels];
 }
 
 export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {

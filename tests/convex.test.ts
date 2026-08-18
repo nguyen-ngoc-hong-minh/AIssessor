@@ -55,15 +55,17 @@ describe("Convex identity and authorization", () => {
     const snapshots = await t.run((ctx) => ctx.db.query("dataSnapshots").collect());
     expect(snapshots[0]).toMatchObject({ source: "openrouter", valid: true, fetchedAt: 100 });
   });
-  it("records an unchanged run without duplicating its source snapshot", async () => {
+  it("records an unchanged run as a fresh immutable revalidation snapshot", async () => {
     const t = convexTest({ schema, modules });
     const firstRun = await t.run((ctx) => ctx.db.insert("syncRuns", { source: "openrouter", status: "running", createdCount: 0, updatedCount: 0, failedCount: 0, startedAt: 100 }));
     const snapshotId = await t.mutation(anyApi.modelSync.saveSnapshot, { runId: firstRun, source: "openrouter", rawPayload: { data: [] }, payloadHash: "same", fetchedAt: 100 });
     const secondRun = await t.run((ctx) => ctx.db.insert("syncRuns", { source: "openrouter", status: "running", createdCount: 0, updatedCount: 0, failedCount: 0, startedAt: 200 }));
     await t.mutation(anyApi.modelSync.completeUnchanged, { runId: secondRun, snapshotId });
     const [snapshots, run] = await Promise.all([t.run((ctx) => ctx.db.query("dataSnapshots").collect()), t.run((ctx) => ctx.db.get(secondRun))]);
-    expect(snapshots).toHaveLength(1);
-    expect(run).toMatchObject({ status: "complete", unchanged: true, snapshotId });
+    expect(snapshots).toHaveLength(2);
+    expect(run).toMatchObject({ status: "complete", unchanged: true });
+    expect(run?.snapshotId).not.toBe(snapshotId);
+    expect(snapshots.find((item) => item._id === run?.snapshotId)?.fetchedAt).toBeGreaterThan(100);
   });
   it("merges independent source facts before making a canonical model eligible", async () => {
     const t = convexTest({ schema, modules });

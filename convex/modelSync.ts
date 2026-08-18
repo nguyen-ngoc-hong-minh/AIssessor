@@ -33,8 +33,22 @@ export const saveSnapshot = internalMutation({
 });
 
 export const completeUnchanged = internalMutation({ args: { runId: v.id("syncRuns"), snapshotId: v.id("dataSnapshots") }, handler: async (ctx, { runId, snapshotId }) => {
-  await ctx.db.patch(runId, { status: "complete", completedAt: Date.now(), unchanged: true, snapshotId });
-  return snapshotId;
+  const previous = await ctx.db.get(snapshotId);
+  if (!previous) throw new Error("Previous evidence snapshot was not found");
+  const fetchedAt = Date.now();
+  const revalidatedSnapshotId = await ctx.db.insert("dataSnapshots", {
+    source: previous.source,
+    sourceUrl: previous.sourceUrl,
+    rawPayload: previous.rawPayload,
+    payloadHash: previous.payloadHash,
+    fetchedAt,
+    valid: true,
+    attribution: previous.attribution,
+    sourceVersion: previous.sourceVersion,
+    metadata: { ...(previous.metadata ?? {}), revalidatedFrom: String(snapshotId) },
+  });
+  await ctx.db.patch(runId, { status: "complete", completedAt: fetchedAt, unchanged: true, snapshotId: revalidatedSnapshotId });
+  return revalidatedSnapshotId;
 } });
 
 export const failRun = internalMutation({ args: { runId: v.id("syncRuns"), error: v.string() }, handler: async (ctx, { runId, error }) => ctx.db.patch(runId, { status: "failed", completedAt: Date.now(), failedCount: 1, error }) });
