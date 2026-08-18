@@ -63,6 +63,7 @@ export default defineSchema({
   plannerRuns: defineTable({
     strategyId: v.id("strategies"), provider: v.string(), model: v.optional(v.string()), status: v.union(v.literal("running"), v.literal("success"), v.literal("failed")),
     startedAt: v.number(), completedAt: v.optional(v.number()), errorCode: v.optional(v.string()), errorMessage: v.optional(v.string()),
+    failureStage: v.optional(v.string()),
   }).index("by_status", ["status", "startedAt"]),
   subscriptions: defineTable({
     userId: v.id("users"), stripeCustomerId: v.string(), stripeSubscriptionId: v.optional(v.string()), stripePriceId: v.optional(v.string()),
