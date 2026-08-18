@@ -7,4 +7,4 @@ export default process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
   ? clerkProxy
   : function unconfiguredProxy(_request: NextRequest) { void _request; return NextResponse.next(); };
 
-export const config = { matcher: ["/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)", "/(api|trpc)(.*)", "/__clerk/(.*)"] };
+export const config = { matcher: ["/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)", "/(api|trpc)(.*)", "/__clerk/:path*"] };
