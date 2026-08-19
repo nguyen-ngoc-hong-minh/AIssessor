@@ -34,7 +34,8 @@ describe("official source adapters", () => {
     await new OpenRouterAdapter().fetchSnapshot();
     expect(fetchMock.mock.calls[0][1].headers["User-Agent"]).toBe("BENCHFLOW/1.0 evidence-sync");
     await new OpenRouterAdapter("key").fetchSnapshot();
-    expect(fetchMock.mock.calls[1][1].headers.Authorization).toBe("Bearer key");
+    const authenticatedCall = fetchMock.mock.calls.find((call) => call[1].headers.Authorization === "Bearer key");
+    expect(authenticatedCall?.[0]).toContain("output_modalities=all");
   });
 });
 
@@ -53,6 +54,16 @@ describe("source normalizers", () => {
     expect(models[0]).toMatchObject({ modalities: ["text", "image"], capabilities: ["image_generation"] });
     expect(models[0].prices[0]).toMatchObject({ pricingType: "image_generation", amount: 40, unit: "1k_images" });
     expect(models[1].benchmarks[0]).toMatchObject({ category: "video", normalizedValue: 100 });
+  });
+
+  it("normalizes OpenRouter's complete catalog capabilities, prices, and published benchmarks", () => {
+    const [model] = normalizeOpenRouter({
+      data: [{ id: "lab/image-model", name: "Lab: Image Model", created: 100, context_length: 1000, architecture: { input_modalities: ["text"], output_modalities: ["image"] }, pricing: { prompt: "0", completion: "0" }, supported_parameters: [], benchmarks: { artificial_analysis: { intelligence_index: 60, coding_index: 70 } } }],
+      imageModels: [{ id: "lab/image-model", endpointDetails: { endpoints: [{ pricing: [{ billable: "output_image", unit: "image", cost_usd: .04 }] }] } }],
+    }, 200);
+    expect(model.capabilities).toContain("image_generation");
+    expect(model.prices).toContainEqual(expect.objectContaining({ pricingType: "image_generation", amount: 40 }));
+    expect(model.benchmarks.map((item) => item.metric)).toContain("openrouter_artificial_analysis_intelligence_index");
   });
 
   it("only exposes a Google media model when the live Gemini catalog confirms its API id", () => {

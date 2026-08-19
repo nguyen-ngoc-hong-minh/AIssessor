@@ -27,6 +27,14 @@ function mergeAccessOptions(left: Array<{ label: string; url: string; modelId: s
   for (const option of [...(left ?? []), ...right].sort((a, b) => a.verifiedAt - b.verifiedAt)) options.set(`${option.modelId}:${option.url}`, option);
   return [...options.values()];
 }
+function mediaFamilyKey(name: string) {
+  return name.toLowerCase()
+    .replace(/^[^:]{1,40}:\s*/, "")
+    .replace(/\((?:high|medium|low|standard|quality)\)\s*$/i, "")
+    .replace(/\[(?:max|high|medium|low)\]/gi, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
 
 export const ingest = internalMutation({
   args: { source: v.string(), retrievedAt: v.number(), models: v.array(modelValidator) },
@@ -34,13 +42,21 @@ export const ingest = internalMutation({
     let createdCount = 0;
     let updatedCount = 0;
     let recordsImported = 0;
+    const currentModels = await ctx.db.query("canonicalModels").collect();
+    const mediaFamilies = new Map<string, typeof currentModels>();
+    for (const current of currentModels.filter((item) => !item.canonicalId.startsWith("artificial-analysis/") && (item.capabilities.includes("image_generation") || item.capabilities.includes("video_generation")))) {
+      const key = mediaFamilyKey(current.name);
+      mediaFamilies.set(key, [...(mediaFamilies.get(key) ?? []), current]);
+    }
     for (const model of args.models) {
-      const existing = await ctx.db.query("canonicalModels").withIndex("by_canonical_id", (q) => q.eq("canonicalId", model.canonicalId)).unique();
+      const mediaMatch = model.canonicalId.startsWith("artificial-analysis/") ? mediaFamilies.get(mediaFamilyKey(model.name)) : undefined;
+      const canonicalId = mediaMatch?.length === 1 ? mediaMatch[0].canonicalId : model.canonicalId;
+      const existing = await ctx.db.query("canonicalModels").withIndex("by_canonical_id", (q) => q.eq("canonicalId", canonicalId)).unique();
       const values = {
-        canonicalId: model.canonicalId,
+        canonicalId,
         name: model.mappingConfidence === "unmatched" ? existing?.name ?? model.name : model.name,
         provider: model.mappingConfidence === "unmatched" ? existing?.provider ?? model.provider : model.provider,
-        aliases: union(existing?.aliases, model.aliases),
+        aliases: union(existing?.aliases, [...model.aliases, model.canonicalId]),
         modalities: union(existing?.modalities, model.modalities),
         capabilities: union(existing?.capabilities, model.capabilities),
         contextWindow: model.contextWindow ?? existing?.contextWindow,

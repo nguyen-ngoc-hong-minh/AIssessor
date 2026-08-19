@@ -156,10 +156,26 @@ export class OpenRouterAdapter implements ModelSourceAdapter {
   readonly source = "openrouter" as const;
   constructor(private readonly apiKey = "", private readonly baseUrl = "https://openrouter.ai/api/v1") {}
   async fetchSnapshot(): Promise<SourceSnapshot> {
-    const sourceUrl = `${this.baseUrl}/models`;
+    const sourceUrl = `${this.baseUrl}/models?output_modalities=all`;
     const headers = this.apiKey ? { Authorization: `Bearer ${this.apiKey}` } : undefined;
-    const response = await checkedFetch(sourceUrl, { headers });
-    return snapshot(this.source, sourceUrl, "OpenRouter official models API", await response.json(), response);
+    const [response, imageResponse, videoResponse] = await Promise.all([
+      checkedFetch(sourceUrl, { headers }),
+      checkedFetch(`${this.baseUrl}/images/models`, { headers }),
+      checkedFetch(`${this.baseUrl}/videos/models`, { headers }),
+    ]);
+    const [modelsPayload, imagePayload, videoPayload] = await Promise.all([
+      response.json() as Promise<Record<string, unknown>>,
+      imageResponse.json() as Promise<Record<string, unknown>>,
+      videoResponse.json() as Promise<Record<string, unknown>>,
+    ]);
+    const imageModels = await Promise.all((Array.isArray(imagePayload.data) ? imagePayload.data : []).map(async (raw) => {
+      const item = raw && typeof raw === "object" ? raw as Record<string, unknown> : {};
+      if (typeof item.endpoints !== "string" || !item.endpoints.startsWith("/")) return item;
+      const endpointUrl = `${new URL(this.baseUrl).origin}${item.endpoints}`;
+      try { return { ...item, endpointDetails: await (await checkedFetch(endpointUrl, { headers })).json() }; }
+      catch { return item; }
+    }));
+    return snapshot(this.source, sourceUrl, "OpenRouter complete text, image, audio, embedding, reranking, transcription, speech, and video model catalogs with published benchmark metadata", { ...modelsPayload, imageModels, videoModels: Array.isArray(videoPayload.data) ? videoPayload.data : [] }, response);
   }
 }
 

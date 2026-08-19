@@ -31,13 +31,14 @@ export function estimateStepCost(step: WorkflowStep, model: CanonicalModel): num
 }
 
 export function taskCategory(step: WorkflowStep): TaskCategory {
+  const text = `${step.name} ${step.plainLanguageDescription} ${step.outputDescription} ${step.requiredCapabilities.join(" ")}`.toLowerCase();
   if (step.requiredCapabilities.includes("video_generation")) return "video";
   if (step.requiredCapabilities.includes("image_generation")) return "image";
+  if (step.requiredModalities.includes("image") && /create|generate|draw|illustrat|storyboard|visual asset|visual style|graphic design/.test(text) && !/analy|classif|extract|read|inspect/.test(text)) return "image";
   if (step.requiredModalities.includes("video")) return "video";
   if (step.requiredModalities.includes("image")) return "multimodal";
-  const text = `${step.name} ${step.plainLanguageDescription} ${step.requiredCapabilities.join(" ")}`.toLowerCase();
   if (/repository|software engineer|debug|bug fix|pull request|codebase/.test(text)) return "software_engineering";
-  if (/code|coding|program|develop/.test(text)) return "coding";
+  if (/\b(code|coding|programming|software development|application development|web development)\b/.test(text)) return "coding";
   if (/contract|legal|law|compliance|case brief/.test(text)) return "legal";
   if (/health|medical|clinical|patient|biology/.test(text)) return "healthcare";
   if (/finance|financial|accounting|investment|economics|forecast/.test(text)) return "finance";

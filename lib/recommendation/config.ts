@@ -28,7 +28,7 @@ export const TASK_EVIDENCE_MAP = {
   research: ["research", "reasoning", "general"],
   long_document: ["long_document"],
   multimodal: ["multimodal"],
-  writing: ["writing", "preference", "general"],
+  writing: ["writing", "preference", "general", "reasoning"],
   reasoning: ["reasoning", "general"],
   general: ["general", "reasoning"],
   image: ["multimodal", "image"],

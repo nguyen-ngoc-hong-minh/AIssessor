@@ -86,4 +86,17 @@ describe("Convex identity and authorization", () => {
     expect(catalog[0].benchmarks[0]).toMatchObject({ source: "mmlu_pro", category: "general" });
     expect(catalog[0].privacy[0]).toMatchObject({ source: "openai_official", level: "standard" });
   });
+  it("reconciles an exact Artificial Analysis media family with its runnable OpenRouter model", async () => {
+    const t = convexTest({ schema, modules });
+    const user = t.withIdentity({ subject: "media_user", email: "media@example.com" });
+    await user.mutation(anyApi.users.ensureCurrent, {});
+    const shared = { active: true, status: "pending_evidence" as const, mappingConfidence: "exact" as const, manualReviewRequired: false, regions: [], privacy: [], licenses: [] };
+    await t.mutation(anyApi.models.ingest, { source: "openrouter", retrievedAt: 100, models: [{ ...shared, canonicalId: "openai/gpt-image-2", name: "OpenAI: GPT Image 2", provider: "openai", aliases: ["openai/gpt-image-2"], modalities: ["text", "image"], capabilities: ["image_generation"], accessOptions: [{ label: "Open on OpenRouter", url: "https://openrouter.ai/openai/gpt-image-2", modelId: "openai/gpt-image-2", sourceUrl: "https://openrouter.ai/api/v1/models", verifiedAt: 100 }], benchmarks: [], prices: [{ pricingType: "image_generation", amount: 40, unit: "1k_images", currency: "USD", effectiveAt: 100 }] }] });
+    await t.mutation(anyApi.models.ingest, { source: "artificial_analysis", retrievedAt: 200, models: [{ ...shared, canonicalId: "artificial-analysis/image/gpt-image-2-high", name: "GPT Image 2 (high)", provider: "OpenAI", aliases: ["GPT Image 2 (high)"], modalities: ["text", "image"], capabilities: ["image_generation"], accessOptions: [], benchmarks: [{ metric: "artificial_analysis_image_arena_elo", score: 1300, normalizedValue: 99, category: "image", measuredAt: 200, confidence: "official_dataset" }], prices: [{ pricingType: "image_generation", amount: 42, unit: "1k_images", currency: "USD", effectiveAt: 200 }] }] });
+    const catalog = await user.query(anyApi.models.catalog, {});
+    expect(catalog).toHaveLength(1);
+    expect(catalog[0]).toMatchObject({ canonicalId: "openai/gpt-image-2", status: "eligible" });
+    expect(catalog[0].accessOptions?.[0].modelId).toBe("openai/gpt-image-2");
+    expect(catalog[0].benchmarks[0]).toMatchObject({ source: "artificial_analysis", category: "image" });
+  });
 });

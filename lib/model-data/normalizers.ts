@@ -3,8 +3,8 @@ import { resolveCanonicalIdentity } from "./model-registry";
 import type { SourceId } from "./source-registry";
 
 export const NORMALIZER_VERSIONS: Record<SourceId, number> = {
-  artificial_analysis: 4,
-  openrouter: 4,
+  artificial_analysis: 5,
+  openrouter: 6,
   mmlu_pro: 2,
   openai_official: 2,
 };
@@ -259,8 +259,36 @@ export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number,
 }
 
 export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
-  return list(record(payload).data).flatMap((raw) => {
-    const item = record(raw);
+  const root = record(payload);
+  const rows = list(root.data).map(record);
+  const imageModels = new Map(list(root.imageModels).map(record).flatMap((item) => text(item.id) ? [[text(item.id)!, item] as const] : []));
+  const videoModels = new Map(list(root.videoModels).map(record).flatMap((item) => text(item.id) ? [[text(item.id)!, item] as const] : []));
+  const percentileMap = (values: Array<{ id: string; score: number }>) => {
+    const ranked = values.sort((a, b) => b.score - a.score);
+    return new Map(ranked.map((item, index) => [item.id, ranked.length === 1 ? 100 : 40 + ((ranked.length - 1 - index) / (ranked.length - 1)) * 60]));
+  };
+  const artificialAnalysisMetrics = [
+    { key: "intelligence_index", category: "reasoning" },
+    { key: "coding_index", category: "coding" },
+    { key: "agentic_index", category: "agentic" },
+  ] as const;
+  const artificialAnalysisPercentiles = new Map(artificialAnalysisMetrics.map(({ key }) => [key, percentileMap(rows.flatMap((item) => {
+    const id = text(item.id); const score = number(record(record(item.benchmarks).artificial_analysis)[key]);
+    return id && score !== undefined ? [{ id, score }] : [];
+  }))]));
+  const designScores = new Map<string, Array<{ id: string; score: number }>>();
+  for (const item of rows) {
+    const id = text(item.id); if (!id) continue;
+    for (const raw of list(record(item.benchmarks).design_arena)) {
+      const benchmark = record(raw); const arena = text(benchmark.arena); const category = text(benchmark.category); const score = number(benchmark.elo);
+      if (!arena || !category || score === undefined) continue;
+      const key = `${slug(arena)}_${slug(category)}`;
+      designScores.set(key, [...(designScores.get(key) ?? []), { id, score }]);
+    }
+  }
+  const designPercentiles = new Map([...designScores].map(([key, values]) => [key, percentileMap(values)]));
+
+  return rows.flatMap((item) => {
     const id = text(item.id);
     const sourceName = text(item.name);
     if (!id) return [];
@@ -274,14 +302,54 @@ export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceV
     const prices: NormalizedPrice[] = [];
     if (promptPrice !== undefined) prices.push({ pricingType: "input_tokens", amount: promptPrice * 1_000_000, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter route price; provider-direct pricing may differ." });
     if (completionPrice !== undefined) prices.push({ pricingType: "output_tokens", amount: completionPrice * 1_000_000, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter route price; provider-direct pricing may differ." });
-    const modalities = unique([...list(architecture.input_modalities), ...list(architecture.output_modalities)].filter((value): value is string => typeof value === "string"));
+    const imageMetadata = imageModels.get(id);
+    const imagePrices = list(record(imageMetadata?.endpointDetails).endpoints).flatMap((rawEndpoint) => list(record(rawEndpoint).pricing).flatMap((rawPrice) => {
+      const price = record(rawPrice); const cost = number(price.cost_usd);
+      return price.billable === "output_image" && price.unit === "image" && cost !== undefined ? [cost] : [];
+    }));
+    if (imagePrices.length) prices.push({ pricingType: "image_generation", amount: Math.min(...imagePrices) * 1_000, unit: "1k_images", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "Lowest published OpenRouter output-image endpoint price, converted to 1,000 images. Resolution and provider options can change the final cost." });
+    const videoPricingSkus = record(videoModels.get(id)?.pricing_skus);
+    const videoPerMinute = Object.entries(videoPricingSkus).flatMap(([key, rawPrice]) => {
+      const price = number(rawPrice); if (price === undefined) return [];
+      if (key.startsWith("cents_per_") && key.includes("second") && key.includes("output")) return [(price / 100) * 60];
+      if (key.includes("duration_seconds")) return [price * 60];
+      return [];
+    });
+    if (videoPerMinute.length) prices.push({ pricingType: "video_generation", amount: Math.min(...videoPerMinute), unit: "minute", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "Lowest published OpenRouter per-second video SKU, converted to one minute. Resolution, audio, duration, and provider options can change the final cost." });
+    const inputModalities = list(architecture.input_modalities).filter((value): value is string => typeof value === "string");
+    const outputModalities = list(architecture.output_modalities).filter((value): value is string => typeof value === "string");
+    const modalities = unique([...inputModalities, ...outputModalities]);
+    const capabilities = new Set(list(item.supported_parameters).filter((value): value is string => typeof value === "string"));
+    if (outputModalities.includes("image")) capabilities.add("image_generation");
+    if (outputModalities.includes("video")) capabilities.add("video_generation");
+    if (outputModalities.includes("speech") || outputModalities.includes("audio")) capabilities.add("text_to_speech");
+    if (outputModalities.includes("transcription")) capabilities.add("speech_to_text");
+    if (outputModalities.includes("embeddings")) capabilities.add("embeddings");
+    if (outputModalities.includes("rerank")) capabilities.add("reranking");
+    const benchmarks: NormalizedBenchmark[] = [];
+    const artificialAnalysis = record(record(item.benchmarks).artificial_analysis);
+    for (const { key, category } of artificialAnalysisMetrics) {
+      const score = number(artificialAnalysis[key]);
+      if (score === undefined) continue;
+      benchmarks.push({ metric: `openrouter_artificial_analysis_${key}`, score, rawValue: score, normalizedValue: artificialAnalysisPercentiles.get(key)?.get(id), category, sourceUrl, modelVersion: id, sourceVersion, measuredAt: fetchedAt, confidence: "aggregated_third_party", notes: "Artificial Analysis score republished in the OpenRouter model catalog; normalized value is this model's percentile among currently listed models with the same metric." });
+    }
+    for (const rawBenchmark of list(record(item.benchmarks).design_arena)) {
+      const benchmark = record(rawBenchmark); const arena = text(benchmark.arena); const categoryName = text(benchmark.category); const score = number(benchmark.elo);
+      if (!arena || !categoryName || score === undefined) continue;
+      const key = `${slug(arena)}_${slug(categoryName)}`;
+      benchmarks.push({ metric: `openrouter_design_arena_${key}_elo`, score, rawValue: benchmark, normalizedValue: designPercentiles.get(key)?.get(id), category: "coding", sourceUrl, modelVersion: id, sourceVersion, measuredAt: fetchedAt, confidence: "aggregated_third_party", notes: "Design Arena result republished in the OpenRouter model catalog; normalized value is this model's percentile for the same arena category." });
+    }
+    const created = number(item.created);
     return [pendingModel(identity, {
       name: identity.name === id ? sourceName ?? id : identity.name,
       modalities,
-      capabilities: list(item.supported_parameters).filter((value): value is string => typeof value === "string"),
+      capabilities: [...capabilities],
       contextWindow: number(item.context_length),
+      releaseDate: created ? new Date(created * 1_000).toISOString().slice(0, 10) : undefined,
+      active: !text(item.expiration_date) || new Date(text(item.expiration_date)!).getTime() > fetchedAt,
+      benchmarks,
       prices,
-      accessOptions: [{ label: "View on OpenRouter", url: sourceUrl, modelId: id, sourceUrl: "https://openrouter.ai/api/v1/models", verifiedAt: fetchedAt }],
+      accessOptions: [{ label: "Open on OpenRouter", url: sourceUrl, modelId: id, sourceUrl: "https://openrouter.ai/api/v1/models?output_modalities=all", verifiedAt: fetchedAt }],
     })];
   });
 }
