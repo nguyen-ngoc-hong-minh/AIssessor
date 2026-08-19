@@ -15,7 +15,7 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 
 1. Use Node.js 22.13 or newer and run `npm install`.
 2. Create `.env.local` from `.env.example` and add development credentials.
-3. Configure Clerk email/password and desired OAuth providers. Activate Clerk's Convex integration and set `CLERK_JWT_ISSUER_DOMAIN` in Convex.
+3. Configure Clerk email/password and desired OAuth providers. Create a Clerk JWT template named `convex` with `aud: "convex"`, then set that same Clerk instance's issuer as `CLERK_JWT_ISSUER_DOMAIN` in Convex.
 4. Set `EVIDENCE_ADMIN_EMAILS` in Convex to a comma-separated list of administrators.
 5. Configure the Planner AI variables in the Convex development deployment. They are read by Convex Actions and must not use a `NEXT_PUBLIC_` prefix:
 
@@ -28,6 +28,18 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 6. `ARTIFICIAL_ANALYSIS_API_KEY` and `OPENROUTER_API_KEY` are optional. Without keys, BENCHFLOW reads the public machine-readable benchmark datasets and the public OpenRouter catalog.
 7. Run `npm run convex:dev`, then `npm run dev`.
 8. Open `/admin/evidence` as a configured administrator and confirm Planner AI shows `Configured: Yes` before creating a strategy.
+
+## Clerk and Convex authentication
+
+The browser and Next.js server use `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY`. Convex independently verifies Clerk session tokens using `CLERK_JWT_ISSUER_DOMAIN` and the `convex` audience configured in `convex/auth.config.ts`. The publishable key, secret key, JWT template, and issuer must all belong to the same Clerk instance.
+
+Clerk user synchronization is delivered directly to the existing Convex HTTP Action:
+
+```text
+https://scrupulous-deer-129.convex.site/clerk-webhook
+```
+
+Subscribe that endpoint to `user.created`, `user.updated`, and `user.deleted`. Store its signing secret as `CLERK_WEBHOOK_SIGNING_SECRET` in the Convex deployment, and store a private relay value as `CLERK_WEBHOOK_SYNC_KEY` in the same deployment. Neither value belongs in browser code or a `NEXT_PUBLIC_*` variable.
 
 ## Planner AI configuration
 
@@ -83,7 +95,7 @@ Credentialed Clerk, Convex, source, and Stripe journeys are gated by environment
 
 ## Deployment
 
-Deploy Convex first with the Clerk issuer, webhook relay key, evidence administrator emails, one complete planner provider pair, source credentials, and Stripe credentials in its environment. Deploy the frontend with public Convex and Clerk configuration, webhook secrets, and application URL; do not place the planner key in the frontend environment. Register production Clerk and Stripe webhooks, run supported evidence syncs, and inspect `/admin/evidence` before enabling recommendations.
+Deploy Convex first with the Clerk issuer, Clerk webhook signing and relay keys, evidence administrator emails, one complete planner provider pair, source credentials, and Stripe credentials in its environment. Deploy the frontend with its production Clerk publishable/secret keys, production Convex URL, and application URL; do not place planner or webhook keys in the frontend environment. Register production Clerk and Stripe webhooks, run supported evidence syncs, and inspect `/admin/evidence` before enabling recommendations.
 
 Do not describe the evidence network as fully live unless Artificial Analysis, OpenRouter, at least one specialized benchmark, and official provider pricing have each completed a successful deployment sync.
 

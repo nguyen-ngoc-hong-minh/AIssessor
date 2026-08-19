@@ -1,7 +1,25 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse, type NextRequest } from "next/server";
 
-const clerkProxy = clerkMiddleware();
+const isProtectedRoute = createRouteMatcher([
+  "/admin(.*)",
+  "/billing(.*)",
+  "/choose-usage(.*)",
+  "/dashboard(.*)",
+  "/onboarding(.*)",
+  "/settings(.*)",
+  "/strategy(.*)",
+  "/team(.*)",
+  "/api/admin(.*)",
+  "/api/billing(.*)",
+  "/api/onboarding(.*)",
+  "/api/strategies(.*)",
+  "/api/teams(.*)",
+]);
+
+const clerkProxy = clerkMiddleware(async (auth, request) => {
+  if (isProtectedRoute(request)) await auth.protect();
+});
 
 export default process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
   ? clerkProxy
