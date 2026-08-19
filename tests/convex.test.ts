@@ -99,4 +99,58 @@ describe("Convex identity and authorization", () => {
     expect(catalog[0].accessOptions?.[0].modelId).toBe("openai/gpt-image-2");
     expect(catalog[0].benchmarks[0]).toMatchObject({ source: "artificial_analysis", category: "image" });
   });
+  it("merges Open ASR quality with OpenRouter access and minute pricing", async () => {
+    const t = convexTest({ schema, modules });
+    const user = t.withIdentity({ subject: "speech_user", email: "speech@example.com" });
+    await user.mutation(anyApi.users.ensureCurrent, {});
+    const shared = { canonicalId: "openai/whisper-large-v3", name: "Whisper Large V3", provider: "openai", aliases: ["openai/whisper-large-v3"], active: true, status: "pending_evidence" as const, mappingConfidence: "exact" as const, manualReviewRequired: false, regions: [], privacy: [], licenses: [] };
+    await t.mutation(anyApi.models.ingest, { source: "openrouter", retrievedAt: 100, models: [{ ...shared, modalities: ["audio", "transcription"], capabilities: ["speech_to_text"], accessOptions: [{ label: "Open on OpenRouter", url: "https://openrouter.ai/openai/whisper-large-v3", modelId: "openai/whisper-large-v3", sourceUrl: "https://openrouter.ai/api/v1/models", verifiedAt: 100 }], benchmarks: [], prices: [{ pricingType: "speech_transcription", amount: .0045, unit: "minute", currency: "USD", effectiveAt: 100 }] }] });
+    expect(await user.query(anyApi.models.catalog, {})).toHaveLength(0);
+    await t.mutation(anyApi.models.ingest, { source: "open_asr", retrievedAt: 200, models: [{ ...shared, modalities: ["audio", "transcription"], capabilities: ["speech_to_text"], accessOptions: [], benchmarks: [{ metric: "open_asr_average_cleaned_wer", score: 6.5, normalizedValue: 90, category: "transcription", measuredAt: 200, confidence: "official_dataset" }], prices: [] }] });
+    const [speech] = await user.query(anyApi.models.catalog, {});
+    expect(speech).toMatchObject({ canonicalId: "openai/whisper-large-v3", status: "eligible" });
+    expect(speech.prices[0]).toMatchObject({ pricingType: "speech_transcription", amount: .0045 });
+    expect(speech.benchmarks[0]).toMatchObject({ source: "open_asr", category: "transcription" });
+  });
+  it("makes an AI-native product eligible from official capability evidence without API token pricing", async () => {
+    const t = convexTest({ schema, modules });
+    const user = t.withIdentity({ subject: "product_user", email: "product@example.com" });
+    await user.mutation(anyApi.users.ensureCurrent, {});
+    await t.mutation(anyApi.models.ingest, { source: "official_products", retrievedAt: 100, models: [{
+      canonicalId: "openai/codex-product", name: "OpenAI Codex", provider: "OpenAI", aliases: ["OpenAI Codex"], modalities: ["text"], capabilities: ["coding", "repository_editing", "test_generation"],
+      aiFirstClass: "AI_NATIVE", aiRole: "AI coding agent", aiContributionLevel: "HIGH", automationLevel: "HIGH", requiredManualWork: "Review changes",
+      active: true, status: "eligible", mappingConfidence: "exact", manualReviewRequired: false, regions: [],
+      accessOptions: [{ label: "Open Codex", url: "https://chatgpt.com/codex", modelId: "openai/codex-product", sourceUrl: "https://developers.openai.com/", verifiedAt: 100, productId: "openai/codex-product", productName: "OpenAI Codex", planName: "ChatGPT plan or API usage", accessMethod: "product", aiFirstClass: "AI_NATIVE", aiContributionLevel: "HIGH", automationLevel: "HIGH" }],
+      capabilityEvidence: [{ capabilities: ["coding", "repository_editing", "test_generation"], category: "software_engineering", sourceUrl: "https://developers.openai.com/", verifiedAt: 100, confidence: "official_provider_docs" }],
+      benchmarks: [], prices: [], privacy: [], licenses: [],
+    }] });
+    const [product] = await user.query(anyApi.models.catalog, {});
+    expect(product).toMatchObject({ canonicalId: "openai/codex-product", status: "eligible" });
+    expect(product.capabilityEvidence[0].capabilities).toContain("test_generation");
+  });
+  it("upserts recurring evidence observations instead of growing duplicate history", async () => {
+    const t = convexTest({ schema, modules });
+    const model = { canonicalId: "lab/repeat", name: "Repeat", provider: "lab", aliases: ["lab/repeat"], active: true, status: "pending_evidence" as const, mappingConfidence: "exact" as const, manualReviewRequired: false, regions: [], modalities: ["text"], capabilities: ["text_generation"], contextWindow: 1000, accessOptions: [], prices: [], privacy: [], licenses: [], benchmarks: [{ metric: "quality", score: 70, category: "general", measuredAt: 100, confidence: "official_dataset" }] };
+    await t.mutation(anyApi.models.ingest, { source: "benchmark", retrievedAt: 100, models: [model] });
+    await t.mutation(anyApi.models.ingest, { source: "benchmark", retrievedAt: 200, models: [{ ...model, benchmarks: [{ ...model.benchmarks[0], score: 75, measuredAt: 200 }] }] });
+    const observations = await t.run((ctx) => ctx.db.query("benchmarkObservations").collect());
+    expect(observations).toHaveLength(1);
+    expect(observations[0]).toMatchObject({ score: 75, retrievedAt: 200 });
+  });
+  it("forces known conventional software to remain traditional even when imported with an incorrect label", async () => {
+    const t = convexTest({ schema, modules });
+    const user = t.withIdentity({ subject: "ai_first_user", email: "ai-first@example.com" });
+    await user.mutation(anyApi.users.ensureCurrent, {});
+    await t.mutation(anyApi.models.ingest, { source: "manual", retrievedAt: 100, models: [{
+      canonicalId: "adobe/premiere-pro", name: "Adobe Premiere Pro", provider: "Adobe", aliases: ["Premiere Pro"], modalities: ["text"], capabilities: ["text_generation"], contextWindow: 100000,
+      aiFirstClass: "AI_NATIVE", aiRole: "Incorrect import", aiContributionLevel: "HIGH", automationLevel: "HIGH", requiredManualWork: "None",
+      active: true, status: "pending_evidence", mappingConfidence: "exact", manualReviewRequired: false, regions: [],
+      accessOptions: [{ label: "Adobe Premiere Pro", url: "https://example.com/premiere", modelId: "premiere", sourceUrl: "https://example.com", verifiedAt: 100, productName: "Adobe Premiere Pro", accessMethod: "product", aiFirstClass: "AI_NATIVE", aiContributionLevel: "HIGH", automationLevel: "HIGH" }],
+      benchmarks: [{ metric: "writing", score: 80, normalizedValue: 80, category: "writing", measuredAt: 100, confidence: "manual" }],
+      prices: [{ pricingType: "input_tokens", amount: 1, unit: "1m_tokens", currency: "USD", effectiveAt: 100 }, { pricingType: "output_tokens", amount: 1, unit: "1m_tokens", currency: "USD", effectiveAt: 100 }], privacy: [], licenses: [],
+    }] });
+    const [record] = await user.query(anyApi.models.catalog, {});
+    expect(record).toMatchObject({ aiFirstClass: "TRADITIONAL", aiContributionLevel: "LOW", automationLevel: "LOW" });
+    expect(record.accessOptions?.[0]).toMatchObject({ aiFirstClass: "TRADITIONAL", aiContributionLevel: "LOW", automationLevel: "LOW" });
+  });
 });

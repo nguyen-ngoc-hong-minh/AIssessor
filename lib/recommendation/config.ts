@@ -19,20 +19,4 @@ export const MONTHLY_FREQUENCY_MULTIPLIERS = {
   daily: 22,
 } as const;
 
-export const TASK_EVIDENCE_MAP = {
-  coding: ["coding", "coding_knowledge"],
-  software_engineering: ["software_engineering", "coding"],
-  finance: ["finance", "reasoning"],
-  legal: ["legal", "reasoning"],
-  healthcare: ["healthcare", "reasoning"],
-  research: ["research", "reasoning", "general"],
-  long_document: ["long_document"],
-  multimodal: ["multimodal"],
-  writing: ["writing", "preference", "general", "reasoning"],
-  reasoning: ["reasoning", "general"],
-  general: ["general", "reasoning"],
-  image: ["multimodal", "image"],
-  video: ["video", "multimodal"],
-} as const;
-
-export type TaskCategory = keyof typeof TASK_EVIDENCE_MAP;
+export { TASK_EVIDENCE_MAP, type TaskCategory } from "./taxonomy";

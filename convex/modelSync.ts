@@ -1,7 +1,67 @@
 import { internalMutationGeneric as internalMutation, internalQueryGeneric as internalQuery, queryGeneric as query } from "convex/server";
 import { v } from "convex/values";
 import { EVIDENCE_SOURCES } from "../lib/model-data/source-registry";
+import { aiAccessMetadata, aiNativeMetadata, isAiFirstEligible } from "../lib/recommendation/ai-first";
+import { effectiveModelCapabilities } from "../lib/recommendation/taxonomy";
+import type { Doc } from "./_generated/dataModel";
 import { isEvidenceAdminEmail, requireAdmin, requireUser } from "./lib/auth";
+
+type DiagnosticsAccessOption = {
+  label: string;
+  productName?: string;
+  accessMethod?: "product" | "api" | "marketplace" | "cloud";
+  aiFirstClass?: "AI_NATIVE" | "AI_CENTRIC" | "AI_ASSISTED" | "TRADITIONAL";
+  aiRole?: string;
+  aiContributionLevel?: "LOW" | "MEDIUM" | "HIGH";
+  automationLevel?: "LOW" | "MEDIUM" | "HIGH";
+  requiredManualWork?: string;
+};
+
+function catalogCoverage(models: Array<Doc<"canonicalModels">>) {
+  const recommendableModels = models.filter((model) => {
+    const modelMetadata = model.aiFirstClass ? model : { ...model, ...aiNativeMetadata(model.name, model.capabilities) };
+    const hasAiFirstAccess = (model.accessOptions ?? []).some((option: DiagnosticsAccessOption) => isAiFirstEligible({
+      ...aiAccessMetadata(option.productName ?? option.label, option.accessMethod),
+      ...option,
+    }));
+    return model.active && model.status === "eligible" && isAiFirstEligible(modelMetadata) && hasAiFirstAccess;
+  });
+  const capabilityCount = (...targets: string[]) => recommendableModels.filter((model) => {
+    const capabilities = effectiveModelCapabilities({
+      capabilities: model.capabilities,
+      modalities: model.modalities,
+      contextWindow: model.contextWindow ?? null,
+    });
+    return targets.some((target) => capabilities.includes(target as never));
+  }).length;
+  return {
+    counts: {
+      total: models.length,
+      eligible: models.filter((model) => model.status === "eligible").length,
+      pending: models.filter((model) => model.status === "pending_evidence").length,
+      manualReview: models.filter((model) => model.status === "manual_review").length,
+      providers: new Set(models.map((model) => model.provider)).size,
+      withVerifiedAccess: models.filter((model) => (model.accessOptions ?? []).length > 0).length,
+      recommendableNow: recommendableModels.length,
+    },
+    capabilityCounts: {
+      textAndReasoning: capabilityCount("text_generation", "reasoning"),
+      codingAndAgents: capabilityCount("coding", "repository_editing", "agentic_execution", "tool_use"),
+      researchAndDocuments: capabilityCount("web_research", "document_parsing", "long_context"),
+      image: capabilityCount("image_generation", "image_understanding"),
+      video: capabilityCount("video_generation", "video_editing"),
+      audioAndSpeech: capabilityCount("audio_generation", "speech_to_text", "text_to_speech"),
+      designAndPresentations: capabilityCount("ui_generation", "presentation_generation"),
+    },
+    aiFirstCounts: {
+      native: models.filter((model) => model.aiFirstClass === "AI_NATIVE").length,
+      centric: models.filter((model) => model.aiFirstClass === "AI_CENTRIC").length,
+      assisted: models.filter((model) => model.aiFirstClass === "AI_ASSISTED").length,
+      traditional: models.filter((model) => model.aiFirstClass === "TRADITIONAL").length,
+      unclassified: models.filter((model) => !model.aiFirstClass).length,
+    },
+  };
+}
 
 export const latestValidSnapshot = internalQuery({ args: { source: v.string() }, handler: async (ctx, { source }) => {
   const snapshots = await ctx.db.query("dataSnapshots").withIndex("by_source", (q) => q.eq("source", source)).order("desc").take(10);
@@ -68,6 +128,7 @@ export const diagnostics = query({ args: {}, handler: async (ctx) => {
     const snapshots = await ctx.db.query("dataSnapshots").withIndex("by_source", (q) => q.eq("source", definition.id)).order("desc").take(1);
     sources.push({ ...definition, latestRun: runs[0] ?? null, recentRuns: runs, latestSnapshot: snapshots[0] ?? null });
   }
+  const coverage = catalogCoverage(models);
   return {
     sources,
     planner: {
@@ -83,14 +144,11 @@ export const diagnostics = query({ args: {}, handler: async (ctx) => {
       lastError: failedPlannerRuns[0] ? { at: failedPlannerRuns[0].completedAt ?? failedPlannerRuns[0].startedAt, code: failedPlannerRuns[0].errorCode ?? "PLANNER_FAILED", message: failedPlannerRuns[0].errorMessage ?? "Planner analysis failed" } : null,
     },
     manualReviewModels: models.filter((model) => model.status === "manual_review").slice(0, 100).map((model) => ({ id: model._id, canonicalId: model.canonicalId, name: model.name, provider: model.provider, aliases: model.aliases ?? [], updatedAt: model.updatedAt })),
-    counts: {
-      total: models.length,
-      eligible: models.filter((model) => model.status === "eligible").length,
-      pending: models.filter((model) => model.status === "pending_evidence").length,
-      manualReview: models.filter((model) => model.status === "manual_review").length,
-    },
+    ...coverage,
   };
 } });
+
+export const coverageInternal = internalQuery({ args: {}, handler: async (ctx) => catalogCoverage(await ctx.db.query("canonicalModels").collect()) });
 
 export const adminStatus = query({ args: {}, handler: async (ctx) => {
   const user = await requireUser(ctx);

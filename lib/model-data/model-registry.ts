@@ -38,6 +38,10 @@ const REGISTRY = [
   { canonicalId: "nvidia/nemotron-3-ultra-550b-a55b", name: "Nemotron 3 Ultra", provider: "NVIDIA", aliases: ["nvidia/nemotron-3-ultra-550b-a55b", "nvidia-nemotron-3-ultra-550b-a55b", "Nemotron 3 Ultra"] },
   { canonicalId: "google/gemini-3.5-flash-lite", name: "Gemini 3.5 Flash-Lite", provider: "Google", aliases: ["google/gemini-3.5-flash-lite", "gemini-3-5-flash-lite", "Gemini 3.5 Flash-Lite"] },
   { canonicalId: "meta/muse-glimmer-30b", name: "Muse Glimmer 30B", provider: "Meta", aliases: ["meta/muse-glimmer-30b", "muse-glimmer", "Muse Glimmer (high)"] },
+  { canonicalId: "google/gemini-3.1-flash-tts-preview", name: "Gemini 3.1 Flash TTS", provider: "Google", aliases: ["google/gemini-3.1-flash-tts-preview", "gemini-3-1-flash-tts", "Gemini 3.1 Flash TTS"] },
+  { canonicalId: "fish-audio/s2-pro", name: "Fish Audio S2 Pro", provider: "Fish Audio", aliases: ["fish-audio/s2-pro", "s2-pro", "Fish Audio S2 Pro"] },
+  { canonicalId: "fish-audio/s2.1-pro", name: "Fish Audio S2.1 Pro", provider: "Fish Audio", aliases: ["fish-audio/s2.1-pro", "s2-1-pro", "Fish Audio S2.1 Pro"] },
+  { canonicalId: "qwen/qwen-audio-3.0-tts-plus", name: "Qwen Audio 3.0 TTS Plus", provider: "Qwen", aliases: ["qwen/qwen-audio-3.0-tts-plus", "qwen-audio-3-0-tts-plus", "Qwen-Audio-3.0-TTS-Plus"] },
 ] as const;
 
 function identityKey(value: string) {
@@ -45,7 +49,7 @@ function identityKey(value: string) {
 }
 
 export function resolveCanonicalIdentity(source: string, sourceModelId: string, sourceName?: string): CanonicalIdentity | null {
-  if (source === "openrouter" && sourceModelId.includes("/")) {
+  if ((source === "openrouter" || source === "open_asr") && sourceModelId.includes("/")) {
     const providerId = sourceModelId.split("/")[0];
     const registered = REGISTRY.find((item) => item.canonicalId === identityKey(sourceModelId));
     return {

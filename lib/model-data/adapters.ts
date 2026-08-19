@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import type { SourceId } from "./source-registry";
+import { OFFICIAL_AI_PRODUCTS } from "./product-catalog";
 
 export type SourceSnapshot = {
   source: SourceId;
@@ -111,11 +112,38 @@ function mergeMediaDatasets(datasets: PublicDataset[], kind: "image" | "video") 
   });
 }
 
-export function parseArtificialAnalysisPublicPages(languageHtml: string, imageHtml: string, videoHtml: string) {
+function mergeTextToSpeechDatasets(datasets: PublicDataset[]) {
+  const quality = datasets.find((item) => item.name === "Provider Voice Arena Quality Elo")?.data ?? [];
+  const pricing = datasets.find((item) => item.name === "Price")?.data ?? [];
+  const speed = datasets.find((item) => item.name === "Characters Per Second")?.data ?? [];
+  const rows = new Map<string, Record<string, unknown>>();
+  const row = (item: Record<string, unknown>) => {
+    const path = String(item.detailsUrl ?? "");
+    const key = path.split("/").filter(Boolean).at(-1) ?? String(item.label ?? "").toLowerCase();
+    const rawLabel = String(item.label ?? "");
+    const labelParts = rawLabel.split(",").map((part) => part.trim());
+    const current = rows.get(key) ?? { name: labelParts[0], sourcePath: path };
+    if (labelParts[1]) current.provider = labelParts[1];
+    rows.set(key, current);
+    return current;
+  };
+  const qualityPercentiles = rankPercentiles(quality, "qualityElo");
+  for (const item of quality) {
+    const current = row(item);
+    current.qualityElo = item.qualityElo;
+    current.normalizedQuality = qualityPercentiles.get(String(item.detailsUrl ?? item.label));
+  }
+  for (const item of pricing) row(item).pricePer1mCharacters = item.pricePer1mCharacters;
+  for (const item of speed) row(item).charactersPerSecond = item.charactersPerSecond;
+  return [...rows.values()];
+}
+
+export function parseArtificialAnalysisPublicPages(languageHtml: string, imageHtml: string, videoHtml: string, textToSpeechHtml = "") {
   return {
     data: mergeLanguageDatasets(publicDatasets(languageHtml)),
     imageModels: mergeMediaDatasets(publicDatasets(imageHtml), "image"),
     videoModels: mergeMediaDatasets(publicDatasets(videoHtml), "video"),
+    textToSpeechModels: mergeTextToSpeechDatasets(publicDatasets(textToSpeechHtml)),
   };
 }
 
@@ -124,12 +152,13 @@ export class ArtificialAnalysisAdapter implements ModelSourceAdapter {
   constructor(private readonly apiKey: string, private readonly baseUrl = "https://artificialanalysis.ai/api/v2", private readonly geminiApiKey = "") {}
   async fetchSnapshot(): Promise<SourceSnapshot> {
     const sourceUrl = "https://artificialanalysis.ai/models";
-    const [languageResponse, imageResponse, videoResponse] = await Promise.all([
+    const [languageResponse, imageResponse, videoResponse, textToSpeechResponse] = await Promise.all([
       checkedFetch(sourceUrl),
       checkedFetch("https://artificialanalysis.ai/image/models"),
       checkedFetch("https://artificialanalysis.ai/video/models"),
+      checkedFetch("https://artificialanalysis.ai/text-to-speech/models"),
     ]);
-    const publicPayload = parseArtificialAnalysisPublicPages(await languageResponse.text(), await imageResponse.text(), await videoResponse.text());
+    const publicPayload = parseArtificialAnalysisPublicPages(await languageResponse.text(), await imageResponse.text(), await videoResponse.text(), await textToSpeechResponse.text());
     const googleModels = this.geminiApiKey ? await checkedFetch("https://generativelanguage.googleapis.com/v1beta/models", { headers: { "x-goog-api-key": this.geminiApiKey } }).then((response) => response.json()).then((payload) => (payload as { models?: unknown[] }).models ?? []) : [];
     const publicPayloadWithAccess = { ...publicPayload, googleModels };
     if (!this.apiKey) return snapshot(this.source, sourceUrl, "Artificial Analysis public benchmark datasets and Google Gemini model catalog", publicPayloadWithAccess, languageResponse);
@@ -188,6 +217,15 @@ export class MmluProAdapter implements ModelSourceAdapter {
   }
 }
 
+export class OpenAsrAdapter implements ModelSourceAdapter {
+  readonly source = "open_asr" as const;
+  constructor(private readonly sourceUrl = "https://huggingface.co/datasets/hf-audio/open-asr-leaderboard-results/resolve/main/english_short_latest.csv") {}
+  async fetchSnapshot(): Promise<SourceSnapshot> {
+    const response = await checkedFetch(this.sourceUrl);
+    return snapshot(this.source, this.sourceUrl, "Hugging Face Open ASR Leaderboard official results dataset", await response.text(), response);
+  }
+}
+
 export class OpenAiOfficialAdapter implements ModelSourceAdapter {
   readonly source = "openai_official" as const;
   constructor(
@@ -201,5 +239,23 @@ export class OpenAiOfficialAdapter implements ModelSourceAdapter {
     ]);
     const payload = { models, privacy: { url: this.privacyUrl, markdown: await privacyResponse.text() } };
     return snapshot(this.source, this.modelUrls[0], "OpenAI official model and data-control documentation", payload, privacyResponse);
+  }
+}
+
+export class OfficialProductsAdapter implements ModelSourceAdapter {
+  readonly source = "official_products" as const;
+  async fetchSnapshot(): Promise<SourceSnapshot> {
+    const products = await Promise.all(OFFICIAL_AI_PRODUCTS.map(async (product) => {
+      try {
+        const response = await checkedFetch(product.verificationUrl ?? product.sourceUrl);
+        const content = (await response.text()).toLowerCase().replace(/<[^>]+>/g, " ").replace(/\s+/g, " ");
+        const matchedTerms = product.verificationTerms.filter((term) => content.includes(term.toLowerCase()));
+        return { id: product.id, sourceUrl: product.sourceUrl, ok: true, matchedTerms, status: response.status };
+      } catch (error) {
+        return { id: product.id, sourceUrl: product.sourceUrl, ok: false, error: error instanceof Error ? error.message : "Official page unavailable" };
+      }
+    }));
+    if (!products.some((product) => product.ok)) throw new Error("No official AI product documentation could be verified");
+    return snapshot(this.source, "https://developers.openai.com/", "Official AI product documentation and pricing pages", { products });
   }
 }

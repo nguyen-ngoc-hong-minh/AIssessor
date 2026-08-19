@@ -1,20 +1,30 @@
 import { parse } from "csv-parse/sync";
 import { resolveCanonicalIdentity } from "./model-registry";
 import type { SourceId } from "./source-registry";
+import { aiAccessMetadata, aiNativeMetadata, type AiFirstMetadata } from "../recommendation/ai-first";
+import { OFFICIAL_AI_PRODUCTS } from "./product-catalog";
 
 export const NORMALIZER_VERSIONS: Record<SourceId, number> = {
-  artificial_analysis: 5,
-  openrouter: 6,
-  mmlu_pro: 2,
-  openai_official: 2,
+  artificial_analysis: 8,
+  openrouter: 9,
+  mmlu_pro: 3,
+  open_asr: 1,
+  openai_official: 3,
+  official_products: 1,
 };
 
-export type NormalizedAccessOption = {
+export type NormalizedAccessOption = AiFirstMetadata & {
   label: string;
   url: string;
   modelId: string;
   sourceUrl: string;
   verifiedAt: number;
+  productId?: string;
+  productName?: string;
+  planId?: string;
+  planName?: string;
+  accessMethod?: "product" | "api" | "marketplace" | "cloud";
+  monthlyPriceUsd?: number;
 };
 
 export type NormalizedBenchmark = {
@@ -44,7 +54,7 @@ export type NormalizedPrice = {
   effectiveAt: number;
 };
 
-export type NormalizedModel = {
+export type NormalizedModel = Required<AiFirstMetadata> & {
   canonicalId: string;
   name: string;
   provider: string;
@@ -63,6 +73,7 @@ export type NormalizedModel = {
   prices: NormalizedPrice[];
   privacy: Array<{ level: string; sourceUrl: string; confidence: string; notes?: string }>;
   licenses: Array<{ commercialUse: boolean; sourceUrl: string; confidence: string; notes?: string }>;
+  capabilityEvidence: Array<{ capabilities: string[]; category: string; sourceUrl: string; verifiedAt: number; confidence: string; notes?: string }>;
 };
 
 type JsonRecord = Record<string, unknown>;
@@ -115,13 +126,15 @@ function benchmarkCategory(metric: string) {
 }
 
 function pendingModel(identity: { canonicalId: string; name: string; provider: string; aliases: string[]; mappingConfidence: "exact" | "explicit_alias" | "unmatched" }, overrides: Partial<NormalizedModel> = {}): NormalizedModel {
+  const capabilities = overrides.capabilities ?? [];
   return {
     canonicalId: identity.canonicalId,
     name: identity.name,
     provider: identity.provider,
     aliases: identity.aliases,
     modalities: [],
-    capabilities: [],
+    capabilities,
+    ...aiNativeMetadata(identity.name, capabilities),
     active: true,
     status: "pending_evidence",
     mappingConfidence: identity.mappingConfidence,
@@ -132,8 +145,57 @@ function pendingModel(identity: { canonicalId: string; name: string; provider: s
     prices: [],
     privacy: [],
     licenses: [],
+    capabilityEvidence: [],
     ...overrides,
   };
+}
+
+export function normalizeOfficialProducts(payload: unknown, fetchedAt: number): NormalizedModel[] {
+  const documents = new Map(list(record(payload).products).map((value) => {
+    const item = record(value);
+    return [text(item.id) ?? "", item];
+  }));
+  return OFFICIAL_AI_PRODUCTS.flatMap((definition) => {
+    const document = documents.get(definition.id);
+    if (!document || document.ok !== true) return [];
+    const matchedTerms = list(document.matchedTerms).map(String);
+    if (!definition.verificationTerms.every((term) => matchedTerms.includes(term))) return [];
+    const metadata = {
+      aiFirstClass: definition.aiFirstClass,
+      aiRole: definition.aiRole,
+      aiContributionLevel: "HIGH" as const,
+      automationLevel: "HIGH" as const,
+      requiredManualWork: definition.requiredManualWork,
+    };
+    return [pendingModel({ canonicalId: definition.id, name: definition.name, provider: definition.provider, aliases: [definition.id, definition.name], mappingConfidence: "exact" }, {
+      modalities: [...definition.modalities],
+      capabilities: [...definition.capabilities],
+      ...metadata,
+      status: "eligible",
+      accessOptions: [{
+        label: `Open ${definition.name}`,
+        url: definition.accessUrl,
+        modelId: definition.id,
+        sourceUrl: definition.sourceUrl,
+        verifiedAt: fetchedAt,
+        productId: definition.id,
+        productName: definition.name,
+        planId: definition.planId,
+        planName: definition.planName,
+        accessMethod: "product",
+        monthlyPriceUsd: definition.monthlyPriceUsd,
+        ...metadata,
+      }],
+      capabilityEvidence: definition.categories.map((category) => ({
+        capabilities: [...definition.capabilities],
+        category,
+        sourceUrl: definition.sourceUrl,
+        verifiedAt: fetchedAt,
+        confidence: "official_provider_docs",
+        notes: definition.priceNote ?? "Capabilities verified against the provider's official product documentation. This is capability evidence, not a comparative performance benchmark.",
+      })),
+    })];
+  });
 }
 
 export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
@@ -149,6 +211,12 @@ export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number,
     modelId,
     sourceUrl: "https://ai.google.dev/gemini-api/docs/models",
     verifiedAt: fetchedAt,
+    productId: "google-ai-studio",
+    productName: "Google AI Studio",
+    planId: "gemini-api-usage",
+    planName: "Gemini API usage",
+    accessMethod: "api",
+    ...aiAccessMetadata("Google AI Studio", "api"),
   }] : [];
   const languageModels = list(root.data).flatMap((raw) => {
     const item = record(raw);
@@ -255,7 +323,41 @@ export function normalizeArtificialAnalysis(payload: unknown, fetchedAt: number,
     })];
   });
 
-  return [...languageModels, ...mediaModels];
+  const textToSpeechModels = list(root.textToSpeechModels).flatMap((raw) => {
+    const item = record(raw);
+    const name = text(item.name);
+    const sourcePath = text(item.sourcePath);
+    const quality = number(item.qualityElo);
+    const normalizedQuality = number(item.normalizedQuality);
+    if (!name || !sourcePath || quality === undefined) return [];
+    const identity = resolveCanonicalIdentity("artificial_analysis", sourcePath.split("/").filter(Boolean).at(-1) ?? name, name);
+    if (!identity) return [];
+    const sourceUrl = `https://artificialanalysis.ai${sourcePath}`;
+    const price = number(item.pricePer1mCharacters);
+    const speed = number(item.charactersPerSecond);
+    const benchmarks: NormalizedBenchmark[] = [{
+      metric: "artificial_analysis_tts_arena_elo",
+      score: quality,
+      rawValue: quality,
+      normalizedValue: normalizedQuality,
+      category: "audio",
+      sourceUrl,
+      modelVersion: sourcePath,
+      sourceVersion,
+      measuredAt: fetchedAt,
+      confidence: "official_dataset",
+      notes: "Blind-preference Speech Arena Elo reported by Artificial Analysis.",
+    }];
+    if (speed !== undefined) benchmarks.push({ metric: "artificial_analysis_tts_characters_per_second", score: speed, rawValue: speed, category: "speed", sourceUrl, modelVersion: sourcePath, sourceVersion, measuredAt: fetchedAt, confidence: "official_dataset" });
+    return [pendingModel(identity, {
+      modalities: ["text", "speech"],
+      capabilities: ["text_to_speech"],
+      benchmarks,
+      prices: price === undefined ? [] : [{ pricingType: "speech_generation", amount: price, unit: "1m_characters", currency: "USD", sourceUrl, modelVersion: sourcePath, sourceVersion, confidence: "official_dataset", effectiveAt: fetchedAt }],
+    })];
+  });
+
+  return [...languageModels, ...mediaModels, ...textToSpeechModels];
 }
 
 export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
@@ -297,11 +399,19 @@ export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceV
     const architecture = record(item.architecture);
     const pricing = record(item.pricing);
     const sourceUrl = `https://openrouter.ai/${id}`;
+    const inputModalities = list(architecture.input_modalities).filter((value): value is string => typeof value === "string");
+    const outputModalities = list(architecture.output_modalities).filter((value): value is string => typeof value === "string");
     const promptPrice = number(pricing.prompt);
     const completionPrice = number(pricing.completion);
     const prices: NormalizedPrice[] = [];
-    if (promptPrice !== undefined) prices.push({ pricingType: "input_tokens", amount: promptPrice * 1_000_000, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter route price; provider-direct pricing may differ." });
-    if (completionPrice !== undefined) prices.push({ pricingType: "output_tokens", amount: completionPrice * 1_000_000, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter route price; provider-direct pricing may differ." });
+    if (outputModalities.includes("transcription")) {
+      if (promptPrice !== undefined) prices.push({ pricingType: "speech_transcription", amount: promptPrice * 60, unit: "minute", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter transcription input price converted from seconds to minutes; provider-direct pricing may differ." });
+    } else if (outputModalities.includes("speech")) {
+      if (promptPrice !== undefined) prices.push({ pricingType: "speech_generation", amount: promptPrice * 1_000_000, unit: "1m_characters", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter speech price converted to one million input characters; provider-direct pricing may differ." });
+    } else {
+      if (promptPrice !== undefined) prices.push({ pricingType: "input_tokens", amount: promptPrice * 1_000_000, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter route price; provider-direct pricing may differ." });
+      if (completionPrice !== undefined) prices.push({ pricingType: "output_tokens", amount: completionPrice * 1_000_000, unit: "1m_tokens", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "OpenRouter route price; provider-direct pricing may differ." });
+    }
     const imageMetadata = imageModels.get(id);
     const imagePrices = list(record(imageMetadata?.endpointDetails).endpoints).flatMap((rawEndpoint) => list(record(rawEndpoint).pricing).flatMap((rawPrice) => {
       const price = record(rawPrice); const cost = number(price.cost_usd);
@@ -316,8 +426,6 @@ export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceV
       return [];
     });
     if (videoPerMinute.length) prices.push({ pricingType: "video_generation", amount: Math.min(...videoPerMinute), unit: "minute", currency: "USD", sourceUrl, modelVersion: id, sourceVersion, confidence: "official_api", effectiveAt: fetchedAt, notes: "Lowest published OpenRouter per-second video SKU, converted to one minute. Resolution, audio, duration, and provider options can change the final cost." });
-    const inputModalities = list(architecture.input_modalities).filter((value): value is string => typeof value === "string");
-    const outputModalities = list(architecture.output_modalities).filter((value): value is string => typeof value === "string");
     const modalities = unique([...inputModalities, ...outputModalities]);
     const capabilities = new Set(list(item.supported_parameters).filter((value): value is string => typeof value === "string"));
     if (outputModalities.includes("image")) capabilities.add("image_generation");
@@ -337,7 +445,8 @@ export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceV
       const benchmark = record(rawBenchmark); const arena = text(benchmark.arena); const categoryName = text(benchmark.category); const score = number(benchmark.elo);
       if (!arena || !categoryName || score === undefined) continue;
       const key = `${slug(arena)}_${slug(categoryName)}`;
-      benchmarks.push({ metric: `openrouter_design_arena_${key}_elo`, score, rawValue: benchmark, normalizedValue: designPercentiles.get(key)?.get(id), category: "coding", sourceUrl, modelVersion: id, sourceVersion, measuredAt: fetchedAt, confidence: "aggregated_third_party", notes: "Design Arena result republished in the OpenRouter model catalog; normalized value is this model's percentile for the same arena category." });
+      benchmarks.push({ metric: `openrouter_design_arena_${key}_elo`, score, rawValue: benchmark, normalizedValue: designPercentiles.get(key)?.get(id), category: "ui_ux_design", sourceUrl, modelVersion: id, sourceVersion, measuredAt: fetchedAt, confidence: "aggregated_third_party", notes: "Design Arena result republished in the OpenRouter model catalog; normalized value is this model's percentile for the same arena category." });
+      capabilities.add("ui_generation");
     }
     const created = number(item.created);
     return [pendingModel(identity, {
@@ -349,8 +458,72 @@ export function normalizeOpenRouter(payload: unknown, fetchedAt: number, sourceV
       active: !text(item.expiration_date) || new Date(text(item.expiration_date)!).getTime() > fetchedAt,
       benchmarks,
       prices,
-      accessOptions: [{ label: "Open on OpenRouter", url: sourceUrl, modelId: id, sourceUrl: "https://openrouter.ai/api/v1/models?output_modalities=all", verifiedAt: fetchedAt }],
+      accessOptions: [{
+        label: "Open on OpenRouter",
+        url: sourceUrl,
+        modelId: id,
+        sourceUrl: "https://openrouter.ai/api/v1/models?output_modalities=all",
+        verifiedAt: fetchedAt,
+        productId: "openrouter",
+        productName: "OpenRouter",
+        planId: "openrouter-api",
+        planName: "Usage based API",
+        accessMethod: "marketplace",
+        ...aiAccessMetadata("OpenRouter", "marketplace"),
+      }],
     })];
+  });
+}
+
+export function normalizeOpenAsr(payload: unknown, fetchedAt: number, sourceVersion?: string): NormalizedModel[] {
+  if (typeof payload !== "string") throw new Error("Open ASR payload must be CSV text");
+  const sourceUrl = "https://huggingface.co/datasets/hf-audio/open-asr-leaderboard-results/resolve/main/english_short_latest.csv";
+  const rows = parse(payload, { columns: true, skip_empty_lines: true, relax_column_count: true }) as Record<string, string>[];
+  const scored = rows.flatMap((row) => {
+    const modelId = text(row.model);
+    const wordErrorRate = number(row["avg cleaned"]);
+    return modelId && wordErrorRate !== undefined ? [{ row, modelId, wordErrorRate }] : [];
+  }).sort((a, b) => a.wordErrorRate - b.wordErrorRate);
+  const percentiles = new Map(scored.map((item, index) => [
+    item.modelId,
+    scored.length === 1 ? 100 : 40 + ((scored.length - 1 - index) / (scored.length - 1)) * 60,
+  ]));
+  return scored.map(({ row, modelId, wordErrorRate }) => {
+    const identity = resolveCanonicalIdentity("open_asr", modelId, modelId) ?? manualIdentity("open_asr", modelId, modelId);
+    const speed = number(row.RTFx);
+    const benchmarks: NormalizedBenchmark[] = [{
+      metric: "open_asr_average_cleaned_wer",
+      score: wordErrorRate,
+      rawValue: { averageCleanedWer: wordErrorRate, averageOriginalWer: number(row["avg original"]) },
+      normalizedValue: percentiles.get(modelId),
+      category: "transcription",
+      sourceUrl,
+      modelVersion: modelId,
+      sourceVersion,
+      measuredAt: fetchedAt,
+      confidence: "official_dataset",
+      notes: "Average cleaned word error rate from the Open ASR Leaderboard; lower raw WER is better and the normalized value is the current leaderboard percentile.",
+    }];
+    if (speed !== undefined) benchmarks.push({
+      metric: "open_asr_realtime_factor_x",
+      score: speed,
+      rawValue: speed,
+      normalizedValue: normalized(speed),
+      category: "speed",
+      sourceUrl,
+      modelVersion: modelId,
+      sourceVersion,
+      measuredAt: fetchedAt,
+      confidence: "official_dataset",
+      notes: "Reported transcription throughput relative to real time.",
+    });
+    return pendingModel(identity, {
+      modalities: ["audio", "transcription"],
+      capabilities: ["speech_to_text"],
+      benchmarks,
+      status: identity.mappingConfidence === "unmatched" ? "manual_review" : "pending_evidence",
+      manualReviewRequired: identity.mappingConfidence === "unmatched",
+    });
   });
 }
 

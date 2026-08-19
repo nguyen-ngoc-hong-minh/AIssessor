@@ -9,6 +9,8 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 - Convex for profiles, strategies, subscriptions, immutable source snapshots, timestamped observations, sync history, and cron jobs
 - Google Gemini or OpenAI Structured Outputs for workflow decomposition only
 - Deterministic recommendation scoring configured in `lib/recommendation/config.ts`
+- Capability-first recommendations across writing, research, coding, analysis, regulated work, design, media, automation, and agentic workflows
+- AI-first procurement: only verified AI-native or AI-centric products can enter the primary recommendation stack
 - Stripe Checkout, Customer Portal, and webhook-synchronized entitlements
 
 ## Local setup
@@ -70,14 +72,22 @@ Supported adapters:
 | --- | --- | ---: | --- |
 | Artificial Analysis public datasets / free API | Language, image, and video quality benchmarks, speed, context, and representative API pricing | 12 hours | Optional |
 | OpenRouter models API | Canonical route IDs, modalities, capabilities, context, and route pricing | 6 hours | Optional |
-| MMLU-Pro official leaderboard CSV | Overall and subject-category benchmark results | 24 hours | None |
+| MMLU-Pro official leaderboard CSV | Overall and subject-category benchmark results | 48 hours | None |
+| Hugging Face Open ASR Leaderboard | Speech-to-text WER and real-time throughput | 48 hours | None |
 | OpenAI official model/data-control docs | Provider pricing, context, modalities, capabilities, and default API privacy controls | 12 hours | None |
+| Official AI product documentation | Product capabilities and verified access for Codex, Cursor, Claude Code, GitHub Copilot, Replit Agent, Lovable, v0, Midjourney, Runway, Gamma, ElevenLabs, and other curated AI-first products | 24 hours | None |
 
 Each changed response creates a raw snapshot with a SHA-256 hash, retrieval time, source URL, attribution, and source revision where exposed. Observations are append-only. An unchanged response records a successful audit run without duplicating the snapshot or observations. A failed refresh preserves the last valid snapshot.
 
 Cross-source model joins require exact source IDs or aliases declared in `lib/model-data/model-registry.ts`. Unknown benchmark names are retained as manual-review identities and cannot enter recommendations.
 
-The engine excludes candidates missing required task evidence, prices, context, modalities, capabilities, privacy controls, commercial-use proof, region availability, or budget fit. Missing values remain unavailable. Commercial-use proof is currently unavailable for the integrated OpenAI model because a stable machine-readable official terms source has not been verified; commercially constrained tasks therefore fail closed.
+The engine excludes candidates missing required task evidence, prices, context, modalities, capabilities, privacy controls, commercial-use proof, or region availability. A verified subscription product may use official capability evidence instead of API token pricing or a model context window; that evidence never becomes a fabricated comparative benchmark score. Missing values remain unavailable. Commercial-use proof is currently unavailable for the integrated OpenAI model because a stable machine-readable official terms source has not been verified; commercially constrained tasks therefore fail closed.
+
+Recommendations search for one eligible tool first. Only when no single tool meets every hard requirement does the engine search two-tool and then three-tool combinations. If no complete option fits the entered budget, BENCHFLOW keeps the closest complete option and reports the known overrun instead of returning an empty result. The global optimizer accounts for budget, existing subscriptions, product reuse, fixed plan costs, API usage, evidence quality, and workflow handoffs. Product, plan, model, and access method are stored separately so a subscription is counted once even when several steps reuse it. Plans without a verified current price are labeled and excluded from the known-cost subtotal. Unsupported steps expose partial coverage and missing capabilities instead of being presented as complete.
+
+Every catalog model and access product carries an AI-first classification (`AI_NATIVE`, `AI_CENTRIC`, `AI_ASSISTED`, or `TRADITIONAL`) plus its AI role, contribution level, automation level, and expected manual work. Primary recommendations require an AI-native or AI-centric classification and high AI contribution or automation. AI-assisted and traditional products remain outside the optimized AI subscription stack; missing capability coverage is reported honestly instead of being filled with manual production software.
+
+When a changed evidence snapshot is stored, BENCHFLOW derives the affected task categories, queues only matching completed strategies, and evaluates them in the background. A saved plan is never overwritten automatically. The dashboard offers a refresh only for a material cost, quality, privacy, coverage, or product-count improvement; small benchmark fluctuations produce no alert. Newly discovered model entries remain `pending_evidence` until minimum identity, access, pricing, capability, and benchmark requirements are present. Curated AI products become eligible only when their official page still verifies every expected capability term.
 
 See [BENCHMARK_SOURCES.md](./BENCHMARK_SOURCES.md) for source URLs, licenses, attribution, parser contracts, and unsupported-source reasons. `/admin/evidence` shows freshness, errors, counts, unchanged runs, unsupported sources, and the identity review queue.
 

@@ -44,6 +44,9 @@ describe("Planner AI", () => {
     const analysis = await createTaskAnalysis(plannerInput, { environment: { OPENAI_API_KEY: "key", OPENAI_PLANNER_MODEL: "planner-model" }, client: { responses: { parse } } as never });
     expect(analysis.workflowSteps[0].name).toBe("Research market");
     expect(parse).toHaveBeenCalledWith(expect.objectContaining({ model: "planner-model" }));
+    const request = parse.mock.calls[0][0] as { input: Array<{ role: string; content: string }> };
+    expect(request.input[0].content).toContain("How can AI substantially complete this project?");
+    expect(request.input[0].content).toContain("never imply that ordinary manual software is an AI solution");
   });
   it("returns a validated workflow from the Gemini free-tier planner", async () => {
     const parse = vi.fn().mockResolvedValue({ choices: [{ message: { parsed: plannerOutput } }] });

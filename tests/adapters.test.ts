@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { ArtificialAnalysisAdapter, OpenRouterAdapter, parseArtificialAnalysisPublicPages } from "@/lib/model-data/adapters";
-import { normalizeArtificialAnalysis, normalizeMmluPro, normalizeOpenAiOfficial, normalizeOpenRouter } from "@/lib/model-data/normalizers";
+import { ArtificialAnalysisAdapter, OfficialProductsAdapter, OpenRouterAdapter, parseArtificialAnalysisPublicPages } from "@/lib/model-data/adapters";
+import { normalizeArtificialAnalysis, normalizeMmluPro, normalizeOfficialProducts, normalizeOpenAiOfficial, normalizeOpenAsr, normalizeOpenRouter } from "@/lib/model-data/normalizers";
+import { OFFICIAL_AI_PRODUCTS } from "@/lib/model-data/product-catalog";
 
 afterEach(() => vi.unstubAllGlobals());
 
@@ -28,6 +29,17 @@ describe("official source adapters", () => {
     expect(parsed.videoModels[0]).toMatchObject({ name: "Veo", price: 6 });
   });
 
+  it("extracts text-to-speech quality, price, and speed from the public dataset", () => {
+    const dataset = (name: string, data: unknown[]) => `<script type="application/ld+json">${JSON.stringify({ name, data })}</script>`;
+    const speech = [
+      dataset("Provider Voice Arena Quality Elo", [{ label: "Gemini 3.1 Flash TTS", qualityElo: 1210, detailsUrl: "/text-to-speech/providers/gemini-3-1-tts" }, { label: "Fish Audio S2 Pro", qualityElo: 1100, detailsUrl: "/text-to-speech/providers/s2-pro" }]),
+      dataset("Price", [{ label: "Gemini 3.1 Flash TTS, Google", pricePer1mCharacters: 18.3, detailsUrl: "/text-to-speech/models/gemini-3-1-tts" }]),
+      dataset("Characters Per Second", [{ label: "Gemini 3.1 Flash TTS, Google", charactersPerSecond: 100, detailsUrl: "/text-to-speech/providers/gemini-3-1-tts" }]),
+    ].join("");
+    const parsed = parseArtificialAnalysisPublicPages("", "", "", speech);
+    expect(parsed.textToSpeechModels[0]).toMatchObject({ name: "Gemini 3.1 Flash TTS", provider: "Google", qualityElo: 1210, normalizedQuality: 100, pricePer1mCharacters: 18.3, charactersPerSecond: 100 });
+  });
+
   it("supports OpenRouter's public models endpoint and optional authentication", async () => {
     const fetchMock = vi.fn().mockImplementation(() => Promise.resolve(new Response(JSON.stringify({ data: [] }), { status: 200 })));
     vi.stubGlobal("fetch", fetchMock);
@@ -37,16 +49,41 @@ describe("official source adapters", () => {
     const authenticatedCall = fetchMock.mock.calls.find((call) => call[1].headers.Authorization === "Bearer key");
     expect(authenticatedCall?.[0]).toContain("output_modalities=all");
   });
+
+  it("checks each AI product against its official provider page", async () => {
+    const allTerms = OFFICIAL_AI_PRODUCTS.flatMap((product) => product.verificationTerms).join(" ");
+    const fetchMock = vi.fn().mockResolvedValue(new Response(allTerms, { status: 200 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const snapshot = await new OfficialProductsAdapter().fetchSnapshot();
+    expect(snapshot.source).toBe("official_products");
+    expect((snapshot.payload as { products: unknown[] }).products).toHaveLength(OFFICIAL_AI_PRODUCTS.length);
+    expect(fetchMock).toHaveBeenCalledTimes(OFFICIAL_AI_PRODUCTS.length);
+  });
 });
 
 describe("source normalizers", () => {
+  it("normalizes verified AI products as capability evidence without inventing benchmark scores", () => {
+    const products = OFFICIAL_AI_PRODUCTS.map((product) => ({ id: product.id, ok: true, matchedTerms: product.verificationTerms }));
+    const models = normalizeOfficialProducts({ products }, 100);
+    const codex = models.find((candidate) => candidate.canonicalId === "openai/codex-product");
+    expect(models).toHaveLength(OFFICIAL_AI_PRODUCTS.length);
+    expect(codex).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["repository_editing", "test_generation"]), benchmarks: [] });
+    expect(codex?.capabilityEvidence[0]).toMatchObject({ confidence: "official_provider_docs" });
+  });
+
+  it("fails closed when an official product page no longer confirms its expected terms", () => {
+    expect(normalizeOfficialProducts({ products: [{ id: "openai/codex-product", ok: true, matchedTerms: [] }] }, 100)).toEqual([]);
+  });
+
   it("normalizes only present Artificial Analysis and OpenRouter values", () => {
     const aa = normalizeArtificialAnalysis({ data: [{ name: "GPT-4o", slug: "gpt-4o", model_creator: { name: "OpenAI" }, evaluations: { artificial_analysis_intelligence_index: 42 }, pricing: { price_1m_input_tokens: 1 } }] }, 100);
     expect(aa[0].benchmarks[0].score).toBe(42);
+    expect(aa[0]).toMatchObject({ aiFirstClass: "AI_NATIVE", aiContributionLevel: "HIGH", automationLevel: "HIGH" });
     expect(aa[0].prices).toHaveLength(1);
     const openRouter = normalizeOpenRouter({ data: [{ id: "lab/model", name: "Model", context_length: 1000, pricing: { prompt: "0.000001" }, architecture: { input_modalities: ["text"] } }] }, 100);
     expect(openRouter[0].prices[0].amount).toBe(1);
     expect(openRouter[0].accessOptions[0]).toMatchObject({ modelId: "lab/model", url: "https://openrouter.ai/lab/model" });
+    expect(openRouter[0].accessOptions[0]).toMatchObject({ aiFirstClass: "AI_CENTRIC", aiContributionLevel: "HIGH", automationLevel: "HIGH" });
   });
 
   it("normalizes public image and video benchmarks with their published prices", () => {
@@ -64,6 +101,28 @@ describe("source normalizers", () => {
     expect(model.capabilities).toContain("image_generation");
     expect(model.prices).toContainEqual(expect.objectContaining({ pricingType: "image_generation", amount: 40 }));
     expect(model.benchmarks.map((item) => item.metric)).toContain("openrouter_artificial_analysis_intelligence_index");
+  });
+
+  it("normalizes speech pricing using the modality's published billing unit", () => {
+    const [transcriber] = normalizeOpenRouter({ data: [{ id: "openai/whisper-large-v3", architecture: { input_modalities: ["audio"], output_modalities: ["transcription"] }, pricing: { prompt: "0.0001", completion: "0" } }] }, 100);
+    const [speaker] = normalizeOpenRouter({ data: [{ id: "fish-audio/s1", architecture: { input_modalities: ["text"], output_modalities: ["speech"] }, pricing: { prompt: "0.000015", completion: "0" } }] }, 100);
+    expect(transcriber.prices).toContainEqual(expect.objectContaining({ pricingType: "speech_transcription", amount: .006, unit: "minute" }));
+    expect(speaker.prices).toContainEqual(expect.objectContaining({ pricingType: "speech_generation", amount: 15, unit: "1m_characters" }));
+  });
+
+  it("normalizes an explicitly mapped Artificial Analysis TTS model", () => {
+    const [model] = normalizeArtificialAnalysis({ textToSpeechModels: [{ name: "Gemini 3.1 Flash TTS", sourcePath: "/text-to-speech/providers/gemini-3-1-tts", qualityElo: 1210, normalizedQuality: 95, pricePer1mCharacters: 18.3, charactersPerSecond: 100 }] }, 100);
+    expect(model).toMatchObject({ canonicalId: "google/gemini-3.1-flash-tts-preview", capabilities: ["text_to_speech"] });
+    expect(model.benchmarks[0]).toMatchObject({ category: "audio", normalizedValue: 95 });
+    expect(model.prices[0]).toMatchObject({ pricingType: "speech_generation", amount: 18.3, unit: "1m_characters" });
+  });
+
+  it("normalizes Open ASR WER as exact task evidence without inventing access", () => {
+    const csv = "model,avg cleaned,avg original,RTFx,License\nopenai/whisper-large-v3,6.5,7.3,462.2,apache-2.0\nopenai/whisper-large-v3-turbo,7.0,7.8,782.5,mit\n";
+    const models = normalizeOpenAsr(csv, 100, "revision-1");
+    expect(models[0]).toMatchObject({ canonicalId: "openai/whisper-large-v3", capabilities: ["speech_to_text"], accessOptions: [] });
+    expect(models[0].benchmarks[0]).toMatchObject({ category: "transcription", score: 6.5, normalizedValue: 100, sourceVersion: "revision-1" });
+    expect(models[1].benchmarks[0].normalizedValue).toBe(40);
   });
 
   it("only exposes a Google media model when the live Gemini catalog confirms its API id", () => {

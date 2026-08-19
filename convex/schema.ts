@@ -27,34 +27,57 @@ export default defineSchema({
   }).index("by_strategy", ["strategyId", "order"]),
   strategyPlans: defineTable({
     strategyId: v.id("strategies"), planType: v.string(), recommendations: v.any(), costEstimate: v.any(), timeEstimate: v.any(),
-    confidence: v.string(), assumptions: v.array(v.string()), dataSnapshotId: v.id("dataSnapshots"), createdAt: v.number(),
+    confidence: v.string(), assumptions: v.array(v.string()), dataSnapshotId: v.id("dataSnapshots"), fullPlan: v.optional(v.any()), createdAt: v.number(),
   }).index("by_strategy", ["strategyId", "createdAt"]),
+  strategyRefreshes: defineTable({
+    strategyId: v.id("strategies"), source: v.string(), snapshotId: v.id("dataSnapshots"), affectedCategories: v.array(v.string()),
+    status: v.union(v.literal("pending"), v.literal("available"), v.literal("no_change"), v.literal("applied"), v.literal("failed")),
+    improvementReasons: v.array(v.string()), proposedPlans: v.optional(v.any()), errorCode: v.optional(v.string()), createdAt: v.number(), evaluatedAt: v.optional(v.number()),
+  }).index("by_status", ["status", "createdAt"]).index("by_strategy", ["strategyId", "createdAt"]),
   canonicalModels: defineTable({
     canonicalId: v.string(), name: v.string(), provider: v.string(), modalities: v.array(v.string()), capabilities: v.array(v.string()),
+    aiFirstClass: v.optional(v.union(v.literal("AI_NATIVE"), v.literal("AI_CENTRIC"), v.literal("AI_ASSISTED"), v.literal("TRADITIONAL"))),
+    aiRole: v.optional(v.string()), aiContributionLevel: v.optional(v.union(v.literal("LOW"), v.literal("MEDIUM"), v.literal("HIGH"))),
+    automationLevel: v.optional(v.union(v.literal("LOW"), v.literal("MEDIUM"), v.literal("HIGH"))), requiredManualWork: v.optional(v.string()),
     contextWindow: v.optional(v.number()), active: v.boolean(), commercialUse: v.optional(v.boolean()), privacyLevel: v.optional(v.string()),
     aliases: v.optional(v.array(v.string())), releaseDate: v.optional(v.string()),
     status: v.optional(v.union(v.literal("pending_evidence"), v.literal("eligible"), v.literal("manual_review"), v.literal("inactive"))),
     mappingConfidence: v.optional(v.union(v.literal("exact"), v.literal("explicit_alias"), v.literal("unmatched"))),
     manualReviewRequired: v.optional(v.boolean()), regions: v.array(v.string()),
-    accessOptions: v.optional(v.array(v.object({ label: v.string(), url: v.string(), modelId: v.string(), sourceUrl: v.string(), verifiedAt: v.number() }))),
+    accessOptions: v.optional(v.array(v.object({
+      label: v.string(), url: v.string(), modelId: v.string(), sourceUrl: v.string(), verifiedAt: v.number(),
+      productId: v.optional(v.string()), productName: v.optional(v.string()), planId: v.optional(v.string()), planName: v.optional(v.string()),
+      accessMethod: v.optional(v.union(v.literal("product"), v.literal("api"), v.literal("marketplace"), v.literal("cloud"))),
+      monthlyPriceUsd: v.optional(v.number()),
+      aiFirstClass: v.optional(v.union(v.literal("AI_NATIVE"), v.literal("AI_CENTRIC"), v.literal("AI_ASSISTED"), v.literal("TRADITIONAL"))),
+      aiRole: v.optional(v.string()), aiContributionLevel: v.optional(v.union(v.literal("LOW"), v.literal("MEDIUM"), v.literal("HIGH"))),
+      automationLevel: v.optional(v.union(v.literal("LOW"), v.literal("MEDIUM"), v.literal("HIGH"))), requiredManualWork: v.optional(v.string()),
+    }))),
+    capabilityEvidence: v.optional(v.array(v.object({
+      capabilities: v.array(v.string()), category: v.string(), sourceUrl: v.string(), verifiedAt: v.number(), confidence: v.string(), notes: v.optional(v.string()),
+    }))),
     updatedAt: v.number(),
   }).index("by_canonical_id", ["canonicalId"]).index("by_provider", ["provider", "active"]),
   benchmarkObservations: defineTable({
     modelId: v.id("canonicalModels"), metric: v.string(), score: v.number(), rawValue: v.optional(v.any()), normalizedValue: v.optional(v.number()),
     category: v.optional(v.string()), source: v.string(), sourceUrl: v.optional(v.string()), modelVersion: v.optional(v.string()),
     sourceVersion: v.optional(v.string()), measuredAt: v.number(), retrievedAt: v.number(), confidence: v.string(), notes: v.optional(v.string()),
-  }).index("by_model_metric", ["modelId", "metric", "retrievedAt"]),
+  }).index("by_model_metric", ["modelId", "metric", "retrievedAt"])
+    .index("by_model_retrieved", ["modelId", "retrievedAt"])
+    .index("by_model_metric_source", ["modelId", "metric", "source", "modelVersion"]),
   pricingObservations: defineTable({
     modelId: v.id("canonicalModels"), pricingType: v.string(), amount: v.number(), unit: v.string(), currency: v.string(),
     source: v.string(), sourceUrl: v.optional(v.string()), modelVersion: v.optional(v.string()), sourceVersion: v.optional(v.string()), confidence: v.optional(v.string()),
     notes: v.optional(v.string()), effectiveAt: v.number(), retrievedAt: v.number(),
-  }).index("by_model_type", ["modelId", "pricingType", "retrievedAt"]),
+  }).index("by_model_type", ["modelId", "pricingType", "retrievedAt"])
+    .index("by_model_retrieved", ["modelId", "retrievedAt"])
+    .index("by_model_type_source", ["modelId", "pricingType", "source", "modelVersion"]),
   privacyObservations: defineTable({
     modelId: v.id("canonicalModels"), level: v.string(), source: v.string(), sourceUrl: v.string(), retrievedAt: v.number(), confidence: v.string(), notes: v.optional(v.string()),
-  }).index("by_model", ["modelId", "retrievedAt"]),
+  }).index("by_model", ["modelId", "retrievedAt"]).index("by_model_level_source", ["modelId", "level", "source"]),
   licenseObservations: defineTable({
     modelId: v.id("canonicalModels"), commercialUse: v.boolean(), source: v.string(), sourceUrl: v.string(), retrievedAt: v.number(), confidence: v.string(), notes: v.optional(v.string()),
-  }).index("by_model", ["modelId", "retrievedAt"]),
+  }).index("by_model", ["modelId", "retrievedAt"]).index("by_model_use_source", ["modelId", "commercialUse", "source"]),
   dataSnapshots: defineTable({ source: v.string(), sourceUrl: v.optional(v.string()), rawPayload: v.any(), payloadHash: v.string(), fetchedAt: v.number(), valid: v.boolean(), attribution: v.optional(v.string()), sourceVersion: v.optional(v.string()), metadata: v.optional(v.any()) })
     .index("by_source", ["source", "fetchedAt"]),
   syncRuns: defineTable({

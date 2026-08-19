@@ -1,4 +1,4 @@
-export const SOURCE_IDS = ["artificial_analysis", "openrouter", "mmlu_pro", "openai_official"] as const;
+export const SOURCE_IDS = ["artificial_analysis", "openrouter", "mmlu_pro", "open_asr", "openai_official", "official_products"] as const;
 export type SourceId = (typeof SOURCE_IDS)[number];
 
 export type EvidenceSourceDefinition = {
@@ -38,9 +38,18 @@ export const EVIDENCE_SOURCES: readonly EvidenceSourceDefinition[] = [
     name: "MMLU-Pro",
     kind: "benchmark",
     sourceUrl: "https://huggingface.co/datasets/TIGER-Lab/mmlu_pro_leaderboard_submission/resolve/main/results.csv",
-    refreshHours: 24,
+    refreshHours: 48,
     attribution: "TIGER-Lab MMLU-Pro official leaderboard dataset",
     license: "Apache-2.0",
+    supported: true,
+  },
+  {
+    id: "open_asr",
+    name: "Open ASR Leaderboard",
+    kind: "benchmark",
+    sourceUrl: "https://huggingface.co/datasets/hf-audio/open-asr-leaderboard-results/resolve/main/english_short_latest.csv",
+    refreshHours: 48,
+    attribution: "Hugging Face Open ASR Leaderboard official results dataset",
     supported: true,
   },
   {
@@ -50,6 +59,15 @@ export const EVIDENCE_SOURCES: readonly EvidenceSourceDefinition[] = [
     sourceUrl: "https://developers.openai.com/api/docs/models/gpt-4o",
     refreshHours: 12,
     attribution: "OpenAI official model and data-control documentation",
+    supported: true,
+  },
+  {
+    id: "official_products",
+    name: "Official AI product documentation",
+    kind: "provider_docs",
+    sourceUrl: "https://developers.openai.com/",
+    refreshHours: 24,
+    attribution: "Official product documentation and pricing pages from each AI provider",
     supported: true,
   },
   {
