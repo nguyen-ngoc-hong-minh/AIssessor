@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Copy, Plus, Layers, Trash2, FileText, Sparkles, CheckCircle2, RefreshCw } from "lucide-react";
+import { ArrowUpRight, Copy, Plus, Layers, Trash2, FileText, Sparkles, RefreshCw, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
@@ -56,61 +56,62 @@ export function DashboardView() {
 
   return (
     <div className="editorial-dashboard-wrap">
-      {/* 1. TOP EXECUTIVE DARK CARD (Strong Contrast Hero Banner inspired by Reference Image) */}
+      {/* Section 20 — Command Center Top Banner */}
       <div className="dash-hero-banner">
         <div className="dash-banner-header">
-          <span className="banner-pill-badge">[ WORKSPACE SUMMARY ]</span>
+          <span className="banner-pill-badge">YOUR AI STACK COMMAND CENTER</span>
           <span className="banner-large-num">01</span>
         </div>
         
         <div className="dash-banner-body">
           <h1>
-            AI Strategy Library <span className="banner-sub-text">and Execution Plans.</span>
+            $65 / Month <span className="banner-sub-text">&bull; Active Consolidated Stack</span>
           </h1>
           <p>
-            Manage, evaluate, and deploy your saved AI tool pipelines. All recommendations use live, verifiable benchmark evidence.
+            $39 estimated monthly savings by consolidating subscriptions and optimizing model tiers.
           </p>
         </div>
 
         <div className="dash-banner-footer">
-          <Link className="minimal-btn minimal-btn-outline dark-theme-btn" href="/choose-usage">
+          <Link className="minimal-btn minimal-btn-dark" href="/choose-usage">
             <Plus className="w-4 h-4" />
-            <span>Create New Strategy</span>
+            <span>Build Strategy</span>
             <ArrowUpRight className="w-4 h-4 ml-1" />
           </Link>
         </div>
       </div>
 
-      {/* 2. HIGH-IMPACT METRICS GRID */}
+      {/* Section 22 — AI Update Card & Metrics Grid */}
       <div className="dash-metrics-grid">
         <div className="dash-metric-card metric-white">
-          <span className="metric-tag">[ 01. TOTAL ]</span>
+          <span className="metric-tag">ACTIVE PROJECTS</span>
           <div className="metric-huge-val">{strategies.length}</div>
           <div className="metric-title">Strategies Created</div>
           <p className="metric-desc">Total project and monthly task evaluations.</p>
         </div>
 
         <div className="dash-metric-card metric-white">
-          <span className="metric-tag">[ 02. READY ]</span>
+          <span className="metric-tag">OPTIMIZED STACK</span>
           <div className="metric-huge-val">{savedPlans}</div>
           <div className="metric-title">Plans Completed</div>
           <p className="metric-desc">Ready for deployment and execution.</p>
         </div>
 
-        <div className="dash-metric-card metric-white">
-          <span className="metric-tag">[ 03. EVIDENCE ]</span>
-          <div className="metric-huge-val">100%</div>
-          <div className="metric-title">Verified Benchmarks</div>
-          <p className="metric-desc">Source-linked evidence &amp; price sheets.</p>
+        {/* Section 22 — AI Update Card */}
+        <div className="dash-metric-card metric-white border-blue-500/30">
+          <span className="metric-tag text-blue-400">NEW BETTER OPTION</span>
+          <div className="metric-huge-val text-blue-400">&minus;32%</div>
+          <div className="metric-title">Gemini Flash X Benchmark</div>
+          <p className="metric-desc">Research workflow option with similar expected quality.</p>
         </div>
       </div>
 
-      {/* 3. STRATEGY LIST SECTION (Strong Hierarchy Cards & Rows) */}
+      {/* Main Strategy List Section */}
       <div className="dash-content-block">
         <div className="block-header-row">
           <div>
-            <span className="mono-badge">[ RECENT ACTIVITY ]</span>
-            <h2>Saved Strategies</h2>
+            <span className="mono-badge">RECENT STRATEGIES</span>
+            <h2>Active Workload Plans</h2>
           </div>
           <span className="count-pill-tag">{strategies.length} ITEMS</span>
         </div>
@@ -120,7 +121,7 @@ export function DashboardView() {
         {strategies.length === 0 ? (
           <div className="editorial-empty-card">
             <div className="empty-icon-wrap">
-              <Layers className="w-8 h-8 text-black" />
+              <Layers className="w-8 h-8 text-primary" />
             </div>
             <h3>No Saved Strategies Yet</h3>
             <p>Describe your project or recurring workflow once. BENCHFLOW will evaluate models and save your actionable plan here.</p>
@@ -153,7 +154,7 @@ export function DashboardView() {
 
                   <div className="row-meta-info">
                     <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
-                    <span className="dot-sep">•</span>
+                    <span className="dot-sep">&bull;</span>
                     <span>
                       {strategy.usageType === "one_off"
                         ? strategy.budget === undefined

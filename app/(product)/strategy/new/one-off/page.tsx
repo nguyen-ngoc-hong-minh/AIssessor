@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import { OneOffStrategyForm } from "@/components/one-off-strategy-form";
 
-export const metadata: Metadata = { title: "New One-off Strategy · BENCHFLOW" };
+export const metadata: Metadata = { title: "New Strategy · BENCHFLOW" };
 
 export default function OneOffPage() {
   return (
     <div className="editorial-page-container max-w-4xl">
       <div className="editorial-page-header">
-        <span className="mono-badge">[ ONE-OFF PROJECT / BRIEF ]</span>
-        <h1>Describe the Result — Not the Technology</h1>
-        <p>Provide a project brief, a target deadline, and your budget limit. BENCHFLOW will evaluate the optimal AI model pipeline.</p>
+        <span className="mono-badge">[ PROJECT INPUT / STEP 01 ]</span>
+        <h1>WHAT ARE YOU WORKING ON?</h1>
+        <p>Describe what you want to accomplish. BENCHFLOW builds the workflow and compares current AI options.</p>
       </div>
       <OneOffStrategyForm />
     </div>

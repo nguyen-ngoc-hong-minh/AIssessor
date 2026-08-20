@@ -91,19 +91,19 @@ export default function LandingPage() {
     <>
       <SiteHeader />
       <main className="editorial-landing">
-        {/* Wallety Hero */}
+        {/* Section 09 — Cinematic Architectural Landing Hero */}
         <ParallaxHero>
           <div className="editorial-hero-copy">
             <div className="hero-pill-tag">
               <span className="pill-dot" />
-              <span>✦ SIMPLE TRUST &bull; REAL-TIME BENCHMARKS</span>
+              <span>AI PROCUREMENT ADVISOR</span>
             </div>
             <h1>
-              Where AI Work Finds <br />
-              <span className="subtle-heading">Sanctuary Online.</span>
+              YOUR AI STACK, <br />
+              <span className="subtle-heading">OPTIMIZED.</span>
             </h1>
             <p>
-              Tell us what you need to get done. We compare AI models, pricing tiers, and benchmark capabilities, consolidating them into one verified strategy.
+              Describe what you need to accomplish. BENCHFLOW builds the workflow, compares current AI options, and finds the subscriptions worth paying for.
             </p>
             <div className="hero-btn-row">
               <Link href="/sign-up" className="minimal-btn minimal-btn-dark">
@@ -111,17 +111,17 @@ export default function LandingPage() {
                 <ArrowUpRight className="w-4 h-4" />
               </Link>
               <Link href="#process" className="minimal-btn minimal-btn-outline">
-                <span>Explore Process ↘</span>
+                <span>See How It Works</span>
               </Link>
             </div>
           </div>
         </ParallaxHero>
 
-        {/* Section 1: Inverted Dark Glow Highlight Block */}
+        {/* Section 1: Architectural Banner */}
         <section className="dark-banner-section section">
           <div className="dark-banner-inner">
             <div className="banner-top-row">
-              <span className="dark-badge">✦ SECTION 1</span>
+              <span className="dark-badge">SECTION 1</span>
               <span className="banner-big-num">01</span>
             </div>
             <div className="banner-content">
@@ -147,7 +147,7 @@ export default function LandingPage() {
         {/* Section 2: Overview & Key Facts */}
         <section className="editorial-section border-top" id="overview">
           <div className="section-grid-header">
-            <span className="section-tag">✦ 02 / OVERVIEW</span>
+            <span className="section-tag">02 / OVERVIEW</span>
             <h2>Why BENCHFLOW works.</h2>
           </div>
           
@@ -175,7 +175,7 @@ export default function LandingPage() {
         {/* Section 3: Process Steps */}
         <section className="editorial-section border-top" id="process">
           <div className="section-grid-header">
-            <span className="section-tag">✦ 03 / PROCESS</span>
+            <span className="section-tag">03 / PROCESS</span>
             <h2>How it works in 4 steps.</h2>
           </div>
 
@@ -184,7 +184,7 @@ export default function LandingPage() {
               <article key={number} className="process-card">
                 <header>
                   <span className="process-num">{number}</span>
-                  <ArrowUpRight className="w-5 h-5 text-emerald-400" />
+                  <ArrowUpRight className="w-4 h-4 text-blue-400" />
                 </header>
                 <h3>{title}</h3>
                 <p>{text}</p>
@@ -196,7 +196,7 @@ export default function LandingPage() {
         {/* Section 4: Evaluation Criteria */}
         <section className="editorial-section border-top" id="criteria">
           <div className="section-grid-header">
-            <span className="section-tag">✦ 04 / CRITERIA</span>
+            <span className="section-tag">04 / CRITERIA</span>
             <h2>6-Point verification checklist.</h2>
           </div>
 
@@ -214,7 +214,7 @@ export default function LandingPage() {
         {/* Section 5: Strategy Table */}
         <section className="editorial-section border-top">
           <div className="section-grid-header">
-            <span className="section-tag">✦ 05 / STRATEGY DEMO</span>
+            <span className="section-tag">05 / STRATEGY DEMO</span>
             <h2>Example AI Strategy summary.</h2>
           </div>
 
@@ -259,7 +259,7 @@ export default function LandingPage() {
         {/* Section 6: Pricing */}
         <section className="editorial-section border-top" id="pricing">
           <div className="section-grid-header">
-            <span className="section-tag">✦ 06 / PRICING</span>
+            <span className="section-tag">06 / PRICING</span>
             <h2>Simple, transparent pricing.</h2>
           </div>
 
@@ -274,7 +274,7 @@ export default function LandingPage() {
             </article>
 
             <article className="pricing-box featured-box">
-              <span className="plan-tag dark-tag">✦ MOST POPULAR</span>
+              <span className="plan-tag dark-tag">MOST POPULAR</span>
               <div className="price-tag">$19 <small>/ month</small></div>
               <p>Full AI strategies, alternatives, saved plans, and monthly recurring workflows.</p>
               <Link href="/pricing" className="minimal-btn minimal-btn-dark full-width">
@@ -297,7 +297,7 @@ export default function LandingPage() {
         {/* Section 7: FAQ */}
         <section className="editorial-section border-top">
           <div className="section-grid-header">
-            <span className="section-tag">✦ 07 / FAQ</span>
+            <span className="section-tag">07 / FAQ</span>
             <h2>Frequently asked questions.</h2>
           </div>
 
@@ -306,7 +306,7 @@ export default function LandingPage() {
               <details key={question} className="faq-card">
                 <summary>
                   <span>{question}</span>
-                  <span className="text-emerald-400 font-mono">+</span>
+                  <span className="text-blue-400 font-mono">+</span>
                 </summary>
                 <p>{answer}</p>
               </details>
@@ -317,7 +317,7 @@ export default function LandingPage() {
         {/* Final CTA */}
         <section className="editorial-cta-section border-top">
           <div className="section cta-banner-box">
-            <span className="dark-badge">✦ READY TO START</span>
+            <span className="dark-badge">READY TO START</span>
             <h2>Turn your next task into a clear AI strategy.</h2>
             <p>Start with your workload. BENCHFLOW will handle tool evaluation.</p>
             <Link href="/sign-up" className="minimal-btn minimal-btn-dark">

@@ -77,100 +77,104 @@ export function OneOffStrategyForm() {
   if (!integrationsConfigured) return <IntegrationNotice />;
 
   return (
-    <form className="editorial-card-block strategy-form-card" onSubmit={submit}>
-      <div className="form-stack">
-        <div className="styled-field full">
-          <label htmlFor="project-brief">Tell us what you’re working on</label>
-          <textarea
-            id="project-brief"
-            className="styled-textarea"
-            rows={4}
-            value={brief}
-            onChange={(event) => setBrief(event.target.value)}
-            placeholder="e.g., Create a 60-second financial report video from an annual PDF report. Needs data visualizations, voice-over, and corporate branding."
+    <form className="editorial-card-block strategy-form-card space-y-6" onSubmit={submit}>
+      {/* Section 12 — Dominant AI Input Surface */}
+      <div className="styled-field full">
+        <label htmlFor="project-brief" className="font-mono text-xs text-tertiary uppercase tracking-wider block mb-2">
+          Tell us what you’re working on
+        </label>
+        <textarea
+          id="project-brief"
+          className="styled-textarea text-base p-5 min-h-[160px] bg-[#0C0D0F] border-white/10"
+          value={brief}
+          onChange={(event) => setBrief(event.target.value)}
+          placeholder="Describe what you want to accomplish... (e.g. Launch a new skincare brand: market research, brand positioning, campaign visuals, and web app build)"
+        />
+      </div>
+
+      {/* Section 12 — Quiet Secondary Parameters */}
+      <div className="grid-2-col gap-4">
+        <div className="styled-field">
+          <label htmlFor="deadline" className="text-xs text-secondary font-mono uppercase tracking-wider">
+            Deadline
+          </label>
+          <input
+            id="deadline"
+            type="date"
+            className="styled-input bg-[#0C0D0F]"
+            min={todayValue}
+            value={deadline}
+            onChange={(event) => setDeadline(event.target.value)}
           />
-          <small className="field-hint">Describe the final result you need in plain English — we’ll break it down into an actionable AI model workflow.</small>
+          <small className="field-hint">{deadlineSummary}</small>
         </div>
 
-        <div className="grid-2-col gap-4">
-          <div className="styled-field">
-            <label htmlFor="deadline">Deadline</label>
-            <input
-              id="deadline"
-              type="date"
-              className="styled-input"
-              min={todayValue}
-              value={deadline}
-              onChange={(event) => setDeadline(event.target.value)}
-            />
-            <small className="field-hint">{deadlineSummary}</small>
-          </div>
-
-          <div className="styled-field">
-            <label htmlFor="currency">Budget Currency</label>
-            <select
-              id="currency"
-              className="styled-select"
-              value={currency}
-              onChange={(event) => setCurrency(event.target.value as typeof currency)}
-            >
-              <option value="USD">USD ($)</option>
-              <option value="AUD">AUD (A$)</option>
-              <option value="VND">VND (₫)</option>
-            </select>
-          </div>
+        <div className="styled-field">
+          <label htmlFor="currency" className="text-xs text-secondary font-mono uppercase tracking-wider">
+            Currency
+          </label>
+          <select
+            id="currency"
+            className="styled-select bg-[#0C0D0F]"
+            value={currency}
+            onChange={(event) => setCurrency(event.target.value as typeof currency)}
+          >
+            <option value="USD">USD ($)</option>
+            <option value="AUD">AUD (A$)</option>
+            <option value="VND">VND (₫)</option>
+          </select>
         </div>
+      </div>
 
-        <div className="styled-field full">
-          <label>Budget Tier</label>
-          <div className="budget-pills-row">
-            {[50, 100, 500].map((amount) => (
-              <button
-                type="button"
-                className={`budget-pill ${budgetChoice === String(amount) ? "selected-pill" : ""}`}
-                onClick={() => setBudgetChoice(String(amount))}
-                key={amount}
-              >
-                {currency === "VND" ? amount.toLocaleString() : `${currency === "USD" ? "$" : "A$"}${amount}`}
-              </button>
-            ))}
+      <div className="styled-field full">
+        <label className="text-xs text-secondary font-mono uppercase tracking-wider">Budget Ceiling</label>
+        <div className="budget-pills-row mt-1">
+          {[50, 100, 500].map((amount) => (
             <button
               type="button"
-              className={`budget-pill ${budgetChoice === "custom" ? "selected-pill" : ""}`}
-              onClick={() => setBudgetChoice("custom")}
+              className={`budget-pill ${budgetChoice === String(amount) ? "selected-pill" : ""}`}
+              onClick={() => setBudgetChoice(String(amount))}
+              key={amount}
             >
-              Enter exact budget
+              {currency === "VND" ? amount.toLocaleString() : `${currency === "USD" ? "$" : "A$"}${amount}`}
             </button>
-          </div>
-          {budgetChoice === "custom" && (
-            <input
-              aria-label="Exact budget"
-              type="number"
-              className="styled-input mt-3"
-              min="0"
-              step="any"
-              value={customBudget}
-              onChange={(event) => setCustomBudget(event.target.value)}
-              placeholder="Enter custom budget amount"
-            />
-          )}
-        </div>
-
-        <div className="styled-field full">
-          <label>Rank Your Priorities</label>
-          <PriorityRanking priorities={priorities} onChange={setPriorities} />
-        </div>
-
-        <OptionalDetails idPrefix="one-off" value={optionalDetails} onChange={setOptionalDetails} />
-
-        {error && <p className="error-message">{error}</p>}
-
-        <div className="form-actions-bar">
-          <button className="minimal-btn minimal-btn-dark" disabled={busy}>
-            <span>{busy ? "Analyzing Project Requirements..." : "Create Editable Workflow"}</span>
-            <ArrowUpRight className="w-4 h-4" />
+          ))}
+          <button
+            type="button"
+            className={`budget-pill ${budgetChoice === "custom" ? "selected-pill" : ""}`}
+            onClick={() => setBudgetChoice("custom")}
+          >
+            Enter exact budget
           </button>
         </div>
+        {budgetChoice === "custom" && (
+          <input
+            aria-label="Exact budget"
+            type="number"
+            className="styled-input bg-[#0C0D0F] mt-3"
+            min="0"
+            step="any"
+            value={customBudget}
+            onChange={(event) => setCustomBudget(event.target.value)}
+            placeholder="Enter budget amount"
+          />
+        )}
+      </div>
+
+      <div className="styled-field full">
+        <label className="text-xs text-secondary font-mono uppercase tracking-wider">Priority Ranking</label>
+        <PriorityRanking priorities={priorities} onChange={setPriorities} />
+      </div>
+
+      <OptionalDetails idPrefix="one-off" value={optionalDetails} onChange={setOptionalDetails} />
+
+      {error && <p className="error-message">{error}</p>}
+
+      {/* Section 12 — Primary CTA */}
+      <div className="form-actions-bar">
+        <button className="minimal-btn minimal-btn-dark" disabled={busy}>
+          <span>{busy ? "ANALYZING PROJECT..." : "Build Strategy →"}</span>
+        </button>
       </div>
     </form>
   );

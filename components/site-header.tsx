@@ -13,7 +13,7 @@ function AuthActions() {
       <>
         <Link href="/sign-in" className="nav-link-subtle">Log in</Link>
         <Link className="minimal-btn minimal-btn-dark" href="/sign-up">
-          <span>Get Started</span>
+          <span>Build My AI Strategy</span>
           <ArrowUpRight className="w-4 h-4" />
         </Link>
       </>
@@ -25,7 +25,7 @@ function AuthActions() {
       <Show when="signed-out">
         <Link href="/sign-in" className="nav-link-subtle">Log in</Link>
         <Link className="minimal-btn minimal-btn-dark" href="/sign-up">
-          <span>Get Started</span>
+          <span>Build My AI Strategy</span>
           <ArrowUpRight className="w-4 h-4" />
         </Link>
       </Show>
@@ -45,10 +45,10 @@ export function SiteHeader() {
         <Brand />
         
         <nav className={`header-nav ${open ? "open" : ""}`}>
-          <Link href="#overview">Overview</Link>
-          <Link href="#process">Process</Link>
-          <Link href="#criteria">Criteria</Link>
-          <Link href="#pricing">Pricing</Link>
+          <Link href="/#overview">Overview</Link>
+          <Link href="/dashboard">Strategies</Link>
+          <Link href="/choose-usage">Build Strategy</Link>
+          <Link href="/pricing">Pricing</Link>
           <AuthActions />
         </nav>
 
