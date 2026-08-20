@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Check, X, ChevronRight, Sparkles, Layers, ShieldCheck, Zap, Cpu, CalendarCheck2, RefreshCw } from "lucide-react";
 
 export function LustroDeck() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -196,7 +195,6 @@ export function LustroDeck() {
                     <h3>Too many tools &amp; tiers</h3>
                     <p>ChatGPT, Claude, Perplexity, Midjourney—each with separate seats and overlapping feature sets.</p>
                   </div>
-                  <div className="pc-icon">&hellip;</div>
                 </div>
                 <div className="problem-card glass-card reveal">
                   <div className="pc-num">02</div>
@@ -204,7 +202,6 @@ export function LustroDeck() {
                     <h3>Hidden API &amp; usage limits</h3>
                     <p>Rate limits and unexpected usage bills cause surprise charges mid-project.</p>
                   </div>
-                  <div className="pc-icon">&#9888;</div>
                 </div>
                 <div className="problem-card glass-card reveal">
                   <div className="pc-num">03</div>
@@ -212,14 +209,13 @@ export function LustroDeck() {
                     <h3>Context &amp; privacy risks</h3>
                     <p>Lack of clarity on data privacy terms, server regions, and commercial licensing.</p>
                   </div>
-                  <div className="pc-icon">&#10067;</div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* ============ SLIDE 3: INTRODUCING BENCHFLOW (View Demo removed) ============ */}
+        {/* ============ SLIDE 3: INTRODUCING BENCHFLOW ============ */}
         <section className={`slide ${currentIdx === 2 ? "active" : ""}`} data-section="Introducing BENCHFLOW">
           <div className="slide-inner s-product">
             <div className="s-product-grid">
@@ -233,19 +229,15 @@ export function LustroDeck() {
                 </p>
                 <div className="s-product-features reveal">
                   <div className="pf">
-                    <div className="pf-ic">&#9889;</div>
                     <span>Natural language workflow</span>
                   </div>
                   <div className="pf">
-                    <div className="pf-ic">&#9737;</div>
                     <span>Verified benchmark evidence</span>
                   </div>
                   <div className="pf">
-                    <div className="pf-ic">&#9728;</div>
                     <span>Plain-English summaries</span>
                   </div>
                   <div className="pf">
-                    <div className="pf-ic">&#9986;</div>
                     <span>Consolidated subscription savings</span>
                   </div>
                 </div>
@@ -305,7 +297,7 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 4: THE PROCESS ============ */}
+        {/* ============ SLIDE 4: THE PROCESS (Icons Removed & Spacing Increased) ============ */}
         <section className={`slide ${currentIdx === 3 ? "active" : ""}`} data-section="The process">
           <div className="slide-inner s-features">
             <div className="s-features-head">
@@ -323,25 +315,21 @@ export function LustroDeck() {
             <div className="feature-grid">
               <div className="feature glass-card reveal">
                 <div className="f-num">01</div>
-                <div className="f-ic">&#9997;</div>
                 <h3>Describe the result</h3>
                 <p>Tell BENCHFLOW what you need in everyday language, along with budget, target deadline, and priority ranking.</p>
               </div>
               <div className="feature-grid-item feature glass-card reveal">
                 <div className="f-num">02</div>
-                <div className="f-ic">&#9889;</div>
                 <h3>Planner AI maps the work</h3>
                 <p>The planner returns a validated workflow breakdown with workload assumptions and exact step requirements.</p>
               </div>
               <div className="feature-grid-item feature glass-card reveal">
                 <div className="f-num">03</div>
-                <div className="f-ic">&#9737;</div>
                 <h3>Primary evidence matching</h3>
                 <p>Modality fit, context window limits, missing privacy evidence, and hard-budget failures are automatically filtered out.</p>
               </div>
               <div className="feature-grid-item feature glass-card reveal">
                 <div className="f-num">04</div>
-                <div className="f-ic">&#9986;</div>
                 <h3>Optimized stack &amp; savings</h3>
                 <p>Priority-controlled weights calculate performance fit, subscription consolidation, and net monthly dollar savings.</p>
               </div>
@@ -349,7 +337,7 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 5: PLANNING MODES (Matching Deck 4 Design System) ============ */}
+        {/* ============ SLIDE 5: PLANNING MODES (Icons Removed & Spacing Increased) ============ */}
         <section className={`slide ${currentIdx === 4 ? "active" : ""}`} data-section="Planning modes">
           <div className="slide-inner s-features">
             <div className="s-features-head">
@@ -365,26 +353,24 @@ export function LustroDeck() {
               </p>
             </div>
             <div className="feature-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
-              <div className="feature glass-card reveal flex flex-col justify-between min-h-[280px]">
+              <div className="feature glass-card reveal flex flex-col justify-between min-h-[300px]">
                 <div>
                   <div className="f-num">01</div>
-                  <div className="f-ic">&#128197;</div>
                   <h3>One-off Project Strategy</h3>
                   <p>A specific deliverable with an exact target completion date, project brief, and budget ceiling limit.</p>
                 </div>
-                <Link href="/strategy/new/one-off" className="f-link mt-6">
+                <Link href="/strategy/new/one-off" className="f-link mt-8">
                   <span>Plan One-off Project</span> <span>&rarr;</span>
                 </Link>
               </div>
 
-              <div className="feature glass-card reveal flex flex-col justify-between min-h-[280px]">
+              <div className="feature glass-card reveal flex flex-col justify-between min-h-[300px]">
                 <div>
                   <div className="f-num">02</div>
-                  <div className="f-ic">&#128256;</div>
                   <h3>Monthly Workload Pipeline</h3>
                   <p>Multiple recurring tasks, each with its own execution frequency, model tier, and quality requirements.</p>
                 </div>
-                <Link href="/strategy/new/monthly" className="f-link mt-6">
+                <Link href="/strategy/new/monthly" className="f-link mt-8">
                   <span>Build Monthly Pipeline</span> <span>&rarr;</span>
                 </Link>
               </div>
@@ -408,14 +394,14 @@ export function LustroDeck() {
             <div className="feature-grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="feature glass-card reveal p-8 flex flex-col justify-between">
                 <div>
-                  <div className="font-mono text-xs text-ink-3 uppercase mb-2">Free Plan</div>
-                  <div className="metric-num grd font-sans text-3xl font-bold mb-2">$0</div>
-                  <p className="body-md text-xs text-ink-2 mb-6">Understand one task before deciding whether to pay.</p>
-                  <ul className="space-y-2 text-xs text-ink-2 mb-6">
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Account and onboarding</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> One task analysis</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Editable workflow preview</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Limited recommendation summary</li>
+                  <div className="font-mono text-xs text-ink-3 uppercase mb-3">Free Plan</div>
+                  <div className="metric-num grd font-sans text-3xl font-bold mb-3">$0</div>
+                  <p className="body-md text-xs text-ink-2 mb-6 leading-relaxed">Understand one task before deciding whether to pay.</p>
+                  <ul className="space-y-3 text-xs text-ink-2 mb-6">
+                    <li>&bull; Account and onboarding</li>
+                    <li>&bull; One task analysis</li>
+                    <li>&bull; Editable workflow preview</li>
+                    <li>&bull; Limited recommendation summary</li>
                   </ul>
                 </div>
                 <Link href="/sign-up" className="btn-secondary text-xs w-full justify-center">
@@ -426,14 +412,14 @@ export function LustroDeck() {
               <div className="feature glass-card reveal p-8 flex flex-col justify-between border-2 border-indigo-500/50 relative">
                 <span className="recommended-badge absolute -top-3 right-6">★ RECOMMENDED</span>
                 <div>
-                  <div className="font-mono text-xs text-indigo-soft uppercase mb-2">Plus Plan</div>
-                  <div className="metric-num grd font-sans text-3xl font-bold mb-2">$19 <span style={{ fontSize: "14px", fontWeight: 400, color: "var(--ink-3)" }}>/ month</span></div>
-                  <p className="body-md text-xs text-ink-2 mb-6">Complete plans and alternatives for individual work.</p>
-                  <ul className="space-y-2 text-xs text-ink-2 mb-6">
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Full AI Strategy Plans</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Unlimited saved strategies</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Primary evidence verification</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Monthly workflow recommendations</li>
+                  <div className="font-mono text-xs text-indigo-soft uppercase mb-3">Plus Plan</div>
+                  <div className="metric-num grd font-sans text-3xl font-bold mb-3">$19 <span style={{ fontSize: "14px", fontWeight: 400, color: "var(--ink-3)" }}>/ month</span></div>
+                  <p className="body-md text-xs text-ink-2 mb-6 leading-relaxed">Complete plans and alternatives for individual work.</p>
+                  <ul className="space-y-3 text-xs text-ink-2 mb-6">
+                    <li>&bull; Full AI Strategy Plans</li>
+                    <li>&bull; Unlimited saved strategies</li>
+                    <li>&bull; Primary evidence verification</li>
+                    <li>&bull; Monthly workflow recommendations</li>
                   </ul>
                 </div>
                 <Link href="/sign-up" className="btn-primary text-xs w-full justify-center">
@@ -443,14 +429,14 @@ export function LustroDeck() {
 
               <div className="feature glass-card reveal p-8 flex flex-col justify-between">
                 <div>
-                  <div className="font-mono text-xs text-pink-soft uppercase mb-2">Enterprise Plan</div>
-                  <div className="metric-num grd font-sans text-3xl font-bold mb-2">Custom</div>
-                  <p className="body-md text-xs text-ink-2 mb-6">Organisation access and dedicated support without admin bloat.</p>
-                  <ul className="space-y-2 text-xs text-ink-2 mb-6">
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Organisation workspace</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Custom API access</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> Implementation support</li>
-                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 flex-none" /> SLA &amp; dedicated manager</li>
+                  <div className="font-mono text-xs text-pink-soft uppercase mb-3">Enterprise Plan</div>
+                  <div className="metric-num grd font-sans text-3xl font-bold mb-3">Custom</div>
+                  <p className="body-md text-xs text-ink-2 mb-6 leading-relaxed">Organisation access and dedicated support without admin bloat.</p>
+                  <ul className="space-y-3 text-xs text-ink-2 mb-6">
+                    <li>&bull; Organisation workspace</li>
+                    <li>&bull; Custom API access</li>
+                    <li>&bull; Implementation support</li>
+                    <li>&bull; SLA &amp; dedicated manager</li>
                   </ul>
                 </div>
                 <a href="mailto:sales@benchflow.app" className="btn-secondary text-xs w-full justify-center">
