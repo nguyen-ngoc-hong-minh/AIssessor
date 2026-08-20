@@ -337,7 +337,7 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 5: PLANNING MODES (Icons Removed & Spacing Increased) ============ */}
+        {/* ============ SLIDE 5: PLANNING MODES (Matching Deck 4 Design System) ============ */}
         <section className={`slide ${currentIdx === 4 ? "active" : ""}`} data-section="Planning modes">
           <div className="slide-inner s-features">
             <div className="s-features-head">
@@ -353,24 +353,24 @@ export function LustroDeck() {
               </p>
             </div>
             <div className="feature-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
-              <div className="feature glass-card reveal flex flex-col justify-between min-h-[300px]">
+              <div className="feature glass-card deck-mode-card reveal">
                 <div>
                   <div className="f-num">01</div>
                   <h3>One-off Project Strategy</h3>
                   <p>A specific deliverable with an exact target completion date, project brief, and budget ceiling limit.</p>
                 </div>
-                <Link href="/strategy/new/one-off" className="f-link mt-8">
+                <Link href="/strategy/new/one-off" className="f-link">
                   <span>Plan One-off Project</span> <span>&rarr;</span>
                 </Link>
               </div>
 
-              <div className="feature glass-card reveal flex flex-col justify-between min-h-[300px]">
+              <div className="feature glass-card deck-mode-card reveal">
                 <div>
                   <div className="f-num">02</div>
                   <h3>Monthly Workload Pipeline</h3>
                   <p>Multiple recurring tasks, each with its own execution frequency, model tier, and quality requirements.</p>
                 </div>
-                <Link href="/strategy/new/monthly" className="f-link mt-8">
+                <Link href="/strategy/new/monthly" className="f-link">
                   <span>Build Monthly Pipeline</span> <span>&rarr;</span>
                 </Link>
               </div>
