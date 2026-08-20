@@ -2351,11 +2351,11 @@ body > .brand {
 }
 
 .auth-editorial-left {
-  padding: 36px 32px;
+  padding: 40px 36px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 24px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
   border-right: 1px solid var(--glass-border);
 }
@@ -2364,8 +2364,8 @@ body > .brand {
   font-size: 28px;
   font-weight: 500;
   color: #ffffff;
-  margin: 6px 0 10px;
-  line-height: 1.2;
+  margin: 18px 0 14px;
+  line-height: 1.25;
 }
 
 .auth-desc {
