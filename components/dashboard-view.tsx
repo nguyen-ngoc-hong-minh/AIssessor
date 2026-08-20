@@ -101,8 +101,8 @@ export function DashboardView() {
       </div>
 
       {/* Main Strategy List Section */}
-      <div className="dash-content-block glass-card p-8 md:p-10">
-        <div className="flex items-center justify-between pb-8 mb-10 border-b border-white/10">
+      <div className="dash-content-block glass-card p-10 md:p-12">
+        <div className="flex items-center justify-between pb-8 mb-14 border-b border-white/10">
           <div className="space-y-4">
             <div className="eyebrow">
               <span className="dt" />
@@ -112,7 +112,7 @@ export function DashboardView() {
               Active Workload Plans
             </h2>
           </div>
-          <span className="font-mono text-xs text-tertiary px-3.5 py-1.5 rounded-full border border-white/10">
+          <span className="font-mono text-xs text-tertiary">
             {strategies.length} items
           </span>
         </div>
@@ -120,15 +120,15 @@ export function DashboardView() {
         {error && <p className="text-red-400 text-sm mb-6">{error}</p>}
 
         {strategies.length === 0 ? (
-          <div className="text-center py-16 px-6 space-y-8">
-            <h3 className="h-display text-3xl font-semibold text-white tracking-tight">
+          <div className="text-center py-20 px-6 space-y-10">
+            <h3 className="h-display text-3xl md:text-4xl font-semibold text-white tracking-tight">
               No Saved Strategies Yet
             </h3>
             <p className="body-md text-sm md:text-base text-ink-2 leading-relaxed max-w-xl mx-auto pt-2 pb-2">
               Describe your project or recurring workflow once. AIssessor will evaluate models and save your actionable plan here.
             </p>
-            <div className="pt-4">
-              <Link className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 text-sm rounded-full shadow-lg hover:scale-105 transition-transform" href="/choose-usage">
+            <div className="pt-6">
+              <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm rounded-full shadow-lg hover:scale-105 transition-transform" href="/choose-usage">
                 <Plus className="w-4 h-4" />
                 <span>Create Your First Strategy</span>
                 <ArrowUpRight className="w-4 h-4" />
