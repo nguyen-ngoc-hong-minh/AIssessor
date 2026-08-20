@@ -2537,18 +2537,37 @@ body > .brand {
   margin-bottom: 8px !important;
 }
 
+/* Force Ultra-Bright Silver-White Input Placeholder Text */
+.clerk-container input::placeholder,
+.clerk-container input::-webkit-input-placeholder,
+.clerk-container input::-moz-placeholder,
+.clerk-container input:-ms-input-placeholder,
+.cl-rootBox input::placeholder,
+.cl-rootBox input::-webkit-input-placeholder,
+.cl-rootBox input::-moz-placeholder,
 .cl-formFieldInput::placeholder,
 .cl-formFieldInput::-webkit-input-placeholder,
 .cl-formFieldInput::-moz-placeholder,
 .cl-formFieldInput:-ms-input-placeholder,
+.cl-formFieldInput__emailAddress::placeholder,
+.cl-formFieldInput__password::placeholder,
 .cl-input::placeholder,
 .cl-input::-webkit-input-placeholder,
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="password"]::placeholder,
 input::placeholder,
 input::-webkit-input-placeholder,
 input::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.75) !important;
-  -webkit-text-fill-color: rgba(255, 255, 255, 0.75) !important;
-  opacity: 1 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 0.9 !important;
+}
+
+.cl-formFieldInputShowPasswordButton,
+.cl-formFieldInputShowPasswordIcon {
+  color: #ffffff !important;
+  opacity: 0.8 !important;
 }
 
 .cl-formFieldInput:focus {
