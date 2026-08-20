@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 
 export function BillingView() {
   return (
-    <div className="slide-inner s-features w-full max-w-full">
+    <div className="slide-inner s-features w-full max-w-full pt-5">
       {/* Slide 5 style header layout */}
       <div className="s-features-head">
         <div className="sf-l">
@@ -78,10 +78,16 @@ export function BillingView() {
           </Link>
         </div>
 
-        {/* Card 2: Featured Plus Plan */}
+        {/* Card 2: Featured Plus Plan (Recommended) */}
         <div className="feature glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative flex flex-col justify-between p-8">
           <div>
-            <div className="plan-name text-xl font-semibold text-white mb-4">Plus Plan</div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="plan-name mb-0 text-xl font-semibold text-white">Plus Plan</div>
+              <div className="eyebrow text-xs py-1 px-3">
+                <span className="dt" />
+                Recommended
+              </div>
+            </div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
               <span className="plan-price text-4xl font-bold text-white">$19</span>
               <span className="plan-period text-sm text-ink-2">/month</span>
