@@ -558,9 +558,6 @@ export function LustroDeck() {
                 <Link href="/sign-up" className="btn-primary">
                   Build My AI Strategy &rarr;
                 </Link>
-                <Link href="/choose-usage" className="btn-secondary">
-                  Create Workflow
-                </Link>
               </div>
               <div className="s-cta-launch-info reveal">
                 <div className="launch-item">
