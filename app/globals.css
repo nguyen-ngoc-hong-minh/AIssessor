@@ -2539,8 +2539,15 @@ body > .brand {
 
 .cl-formFieldInput::placeholder,
 .cl-formFieldInput::-webkit-input-placeholder,
-.cl-formFieldInput::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.45) !important;
+.cl-formFieldInput::-moz-placeholder,
+.cl-formFieldInput:-ms-input-placeholder,
+.cl-input::placeholder,
+.cl-input::-webkit-input-placeholder,
+input::placeholder,
+input::-webkit-input-placeholder,
+input::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.75) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.75) !important;
   opacity: 1 !important;
 }
 
