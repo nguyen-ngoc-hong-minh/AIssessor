@@ -150,19 +150,23 @@ export function LustroLanding() {
     </header>
 
     <section id="cover" className={`lustro-slide lustro-cover ${active === 0 ? "active" : ""}`} aria-hidden={active !== 0}>
-      {/* Static public asset avoids runtime image-proxy failures in the deployed worker. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="lustro-cover-image" src="/benchflow-hero-3d.png" alt="" fetchPriority="high" />
-      <div className="lustro-cover-shade" />
       <div className="lustro-slide-inner lustro-cover-inner">
         <div className="lustro-eyebrow lustro-reveal"><span /> Evidence-led AI procurement</div>
-        <h1 className="lustro-reveal">BENCHFLOW</h1>
-        <p className="lustro-cover-headline lustro-reveal">The right AI stack.<br />For the work in front of you.</p>
+        <h1 className="lustro-cover-headline">
+          <span className="lustro-cover-line"><span><em>BENCHFLOW</em> is here.</span></span>
+          <span className="lustro-cover-line"><span>AI, finally clear.</span></span>
+        </h1>
         <p className="lustro-body-lg lustro-reveal">Describe a project or recurring task. Get a clear set of AI products, plans, costs, alternatives, and reasons.</p>
+        <div className="lustro-cover-meta lustro-reveal">
+          <span>One-off projects</span><i />
+          <span>Monthly workflows</span><i />
+          <span>Current evidence</span>
+        </div>
         <div className="lustro-actions lustro-reveal">
           <Link href="/sign-up" className="lustro-primary-action">Build my AI strategy <ArrowRight /></Link>
           <button type="button" className="lustro-secondary-action" onClick={() => goTo(1)}>See how it works</button>
         </div>
+        <div className="lustro-cover-version">PRODUCT / DECK / 0001 · BENCHFLOW</div>
       </div>
     </section>
 
