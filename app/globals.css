@@ -1976,10 +1976,18 @@ body > .brand {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 24px 18px;
+  padding: 32px 22px 28px;
   background: rgba(13, 18, 32, 0.95);
   border-right: 1px solid var(--glass-border);
   backdrop-filter: var(--glass-blur);
+}
+
+.editorial-sidebar .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #ffffff;
 }
 
 .sidebar-nav-list {

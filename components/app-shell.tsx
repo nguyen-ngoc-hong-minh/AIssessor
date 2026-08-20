@@ -1,11 +1,10 @@
 "use client";
 
 import { SignOutButton } from "@clerk/react";
-import { BarChart3, CreditCard, Database, LogOut, Plus, Settings, Presentation } from "lucide-react";
+import { BarChart3, CreditCard, Database, LogOut, Plus, Settings } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Brand } from "./brand";
-import { DashboardDeckNav } from "./dashboard-deck-nav";
 
 const mainNavLinks = [
   { href: "/dashboard", label: "Strategies", icon: BarChart3 },
@@ -13,8 +12,6 @@ const mainNavLinks = [
   { href: "/billing", label: "Billing", icon: CreditCard },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
-
-const presentationLink = { href: "/", label: "Presentation Deck", icon: Presentation };
 
 export function AppShell({
   children,
@@ -27,8 +24,8 @@ export function AppShell({
 }) {
   const path = usePathname();
   const visibleLinks = isAdmin
-    ? [...mainNavLinks, { href: "/admin/evidence", label: "Evidence", icon: Database }, presentationLink]
-    : [...mainNavLinks, presentationLink];
+    ? [...mainNavLinks, { href: "/admin/evidence", label: "Evidence", icon: Database }]
+    : mainNavLinks;
   const initial = (user.name || user.email).trim().charAt(0).toUpperCase();
 
   return (
@@ -36,13 +33,11 @@ export function AppShell({
       {/* Background Deck Glow */}
       <div className="deck-bg" />
 
-      {/* Floating Lustro Deck Navigation Bar & Jump Modal for Dashboard */}
-      <DashboardDeckNav />
-
-      <aside className="editorial-sidebar w-64 flex-none border-r border-white/10 p-6 flex flex-col justify-between bg-black/40 backdrop-blur-xl relative z-20 min-h-screen">
+      {/* Clean Spacious Sidebar */}
+      <aside className="editorial-sidebar w-64 flex-none border-r border-white/10 p-8 flex flex-col justify-between bg-black/40 backdrop-blur-xl relative z-20 min-h-screen">
         <div>
-          {/* Sidebar Brand Header */}
-          <div className="mb-8">
+          {/* Sidebar Brand Header with Logo Icon */}
+          <div className="mb-8 pt-2 px-1">
             <Brand />
           </div>
 
@@ -61,7 +56,7 @@ export function AppShell({
             </span>
 
             {/* Main Navigation Links */}
-            {mainNavLinks.map(({ href, label, icon: Icon }) => {
+            {visibleLinks.map(({ href, label, icon: Icon }) => {
               const active = path.startsWith(href) || (label === "New strategy" && path.startsWith("/strategy/new"));
               return (
                 <Link
@@ -79,25 +74,6 @@ export function AppShell({
                 </Link>
               );
             })}
-
-            {/* Separator before Presentation Deck */}
-            <div className="pt-4 mt-4 border-t border-white/10">
-              <span className="font-mono text-[10px] text-tertiary uppercase tracking-widest block px-3 mb-3">
-                PRESENTATION DECK
-              </span>
-              <Link
-                className={`flex items-center gap-3 px-3.5 py-3 rounded-xl transition-all ${
-                  path === "/"
-                    ? "bg-indigo-500/15 text-indigo-300 font-medium border border-indigo-500/30"
-                    : "text-secondary hover:text-white hover:bg-white/5"
-                }`}
-                href={presentationLink.href}
-              >
-                <Presentation className={`w-4 h-4 ${path === "/" ? "text-indigo-400" : "text-indigo-400/70"}`} />
-                <span className="text-xs">{presentationLink.label}</span>
-                {path === "/" && <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 ml-auto shadow-[0_0_8px_#6366f1]" />}
-              </Link>
-            </div>
           </nav>
         </div>
 
