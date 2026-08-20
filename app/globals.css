@@ -1518,11 +1518,11 @@ html, body {
 }
 
 .metric {
-  padding: 22px 24px;
+  padding: 26px 26px 18px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 145px;
+  min-height: auto;
   position: relative;
   overflow: hidden;
 }
@@ -1547,11 +1547,11 @@ html, body {
 .metric-num {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: clamp(34px, 4vw, 52px);
+  font-size: clamp(36px, 4.5vw, 60px);
   letter-spacing: -0.04em;
-  line-height: 1;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  line-height: 1.1;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .metric-num.grd {
@@ -2088,7 +2088,7 @@ html, body {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 }
 
 .dash-metric-card {
