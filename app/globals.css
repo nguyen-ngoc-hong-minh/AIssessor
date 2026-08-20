@@ -1287,5 +1287,5 @@ button, a, .bloom-card, .glass-mode-card, .workflow-glass-card, .evidence-tile, 
   .bloom-cards-grid { grid-template-columns: 1fr; }
   .strategy-table-glass header, .strategy-table-glass > div { grid-template-columns: 1fr; gap: 8px; }
 }
-}
+
 
