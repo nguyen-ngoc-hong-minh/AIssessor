@@ -392,7 +392,8 @@ export function LustroDeck() {
                 Affordable plans for every budget
               </h2>
               <p className="body-lg reveal">
-                Explore our range of pricing options designed to fit any budget, offering exceptional value and flexibility to meet your unique needs.
+                Explore our range of pricing options designed to fit any budget,<br />
+                offering exceptional value and flexibility to meet your unique needs.
               </p>
             </div>
 
