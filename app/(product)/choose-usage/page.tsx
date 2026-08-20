@@ -1,30 +1,26 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Choose Planning Mode · AIssessor" };
+export const metadata: Metadata = { title: "Planning Modes · AIssessor" };
 
 export default function ChooseUsagePage() {
   return (
-    <div className="editorial-page-container max-w-5xl mx-auto space-y-10">
-      {/* Header Block matching Deck 5 */}
+    <div className="slide-inner s-features w-full">
       <div className="s-features-head">
         <div className="sf-l">
-          <div className="eyebrow mb-3">
+          <div className="eyebrow">
             <span className="dt" />
-            CHOOSE YOUR PLANNING MODE
+            Choose your planning mode
           </div>
-          <h1 className="h-display text-4xl md:text-5xl font-semibold text-white leading-tight">
+          <h2 className="h-display">
             Tailored for <span className="grd">one-off projects</span> or <span className="grd">monthly workloads</span>.
-          </h1>
+          </h2>
         </div>
-        <p className="sf-r body-lg text-ink-2">
+        <p className="sf-r">
           Select how you want to structure your AI recommendations based on your team&apos;s workflow style and delivery cadence.
         </p>
       </div>
-
-      {/* 2-Column Grid matching Deck 5 */}
-      <div className="feature-grid grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Card 01: One-off Project Strategy */}
+      <div className="feature-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
         <div className="feature glass-card deck-mode-card">
           <div>
             <div className="f-num">01</div>
@@ -36,7 +32,6 @@ export default function ChooseUsagePage() {
           </Link>
         </div>
 
-        {/* Card 02: Monthly Workload Pipeline */}
         <div className="feature glass-card deck-mode-card">
           <div>
             <div className="f-num">02</div>
