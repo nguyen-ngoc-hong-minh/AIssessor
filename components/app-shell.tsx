@@ -30,11 +30,6 @@ export function AppShell({
       ? rawEmail.split("@")[0]
       : "AIssessor Member";
 
-  const displayEmail =
-    rawEmail && !rawEmail.startsWith("user_") && !rawEmail.includes("@clerk.invalid")
-      ? rawEmail
-      : "";
-
   const initial = displayName.charAt(0).toUpperCase();
 
   return (
@@ -53,26 +48,19 @@ export function AppShell({
       {/* Main Workspace Presentation Area */}
       <main className="editorial-app-main min-h-screen relative z-10">{children}</main>
 
-      {/* Presentation Deck Bottom-Left: User Profile Badge & Avatar */}
-      <div className="dash-user-bottom-left flex items-center gap-3.5 backdrop-blur-xl bg-black/60 border border-white/15 px-4 py-2.5 rounded-full shadow-2xl">
+      {/* Presentation Deck Bottom-Left: User Profile Pill (Matches Top Toggle Glass Style) */}
+      <div className="dash-user-pill">
         {avatarUrl ? (
-          <img src={avatarUrl} alt={displayName} className="w-8 h-8 rounded-full object-cover shadow-md flex-none" />
+          <img src={avatarUrl} alt={displayName} className="user-avatar-img" />
         ) : (
-          <span className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 text-white font-bold grid place-items-center text-xs shadow-md flex-none">
-            {initial}
-          </span>
+          <span className="user-avatar-fallback">{initial}</span>
         )}
-        <strong className="text-xs text-white font-medium truncate max-w-[160px] px-0.5">{displayName}</strong>
+        <strong className="text-xs text-white font-medium truncate max-w-[150px]">{displayName}</strong>
         <SignOutButton redirectUrl="/">
-          <button className="p-1.5 text-tertiary hover:text-white transition-colors flex-none ml-1 rounded-full hover:bg-white/10" aria-label="Sign out" title="Sign out">
-            <LogOut className="w-4 h-4" />
+          <button className="sign-out-btn" aria-label="Sign out" title="Sign out">
+            <LogOut className="w-3.5 h-3.5" />
           </button>
         </SignOutButton>
-      </div>
-
-      {/* Presentation Deck Bottom-Right Footer */}
-      <div className="deck-footer">
-        Press <kbd>M</kbd> for menu &bull; <kbd>1</kbd>&ndash;<kbd>4</kbd> jump
       </div>
     </div>
   );

@@ -183,11 +183,61 @@ html, body {
   gap: 12px;
 }
 
-.dash-user-bottom-left {
+.dash-user-pill {
   position: fixed;
   bottom: 28px;
   left: 32px;
   z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 14px 0 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 100px;
+  color: var(--ink);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.dash-user-pill .user-avatar-img,
+.dash-user-pill .user-avatar-fallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.dash-user-pill .user-avatar-fallback {
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 12px;
+  display: grid;
+  place-items: center;
+}
+
+.dash-user-pill .sign-out-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  transition: all 0.25s ease;
+  padding: 0;
+  margin-left: 2px;
+}
+
+.dash-user-pill .sign-out-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.08);
 }
 
 @media (max-width: 768px) {
@@ -199,7 +249,7 @@ html, body {
     top: 20px;
     right: 20px;
   }
-  .dash-user-bottom-left {
+  .dash-user-pill {
     bottom: 20px;
     left: 20px;
   }
