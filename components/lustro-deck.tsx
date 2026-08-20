@@ -447,12 +447,7 @@ export function LustroDeck() {
               {/* Card 2: Featured Plus Plan */}
               <div className="glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative w-full">
                 <div>
-                  <div className="flex items-center justify-between mb-3.5">
-                    <div className="plan-name mb-0" style={{ marginBottom: 0 }}>Plus Plan</div>
-                    <span className="bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-[10px] font-mono px-2.5 py-1 rounded-full uppercase tracking-wider">
-                      ★ MOST POPULAR
-                    </span>
-                  </div>
+                  <div className="plan-name">Plus Plan</div>
                   <div className="plan-price-row">
                     <span className="plan-price">$19</span>
                     <span className="plan-period">/month</span>
