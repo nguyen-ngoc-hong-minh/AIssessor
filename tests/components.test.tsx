@@ -17,6 +17,7 @@ vi.mock("@clerk/react", () => ({
   SignUp: (props: { forceRedirectUrl?: string }) => <div data-testid="clerk-sign-up" data-redirect={props.forceRedirectUrl} />,
   UserProfile: () => <div data-testid="clerk-user-profile" />,
   SignOutButton: ({ children }: { children: React.ReactNode }) => children,
+  useUser: () => ({ user: null }),
 }));
 
 afterEach(() => {
