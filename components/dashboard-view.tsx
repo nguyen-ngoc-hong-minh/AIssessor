@@ -88,17 +88,16 @@ export function DashboardView() {
       {/* Main Strategy List Section */}
       <div className="dash-content-block glass-card p-8 md:p-10 min-h-[485px] flex flex-col justify-between">
         <div>
-          <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/10">
-            <div className="space-y-4">
-              <div className="eyebrow">
-                <span className="dt" />
-                Recent strategies
-              </div>
-              <h2 className="h-display text-3xl md:text-4xl font-semibold text-white pt-3 mt-1">
-                Active Workload Plans
-              </h2>
-            </div>
-            <span className="font-mono text-xs text-tertiary">
+          <div className="eyebrow mb-6">
+            <span className="dt" />
+            Recent strategies
+          </div>
+
+          <div className="flex items-end justify-between pb-6 mb-6 border-b border-white/10">
+            <h2 className="h-display text-3xl md:text-4xl font-semibold text-white">
+              Active Workload Plans
+            </h2>
+            <span className="font-mono text-xs text-tertiary mb-1">
               {strategies.length} items
             </span>
           </div>
