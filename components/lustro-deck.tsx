@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { Check } from "lucide-react";
 
 export function LustroDeck() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -297,7 +298,7 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 4: THE PROCESS (Icons Removed & Spacing Increased) ============ */}
+        {/* ============ SLIDE 4: THE PROCESS ============ */}
         <section className={`slide ${currentIdx === 3 ? "active" : ""}`} data-section="The process">
           <div className="slide-inner s-features">
             <div className="s-features-head">
@@ -337,7 +338,7 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 5: PLANNING MODES (Matching Deck 4 Design System) ============ */}
+        {/* ============ SLIDE 5: PLANNING MODES ============ */}
         <section className={`slide ${currentIdx === 4 ? "active" : ""}`} data-section="Planning modes">
           <div className="slide-inner s-features">
             <div className="s-features-head">
@@ -378,68 +379,161 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 6: PRICING PLANS ============ */}
+        {/* ============ SLIDE 6: PRICING PLANS (Redesigned per Reference Layout) ============ */}
         <section className={`slide ${currentIdx === 5 ? "active" : ""}`} data-section="Pricing plans">
           <div className="slide-inner s-compare">
-            <div className="s-compare-head">
-              <div className="eyebrow reveal">
+            {/* Centered Header Layout */}
+            <div className="s-compare-head text-center max-w-3xl mx-auto mb-10">
+              <div className="eyebrow reveal mx-auto mb-3">
                 <span className="dt" />
                 Simple pricing
               </div>
-              <h2 className="h-display reveal">Pay for complete answers, not a fake success screen.</h2>
-              <p className="body-lg reveal">
-                Transparent plans with verified Stripe Checkout. Upgrade or cancel anytime without hidden fees.
+              <h2 className="h-display reveal text-4xl md:text-5xl font-semibold mb-3">
+                Affordable plans for every budget
+              </h2>
+              <p className="body-lg reveal text-ink-2 text-sm leading-relaxed max-w-xl mx-auto">
+                Explore our range of pricing options designed to fit any budget, offering exceptional value and flexibility to meet your unique needs.
               </p>
             </div>
-            <div className="feature-grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="feature glass-card reveal p-8 flex flex-col justify-between">
+
+            {/* 3-Column Pricing Grid Matching Reference Layout */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+              {/* Card 1: Starter / Free Plan */}
+              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10">
                 <div>
-                  <div className="font-mono text-xs text-ink-3 uppercase mb-3">Free Plan</div>
-                  <div className="metric-num grd font-sans text-3xl font-bold mb-3">$0</div>
-                  <p className="body-md text-xs text-ink-2 mb-6 leading-relaxed">Understand one task before deciding whether to pay.</p>
-                  <ul className="space-y-3 text-xs text-ink-2 mb-6">
-                    <li>&bull; Account and onboarding</li>
-                    <li>&bull; One task analysis</li>
-                    <li>&bull; Editable workflow preview</li>
-                    <li>&bull; Limited recommendation summary</li>
+                  <div className="text-base font-medium text-white mb-2">Free Plan</div>
+                  <div className="flex items-baseline gap-1 mb-3">
+                    <span className="h-display text-4xl font-bold text-white">$0</span>
+                    <span className="text-xs text-ink-3">/month</span>
+                  </div>
+                  <p className="text-xs text-ink-2 leading-relaxed mb-6">
+                    Perfect for Individual Builders, Startups, and Workflow Discovery.
+                  </p>
+
+                  <div className="text-xs font-medium text-white mb-3">Features:</div>
+                  <ul className="space-y-3 text-xs text-ink-2 mb-8">
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-white/15 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Account and onboarding</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-white/15 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>One task analysis</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-white/15 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Editable workflow preview</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-white/15 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Limited recommendation summary</span>
+                    </li>
                   </ul>
                 </div>
-                <Link href="/sign-up" className="btn-secondary text-xs w-full justify-center">
-                  Start Free
+
+                <Link href="/sign-up" className="btn-secondary text-xs py-3.5 w-full justify-center rounded-xl font-medium">
+                  Get Started
                 </Link>
               </div>
 
-              <div className="feature glass-card reveal p-8 flex flex-col justify-between border-2 border-indigo-500/50 relative">
-                <span className="recommended-badge absolute -top-3 right-6">★ RECOMMENDED</span>
+              {/* Card 2: Featured Plus Plan (Dark Highlight Card with White CTA Button) */}
+              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative">
+                <span className="recommended-badge absolute -top-3 right-6 bg-indigo-500 text-white text-[10px] font-mono px-2.5 py-0.5 rounded-full">
+                  ★ MOST POPULAR
+                </span>
                 <div>
-                  <div className="font-mono text-xs text-indigo-soft uppercase mb-3">Plus Plan</div>
-                  <div className="metric-num grd font-sans text-3xl font-bold mb-3">$19 <span style={{ fontSize: "14px", fontWeight: 400, color: "var(--ink-3)" }}>/ month</span></div>
-                  <p className="body-md text-xs text-ink-2 mb-6 leading-relaxed">Complete plans and alternatives for individual work.</p>
-                  <ul className="space-y-3 text-xs text-ink-2 mb-6">
-                    <li>&bull; Full AI Strategy Plans</li>
-                    <li>&bull; Unlimited saved strategies</li>
-                    <li>&bull; Primary evidence verification</li>
-                    <li>&bull; Monthly workflow recommendations</li>
+                  <div className="text-base font-medium text-white mb-2">Plus Plan</div>
+                  <div className="flex items-baseline gap-1 mb-3">
+                    <span className="h-display text-4xl font-bold text-white">$19</span>
+                    <span className="text-xs text-ink-3">/month</span>
+                  </div>
+                  <p className="text-xs text-ink-2 leading-relaxed mb-6">
+                    Complete plans and alternatives for growing businesses.
+                  </p>
+
+                  <div className="text-xs font-medium text-white mb-3">Features:</div>
+                  <ul className="space-y-3 text-xs text-ink-2 mb-8">
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span className="text-white font-medium">Full AI Strategy Plans</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Unlimited saved strategies</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Primary evidence verification</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Monthly workflow recommendations</span>
+                    </li>
                   </ul>
                 </div>
-                <Link href="/sign-up" className="btn-primary text-xs w-full justify-center">
-                  Choose Plus &rarr;
+
+                <Link href="/sign-up" className="btn-primary text-xs py-3.5 w-full justify-center rounded-xl font-semibold text-black bg-white hover:bg-indigo-100">
+                  Get Started
                 </Link>
               </div>
 
-              <div className="feature glass-card reveal p-8 flex flex-col justify-between">
+              {/* Card 3: Enterprise Plan */}
+              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10">
                 <div>
-                  <div className="font-mono text-xs text-pink-soft uppercase mb-3">Enterprise Plan</div>
-                  <div className="metric-num grd font-sans text-3xl font-bold mb-3">Custom</div>
-                  <p className="body-md text-xs text-ink-2 mb-6 leading-relaxed">Organisation access and dedicated support without admin bloat.</p>
-                  <ul className="space-y-3 text-xs text-ink-2 mb-6">
-                    <li>&bull; Organisation workspace</li>
-                    <li>&bull; Custom API access</li>
-                    <li>&bull; Implementation support</li>
-                    <li>&bull; SLA &amp; dedicated manager</li>
+                  <div className="text-base font-medium text-white mb-2">Enterprise Plan</div>
+                  <div className="flex items-baseline gap-1 mb-3">
+                    <span className="h-display text-4xl font-bold text-white">Custom</span>
+                  </div>
+                  <p className="text-xs text-ink-2 leading-relaxed mb-6">
+                    Organisation access, custom API, and dedicated support.
+                  </p>
+
+                  <div className="text-xs font-medium text-white mb-3">Features:</div>
+                  <ul className="space-y-3 text-xs text-ink-2 mb-8">
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-white/15 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Organisation workspace</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-white/15 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Custom API access</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-white/15 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>Implementation support</span>
+                    </li>
+                    <li className="flex items-center gap-2.5">
+                      <span className="w-4 h-4 rounded-full bg-white/15 grid place-items-center flex-none">
+                        <Check className="w-2.5 h-2.5 text-white" />
+                      </span>
+                      <span>SLA &amp; dedicated manager</span>
+                    </li>
                   </ul>
                 </div>
-                <a href="mailto:sales@benchflow.app" className="btn-secondary text-xs w-full justify-center">
+
+                <a href="mailto:sales@benchflow.app" className="btn-secondary text-xs py-3.5 w-full justify-center rounded-xl font-medium">
                   Contact Sales
                 </a>
               </div>
