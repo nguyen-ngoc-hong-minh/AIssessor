@@ -66,9 +66,13 @@ describe("source normalizers", () => {
     const products = OFFICIAL_AI_PRODUCTS.map((product) => ({ id: product.id, ok: true, matchedTerms: product.verificationTerms }));
     const models = normalizeOfficialProducts({ products }, 100);
     const codex = models.find((candidate) => candidate.canonicalId === "openai/codex-product");
+    const elicit = models.find((candidate) => candidate.canonicalId === "elicit/elicit-product");
+    const deepl = models.find((candidate) => candidate.canonicalId === "deepl/deepl-translator");
     expect(models).toHaveLength(OFFICIAL_AI_PRODUCTS.length);
     expect(codex).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["repository_editing", "test_generation"]), benchmarks: [] });
     expect(codex?.capabilityEvidence[0]).toMatchObject({ confidence: "official_provider_docs" });
+    expect(elicit).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["web_research", "citation_support", "long_context"]) });
+    expect(deepl).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["translation", "document_parsing", "long_context"]) });
   });
 
   it("fails closed when an official product page no longer confirms its expected terms", () => {
