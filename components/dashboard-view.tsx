@@ -1,22 +1,168 @@
 "use client";
 
-import { ArrowUpRight, Copy, FilePlus2, Layers3, Sparkles, Trash2 } from "lucide-react";
+import { ArrowUpRight, Copy, Plus, Layers, Sparkles, Trash2, FileText, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
 import { integrationsConfigured } from "./providers";
 
-type Strategy = { _id: string; title: string; usageType: "one_off" | "monthly"; budget?: number; status: string; createdAt: number; refreshAvailable?: boolean; refreshReasons?: string[] };
+type Strategy = {
+  _id: string;
+  title: string;
+  usageType: "one_off" | "monthly";
+  budget?: number;
+  status: string;
+  createdAt: number;
+  refreshAvailable?: boolean;
+  refreshReasons?: string[];
+};
 
 export function DashboardView() {
   const [strategies, setStrategies] = useState<Strategy[]>([]);
   const [error, setError] = useState("");
-  function load() { fetch("/api/strategies").then(async (response) => { const body = await response.json() as Strategy[] | { error?: string }; if (!response.ok) throw new Error("error" in body ? body.error : "Unable to load strategies"); return body as Strategy[]; }).then(setStrategies).catch((reason) => setError(reason instanceof Error ? reason.message : "Unable to load strategies")); }
-  useEffect(() => { if (integrationsConfigured) load(); }, []);
-  async function remove(id: string) { if (!confirm("Delete this strategy?")) return; await fetch(`/api/strategies/${id}`, { method: "DELETE" }); load(); }
-  async function duplicate(id: string) { const response = await fetch(`/api/strategies/${id}/duplicate`, { method: "POST" }); if (!response.ok) { setError("Unable to duplicate strategy"); return; } load(); }
+
+  function load() {
+    fetch("/api/strategies")
+      .then(async (response) => {
+        const body = (await response.json()) as Strategy[] | { error?: string };
+        if (!response.ok) throw new Error("error" in body ? body.error : "Unable to load strategies");
+        return body as Strategy[];
+      })
+      .then(setStrategies)
+      .catch((reason) => setError(reason instanceof Error ? reason.message : "Unable to load strategies"));
+  }
+
+  useEffect(() => {
+    if (integrationsConfigured) load();
+  }, []);
+
+  async function remove(id: string) {
+    if (!confirm("Delete this strategy?")) return;
+    await fetch(`/api/strategies/${id}`, { method: "DELETE" });
+    load();
+  }
+
+  async function duplicate(id: string) {
+    const response = await fetch(`/api/strategies/${id}/duplicate`, { method: "POST" });
+    if (!response.ok) {
+      setError("Unable to duplicate strategy");
+      return;
+    }
+    load();
+  }
 
   if (!integrationsConfigured) return <IntegrationNotice />;
   const savedPlans = strategies.filter((strategy) => strategy.status === "complete").length;
-  return <div className="dashboard-grid"><section className="card dashboard-main"><header><div><span className="section-label">Strategy library</span><h2>Recent strategies</h2></div><Link className="button button-primary button-small" href="/choose-usage"><FilePlus2 />New strategy</Link></header>{error && <p className="error-message">{error}</p>}{strategies.length === 0 ? <div className="empty-state"><Sparkles /><h2>No saved strategies yet</h2><p>Describe the work once. BENCHFLOW will keep the resulting plan ready here.</p><Link className="button button-primary" href="/choose-usage">Create your first strategy</Link></div> : <div className="strategy-list">{strategies.map((strategy) => <div className="strategy-row" key={strategy._id}><div className="strategy-icon"><Layers3 /></div><div><strong>{strategy.title}</strong><small>{new Date(strategy.createdAt).toLocaleDateString()} · {strategy.usageType === "one_off" ? strategy.budget === undefined ? "Budget not set" : `Budget $${strategy.budget} USD` : "Recurring workload"}</small>{strategy.refreshAvailable && <span className="refresh-available" title={strategy.refreshReasons?.join("; ")}>Better plan available</span>}</div><span>{strategy.usageType === "one_off" ? "One-off" : "Monthly"}</span><div className="strategy-actions"><Link className="icon-button" href={`/strategy/${strategy._id}/${strategy.status === "complete" ? "results" : "workflow"}`} aria-label={`Open ${strategy.title}`} title="Open strategy"><ArrowUpRight /></Link><button className="icon-button" onClick={() => duplicate(strategy._id)} aria-label={`Duplicate ${strategy.title}`} title="Duplicate strategy"><Copy /></button><button className="icon-button danger" onClick={() => remove(strategy._id)} aria-label={`Delete ${strategy.title}`} title="Delete strategy"><Trash2 /></button></div></div>)}</div>}</section><aside className="card dashboard-side"><span className="section-label">Workspace</span><h2>At a glance</h2><div className="workspace-metric"><strong>{strategies.length}</strong><span>Strategies created</span></div><div className="workspace-metric"><strong>{savedPlans}</strong><span>Plans ready to reopen</span></div><div className="workspace-note"><Sparkles /><p>Recommendation evidence refreshes automatically. Saved plans stay unchanged until you choose to regenerate them.</p></div></aside></div>;
+
+  return (
+    <div className="minimal-dashboard">
+      {/* Dashboard Top Header */}
+      <div className="dashboard-header-bar">
+        <div>
+          <span className="mono-badge">[ DASHBOARD ]</span>
+          <h1>AI Strategy Library</h1>
+          <p>Quản lý các bộ công cụ AI và lộ trình thực thi đã được lưu.</p>
+        </div>
+        <Link className="minimal-btn minimal-btn-dark" href="/choose-usage">
+          <Plus className="w-4 h-4" />
+          <span>New Strategy</span>
+        </Link>
+      </div>
+
+      {/* Metric Tiles Row */}
+      <div className="dashboard-metrics-grid">
+        <div className="metric-card">
+          <span className="metric-code">[ 01 ]</span>
+          <div className="metric-val">{strategies.length}</div>
+          <span className="metric-lbl">Strategies Created</span>
+        </div>
+
+        <div className="metric-card">
+          <span className="metric-code">[ 02 ]</span>
+          <div className="metric-val">{savedPlans}</div>
+          <span className="metric-lbl">Plans Completed</span>
+        </div>
+
+        <div className="metric-card">
+          <span className="metric-code">[ 03 ]</span>
+          <div className="metric-val">100%</div>
+          <span className="metric-lbl">Evidence Verified</span>
+        </div>
+      </div>
+
+      {/* Main List Section */}
+      <div className="dashboard-main-content">
+        <div className="content-header">
+          <h2>Recent Strategies</h2>
+          <span className="count-tag">{strategies.length} items</span>
+        </div>
+
+        {error && <p className="error-message">{error}</p>}
+
+        {strategies.length === 0 ? (
+          <div className="minimal-empty-state">
+            <Layers className="w-8 h-8 text-black mb-3" />
+            <h3>Chưa có chiến lược nào được lưu</h3>
+            <p>Hãy tạo chiến lược đầu tiên bằng cách nhập nhiệm vụ công việc của bạn.</p>
+            <Link className="minimal-btn minimal-btn-dark" href="/choose-usage">
+              <Plus className="w-4 h-4" />
+              <span>Tạo chiến lược mới</span>
+            </Link>
+          </div>
+        ) : (
+          <div className="strategy-minimal-list">
+            {strategies.map((strategy) => (
+              <div className="strategy-item-row" key={strategy._id}>
+                <div className="item-type-icon">
+                  <FileText className="w-4 h-4 text-black" />
+                </div>
+                
+                <div className="item-details">
+                  <strong>{strategy.title}</strong>
+                  <div className="item-sub">
+                    <span>{new Date(strategy.createdAt).toLocaleDateString()}</span>
+                    <span className="sep">•</span>
+                    <span>{strategy.usageType === "one_off" ? (strategy.budget === undefined ? "Budget not set" : `Budget $${strategy.budget} USD`) : "Recurring workflow"}</span>
+                    {strategy.refreshAvailable && (
+                      <span className="update-badge" title={strategy.refreshReasons?.join("; ")}>
+                        Update Available
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <span className="badge-tag">
+                  {strategy.usageType === "one_off" ? "One-off" : "Monthly"}
+                </span>
+
+                <div className="item-actions">
+                  <Link
+                    className="action-icon-btn"
+                    href={`/strategy/${strategy._id}/${strategy.status === "complete" ? "results" : "workflow"}`}
+                    title="Open strategy"
+                  >
+                    <ArrowUpRight className="w-4 h-4" />
+                  </Link>
+                  <button
+                    className="action-icon-btn"
+                    onClick={() => duplicate(strategy._id)}
+                    title="Duplicate strategy"
+                  >
+                    <Copy className="w-4 h-4" />
+                  </button>
+                  <button
+                    className="action-icon-btn danger"
+                    onClick={() => remove(strategy._id)}
+                    title="Delete strategy"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }

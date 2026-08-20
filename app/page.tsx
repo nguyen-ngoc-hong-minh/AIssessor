@@ -1,8 +1,9 @@
 import {
   ArrowRight,
   Check,
+  Cpu,
   Gauge,
-  Layers3,
+  Layers,
   LockKeyhole,
   MousePointer2,
   PiggyBank,
@@ -10,165 +11,120 @@ import {
   Search,
   ShieldCheck,
   Sparkles,
-  Target,
   Zap,
-  Cpu,
-  Layers,
-  Sparkle
 } from "lucide-react";
 import Link from "next/link";
 import { ParallaxHero } from "@/components/parallax-hero";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { Button } from "@/components/ui/button";
 
 const steps = [
-  { number: "01", icon: MousePointer2, title: "1. Mô tả nhu cầu của bạn", text: "Chỉ cần giải thích mục tiêu công việc hoặc dự án bằng ngôn ngữ tự nhiên, không cần thuật ngữ phức tạp." },
-  { number: "02", icon: Layers3, title: "2. Duyệt qua lộ trình", text: "BENCHFLOW phân tích và chia nhỏ các bước thực hiện công việc để xác định đúng loại AI cần sử dụng." },
-  { number: "03", icon: Search, title: "3. So sánh công cụ tối ưu", text: "Hệ thống đối chiếu tính năng, tốc độ, giá cả, bảo mật và quyền truy cập của hàng nghìn mô hình AI." },
-  { number: "04", icon: ShieldCheck, title: "4. Nhận Stack AI hoàn chỉnh", text: "Xuất báo cáo bộ công cụ AI tối ưu nhất, kèm chi phí đăng ký hàng tháng và lý do lựa chọn cụ thể." },
+  { number: "01", title: "Mô tả nhu cầu", text: "Nhập mục tiêu công việc hoặc dự án bằng ngôn ngữ tự nhiên." },
+  { number: "02", title: "Phân tích yêu cầu", text: "Hệ thống tự động chia nhỏ bước thực hiện và xác định năng lực AI cần thiết." },
+  { number: "03", title: "Đối chiếu dữ liệu", text: "So sánh tính năng, chi phí, tốc độ và bảo mật của hàng nghìn mô hình AI." },
+  { number: "04", title: "Xuất AI Stack", text: "Nhận danh sách công cụ tối ưu kèm tổng chi phí đăng ký hàng tháng." },
 ];
 
 const checks = [
-  { icon: Target, title: "Độ Phù Hợp Tính Năng", text: "Loại bỏ những công cụ thiếu khả năng xử lý hoặc đánh dấu rõ mức độ đáp ứng công việc." },
-  { icon: Gauge, title: "Chất Lượng Đã Kiểm Chứng", text: "Đánh giá chất lượng thực tế theo bài test bài bản thay vì bảng xếp hạng chung chung." },
-  { icon: PiggyBank, title: "Tối Ưu Ngân Sách", text: "Hiển thị minh bạch giá đăng ký gói & chi phí dùng theo lượng request để tối đa hóa ngân sách." },
-  { icon: Zap, title: "Tốc Độ & Phản Hồi", text: "Đảm bảo thời gian xử lý đáp ứng tốt tiến độ dự án mà không bị nghẽn mạng." },
-  { icon: LockKeyhole, title: "Bảo Mật Dữ Liệu", text: "Kiểm tra quyền riêng tư, vị trí máy chủ và bản quyền thương mại trước khi đề xuất." },
-  { icon: RefreshCw, title: "Dữ Liệu Cập Nhật", text: "Dữ liệu được cập nhật liên tục từ các nguồn có mốc thời gian rõ ràng." },
+  { code: "01", icon: TargetIcon, title: "Độ Phù Hợp Tính Năng", text: "Loại bỏ công cụ không đủ năng lực xử lý hoặc đánh dấu mức độ đáp ứng cụ thể." },
+  { code: "02", icon: Gauge, title: "Đã Qua Kiểm Định", text: "Đánh giá chất lượng thực tế dựa trên benchmark tiêu chuẩn thay vì xếp hạng cảm tính." },
+  { code: "03", icon: PiggyBank, title: "Tối Ưu Chi Phí", text: "Tính toán chi tiết giá đăng ký gói & chi phí theo mức độ sử dụng để tiết kiệm ngân sách." },
+  { code: "04", icon: Zap, title: "Tốc Độ Phản Hồi", text: "Đảm bảo thời gian phản hồi đáp ứng tiến độ công việc thực tế." },
+  { code: "05", icon: LockKeyhole, title: "An Toàn Dữ Liệu", text: "Kiểm tra chính sách bảo mật, vị trí dữ liệu và quyền thương mại trước khi đề xuất." },
+  { code: "06", icon: RefreshCw, title: "Cập Nhật Liên Tục", text: "Dữ liệu nguồn được kiểm định và trích dẫn theo mốc thời gian rõ ràng." },
 ];
 
+function TargetIcon(props: React.SVGProps<SVGSVGElement>) {
+  return <Search {...props} />;
+}
+
 const faqs = [
-  ["Tôi có cần kiến thức về các công cụ AI trước khi dùng không?", "Không cần. Bạn chỉ cần mô tả công việc của mình. BENCHFLOW tự động dịch nhu cầu đó thành các tiêu chí kỹ thuật và đưa ra đề xuất bằng tiếng Việt / tiếng Anh dễ hiểu."],
-  ["AI có tự quyết định hoàn toàn không?", "Không. Quy tắc kiểm định rõ ràng của BENCHFLOW sẽ đối chiếu tính năng, ngân sách và quyền truy cập trước khi sắp xếp thứ tự khuyến nghị cho bạn."],
-  ["Nếu một công cụ không hoàn thành hết dự án thì sao?", "BENCHFLOW sẽ kết hợp một chuỗi các công cụ AI bổ trợ cho nhau, giải thích rõ công cụ nào đảm nhận bước nào và tính tổng chi phí đăng ký trong cùng một bảng duy nhất."],
-  ["Tôi có thể thay đổi quy trình làm việc sau này không?", "Có. Các chiến lược lưu lại có thể chỉnh sửa lại quy trình bất cứ lúc nào khi nhu cầu công việc của bạn thay đổi."],
+  ["Tôi có cần kiến thức AI trước khi sử dụng không?", "Không. Bạn chỉ cần mô tả công việc của mình. BENCHFLOW sẽ dịch nhu cầu đó thành tiêu chí kỹ thuật và đưa ra đề xuất rõ ràng."],
+  ["BENCHFLOW đánh giá công cụ dựa trên yếu tố nào?", "Dữ liệu được tổng hợp từ benchmark kiểm định thực tế, chi phí niêm yết, chính sách bảo mật và khả năng hỗ trợ tác vụ."],
+  ["Nếu một công cụ không hoàn thành hết tác vụ thì sao?", "BENCHFLOW sẽ kết hợp chuỗi nhiều công cụ bổ trợ cho nhau và tổng hợp toàn bộ chi phí trong một bảng quản lý duy nhất."],
 ];
 
 export default function LandingPage() {
   return (
     <>
       <SiteHeader />
-      <main className="landing-page">
-        {/* Spatial Parallax Hero Section */}
+      <main className="minimal-landing">
+        {/* Minimal Hero Section */}
         <ParallaxHero>
-          <div className="spatial-hero-copy">
-            <span className="hero-eyebrow">
-              <Sparkles className="w-3.5 h-3.5" /> AI STACK ADVISOR · CỐ VẤN AI DOANH NGHIỆP
-            </span>
-            <h1>Where AI Stack Grows.</h1>
-            <h2>Hệ sinh thái AI thông minh &amp; tối ưu cho công việc.</h2>
+          <div className="minimal-hero-copy">
+            <span className="mono-badge">[ SYSTEM ADVISOR ]</span>
+            <h1>BUILD THE RIGHT AI STACK.</h1>
             <p>
-              Mô tả nhiệm vụ của bạn. BENCHFLOW so sánh hàng trăm công cụ AI, gói cước và chi phí, sau đó tổng hợp thành chiến lược công cụ hoàn hảo nhất.
+              Mô tả nhiệm vụ công việc. BENCHFLOW tự động so sánh tính năng, hiệu năng và chi phí để đề xuất bộ công cụ AI tối ưu nhất.
             </p>
-            <div className="hero-actions">
-              <Button asChild size="lg" className="button-pill-primary">
-                <Link href="/sign-up">
-                  <span>Tạo AI Strategy ngay</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="button-pill-glass">
-                <Link href="#how-it-works">Khám phá cách hoạt động</Link>
-              </Button>
+            <div className="hero-btn-group">
+              <Link href="/sign-up" className="minimal-btn minimal-btn-dark">
+                <span>Tạo AI Strategy</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link href="#how-it-works" className="minimal-btn minimal-btn-outline">
+                <span>Xem quy trình</span>
+              </Link>
             </div>
-            <div className="trust-line">
-              <span><Check /> Không cần kiến thức AI rườm rà</span>
-              <span><Check /> Lý do kiểm chứng rõ ràng</span>
-              <span><Check /> Quản lý chi phí 1 chỗ</span>
-            </div>
-          </div>
-
-          <div className="hero-signal" aria-label="BENCHFLOW checks capability, quality, price, and access">
-            <span><i /> Dữ liệu đã qua kiểm định</span>
-            <strong>Nhập 1 nhiệm vụ. Xuất 1 Stack AI hoàn chỉnh.</strong>
           </div>
         </ParallaxHero>
 
-        {/* What is BENCHFLOW Section - Inspired by BloomFi "What is USD Bloom?" */}
-        <section className="bloom-intro-section section" id="what-is">
-          <div className="bloom-intro-grid">
-            <div className="bloom-intro-left">
-              <h2>BENCHFLOW là gì?</h2>
-              <Link className="button button-pill-dark button-small" href="/sign-up">
-                <span>Khám phá ngay</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-            <div className="bloom-intro-right">
-              <p>
-                BENCHFLOW là nền tảng cố vấn bộ công cụ AI thông minh giúp cá nhân và doanh nghiệp tìm ra đúng công cụ, đúng gói cước và mức giá hợp lý nhất cho mọi tác vụ công việc — đảm bảo hiệu suất tối đa mà không tốn ngân sách lãng phí.
-              </p>
-            </div>
+        {/* Section 1: Introduction (Inspired by Rational Lab Grid Layout) */}
+        <section className="minimal-section border-top" id="overview">
+          <div className="section-grid-header">
+            <span className="section-tag">[ 01 / OVERVIEW ]</span>
+            <h2>BENCHFLOW hoạt động như thế nào?</h2>
           </div>
-
-          {/* 3-Column Glass Bento Grid Inspired by Reference BloomFi & Thala */}
-          <div className="bloom-cards-grid">
-            <article className="bloom-card card-lavender">
-              <div className="card-top-icon">
-                <div className="flower-abstract-badge">
-                  <Sparkle className="w-6 h-6 text-purple-600" />
-                </div>
+          <div className="overview-two-col">
+            <p className="lead-text">
+              BENCHFLOW giải quyết bài toán lựa chọn công cụ AI giữa hàng nghìn giải pháp rải rác trên thị trường. Chúng tôi giúp bạn chọn đúng công cụ, đúng gói cước và minh bạch mọi khoản chi phí.
+            </p>
+            <div className="overview-bullet-list">
+              <div className="bullet-item">
+                <Check className="w-4 h-4 text-black flex-none" />
+                <span>Không tốn ngân sách cho công cụ dư thừa</span>
               </div>
-              <h3>Tối Ưu Ngân Sách AI</h3>
-              <p>
-                Tự động tính toán các gói cước (Free, Plus, Pro) để xây dựng bộ công cụ tiết kiệm chi phí nhất cho doanh nghiệp của bạn.
-              </p>
-            </article>
-
-            <article className="bloom-card card-dark-thala thala-glow-cyan">
-              <div className="top-glow-bar bar-cyan" />
-              <div className="card-top-icon">
-                <Cpu className="w-5 h-5 text-cyan-400" />
+              <div className="bullet-item">
+                <Check className="w-4 h-4 text-black flex-none" />
+                <span>Đã kiểm định khả năng bảo mật &amp; bản quyền</span>
               </div>
-              <h3>Minh Bạch &amp; Ổn Định</h3>
-              <p>
-                Đánh giá độ phù hợp dựa trên benchmark thực tế, quy định quyền riêng tư và tốc độ xử lý trước khi đưa ra đề xuất.
-              </p>
-            </article>
-
-            <article className="bloom-card card-dark-thala thala-glow-purple">
-              <div className="top-glow-bar bar-purple" />
-              <div className="card-top-icon">
-                <Layers className="w-5 h-5 text-purple-400" />
+              <div className="bullet-item">
+                <Check className="w-4 h-4 text-black flex-none" />
+                <span>Cập nhật liên tục theo biến động giá thực tế</span>
               </div>
-              <h3>Tự Động 100% Rõ Ràng</h3>
-              <p>
-                Không còn phải tự mình thử nghiệm hàng tá công cụ rải rác. Nhận ngay báo cáo tích hợp rõ ràng chỉ trong vài giây.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        {/* Backed By & Ecosystem Bar Inspired by Reference 1 */}
-        <section className="ecosystem-strip-section">
-          <div className="section ecosystem-inner">
-            <span className="strip-label">ĐƯỢC KIỂM ĐỊNH TRÊN HỆ SINH THÁI AI HÀNG ĐẦU</span>
-            <div className="strip-logos">
-              <span>OpenAI</span>
-              <span>Anthropic Claude</span>
-              <span>Google Gemini</span>
-              <span>DeepSeek</span>
-              <span>Perplexity</span>
-              <span>Midjourney</span>
-              <span>Stripe</span>
             </div>
           </div>
         </section>
 
-        {/* Workflow Section */}
-        <section className="landing-intro section" id="how-it-works">
-          <div className="section-heading">
-            <span className="kicker">Quy trình làm việc</span>
-            <h2>Từ ý tưởng ban đầu đến kế hoạch thực thi rõ ràng.</h2>
-            <p>BENCHFLOW đảm nhận việc so sánh kỹ thuật phức tạp. Bạn giữ quyền làm chủ mục tiêu và quyết định cuối cùng.</p>
+        {/* Section 2: Process Steps (Inspired by MYDNA / Rational Lab large numbers 01, 02, 03) */}
+        <section className="minimal-section border-top" id="how-it-works">
+          <div className="section-grid-header">
+            <span className="section-tag">[ 02 / PROCESS ]</span>
+            <h2>Quy trình 4 bước đơn giản</h2>
           </div>
-          <div className="workflow-track">
-            {steps.map(({ number, icon: Icon, title, text }) => (
-              <article key={number} className="workflow-glass-card">
+          <div className="process-cards-grid">
+            {steps.map(({ number, title, text }) => (
+              <article key={number} className="minimal-card">
+                <span className="card-number-badge">{number}</span>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Section 3: Evaluation Criteria Bento Grid */}
+        <section className="minimal-section border-top">
+          <div className="section-grid-header">
+            <span className="section-tag">[ 03 / CRITERIA ]</span>
+            <h2>6 tiêu chí kiểm định nghiêm ngặt</h2>
+          </div>
+          <div className="criteria-grid">
+            {checks.map(({ code, icon: Icon, title, text }) => (
+              <article key={code} className="criteria-card">
                 <header>
-                  <span>{number}</span>
-                  <Icon className="w-5 h-5 text-purple-500" />
+                  <span className="mono-code">[{code}]</span>
+                  <Icon className="w-4 h-4 text-black" />
                 </header>
                 <h3>{title}</h3>
                 <p>{text}</p>
@@ -177,162 +133,105 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Use Cases Section - Inspired by BloomFi Business Card & Thala Cards */}
-        <section className="use-mode-band" id="use-cases">
-          <div className="section use-mode-inner">
-            <div className="section-heading">
-              <span className="kicker">Ứng dụng đa dạng</span>
-              <h2>Cho dự án cá nhân hoặc quy trình lặp lại hàng tháng.</h2>
-            </div>
-            <div className="use-mode-grid">
-              <article className="glass-mode-card">
-                <div className="mode-number">01</div>
-                <MousePointer2 className="w-6 h-6 text-purple-500 mb-2" />
-                <small>Cho kết quả nhanh chóng</small>
-                <h3>Project Đơn Lẻ (One-off Project)</h3>
-                <p>Lên kế hoạch cho đợt ra mắt, bài nghiên cứu, video, website hay dự án có thời hạn và ngân sách cụ thể.</p>
-                <Link href="/sign-up" className="mode-link">
-                  <span>Lên kế hoạch dự án</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </article>
-
-              <article className="glass-mode-card">
-                <div className="mode-number">02</div>
-                <RefreshCw className="w-6 h-6 text-cyan-400 mb-2" />
-                <small>Cho công việc định kỳ</small>
-                <h3>Quy Trình Hàng Tháng (Monthly Workflow)</h3>
-                <p>Tối ưu bộ công cụ AI cho các tác vụ đội ngũ của bạn lặp lại hàng tuần hoặc hàng tháng.</p>
-                <Link href="/sign-up" className="mode-link">
-                  <span>Tối ưu quy trình tháng</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </article>
-            </div>
+        {/* Section 4: Live Strategy Table */}
+        <section className="minimal-section border-top">
+          <div className="section-grid-header">
+            <span className="section-tag">[ 04 / DEMO STACK ]</span>
+            <h2>Mẫu chiến lược AI hoàn chỉnh</h2>
+          </div>
+          <div className="minimal-table-wrapper">
+            <table className="minimal-table">
+              <thead>
+                <tr>
+                  <th>Nhiệm vụ</th>
+                  <th>Công cụ đề xuất</th>
+                  <th>Lý do chọn</th>
+                  <th>Gói cước</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Nghiên cứu &amp; Tổng hợp</strong></td>
+                  <td>Perplexity Pro / Claude 3.5</td>
+                  <td>Có nguồn trích dẫn live chuẩn xác</td>
+                  <td><span className="table-badge">Pro</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Soạn thảo &amp; Code</strong></td>
+                  <td>DeepSeek R1 / GPT-4o</td>
+                  <td>Logic lập luận cao, hỗ trợ context lớn</td>
+                  <td><span className="table-badge">Included</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Tạo hình ảnh asset</strong></td>
+                  <td>Midjourney v6</td>
+                  <td>Chất lượng hình ảnh đồng bộ cao</td>
+                  <td><span className="table-badge">Standard</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </section>
 
-        {/* Evidence Bento Section */}
-        <section className="evidence-band">
-          <div className="section evidence-inner">
-            <div className="section-heading light">
-              <span className="kicker">Tiêu chí đánh giá</span>
-              <h2>Một đề xuất tốt phải hoạt động hiệu quả ngoài thực tế.</h2>
-              <p>Mọi lựa chọn công cụ phải thực sự phù hợp với mục tiêu và cách bạn vận hành công việc.</p>
-            </div>
-            <div className="evidence-bento">
-              {checks.map(({ icon: Icon, title, text }, index) => (
-                <article className={`evidence-tile evidence-tile-${index + 1}`} key={title}>
-                  <Icon className="w-5 h-5" />
-                  <h3>{title}</h3>
-                  <p>{text}</p>
-                </article>
-              ))}
-            </div>
+        {/* Section 5: Pricing */}
+        <section className="minimal-section border-top" id="pricing">
+          <div className="section-grid-header">
+            <span className="section-tag">[ 05 / PRICING ]</span>
+            <h2>Bảng giá minh bạch</h2>
           </div>
-        </section>
-
-        {/* Strategy Preview Section */}
-        <section className="strategy-preview section">
-          <div className="section-heading">
-            <span className="kicker">Chiến lược hoàn chỉnh</span>
-            <h2>Biết rõ cần dùng công cụ nào, mua gói nào &amp; chi phí ra sao.</h2>
-            <p>Báo cáo trực quan hợp nhất từng khuyến nghị công cụ và bảng phân bổ ngân sách đăng ký.</p>
-          </div>
-          <div className="strategy-table-glass" aria-label="Bảng xem trước chiến lược BENCHFLOW">
-            <header>
-              <span>Nhiệm vụ</span>
-              <span>Cấu hình khuyến nghị</span>
-              <span>Lý do phù hợp</span>
-              <span>Gói đề xuất</span>
-            </header>
-            <div>
-              <strong>Nghiên cứu &amp; Tổng hợp</strong>
-              <span>Perplexity Pro / Claude 3.5</span>
-              <span>Cập nhật nguồn live có trích dẫn chuẩn xác</span>
-              <b className="badge-plan pro">Pro</b>
-            </div>
-            <div>
-              <strong>Viết content &amp; Code</strong>
-              <span>DeepSeek R1 / GPT-4o</span>
-              <span>Khả năng logic vượt trội &amp; hỗ trợ context lớn</span>
-              <b className="badge-plan included">Gói sẵn có</b>
-            </div>
-            <div>
-              <strong>Tạo hình ảnh &amp; Asset</strong>
-              <span>Midjourney v6 / Recraft</span>
-              <span>Tạo hình ảnh đồng bộ chất lượng cao cho campaign</span>
-              <b className="badge-plan standard">Standard</b>
-            </div>
-            <footer>
-              <span>Tổng chi phí ước tính hàng tháng</span>
-              <strong>$20 / tháng (Tránh trùng lặp các gói mua lẻ)</strong>
-            </footer>
-          </div>
-        </section>
-
-        {/* Pricing Preview Section */}
-        <section className="section pricing-preview landing-pricing">
-          <div className="section-heading">
-            <span className="kicker">Bảng giá minh bạch</span>
-            <h2>Bắt đầu miễn phí. Nâng cấp khi bạn muốn mở rộng.</h2>
-          </div>
-          <div className="preview-plans">
-            <article className="glass-plan-card">
-              <small>Miễn phí</small>
-              <h3>$0</h3>
-              <p>Phân tích 1 tác vụ công việc và nhận bản tóm tắt đề xuất công cụ AI cơ bản.</p>
-              <Link className="button button-secondary button-pill" href="/sign-up">Bắt đầu ngay</Link>
+          <div className="pricing-minimal-grid">
+            <article className="pricing-card">
+              <span className="plan-label">Free</span>
+              <div className="plan-price">$0</div>
+              <p>Phân tích 1 tác vụ công việc và nhận bản tóm tắt cơ bản.</p>
+              <Link href="/sign-up" className="minimal-btn minimal-btn-outline full-width">Bắt đầu</Link>
             </article>
 
-            <article className="glass-plan-card featured">
-              <span className="popular-badge">Được ưa chuộng nhất</span>
-              <small>Plus</small>
-              <h3>$19<em>/tháng</em></h3>
-              <p>Đầy đủ chiến lược AI, công cụ thay thế, lưu trữ không giới hạn &amp; quy trình hàng tháng.</p>
-              <Link className="button button-primary button-pill" href="/pricing">Dùng thử gói Plus</Link>
+            <article className="pricing-card featured">
+              <span className="plan-label featured-label">[ Most Popular ]</span>
+              <div className="plan-price">$19 <small>/tháng</small></div>
+              <p>Đầy đủ chiến lược AI, công cụ thay thế &amp; quy trình làm việc hàng tháng.</p>
+              <Link href="/pricing" className="minimal-btn minimal-btn-dark full-width">Chọn gói Plus</Link>
             </article>
 
-            <article className="glass-plan-card">
-              <small>Đội ngũ (Team)</small>
-              <h3>$49<em>/tháng</em></h3>
-              <p>Chia sẻ chiến lược, quản lý nhóm &amp; tối ưu ngân sách công nghệ cho nhóm nhỏ.</p>
-              <Link className="button button-secondary button-pill" href="/pricing">Xem gói Team</Link>
+            <article className="pricing-card">
+              <span className="plan-label">Team</span>
+              <div className="plan-price">$49 <small>/tháng</small></div>
+              <p>Quản lý nhóm, chia sẻ chiến lược &amp; tối ưu chi phí công nghệ cho team.</p>
+              <Link href="/pricing" className="minimal-btn minimal-btn-outline full-width">Chọn gói Team</Link>
             </article>
           </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="section faq landing-faq">
-          <div className="section-heading">
-            <span className="kicker">Câu hỏi thường gặp</span>
-            <h2>Những điều bạn cần biết.</h2>
+        {/* Section 6: FAQ */}
+        <section className="minimal-section border-top">
+          <div className="section-grid-header">
+            <span className="section-tag">[ 06 / FAQ ]</span>
+            <h2>Câu hỏi thường gặp</h2>
           </div>
-          <div className="faq-accordion-list">
-            {faqs.map(([question, answer]) => (
-              <details key={question} className="faq-glass-item">
+          <div className="faq-minimal-list">
+            {faqs.map(([q, a]) => (
+              <details key={q} className="faq-item">
                 <summary>
-                  <span>{question}</span>
-                  <span className="faq-plus">+</span>
+                  <span>{q}</span>
+                  <span className="faq-icon">+</span>
                 </summary>
-                <p>{answer}</p>
+                <p>{a}</p>
               </details>
             ))}
           </div>
         </section>
 
-        {/* Final CTA Section */}
-        <section className="final-cta">
-          <div className="section final-cta-inner glass-cta-box">
-            <span className="kicker">Sẵn sàng tối ưu ngay</span>
-            <h2>Biến nhiệm vụ tiếp theo thành chiến lược AI rõ ràng.</h2>
-            <p>Bắt đầu từ công việc của bạn. BENCHFLOW sẽ giúp bạn chọn công cụ hoàn hảo nhất.</p>
-            <Button asChild size="lg" className="button-pill-primary">
-              <Link href="/sign-up">
-                <span>Tạo AI Strategy của tôi</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </Button>
+        {/* Final CTA */}
+        <section className="minimal-cta-section border-top">
+          <div className="cta-box">
+            <span className="mono-badge">[ GET STARTED ]</span>
+            <h2>Sẵn sàng xây dựng AI Stack tối ưu?</h2>
+            <p>Bắt đầu ngay hôm nay để tiết kiệm thời gian và ngân sách công nghệ.</p>
+            <Link href="/sign-up" className="minimal-btn minimal-btn-dark">
+              <span>Tạo AI Strategy ngay</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </section>
       </main>

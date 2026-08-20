@@ -14,9 +14,54 @@ const links = [
   { href: "/settings", label: "Settings", icon: Settings },
 ];
 
-export function AppShell({ children, user, isAdmin = false }: { children: React.ReactNode; user: { name: string; email: string }; isAdmin?: boolean }) {
+export function AppShell({
+  children,
+  user,
+  isAdmin = false,
+}: {
+  children: React.ReactNode;
+  user: { name: string; email: string };
+  isAdmin?: boolean;
+}) {
   const path = usePathname();
   const visibleLinks = isAdmin ? [...links, { href: "/admin/evidence", label: "Evidence", icon: Database }] : links;
   const initial = (user.name || user.email).trim().charAt(0).toUpperCase();
-  return <div className="app-frame"><aside className="app-sidebar"><div className="sidebar-brand"><Brand /><small>AI stack advisor</small></div><nav><span className="sidebar-label">Workspace</span>{visibleLinks.map(({ href, label, icon: Icon }) => { const active = path.startsWith(href) || (label === "New strategy" && path.startsWith("/strategy/new")); return <Link className={active ? "active" : ""} href={href} key={href}><Icon /><span>{label}</span></Link>; })}</nav><div className="sidebar-account"><span className="account-avatar">{initial}</span><div><strong>{user.name}</strong><small>{user.email}</small></div><SignOutButton redirectUrl="/"><button className="icon-button" aria-label="Sign out" title="Sign out"><LogOut /></button></SignOutButton></div></aside><main className="app-content">{children}</main></div>;
+
+  return (
+    <div className="minimal-app-frame">
+      <aside className="minimal-sidebar">
+        <div className="sidebar-top">
+          <Brand />
+        </div>
+
+        <nav className="sidebar-nav">
+          <span className="sidebar-section-label">[ WORKSPACE ]</span>
+          {visibleLinks.map(({ href, label, icon: Icon }) => {
+            const active = path.startsWith(href) || (label === "New strategy" && path.startsWith("/strategy/new"));
+            return (
+              <Link className={`nav-item ${active ? "active" : ""}`} href={href} key={href}>
+                <Icon className="w-4 h-4" />
+                <span>{label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="sidebar-user-box">
+          <span className="avatar-chip">{initial}</span>
+          <div className="user-info">
+            <strong>{user.name}</strong>
+            <small>{user.email}</small>
+          </div>
+          <SignOutButton redirectUrl="/">
+            <button className="signout-btn" aria-label="Sign out" title="Sign out">
+              <LogOut className="w-4 h-4 text-black" />
+            </button>
+          </SignOutButton>
+        </div>
+      </aside>
+
+      <main className="minimal-app-main">{children}</main>
+    </div>
+  );
 }
