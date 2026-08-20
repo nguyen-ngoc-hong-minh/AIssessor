@@ -58,11 +58,11 @@ export function DashboardView() {
     <div className="editorial-dashboard-wrap space-y-8">
       {/* Metric Grid */}
       <div className="dash-metrics-grid grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[190px]">
+        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[200px]">
           <div>
-            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-3 font-medium">ACTIVE PROJECTS</div>
-            <div className="metric-num grd text-5xl font-bold tracking-tight mb-3">{strategies.length}</div>
-            <p className="metric-lbl text-xs text-ink-2 leading-relaxed">Total project and monthly task evaluations</p>
+            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-3 font-medium">Active projects</div>
+            <div className="metric-num grd text-5xl font-bold tracking-tight my-4">{strategies.length}</div>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-3">Total project and monthly task evaluations</p>
           </div>
           <div className="metric-spark mt-4">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
@@ -71,11 +71,11 @@ export function DashboardView() {
           </div>
         </div>
 
-        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[190px]">
+        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[200px]">
           <div>
-            <div className="font-mono text-xs text-pink-soft tracking-wider mb-3 font-medium">OPTIMIZED STACK</div>
-            <div className="metric-num grd text-5xl font-bold tracking-tight mb-3">{savedPlans}</div>
-            <p className="metric-lbl text-xs text-ink-2 leading-relaxed">Plans ready for deployment &amp; execution</p>
+            <div className="font-mono text-xs text-pink-soft tracking-wider mb-3 font-medium">Optimized stack</div>
+            <div className="metric-num grd text-5xl font-bold tracking-tight my-4">{savedPlans}</div>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-3">Plans ready for deployment &amp; execution</p>
           </div>
           <div className="metric-spark mt-4">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
@@ -84,13 +84,13 @@ export function DashboardView() {
           </div>
         </div>
 
-        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[190px]">
+        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[200px]">
           <div>
-            <div className="font-mono text-xs text-cyan tracking-wider mb-3 font-medium">NEW BETTER OPTION</div>
-            <div className="metric-num text-5xl font-bold tracking-tight mb-3" style={{ background: "linear-gradient(135deg, #22d3ee, #6366f1)", WebkitBackgroundClip: "text", color: "transparent" }}>
+            <div className="font-mono text-xs text-cyan tracking-wider mb-3 font-medium">New better option</div>
+            <div className="metric-num text-5xl font-bold tracking-tight my-4" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>
               &minus;32%
             </div>
-            <p className="metric-lbl text-xs text-ink-2 leading-relaxed">Gemini Flash X benchmark for research workflow</p>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-3">Gemini Flash X benchmark for research workflow</p>
           </div>
           <div className="metric-spark mt-4">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
@@ -104,29 +104,26 @@ export function DashboardView() {
       <div className="dash-content-block glass-card p-8">
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
           <div>
-            <div className="eyebrow mb-2">
+            <div className="eyebrow mb-3">
               <span className="dt" />
-              RECENT STRATEGIES
+              Recent strategies
             </div>
-            <h2 className="h-display text-2xl font-semibold text-white">Active Workload Plans</h2>
+            <h2 className="h-display text-3xl font-semibold text-white mt-4 mb-1">Active Workload Plans</h2>
           </div>
           <span className="font-mono text-xs text-tertiary px-3 py-1.5 rounded-full border border-white/10">
-            {strategies.length} ITEMS
+            {strategies.length} items
           </span>
         </div>
 
         {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
 
         {strategies.length === 0 ? (
-          <div className="text-center py-14 px-6">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 grid place-items-center mx-auto mb-5">
-              <Layers className="w-7 h-7" />
-            </div>
-            <h3 className="h-display text-2xl font-semibold text-white mb-3">No Saved Strategies Yet</h3>
-            <p className="body-md text-sm text-ink-2 leading-relaxed max-w-lg mx-auto mb-8">
+          <div className="text-center py-16 px-6">
+            <h3 className="h-display text-3xl font-semibold text-white mb-6">No Saved Strategies Yet</h3>
+            <p className="body-md text-sm text-ink-2 leading-relaxed max-w-lg mx-auto mb-10 text-center">
               Describe your project or recurring workflow once. AIssessor will evaluate models and save your actionable plan here.
             </p>
-            <Link className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm rounded-full" href="/choose-usage">
+            <Link className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm rounded-full mt-2" href="/choose-usage">
               <Plus className="w-4 h-4" />
               <span>Create Your First Strategy</span>
               <ArrowUpRight className="w-4 h-4" />

@@ -1546,14 +1546,16 @@ html, body {
 
 .metric-num {
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(36px, 4.5vw, 60px);
   letter-spacing: -0.04em;
-  line-height: 1;
+  line-height: 1.1;
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .metric-num.grd {
-  background: var(--grad-a);
+  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
