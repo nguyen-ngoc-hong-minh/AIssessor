@@ -120,14 +120,17 @@ export function DashboardView() {
         {error && <p className="text-red-400 text-sm mb-6">{error}</p>}
 
         {strategies.length === 0 ? (
-          <div className="text-center py-20 px-6 space-y-10">
-            <h3 className="h-display text-3xl md:text-4xl font-semibold text-white tracking-tight">
+          <div className="flex flex-col items-center justify-center text-center py-20 px-6 w-full">
+            <h3 className="h-display text-3xl md:text-4xl font-semibold text-white tracking-tight text-center mb-8">
               No Saved Strategies Yet
             </h3>
-            <p className="body-md text-sm md:text-base text-ink-2 leading-relaxed max-w-xl mx-auto pt-2 pb-2">
+            <p
+              className="body-md text-sm md:text-base text-ink-2 leading-relaxed max-w-xl text-center mx-auto mb-10"
+              style={{ textAlign: "center" }}
+            >
               Describe your project or recurring workflow once. AIssessor will evaluate models and save your actionable plan here.
             </p>
-            <div className="pt-6">
+            <div className="flex justify-center w-full mt-2">
               <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm rounded-full shadow-lg hover:scale-105 transition-transform" href="/choose-usage">
                 <Plus className="w-4 h-4" />
                 <span>Create Your First Strategy</span>
