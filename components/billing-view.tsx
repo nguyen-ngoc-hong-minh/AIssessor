@@ -5,31 +5,34 @@ import { Check } from "lucide-react";
 
 export function BillingView() {
   return (
-    <div className="billing-editorial-wrap space-y-12 w-full max-w-6xl mx-auto">
-      {/* Centered Slide 6 Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-4">
-        <div className="eyebrow mx-auto">
-          <span className="dt" />
-          Simple pricing
+    <div className="slide-inner s-features w-full max-w-full">
+      {/* Slide 5 style header layout */}
+      <div className="s-features-head">
+        <div className="sf-l">
+          <div className="eyebrow mb-2">
+            <span className="dt" />
+            Simple pricing
+          </div>
+          <h2 className="h-display text-4xl md:text-5xl lg:text-6xl font-semibold">
+            Affordable plans for <span className="grd">every budget</span>.
+          </h2>
         </div>
-        <h1 className="h-display text-4xl md:text-5xl font-semibold text-white tracking-tight">
-          Affordable plans for every budget
-        </h1>
-        <p className="body-lg text-ink-2 leading-relaxed text-sm md:text-base">
+        <p className="sf-r body-lg">
           Explore our range of pricing options designed to fit any budget, offering exceptional value and flexibility to meet your unique needs.
         </p>
       </div>
 
-      {/* 3-Column Pricing Grid */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+      {/* 3-Column Pricing Grid matching Slide 5 feature-grid */}
+      <div className="feature-grid grid grid-cols-1 md:grid-cols-3 gap-6" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
         {/* Card 1: Free Plan (Current Plan) */}
-        <div className="glass-card pricing-deck-card border border-white/10 w-full flex flex-col justify-between p-8 relative">
+        <div className="feature glass-card pricing-deck-card flex flex-col justify-between p-8 relative">
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="plan-name mb-0 text-xl font-semibold text-white">Free Plan</div>
-              <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full uppercase tracking-wider font-semibold">
+              <div className="eyebrow text-xs py-1 px-3">
+                <span className="dt" />
                 Current plan
-              </span>
+              </div>
             </div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
               <span className="plan-price text-4xl font-bold text-white">$0</span>
@@ -76,7 +79,7 @@ export function BillingView() {
         </div>
 
         {/* Card 2: Featured Plus Plan */}
-        <div className="glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative w-full flex flex-col justify-between p-8">
+        <div className="feature glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative flex flex-col justify-between p-8">
           <div>
             <div className="plan-name text-xl font-semibold text-white mb-4">Plus Plan</div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
@@ -128,7 +131,7 @@ export function BillingView() {
         </div>
 
         {/* Card 3: Enterprise Plan */}
-        <div className="glass-card pricing-deck-card border border-white/10 w-full flex flex-col justify-between p-8">
+        <div className="feature glass-card pricing-deck-card flex flex-col justify-between p-8">
           <div>
             <div className="plan-name text-xl font-semibold text-white mb-4">Enterprise Plan</div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
