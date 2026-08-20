@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Copy, Plus, Layers, Trash2, FileText, Sparkles, RefreshCw, Zap } from "lucide-react";
+import { ArrowUpRight, Copy, Plus, Layers, Trash2, RefreshCw, Zap } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
@@ -55,140 +55,175 @@ export function DashboardView() {
   const savedPlans = strategies.filter((strategy) => strategy.status === "complete").length;
 
   return (
-    <div className="editorial-dashboard-wrap">
-      {/* Section 20 — Command Center Top Banner */}
-      <div className="dash-hero-banner">
-        <div className="dash-banner-header">
-          <span className="banner-pill-badge">YOUR AI STACK COMMAND CENTER</span>
-          <span className="banner-large-num">01</span>
+    <div className="editorial-dashboard-wrap space-y-8">
+      {/* Lustro Hero Banner */}
+      <div className="dash-hero-banner glass-card">
+        <div className="flex items-center justify-between mb-6">
+          <div className="eyebrow">
+            <span className="dt" />
+            AI STACK COMMAND CENTER
+          </div>
+          <span className="font-mono text-xs text-tertiary">v4.0 &bull; LIVE</span>
         </div>
-        
+
         <div className="dash-banner-body">
-          <h1>
-            $65 / Month <span className="banner-sub-text">&bull; Active Consolidated Stack</span>
+          <h1 className="h-display text-4xl font-semibold">
+            <span className="grd">$65 / Month</span> &bull; Active Stack
           </h1>
-          <p>
-            $39 estimated monthly savings by consolidating subscriptions and optimizing model tiers.
+          <p className="body-lg mt-3" style={{ maxWidth: 620 }}>
+            Estimated <strong style={{ color: "#a5b4fc", fontWeight: 600 }}>$39 / month savings</strong> by consolidating overlapping subscriptions and optimizing model tiers.
           </p>
         </div>
 
-        <div className="dash-banner-footer">
-          <Link className="minimal-btn minimal-btn-dark" href="/choose-usage">
-            <Plus className="w-4 h-4" />
+        <div className="mt-8 flex items-center gap-4">
+          <Link className="btn-primary" href="/choose-usage">
             <span>Build Strategy</span>
             <ArrowUpRight className="w-4 h-4 ml-1" />
+          </Link>
+          <Link className="btn-secondary" href="/pricing">
+            <span>View Subscription Stack</span>
           </Link>
         </div>
       </div>
 
-      {/* Section 22 — AI Update Card & Metrics Grid */}
+      {/* Lustro Metric Grid */}
       <div className="dash-metrics-grid">
-        <div className="dash-metric-card metric-white">
-          <span className="metric-tag">ACTIVE PROJECTS</span>
-          <div className="metric-huge-val">{strategies.length}</div>
-          <div className="metric-title">Strategies Created</div>
-          <p className="metric-desc">Total project and monthly task evaluations.</p>
+        <div className="metric glass-card">
+          <div>
+            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-2">ACTIVE PROJECTS</div>
+            <div className="metric-num grd">{strategies.length}</div>
+            <div className="metric-lbl">Total project and monthly task evaluations</div>
+          </div>
+          <div className="metric-spark">
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+              <path d="M0,18 L15,16 L30,12 L45,14 L60,8 L75,6 L90,4 L100,3" stroke="#a5b4fc" fill="none" strokeWidth="1.5" />
+            </svg>
+          </div>
         </div>
 
-        <div className="dash-metric-card metric-white">
-          <span className="metric-tag">OPTIMIZED STACK</span>
-          <div className="metric-huge-val">{savedPlans}</div>
-          <div className="metric-title">Plans Completed</div>
-          <p className="metric-desc">Ready for deployment and execution.</p>
+        <div className="metric glass-card">
+          <div>
+            <div className="font-mono text-xs text-pink-soft tracking-wider mb-2">OPTIMIZED STACK</div>
+            <div className="metric-num grd">{savedPlans}</div>
+            <div className="metric-lbl">Plans ready for deployment &amp; execution</div>
+          </div>
+          <div className="metric-spark">
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+              <path d="M0,4 L15,8 L30,6 L45,12 L60,14 L75,16 L90,18 L100,20" stroke="#f9a8d4" fill="none" strokeWidth="1.5" />
+            </svg>
+          </div>
         </div>
 
-        {/* Section 22 — AI Update Card */}
-        <div className="dash-metric-card metric-white border-blue-500/30">
-          <span className="metric-tag text-blue-400">NEW BETTER OPTION</span>
-          <div className="metric-huge-val text-blue-400">&minus;32%</div>
-          <div className="metric-title">Gemini Flash X Benchmark</div>
-          <p className="metric-desc">Research workflow option with similar expected quality.</p>
+        <div className="metric glass-card">
+          <div>
+            <div className="font-mono text-xs text-cyan tracking-wider mb-2">NEW BETTER OPTION</div>
+            <div className="metric-num grd" style={{ background: "linear-gradient(135deg, #22d3ee, #6366f1)", WebkitBackgroundClip: "text", color: "transparent" }}>
+              &minus;32%
+            </div>
+            <div className="metric-lbl">Gemini Flash X benchmark for research workflow</div>
+          </div>
+          <div className="metric-spark">
+            <svg viewBox="0 0 100 24" preserveAspectRatio="none">
+              <path d="M0,12 L15,10 L30,8 L45,7 L60,5 L75,4 L90,3 L100,2" stroke="#22d3ee" fill="none" strokeWidth="1.5" />
+            </svg>
+          </div>
         </div>
       </div>
 
       {/* Main Strategy List Section */}
-      <div className="dash-content-block">
-        <div className="block-header-row">
+      <div className="dash-content-block glass-card">
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
           <div>
-            <span className="mono-badge">RECENT STRATEGIES</span>
-            <h2>Active Workload Plans</h2>
+            <div className="eyebrow">
+              <span className="dt" />
+              RECENT STRATEGIES
+            </div>
+            <h2 className="h-display text-2xl font-semibold mt-2">Active Workload Plans</h2>
           </div>
-          <span className="count-pill-tag">{strategies.length} ITEMS</span>
+          <span className="font-mono text-xs text-tertiary px-3 py-1.5 rounded-full border border-white/10">
+            {strategies.length} ITEMS
+          </span>
         </div>
 
-        {error && <p className="error-message">{error}</p>}
+        {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
 
         {strategies.length === 0 ? (
-          <div className="editorial-empty-card">
-            <div className="empty-icon-wrap">
-              <Layers className="w-8 h-8 text-primary" />
+          <div className="text-center py-16">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 grid place-items-center mx-auto mb-4">
+              <Layers className="w-7 h-7" />
             </div>
-            <h3>No Saved Strategies Yet</h3>
-            <p>Describe your project or recurring workflow once. BENCHFLOW will evaluate models and save your actionable plan here.</p>
-            <Link className="minimal-btn minimal-btn-dark" href="/choose-usage">
+            <h3 className="h-display text-xl font-medium">No Saved Strategies Yet</h3>
+            <p className="body-md mt-2 max-w-md mx-auto">
+              Describe your project or recurring workflow once. BENCHFLOW will evaluate models and save your actionable plan here.
+            </p>
+            <Link className="btn-primary mt-6 inline-flex" href="/choose-usage">
               <Plus className="w-4 h-4" />
               <span>Create Your First Strategy</span>
               <ArrowUpRight className="w-4 h-4" />
             </Link>
           </div>
         ) : (
-          <div className="strategy-cards-list">
+          <div className="space-y-4">
             {strategies.map((strategy, idx) => (
-              <div className="strategy-card-row" key={strategy._id}>
-                <div className="row-index">{String(idx + 1).padStart(2, "0")}.</div>
+              <div className="problem-card glass-card flex items-center justify-between p-6" key={strategy._id}>
+                <div className="flex items-center gap-6 flex-1 min-w-0">
+                  <span className="pc-num font-mono text-xs text-indigo-soft">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
 
-                <div className="row-main-info">
-                  <div className="row-top-tags">
-                    <span className="type-badge">
-                      [{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]
-                    </span>
-                    {strategy.refreshAvailable && (
-                      <span className="update-badge" title={strategy.refreshReasons?.join("; ")}>
-                        <RefreshCw className="w-3 h-3 flex-none" />
-                        <span>UPDATE AVAILABLE</span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-3 mb-1">
+                      <span className="font-mono text-xs text-cyan uppercase tracking-wider">
+                        [{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]
                       </span>
-                    )}
-                  </div>
-                  
-                  <h3>{strategy.title}</h3>
+                      {strategy.refreshAvailable && (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-mono text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
+                          <RefreshCw className="w-3 h-3" />
+                          <span>UPDATE AVAILABLE</span>
+                        </span>
+                      )}
+                    </div>
 
-                  <div className="row-meta-info">
-                    <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
-                    <span className="dot-sep">&bull;</span>
-                    <span>
-                      {strategy.usageType === "one_off"
-                        ? strategy.budget === undefined
-                          ? "Budget not set"
-                          : `Budget: $${strategy.budget} USD`
-                        : "Recurring Workload"}
-                    </span>
+                    <h3 className="font-sans text-lg font-medium text-white truncate">{strategy.title}</h3>
+
+                    <div className="flex items-center gap-3 text-xs text-tertiary mt-1 font-body">
+                      <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
+                      <span>&bull;</span>
+                      <span>
+                        {strategy.usageType === "one_off"
+                          ? strategy.budget === undefined
+                            ? "Budget not set"
+                            : `Budget: $${strategy.budget} USD`
+                          : "Recurring Workload"}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                <div className="row-actions-group">
+                <div className="flex items-center gap-3 ml-4">
                   <Link
-                    className="action-btn action-btn-primary"
+                    className="btn-primary text-xs px-4 py-2"
                     href={`/strategy/${strategy._id}/${strategy.status === "complete" ? "results" : "workflow"}`}
                     title="Open strategy"
                   >
                     <span>View Plan</span>
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
                   </Link>
 
                   <button
-                    className="action-btn action-btn-subtle"
+                    className="btn-secondary text-xs p-2.5"
                     onClick={() => duplicate(strategy._id)}
                     title="Duplicate strategy"
                   >
-                    <Copy className="w-4 h-4" />
+                    <Copy className="w-3.5 h-3.5" />
                   </button>
 
                   <button
-                    className="action-btn action-btn-danger"
+                    className="btn-secondary text-xs p-2.5 hover:text-red-400 hover:border-red-400/40"
                     onClick={() => remove(strategy._id)}
                     title="Delete strategy"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
