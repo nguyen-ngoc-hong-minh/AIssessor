@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Check, X, ChevronRight, Sparkles, Layers, ShieldCheck, Zap, Cpu } from "lucide-react";
+import { Sparkles, Layers, Zap, Cpu } from "lucide-react";
 
 export function LustroDeck() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -65,7 +65,7 @@ export function LustroDeck() {
       {/* Persistent Chrome: Brand Header */}
       <div className="brand">
         <span className="logo" />
-        BENCHFLOW <span className="slash">/</span> AI Stack Advisor
+        BENCHFLOW <span className="slash">/</span> <span className="brand-subtitle">AI Stack Advisor</span>
       </div>
 
       {/* Section Tag Indicator */}
@@ -188,7 +188,7 @@ export function LustroDeck() {
                   Modern AI stacks are <em>loud</em>. Teams are tired of decoding options.
                 </h2>
                 <p className="body-lg reveal" style={{ maxWidth: 520 }}>
-                  Teams spend an average of <strong style={{ color: "#fff", fontWeight: 500 }}>6.5 hours per project</strong> piecing together which AI tools and subscription tiers to use. We think that's broken.
+                  Teams spend an average of <strong style={{ color: "#fff", fontWeight: 500 }}>6.5 hours per project</strong> piecing together which AI tools and subscription tiers to use. We think that&apos;s broken.
                 </p>
               </div>
               <div className="s-problem-right">
@@ -317,7 +317,7 @@ export function LustroDeck() {
               <div className="sf-l">
                 <div className="eyebrow reveal">
                   <span className="dt" />
-                  What's new
+                  What&apos;s new
                 </div>
                 <h2 className="h-display reveal">Built for teams that ship calmly.</h2>
               </div>
@@ -330,7 +330,7 @@ export function LustroDeck() {
                 <div className="f-num">01</div>
                 <div className="f-ic">&#9889;</div>
                 <h3>Natural-language ops</h3>
-                <p>"Build a market analysis and brand launch workflow." BENCHFLOW maps required capabilities to verified AI tools.</p>
+                <p>&quot;Build a market analysis and brand launch workflow.&quot; BENCHFLOW maps required capabilities to verified AI tools.</p>
                 <a className="f-link">Learn more <span>&rarr;</span></a>
               </div>
               <div className="feature glass-card reveal">
@@ -489,7 +489,7 @@ export function LustroDeck() {
             <div className="s-metrics-quote glass-card reveal">
               <div className="q-mark">&ldquo;</div>
               <blockquote>
-                BENCHFLOW is the first AI tool advisor we haven't had to second-guess. It just&hellip; <em style={{ color: "var(--indigo-soft)", fontStyle: "normal" }}>shows us what actually works</em>.
+                BENCHFLOW is the first AI tool advisor we haven&apos;t had to second-guess. It just&hellip; <em style={{ color: "var(--indigo-soft)", fontStyle: "normal" }}>shows us what actually works</em>.
               </blockquote>
               <div className="q-attr">
                 <strong>Maya Rodriguez</strong>
