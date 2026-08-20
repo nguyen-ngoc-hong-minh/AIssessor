@@ -53,7 +53,7 @@ export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
                   </>
                 ) : (
                   <>
-                    Get Started with <span className="grd">BENCHFLOW</span>.
+                    Get Started with <span className="grd">AIssessor</span>.
                   </>
                 )}
               </h1>
@@ -120,7 +120,7 @@ export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
       </main>
 
       <footer className="auth-footer">
-        BENCHFLOW &bull; AI Stack Procurement Advisor &bull; 2026
+        AIssessor &bull; AI Stack Procurement Advisor &bull; 2026
       </footer>
     </div>
   );

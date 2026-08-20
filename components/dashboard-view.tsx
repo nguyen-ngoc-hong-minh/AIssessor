@@ -154,7 +154,7 @@ export function DashboardView() {
             </div>
             <h3 className="h-display text-xl font-medium">No Saved Strategies Yet</h3>
             <p className="body-md mt-2 max-w-md mx-auto">
-              Describe your project or recurring workflow once. BENCHFLOW will evaluate models and save your actionable plan here.
+              Describe your project or recurring workflow once. AIssessor will evaluate models and save your actionable plan here.
             </p>
             <Link className="btn-primary mt-6 inline-flex" href="/choose-usage">
               <Plus className="w-4 h-4" />

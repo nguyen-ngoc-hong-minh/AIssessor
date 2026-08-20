@@ -14,7 +14,7 @@ export function LustroDeck() {
   const slidesData = [
     { section: "Cover", sub: "The launch headline" },
     { section: "The problem", sub: "Why teams struggle today" },
-    { section: "Introducing BENCHFLOW", sub: "The optimization engine" },
+    { section: "Introducing AIssessor", sub: "The optimization engine" },
     { section: "The process", sub: "Goal analysis to strategy plan" },
     { section: "Planning modes", sub: "One-off project or monthly pipeline" },
     { section: "Pricing plans", sub: "Free, Plus, and Enterprise" },
@@ -63,7 +63,7 @@ export function LustroDeck() {
       {/* Persistent Chrome: Brand Header */}
       <div className="brand">
         <span className="logo" />
-        BENCHFLOW <span className="slash">/</span> <span className="brand-subtitle">AI Stack Advisor</span>
+        AIssessor <span className="slash">/</span> <span className="brand-subtitle">AI Stack Advisor</span>
       </div>
 
       {/* Section Tag Indicator */}
@@ -75,7 +75,7 @@ export function LustroDeck() {
       {/* Right Credit Tag */}
       <a className="tm-credit" href="https://github.com/tttam2702-ui/dms4_mvp" target="_blank" rel="noreferrer">
         <span className="tm-dot" />
-        <span className="tm-label">BENCHFLOW v4.0</span>
+        <span className="tm-label">AIssessor v4.0</span>
       </a>
 
       {/* Persistent Nav & Counter */}
@@ -142,18 +142,18 @@ export function LustroDeck() {
               <div className="s-cover-glow" />
               <div className="eyebrow reveal">
                 <span className="dt" />
-                BENCHFLOW 4.0 Launch
+                AIssessor 4.0 Launch
               </div>
               <h1 className="h-display">
                 <span className="line">
-                  <span><span className="grd">BENCHFLOW</span> is here.</span>
+                  <span><span className="grd">AIssessor</span> is here.</span>
                 </span>
                 <span className="line">
                   <span>AI Stack, finally optimized.</span>
                 </span>
               </h1>
               <p className="body-lg reveal" style={{ maxWidth: 680 }}>
-                Tell us what you need to accomplish. BENCHFLOW builds the workflow, compares current AI options, and finds the subscriptions worth paying for.
+                Tell us what you need to accomplish. AIssessor builds the workflow, compares current AI options, and finds the subscriptions worth paying for.
               </p>
               <div className="s-cover-meta reveal">
                 <span>v 4.0</span><span className="sep" />
@@ -168,7 +168,7 @@ export function LustroDeck() {
                   Explore Presentation
                 </button>
               </div>
-              <div className="s-cover-version">PRESS / DECK / 0001 &middot; BENCHFLOW HQ</div>
+              <div className="s-cover-version">PRESS / DECK / 0001 &middot; AISESSOR HQ</div>
             </div>
           </div>
         </section>
@@ -216,17 +216,17 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 3: INTRODUCING BENCHFLOW ============ */}
-        <section className={`slide ${currentIdx === 2 ? "active" : ""}`} data-section="Introducing BENCHFLOW">
+        {/* ============ SLIDE 3: INTRODUCING AISESSOR ============ */}
+        <section className={`slide ${currentIdx === 2 ? "active" : ""}`} data-section="Introducing AIssessor">
           <div className="slide-inner s-product">
             <div className="s-product-grid">
               <div className="s-product-left">
-                <span className="product-tag reveal">&#10022; New &middot; In BENCHFLOW 4.0</span>
+                <span className="product-tag reveal">&#10022; New &middot; In AIssessor 4.0</span>
                 <h2 className="h-display reveal">
-                  Meet <span className="grd">BENCHFLOW</span>. Your AI stack, explained.
+                  Meet <span className="grd">AIssessor</span>. Your AI stack, explained.
                 </h2>
                 <p className="body-lg reveal">
-                  BENCHFLOW turns your workload goals into a verified, plain-language AI strategy. Ask questions in English. Get exact tool stacks, subscription tiers, and dollar savings.
+                  AIssessor turns your workload goals into a verified, plain-language AI strategy. Ask questions in English. Get exact tool stacks, subscription tiers, and dollar savings.
                 </p>
                 <div className="s-product-features reveal">
                   <div className="pf">
@@ -253,7 +253,7 @@ export function LustroDeck() {
                   <div className="mock-head">
                     <div className="mh-l">
                       <span className="mh-dot" />
-                      benchflow / pipeline
+                      aissessor / pipeline
                     </div>
                     <div className="mh-r"><i /><i /><i /></div>
                   </div>
@@ -305,19 +305,19 @@ export function LustroDeck() {
               <div className="sf-l">
                 <div className="eyebrow reveal">
                   <span className="dt" />
-                  The BENCHFLOW Process
+                  The AIssessor Process
                 </div>
                 <h2 className="h-display reveal">Workflow first. Evidence second. <span className="grd">Recommendation</span> last.</h2>
               </div>
               <p className="sf-r reveal">
-                BENCHFLOW turns your plain-language goal into a verified, actionable AI stack plan through a transparent 4-step process.
+                AIssessor turns your plain-language goal into a verified, actionable AI stack plan through a transparent 4-step process.
               </p>
             </div>
             <div className="feature-grid">
               <div className="feature glass-card reveal">
                 <div className="f-num">01</div>
                 <h3>Describe the result</h3>
-                <p>Tell BENCHFLOW what you need in everyday language, along with budget, target deadline, and priority ranking.</p>
+                <p>Tell AIssessor what you need in everyday language, along with budget, target deadline, and priority ranking.</p>
               </div>
               <div className="feature-grid-item feature glass-card reveal">
                 <div className="f-num">02</div>
@@ -379,7 +379,7 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 6: PRICING PLANS (Explicit Card Padding & Margins) ============ */}
+        {/* ============ SLIDE 6: PRICING PLANS ============ */}
         <section className={`slide ${currentIdx === 5 ? "active" : ""}`} data-section="Pricing plans">
           <div className="slide-inner s-compare">
             {/* Centered Single-Line Header */}
@@ -396,7 +396,7 @@ export function LustroDeck() {
               </p>
             </div>
 
-            {/* 3-Column Pricing Grid with Enforced Padding & Margins */}
+            {/* 3-Column Pricing Grid */}
             <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
               {/* Card 1: Free Plan */}
               <div className="glass-card pricing-deck-card border border-white/10 w-full">
@@ -530,7 +530,7 @@ export function LustroDeck() {
                   </ul>
                 </div>
 
-                <a href="mailto:sales@benchflow.app" className="btn-secondary plan-cta-btn">
+                <a href="mailto:sales@aissessor.app" className="btn-secondary plan-cta-btn">
                   Contact Sales
                 </a>
               </div>
@@ -552,7 +552,7 @@ export function LustroDeck() {
                 <span className="mw"><span>your AI stack.</span></span>
               </h2>
               <p className="body-lg reveal" style={{ maxWidth: 580 }}>
-                Free to start. No credit card required. Describe your project and BENCHFLOW will deliver an actionable AI stack plan in seconds.
+                Free to start. No credit card required. Describe your project and AIssessor will deliver an actionable AI stack plan in seconds.
               </p>
               <div className="s-cta-row reveal">
                 <Link href="/sign-up" className="btn-primary">

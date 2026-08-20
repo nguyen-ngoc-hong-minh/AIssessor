@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ArrowUpRight, CalendarCheck2, Presentation, RefreshCw } from "lucide-react";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Switch Mode & New Strategy · BENCHFLOW" };
+export const metadata: Metadata = { title: "Switch Mode & New Strategy · AIssessor" };
 
 export default function ChooseUsagePage() {
   return (

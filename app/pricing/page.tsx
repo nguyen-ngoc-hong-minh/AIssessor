@@ -97,7 +97,7 @@ export default function PricingPage() {
                   Start Free
                 </Link>
               ) : plan.name === "Enterprise" ? (
-                <a className="minimal-btn minimal-btn-outline full-width" href="mailto:sales@benchflow.app">
+                <a className="minimal-btn minimal-btn-outline full-width" href="mailto:sales@aissessor.app">
                   Contact Sales
                 </a>
               ) : (
