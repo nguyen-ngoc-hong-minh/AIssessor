@@ -349,56 +349,44 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 5: PLANNING MODES (One-off vs Monthly) ============ */}
+        {/* ============ SLIDE 5: PLANNING MODES (Matching Deck 4 Design System) ============ */}
         <section className={`slide ${currentIdx === 4 ? "active" : ""}`} data-section="Planning modes">
-          <div className="slide-inner s-product">
-            <div className="s-product-head mb-8">
-              <div className="eyebrow reveal">
-                <span className="dt" />
-                Choose your planning mode
+          <div className="slide-inner s-features">
+            <div className="s-features-head">
+              <div className="sf-l">
+                <div className="eyebrow reveal">
+                  <span className="dt" />
+                  Choose your planning mode
+                </div>
+                <h2 className="h-display reveal">Tailored for one-off projects or recurring workloads.</h2>
               </div>
-              <h2 className="h-display reveal">Tailored for one-off projects or recurring workloads.</h2>
-              <p className="body-lg reveal" style={{ maxWidth: 640 }}>
-                Select how you want to structure your AI recommendations based on your team's workflow style.
+              <p className="sf-r reveal">
+                Select how you want to structure your AI recommendations based on your team's workflow style and delivery cadence.
               </p>
             </div>
-            <div className="feature-grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="problem-card glass-card reveal flex flex-col justify-between p-8 min-h-[300px]">
+            <div className="feature-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
+              <div className="feature glass-card reveal flex flex-col justify-between min-h-[280px]">
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="font-mono text-xs text-indigo-soft">01. ONE-OFF PROJECT</span>
-                    <CalendarCheck2 className="w-6 h-6 text-indigo-400" />
-                  </div>
-                  <h3 className="h-display text-2xl font-medium text-white mb-3">One-off Project Strategy</h3>
-                  <p className="body-md text-ink-2 leading-relaxed">
-                    A specific deliverable with an exact target completion date, project brief, and budget ceiling limit.
-                  </p>
+                  <div className="f-num">01</div>
+                  <div className="f-ic">&#128197;</div>
+                  <h3>One-off Project Strategy</h3>
+                  <p>A specific deliverable with an exact target completion date, project brief, and budget ceiling limit.</p>
                 </div>
-                <div className="pt-6 border-t border-white/10 mt-6 flex justify-end">
-                  <Link href="/strategy/new/one-off" className="btn-primary text-xs">
-                    <span>Plan One-off Project</span>
-                    <ArrowUpRight className="w-4 h-4 ml-1" />
-                  </Link>
-                </div>
+                <Link href="/strategy/new/one-off" className="f-link mt-6">
+                  <span>Plan One-off Project</span> <span>&rarr;</span>
+                </Link>
               </div>
 
-              <div className="problem-card glass-card reveal flex flex-col justify-between p-8 min-h-[300px]">
+              <div className="feature glass-card reveal flex flex-col justify-between min-h-[280px]">
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="font-mono text-xs text-pink-soft">02. MONTHLY WORKFLOW</span>
-                    <RefreshCw className="w-6 h-6 text-pink-400" />
-                  </div>
-                  <h3 className="h-display text-2xl font-medium text-white mb-3">Monthly Workload Pipeline</h3>
-                  <p className="body-md text-ink-2 leading-relaxed">
-                    Multiple recurring tasks, each with its own execution frequency, model tier, and quality requirements.
-                  </p>
+                  <div className="f-num">02</div>
+                  <div className="f-ic">&#128256;</div>
+                  <h3>Monthly Workload Pipeline</h3>
+                  <p>Multiple recurring tasks, each with its own execution frequency, model tier, and quality requirements.</p>
                 </div>
-                <div className="pt-6 border-t border-white/10 mt-6 flex justify-end">
-                  <Link href="/strategy/new/monthly" className="btn-primary text-xs">
-                    <span>Build Monthly Pipeline</span>
-                    <ArrowUpRight className="w-4 h-4 ml-1" />
-                  </Link>
-                </div>
+                <Link href="/strategy/new/monthly" className="f-link mt-6">
+                  <span>Build Monthly Pipeline</span> <span>&rarr;</span>
+                </Link>
               </div>
             </div>
           </div>
