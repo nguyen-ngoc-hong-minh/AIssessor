@@ -39,6 +39,21 @@ describe("Convex identity and authorization", () => {
     const strategyId = await user.mutation(anyApi.strategies.create, { usageType: "one_off", title: "Draft", originalInput: "Create a researched report", expectedResult: "Report", priorities: ["balanced"] });
     await expect(user.action(anyApi.actions.recommend.generate, { strategyId, region: "global" })).rejects.toMatchObject({ data: { code: "WORKFLOW_NOT_APPROVED" } });
   });
+  it("persists generated plans for free users and loads them on revisit", async () => {
+    const t = convexTest({ schema, modules });
+    const user = t.withIdentity({ subject: "saved_plan_user", email: "saved@example.com" });
+    await user.mutation(anyApi.users.ensureCurrent, {});
+    const strategyId = await user.mutation(anyApi.strategies.create, { usageType: "monthly", title: "Saved monthly work", originalInput: "Research weekly", expectedResult: "A recurring AI stack", priorities: ["balanced"] });
+    const snapshotId = await t.run((ctx) => ctx.db.insert("dataSnapshots", { source: "official_products", rawPayload: {}, payloadHash: "saved-hash", fetchedAt: 500, valid: true }));
+    const plan = { variant: "recommended", steps: [], fixedCostUsd: 20, apiCostUsd: 1, totalCostUsd: 21, estimatedSavingsUsd: 0, existingSubscriptions: { kept: [], couldCancel: [] }, subscriptions: [], uniqueProductCount: 1, completeStepCount: 0, budgetUsd: null, overBudgetUsd: 0, hasUnknownSubscriptionPricing: false, assumptions: [], dataUpdatedAt: 500 };
+    await t.mutation(anyApi.strategies.saveGeneratedPlans, { strategyId, dataSnapshotId: snapshotId, dataSnapshotSummary: [{ id: snapshotId, source: "official_products", fetchedAt: 500 }], plans: [plan] });
+    const [owned, stored] = await Promise.all([
+      user.query(anyApi.strategies.getOwned, { strategyId }),
+      user.action(anyApi.actions.recommend.loadSaved, { strategyId }),
+    ]);
+    expect(owned.strategy.status).toBe("complete");
+    expect(stored).toMatchObject({ locked: true, usageType: "monthly", plans: [{ variant: "recommended", totalCostUsd: 21 }], dataSnapshot: { fetchedAt: 500 } });
+  });
   it("processes Clerk webhooks idempotently and revokes access after deletion", async () => {
     process.env.CLERK_WEBHOOK_SYNC_KEY = "sync-test"; const t = convexTest({ schema, modules });
     const created = { syncKey: "sync-test", eventId: "evt-1", eventType: "user.created", clerkUserId: "user_webhook", email: "webhook@example.com", displayName: "Webhook User" } as const;

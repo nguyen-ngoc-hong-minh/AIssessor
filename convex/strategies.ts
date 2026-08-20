@@ -21,6 +21,13 @@ export const getOwned = query({ args: { strategyId: v.id("strategies") }, handle
   return { strategy, steps };
 } });
 
+export const getStoredResult = internalQuery({ args: { strategyId: v.id("strategies") }, handler: async (ctx, { strategyId }) => {
+  const plans = await ctx.db.query("strategyPlans").withIndex("by_strategy", (q) => q.eq("strategyId", strategyId)).collect();
+  if (!plans.length) return null;
+  const dataSnapshot = await ctx.db.get(plans[0].dataSnapshotId);
+  return { plans, dataSnapshot };
+} });
+
 export const create = mutation({
   args: { usageType: v.union(v.literal("one_off"), v.literal("monthly")), title: v.string(), originalInput: v.string(), expectedResult: v.string(), deadline: v.optional(v.string()), budget: v.optional(v.number()), budgetAmount: v.optional(v.number()), budgetCurrency: v.optional(v.string()), monthlyTasks: v.optional(v.array(v.any())), existingTools: v.optional(v.array(v.string())), priorities: v.array(v.string()) },
   handler: async (ctx, args) => { const user = await requireUser(ctx); const now = Date.now(); return ctx.db.insert("strategies", { ...args, userId: user._id, status: "draft", createdAt: now, updatedAt: now }); },
@@ -72,10 +79,10 @@ export const remove = mutation({ args: { strategyId: v.id("strategies") }, handl
   for (const step of steps) await ctx.db.delete(step._id); await ctx.db.delete(strategyId);
 } });
 
-export const saveGeneratedPlans = internalMutation({ args: { strategyId: v.id("strategies"), dataSnapshotId: v.id("dataSnapshots"), plans: v.array(v.any()) }, handler: async (ctx, { strategyId, dataSnapshotId, plans }) => {
+export const saveGeneratedPlans = internalMutation({ args: { strategyId: v.id("strategies"), dataSnapshotId: v.id("dataSnapshots"), dataSnapshotSummary: v.optional(v.any()), plans: v.array(v.any()) }, handler: async (ctx, { strategyId, dataSnapshotId, dataSnapshotSummary, plans }) => {
   const existing = await ctx.db.query("strategyPlans").withIndex("by_strategy", (q) => q.eq("strategyId", strategyId)).collect();
   for (const plan of existing) await ctx.db.delete(plan._id);
-  for (const plan of plans) await ctx.db.insert("strategyPlans", { strategyId, planType: String(plan.variant), recommendations: plan.steps, costEstimate: { fixed: plan.fixedCostUsd, api: plan.apiCostUsd, total: plan.totalCostUsd }, timeEstimate: {}, confidence: plan.steps.some((step: { selected?: { label?: string } | null }) => step.selected?.label === "Limited Evidence") ? "Limited Evidence" : "Good Fit", assumptions: plan.assumptions, dataSnapshotId, fullPlan: plan, createdAt: Date.now() });
+  for (const plan of plans) await ctx.db.insert("strategyPlans", { strategyId, planType: String(plan.variant), recommendations: plan.steps, costEstimate: { fixed: plan.fixedCostUsd, api: plan.apiCostUsd, total: plan.totalCostUsd }, timeEstimate: {}, confidence: plan.steps.some((step: { selected?: { label?: string } | null }) => step.selected?.label === "Limited Evidence") ? "Limited Evidence" : "Good Fit", assumptions: plan.assumptions, dataSnapshotId, dataSnapshotSummary, fullPlan: plan, createdAt: Date.now() });
   const refreshes = await ctx.db.query("strategyRefreshes").withIndex("by_strategy", (q) => q.eq("strategyId", strategyId)).collect();
   for (const refresh of refreshes.filter((item) => item.status === "available")) await ctx.db.patch(refresh._id, { status: "applied", evaluatedAt: Date.now() });
   await ctx.db.patch(strategyId, { status: "complete", updatedAt: Date.now() });

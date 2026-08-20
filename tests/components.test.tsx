@@ -5,6 +5,7 @@ import { IntegrationNotice } from "@/components/integration-notice";
 import { MonthlyTaskBuilder } from "@/components/monthly-task-builder";
 import { OneOffStrategyForm } from "@/components/one-off-strategy-form";
 import { OnboardingForm } from "@/components/onboarding-form";
+import { ResultsView } from "@/components/results-view";
 
 const { routerPush } = vi.hoisted(() => ({ routerPush: vi.fn() }));
 
@@ -39,6 +40,13 @@ describe("strategy inputs", () => {
     expect(screen.getByLabelText("Deadline")).toHaveAttribute("type", "date");
     fireEvent.click(screen.getByRole("button", { name: "Enter exact budget" }));
     expect(screen.getByLabelText("Exact budget")).toBeInTheDocument();
+  });
+  it("shows saved-plan confirmation and workflow editing at the end of results", async () => {
+    const result = { locked: false, usageType: "one_off", plans: [{ variant: "recommended", steps: [], fixedCostUsd: 0, apiCostUsd: 0, totalCostUsd: 0, estimatedSavingsUsd: 0, existingSubscriptions: { kept: [], couldCancel: [] }, subscriptions: [], uniqueProductCount: 0, completeStepCount: 0, assumptions: [], dataUpdatedAt: Date.now() }], dataSnapshot: { fetchedAt: Date.now(), sources: [] } };
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify(result), { status: 200 }));
+    render(<ResultsView strategyId="saved-strategy" />);
+    expect(await screen.findByText("Saved to your account")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Edit workflow" })).toHaveAttribute("href", "/strategy/saved-strategy/workflow");
   });
   it("adds, edits, duplicates, and deletes monthly tasks with two sliders", () => {
     const { container } = render(<MonthlyTaskBuilder />);

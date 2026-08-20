@@ -68,9 +68,9 @@ export const generate = action({ args: { strategyId: v.id("strategies"), region:
   const variants: StrategyVariant[] = ["recommended", "lowest_cost", "highest_quality", "fastest", "privacy"];
   const models = storedModels.map(toModel).map((model) => ({ ...model, existingTool: existingTools.some((tool: string) => `${model.provider} ${model.name}`.toLowerCase().includes(tool.toLowerCase())) }));
   const plans = variants.map((variant) => generateStrategyPlan(owned.steps.map(toStep), models, context, variant));
+  await ctx.runMutation(anyApi.strategies.saveGeneratedPlans, { strategyId, dataSnapshotId: snapshot._id, dataSnapshotSummary: snapshotSummary, plans });
   const entitlement = await ctx.runQuery(anyApi.subscriptions.entitlement, {});
   if (!entitlement.canViewFullResults) return { locked: true, usageType: owned.strategy.usageType, estimatedCompletionTime: owned.strategy.estimatedCompletionTime, plans: [{ ...plans[0], steps: plans[0].steps.map((step) => ({ ...step, alternatives: [] })) }], dataSnapshot: { id: snapshot._id, fetchedAt: oldestEvidenceAt, sources: snapshotSummary } };
-  await ctx.runMutation(anyApi.strategies.saveGeneratedPlans, { strategyId, dataSnapshotId: snapshot._id, plans });
   return { locked: false, usageType: owned.strategy.usageType, estimatedCompletionTime: owned.strategy.estimatedCompletionTime, plans, dataSnapshot: { id: snapshot._id, fetchedAt: oldestEvidenceAt, sources: snapshotSummary } };
 } });
 
@@ -98,6 +98,26 @@ function storedPlan(record: { planType: string; recommendations: unknown; costEs
     dataUpdatedAt: null,
   };
 }
+
+export const loadSaved = action({ args: { strategyId: v.id("strategies") }, handler: async (ctx, { strategyId }) => {
+  await requireIdentity(ctx);
+  const owned = await ctx.runQuery(anyApi.strategies.getOwned, { strategyId });
+  if (owned.strategy.status !== "complete") return null;
+  const stored = await ctx.runQuery(anyApi.strategies.getStoredResult, { strategyId }) as null | {
+    plans: Array<{ planType: string; recommendations: unknown; costEstimate: unknown; assumptions: string[]; fullPlan?: unknown; dataSnapshotSummary?: unknown }>;
+    dataSnapshot: null | { _id: string; fetchedAt: number; source: string; sourceUrl?: string; attribution?: string; sourceVersion?: string };
+  };
+  if (!stored?.plans.length || !stored.dataSnapshot) return null;
+  const variantOrder: StrategyVariant[] = ["recommended", "lowest_cost", "highest_quality", "fastest", "privacy"];
+  const plans = stored.plans.map(storedPlan).filter((plan): plan is StrategyPlan => Boolean(plan)).sort((a, b) => variantOrder.indexOf(a.variant) - variantOrder.indexOf(b.variant));
+  if (!plans.length) return null;
+  const storedSummary = stored.plans[0].dataSnapshotSummary;
+  const sources = Array.isArray(storedSummary) ? storedSummary : [{ id: stored.dataSnapshot._id, fetchedAt: stored.dataSnapshot.fetchedAt, source: stored.dataSnapshot.source, sourceUrl: stored.dataSnapshot.sourceUrl, attribution: stored.dataSnapshot.attribution, sourceVersion: stored.dataSnapshot.sourceVersion }];
+  const fetchedAt = Math.min(...sources.map((source) => typeof source === "object" && source && "fetchedAt" in source ? Number(source.fetchedAt) : stored.dataSnapshot!.fetchedAt));
+  const entitlement = await ctx.runQuery(anyApi.subscriptions.entitlement, {});
+  const visiblePlans = entitlement.canViewFullResults ? plans : [{ ...plans[0], steps: plans[0].steps.map((step) => ({ ...step, alternatives: [] })) }];
+  return { locked: !entitlement.canViewFullResults, usageType: owned.strategy.usageType, estimatedCompletionTime: owned.strategy.estimatedCompletionTime, plans: visiblePlans, dataSnapshot: { id: stored.dataSnapshot._id, fetchedAt, sources } };
+} });
 
 export const reEvaluatePending = internalAction({ args: {}, handler: async (ctx) => {
   const pending = await ctx.runQuery(anyApi.strategies.pendingRefreshes, { limit: 20 });

@@ -27,7 +27,7 @@ export default defineSchema({
   }).index("by_strategy", ["strategyId", "order"]),
   strategyPlans: defineTable({
     strategyId: v.id("strategies"), planType: v.string(), recommendations: v.any(), costEstimate: v.any(), timeEstimate: v.any(),
-    confidence: v.string(), assumptions: v.array(v.string()), dataSnapshotId: v.id("dataSnapshots"), fullPlan: v.optional(v.any()), createdAt: v.number(),
+    confidence: v.string(), assumptions: v.array(v.string()), dataSnapshotId: v.id("dataSnapshots"), dataSnapshotSummary: v.optional(v.any()), fullPlan: v.optional(v.any()), createdAt: v.number(),
   }).index("by_strategy", ["strategyId", "createdAt"]),
   strategyRefreshes: defineTable({
     strategyId: v.id("strategies"), source: v.string(), snapshotId: v.id("dataSnapshots"), affectedCategories: v.array(v.string()),
