@@ -58,41 +58,41 @@ export function DashboardView() {
     <div className="editorial-dashboard-wrap space-y-8">
       {/* Metric Grid */}
       <div className="dash-metrics-grid grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[200px]">
+        <div className="metric glass-card p-5 md:p-6 flex flex-col justify-between min-h-[145px]">
           <div>
-            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-3 font-medium">Active projects</div>
-            <div className="metric-num grd text-5xl font-bold tracking-tight my-4">{strategies.length}</div>
-            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-3">Total project and monthly task evaluations</p>
+            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-2 font-medium">Active projects</div>
+            <div className="metric-num grd text-4xl md:text-5xl font-bold tracking-tight my-2">{strategies.length}</div>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-2">Total project and monthly task evaluations</p>
           </div>
-          <div className="metric-spark mt-4">
+          <div className="metric-spark mt-3">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
               <path d="M0,18 L15,16 L30,12 L45,14 L60,8 L75,6 L90,4 L100,3" stroke="#a5b4fc" fill="none" strokeWidth="1.5" />
             </svg>
           </div>
         </div>
 
-        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[200px]">
+        <div className="metric glass-card p-5 md:p-6 flex flex-col justify-between min-h-[145px]">
           <div>
-            <div className="font-mono text-xs text-pink-soft tracking-wider mb-3 font-medium">Optimized stack</div>
-            <div className="metric-num grd text-5xl font-bold tracking-tight my-4">{savedPlans}</div>
-            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-3">Plans ready for deployment &amp; execution</p>
+            <div className="font-mono text-xs text-pink-soft tracking-wider mb-2 font-medium">Optimized stack</div>
+            <div className="metric-num grd text-4xl md:text-5xl font-bold tracking-tight my-2">{savedPlans}</div>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-2">Plans ready for deployment &amp; execution</p>
           </div>
-          <div className="metric-spark mt-4">
+          <div className="metric-spark mt-3">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
               <path d="M0,4 L15,8 L30,6 L45,12 L60,14 L75,16 L90,18 L100,20" stroke="#f9a8d4" fill="none" strokeWidth="1.5" />
             </svg>
           </div>
         </div>
 
-        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[200px]">
+        <div className="metric glass-card p-5 md:p-6 flex flex-col justify-between min-h-[145px]">
           <div>
-            <div className="font-mono text-xs text-cyan tracking-wider mb-3 font-medium">New better option</div>
-            <div className="metric-num text-5xl font-bold tracking-tight my-4" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>
+            <div className="font-mono text-xs text-cyan tracking-wider mb-2 font-medium">New better option</div>
+            <div className="metric-num text-4xl md:text-5xl font-bold tracking-tight my-2" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>
               &minus;32%
             </div>
-            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-3">Gemini Flash X benchmark for research workflow</p>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-2">Gemini Flash X benchmark for research workflow</p>
           </div>
-          <div className="metric-spark mt-4">
+          <div className="metric-spark mt-3">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
               <path d="M0,12 L15,10 L30,8 L45,7 L60,5 L75,4 L90,3 L100,2" stroke="#22d3ee" fill="none" strokeWidth="1.5" />
             </svg>

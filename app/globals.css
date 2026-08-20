@@ -1518,11 +1518,11 @@ html, body {
 }
 
 .metric {
-  padding: 28px 26px;
+  padding: 22px 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 200px;
+  min-height: 145px;
   position: relative;
   overflow: hidden;
 }
@@ -1547,11 +1547,11 @@ html, body {
 .metric-num {
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: clamp(36px, 4.5vw, 60px);
+  font-size: clamp(34px, 4vw, 52px);
   letter-spacing: -0.04em;
-  line-height: 1.1;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  line-height: 1;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .metric-num.grd {
