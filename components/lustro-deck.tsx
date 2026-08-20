@@ -379,7 +379,7 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 6: PRICING PLANS (Single-Line Title & Clean Spacious Cards) ============ */}
+        {/* ============ SLIDE 6: PRICING PLANS (Explicit Card Padding & Margins) ============ */}
         <section className={`slide ${currentIdx === 5 ? "active" : ""}`} data-section="Pricing plans">
           <div className="slide-inner s-compare">
             {/* Centered Single-Line Header */}
@@ -396,41 +396,41 @@ export function LustroDeck() {
               </p>
             </div>
 
-            {/* 3-Column Full-Width Pricing Grid with Generous Box Margins */}
+            {/* 3-Column Pricing Grid with Enforced Padding & Margins */}
             <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
               {/* Card 1: Free Plan */}
-              <div className="glass-card p-9 rounded-2xl flex flex-col justify-between border border-white/10 w-full min-h-[380px]">
+              <div className="glass-card pricing-deck-card border border-white/10 w-full">
                 <div>
-                  <div className="text-sm font-medium text-white mb-3">Free Plan</div>
-                  <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="h-display text-3xl font-bold text-white">$0</span>
-                    <span className="text-xs text-ink-3">/month</span>
+                  <div className="plan-name">Free Plan</div>
+                  <div className="plan-price-row">
+                    <span className="plan-price">$0</span>
+                    <span className="plan-period">/month</span>
                   </div>
-                  <p className="text-xs text-ink-2 leading-relaxed mb-6">
+                  <p className="plan-desc">
                     Perfect for Individual Builders, Startups, and Workflow Discovery.
                   </p>
 
-                  <div className="text-xs font-semibold text-white mb-4">Features:</div>
-                  <ul className="space-y-3.5 text-xs text-ink-2 mb-8">
-                    <li className="flex items-center gap-3">
+                  <div className="plan-features-label">Features:</div>
+                  <ul className="plan-features-list">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span>Account and onboarding</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span>One task analysis</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span>Editable workflow preview</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
@@ -439,47 +439,47 @@ export function LustroDeck() {
                   </ul>
                 </div>
 
-                <Link href="/sign-up" className="btn-secondary text-xs py-3.5 w-full justify-center rounded-xl font-medium">
+                <Link href="/sign-up" className="btn-secondary plan-cta-btn">
                   Get Started
                 </Link>
               </div>
 
               {/* Card 2: Featured Plus Plan */}
-              <div className="glass-card p-9 rounded-2xl flex flex-col justify-between bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative w-full min-h-[380px]">
+              <div className="glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative w-full">
                 <span className="recommended-badge absolute -top-3 right-6 bg-indigo-500 text-white text-[10px] font-mono px-2.5 py-0.5 rounded-full">
                   ★ MOST POPULAR
                 </span>
                 <div>
-                  <div className="text-sm font-medium text-white mb-3">Plus Plan</div>
-                  <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="h-display text-3xl font-bold text-white">$19</span>
-                    <span className="text-xs text-ink-3">/month</span>
+                  <div className="plan-name">Plus Plan</div>
+                  <div className="plan-price-row">
+                    <span className="plan-price">$19</span>
+                    <span className="plan-period">/month</span>
                   </div>
-                  <p className="text-xs text-ink-2 leading-relaxed mb-6">
+                  <p className="plan-desc">
                     Complete plans and alternatives for growing businesses.
                   </p>
 
-                  <div className="text-xs font-semibold text-white mb-4">Features:</div>
-                  <ul className="space-y-3.5 text-xs text-ink-2 mb-8">
-                    <li className="flex items-center gap-3">
+                  <div className="plan-features-label">Features:</div>
+                  <ul className="plan-features-list">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span className="text-white font-medium">Full AI Strategy Plans</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span>Unlimited saved strategies</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span>Primary evidence verification</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
@@ -488,43 +488,43 @@ export function LustroDeck() {
                   </ul>
                 </div>
 
-                <Link href="/sign-up" className="btn-primary text-xs py-3.5 w-full justify-center rounded-xl font-semibold text-black bg-white hover:bg-indigo-100">
+                <Link href="/sign-up" className="btn-primary plan-cta-btn text-black bg-white hover:bg-indigo-100">
                   Get Started
                 </Link>
               </div>
 
               {/* Card 3: Enterprise Plan */}
-              <div className="glass-card p-9 rounded-2xl flex flex-col justify-between border border-white/10 w-full min-h-[380px]">
+              <div className="glass-card pricing-deck-card border border-white/10 w-full">
                 <div>
-                  <div className="text-sm font-medium text-white mb-3">Enterprise Plan</div>
-                  <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="h-display text-3xl font-bold text-white">Custom</span>
+                  <div className="plan-name">Enterprise Plan</div>
+                  <div className="plan-price-row">
+                    <span className="plan-price">Custom</span>
                   </div>
-                  <p className="text-xs text-ink-2 leading-relaxed mb-6">
+                  <p className="plan-desc">
                     Organisation access, custom API, and dedicated support.
                   </p>
 
-                  <div className="text-xs font-semibold text-white mb-4">Features:</div>
-                  <ul className="space-y-3.5 text-xs text-ink-2 mb-8">
-                    <li className="flex items-center gap-3">
+                  <div className="plan-features-label">Features:</div>
+                  <ul className="plan-features-list">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span>Organisation workspace</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span>Custom API access</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
                       <span>Implementation support</span>
                     </li>
-                    <li className="flex items-center gap-3">
+                    <li>
                       <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
                         <Check className="w-2.5 h-2.5 text-white" />
                       </span>
@@ -533,7 +533,7 @@ export function LustroDeck() {
                   </ul>
                 </div>
 
-                <a href="mailto:sales@benchflow.app" className="btn-secondary text-xs py-3.5 w-full justify-center rounded-xl font-medium">
+                <a href="mailto:sales@benchflow.app" className="btn-secondary plan-cta-btn">
                   Contact Sales
                 </a>
               </div>

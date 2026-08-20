@@ -1162,13 +1162,76 @@ body > .brand {
   color: #ffffff;
 }
 
-/* Deck 5 Planning Mode Cards (Standard Font Scale with Clean Margins) */
-.deck-mode-card {
-  padding: 32px 36px 28px;
-  min-height: 280px;
+/* Deck 5 & Deck 6 Planning & Pricing Mode Cards */
+.deck-mode-card, .pricing-deck-card {
+  padding: 36px 32px 32px !important;
+  border-radius: 20px;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.pricing-deck-card .plan-name {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+
+.pricing-deck-card .plan-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.pricing-deck-card .plan-price {
+  font-family: var(--font-sans);
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.pricing-deck-card .plan-period {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.pricing-deck-card .plan-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-bottom: 24px;
+}
+
+.pricing-deck-card .plan-features-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+
+.pricing-deck-card .plan-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.pricing-deck-card .plan-features-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--ink-2);
 }
 
 .deck-mode-card .f-num {
