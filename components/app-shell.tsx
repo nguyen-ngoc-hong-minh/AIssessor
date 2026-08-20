@@ -1,7 +1,7 @@
 "use client";
 
 import { SignOutButton } from "@clerk/react";
-import { BarChart3, CreditCard, Database, LogOut, Plus, Settings, Users, ArrowUpRight } from "lucide-react";
+import { BarChart3, CreditCard, Database, LogOut, Plus, Settings, Users, ArrowUpRight, Presentation } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Brand } from "./brand";
@@ -9,6 +9,7 @@ import { Brand } from "./brand";
 const links = [
   { href: "/dashboard", label: "Strategies", icon: BarChart3 },
   { href: "/choose-usage", label: "New strategy", icon: Plus },
+  { href: "/", label: "Presentation Deck", icon: Presentation },
   { href: "/billing", label: "Billing", icon: CreditCard },
   { href: "/team", label: "Team", icon: Users },
   { href: "/settings", label: "Settings", icon: Settings },
@@ -38,7 +39,7 @@ export function AppShell({
         </div>
 
         <div className="sidebar-action-btn-wrap mb-6">
-          <Link href="/choose-usage" className="btn-primary full-width justify-center">
+          <Link href="/choose-usage" className="btn-primary full-width justify-center text-xs">
             <Plus className="w-4 h-4" />
             <span>New Strategy</span>
           </Link>
@@ -46,10 +47,10 @@ export function AppShell({
 
         <nav className="sidebar-nav-list space-y-1">
           <span className="font-mono text-[10px] text-tertiary uppercase tracking-widest block px-3 mb-2">
-            WORKSPACE
+            WORKSPACE &bull; MODES
           </span>
           {visibleLinks.map(({ href, label, icon: Icon }) => {
-            const active = path.startsWith(href) || (label === "New strategy" && path.startsWith("/strategy/new"));
+            const active = (href === "/" ? path === "/" : path.startsWith(href)) || (label === "Mode Switcher" && path.startsWith("/strategy/new"));
             return (
               <Link
                 className={`sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
@@ -61,7 +62,7 @@ export function AppShell({
                 key={href}
               >
                 <Icon className={`w-4 h-4 ${active ? "text-indigo-400" : ""}`} />
-                <span>{label}</span>
+                <span className="text-xs">{label}</span>
                 {active && <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 ml-auto shadow-[0_0_8px_#6366f1]" />}
               </Link>
             );
