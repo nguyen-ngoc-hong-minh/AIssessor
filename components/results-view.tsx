@@ -83,7 +83,7 @@ function PartialOptions({ options }: { options: Selected[] }) {
   return (
     <div className="partial-options p-4 rounded-lg bg-[#0C0D0F] border border-white/5">
       <h4 className="text-sm font-semibold text-primary">{options.length ? "PARTIAL OPTIONS AVAILABLE" : "NO COMPLETE AI MATCH YET"}</h4>
-      <p className="text-xs text-secondary mt-1">We're checking whether a combination of AI tools can cover this step.</p>
+      <p className="text-xs text-secondary mt-1">We&apos;re checking whether a combination of AI tools can cover this step.</p>
       {options.map((option) => (
         <div key={option.model.canonicalId} className="mt-2 text-xs">
           <strong className="text-primary">{option.model.name}</strong>
