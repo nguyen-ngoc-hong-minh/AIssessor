@@ -1,16 +1,78 @@
 "use client";
 
 import { SignIn, SignUp } from "@clerk/react";
-import { KeyRound } from "lucide-react";
+import { KeyRound, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { Brand } from "./brand";
 import { authConfigured } from "./providers";
 
 function AuthConfigurationNotice() {
-  return <div className="integration-notice"><span><KeyRound /></span><div><strong>Authentication is not configured yet.</strong><p>Add the Clerk publishable and secret keys to this environment, then restart the development server. Other live data services are not required to display this form.</p></div></div>;
+  return (
+    <div className="minimal-notice">
+      <KeyRound className="w-5 h-5 text-black flex-none" />
+      <div>
+        <strong>Authentication Key Required</strong>
+        <p>Add Clerk environment keys (`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`) to enable live user authentication.</p>
+      </div>
+    </div>
+  );
 }
 
 export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
   const isSignIn = mode === "sign-in";
-  return <div className="auth-page"><div className="auth-brand"><Brand /></div><div className="auth-panel"><div className="auth-copy"><span className="kicker">{isSignIn ? "Welcome back" : "Start with one real project"}</span><h1>{isSignIn ? "Continue your AI strategy." : "Find your right AI setup."}</h1><p>Sign in securely with email or Google. Clerk handles verification, recovery, and passwords; BENCHFLOW never stores credentials.</p><Link href="/">Back to home</Link></div><div className="auth-widget">{!authConfigured ? <AuthConfigurationNotice /> : isSignIn ? <SignIn routing="path" path="/sign-in" signUpUrl="/sign-up" fallbackRedirectUrl="/dashboard" /> : <SignUp routing="path" path="/sign-up" signInUrl="/sign-in" forceRedirectUrl="/onboarding" />}</div></div></div>;
+  return (
+    <div className="auth-page-container">
+      <header className="auth-header">
+        <Brand />
+        <Link href="/" className="auth-back-link">
+          <ArrowLeft className="w-4 h-4" />
+          <span>Back to home</span>
+        </Link>
+      </header>
+
+      <main className="auth-main-wrap">
+        <div className="auth-editorial-card">
+          <div className="auth-editorial-left">
+            <span className="mono-badge">[ AUTHENTICATION ]</span>
+            <h1>{isSignIn ? "Welcome Back." : "Get Started with BENCHFLOW."}</h1>
+            <p>
+              {isSignIn
+                ? "Sign in securely with email or Google to access your saved AI strategy plans, evidence evaluations, and team workspace."
+                : "Sign in securely with email or Google to build your first optimal AI stack with verified benchmarks, clear costs, and actionable workflows."}
+            </p>
+            <div className="auth-editorial-features">
+              <div className="feature-pill">
+                <span>01</span>
+                <strong>Zero Credentials Stored</strong>
+              </div>
+              <div className="feature-pill">
+                <span>02</span>
+                <strong>Verified Privacy &amp; Access</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="auth-widget-box">
+            {!authConfigured ? (
+              <AuthConfigurationNotice />
+            ) : isSignIn ? (
+              <SignIn
+                routing="path"
+                path="/sign-in"
+                signUpUrl="/sign-up"
+                fallbackRedirectUrl="/dashboard"
+              />
+            ) : (
+              <SignUp
+                routing="path"
+                path="/sign-up"
+                signInUrl="/sign-in"
+                forceRedirectUrl="/onboarding"
+              />
+            )}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
 }

@@ -2,5 +2,32 @@ import Link from "next/link";
 import { Brand } from "./brand";
 
 export function SiteFooter() {
-  return <footer className="site-footer"><div><Brand /><p>A clear AI stack for the work you actually need to do.</p></div><div><strong>Product</strong><Link href="/how-it-works">How it works</Link><Link href="/pricing">Pricing</Link><Link href="/sign-up">New strategy</Link></div><div><strong>Company</strong><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link></div><small>© 2026 BENCHFLOW. Recommendations use dated, source-linked evidence.</small></footer>;
+  return (
+    <footer className="minimal-footer border-top">
+      <div className="section footer-inner">
+        <div className="footer-col-brand">
+          <Brand />
+          <p>An intelligent, objective AI stack evaluation engine for real-world engineering and business tasks.</p>
+        </div>
+        
+        <div className="footer-col">
+          <strong>[ PRODUCT ]</strong>
+          <Link href="#overview">Overview</Link>
+          <Link href="#process">Process</Link>
+          <Link href="/pricing">Pricing</Link>
+          <Link href="/sign-up">New Strategy</Link>
+        </div>
+
+        <div className="footer-col">
+          <strong>[ LEGAL ]</strong>
+          <Link href="/privacy">Privacy Policy</Link>
+          <Link href="/terms">Terms of Service</Link>
+        </div>
+      </div>
+
+      <div className="section footer-bottom">
+        <small>© 2026 BENCHFLOW INC. ALL RIGHTS RESERVED. EVIDENCE-BASED RECOMMENDATIONS.</small>
+      </div>
+    </footer>
+  );
 }

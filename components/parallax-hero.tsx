@@ -1,73 +1,79 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { ArrowRight, Cpu, Layers, ShieldCheck, Zap } from "lucide-react";
+import { ArrowUpRight, Cpu, Layers, ShieldCheck, Zap } from "lucide-react";
 
 export function ParallaxHero({ children }: { children: ReactNode }) {
   return (
-    <section className="minimal-hero section">
-      {/* Hero Text Content */}
+    <section className="editorial-hero section">
+      {/* Hero Content */}
       {children}
 
-      {/* Ultra-minimal vector workflow node diagram (Inspired by Reference 1 PlayerZero) */}
-      <div className="hero-diagram-container" aria-label="System Architecture Flow">
-        <div className="diagram-grid-bg" />
-        
-        <div className="diagram-node-flow">
-          <div className="diagram-node">
-            <span className="node-tag">[ Input ]</span>
-            <strong>Task Prompt</strong>
-            <small>Mô tả công việc</small>
-          </div>
-
-          <div className="diagram-connector-line">
-            <span className="connector-dot" />
-            <span className="line-path" />
-          </div>
-
-          <div className="diagram-center-card">
-            <div className="center-icon-badge">
-              <Layers className="w-6 h-6 text-black" />
-            </div>
-            <strong>BENCHFLOW ENGINE</strong>
-            <span className="bracket-label">[ Automated Evaluation ]</span>
-          </div>
-
-          <div className="diagram-connector-line">
-            <span className="line-path" />
-            <span className="connector-dot" />
-          </div>
-
-          <div className="diagram-node">
-            <span className="node-tag">[ Output ]</span>
-            <strong>AI Stack Plan</strong>
-            <small>Công cụ &amp; Chi phí</small>
+      {/* Editorial System Flow Box (Inspired by Reference 3 & 4) */}
+      <div className="hero-system-flow" aria-label="System Architecture Flow">
+        <div className="system-flow-top">
+          <div className="flow-badge">[ ARCHITECTURE ]</div>
+          <div className="flow-status">
+            <span className="dot-active" />
+            <span>REAL-TIME BENCHMARKS</span>
           </div>
         </div>
 
-        {/* Minimal Metric Tiles below diagram */}
-        <div className="hero-stats-row">
-          <div className="stat-tile">
+        <div className="system-diagram-grid">
+          <div className="diagram-card input-card">
+            <span className="card-mono-lbl">[ 01. INPUT ]</span>
+            <strong>Task Definition</strong>
+            <p>Project goals &amp; requirements</p>
+          </div>
+
+          <div className="diagram-arrow-connector">
+            <span className="line-connector" />
+            <ArrowUpRight className="w-4 h-4 text-black" />
+          </div>
+
+          <div className="diagram-card engine-card">
+            <div className="engine-icon-wrap">
+              <Layers className="w-5 h-5 text-white" />
+            </div>
+            <strong>BENCHFLOW ENGINE</strong>
+            <p>Evaluation &amp; Cost Optimization</p>
+          </div>
+
+          <div className="diagram-arrow-connector">
+            <span className="line-connector" />
+            <ArrowUpRight className="w-4 h-4 text-black" />
+          </div>
+
+          <div className="diagram-card output-card">
+            <span className="card-mono-lbl">[ 02. OUTPUT ]</span>
+            <strong>Optimal Stack</strong>
+            <p>Products, Plans &amp; Subscriptions</p>
+          </div>
+        </div>
+
+        {/* Metric Bar */}
+        <div className="hero-metrics-bar">
+          <div className="hero-metric-item">
             <Cpu className="w-4 h-4 text-black" />
             <div>
               <strong>1,200+</strong>
-              <small>Mô hình AI kiểm định</small>
+              <small>Evaluated AI Models</small>
             </div>
           </div>
 
-          <div className="stat-tile">
+          <div className="hero-metric-item">
             <Zap className="w-4 h-4 text-black" />
             <div>
-              <strong>&lt; 3 giây</strong>
-              <small>Thời gian tổng hợp stack</small>
+              <strong>&lt; 3 Secs</strong>
+              <small>Plan Generation</small>
             </div>
           </div>
 
-          <div className="stat-tile">
+          <div className="hero-metric-item">
             <ShieldCheck className="w-4 h-4 text-black" />
             <div>
               <strong>100%</strong>
-              <small>Minh bạch nguồn &amp; chi phí</small>
+              <small>Verified Privacy &amp; Data</small>
             </div>
           </div>
         </div>

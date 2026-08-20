@@ -1,7 +1,7 @@
 "use client";
 
 import { Show, UserButton } from "@clerk/react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Brand } from "./brand";
@@ -11,10 +11,10 @@ function AuthActions() {
   if (!authConfigured) {
     return (
       <>
-        <Link href="/sign-in" className="nav-link-subtle">Log In</Link>
+        <Link href="/sign-in" className="nav-link-subtle">Log in</Link>
         <Link className="minimal-btn minimal-btn-dark" href="/sign-up">
-          <span>Request Access</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          <span>Get Started</span>
+          <ArrowUpRight className="w-4 h-4" />
         </Link>
       </>
     );
@@ -23,10 +23,10 @@ function AuthActions() {
   return (
     <>
       <Show when="signed-out">
-        <Link href="/sign-in" className="nav-link-subtle">Log In</Link>
+        <Link href="/sign-in" className="nav-link-subtle">Log in</Link>
         <Link className="minimal-btn minimal-btn-dark" href="/sign-up">
-          <span>Request Access</span>
-          <ArrowRight className="w-3.5 h-3.5" />
+          <span>Get Started</span>
+          <ArrowUpRight className="w-4 h-4" />
         </Link>
       </Show>
       <Show when="signed-in">
@@ -46,7 +46,8 @@ export function SiteHeader() {
         
         <nav className={`header-nav ${open ? "open" : ""}`}>
           <Link href="#overview">Overview</Link>
-          <Link href="#how-it-works">Process</Link>
+          <Link href="#process">Process</Link>
+          <Link href="#criteria">Criteria</Link>
           <Link href="#pricing">Pricing</Link>
           <AuthActions />
         </nav>
