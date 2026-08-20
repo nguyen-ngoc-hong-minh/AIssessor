@@ -10,7 +10,6 @@ import {
   Gauge,
   Layers3,
   LockKeyhole,
-  Menu,
   MousePointer2,
   RefreshCw,
   Search,
@@ -57,6 +56,9 @@ const process = [
   ["03", "Compare qualified options", "BENCHFLOW checks capability, evidence, price, speed, privacy, and access."],
   ["04", "Save the strategy", "Return to the tools, subscription plans, alternatives, and costs whenever you need them."],
 ];
+
+const verticalGridLines = Array.from({ length: 21 });
+const horizontalGridLines = Array.from({ length: 13 });
 
 function DeckAuthActions() {
   if (!authConfigured) {
@@ -144,6 +146,10 @@ export function LustroLanding() {
   };
 
   return <main className="lustro-deck" ref={deckRef} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+    <div className="lustro-grid" aria-hidden="true">
+      <div className="lustro-grid-vertical">{verticalGridLines.map((_, index) => <i key={index} />)}</div>
+      <div className="lustro-grid-horizontal">{horizontalGridLines.map((_, index) => <i key={index} />)}</div>
+    </div>
     <header className="lustro-chrome">
       <Brand />
       <div className="lustro-account"><DeckAuthActions /></div>
@@ -287,7 +293,7 @@ export function LustroLanding() {
 
     <nav className="lustro-deck-nav" aria-label="Presentation navigation">
       <button type="button" onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Previous chapter"><ArrowLeft /></button>
-      <button type="button" onClick={() => setMenuOpen(true)} aria-label="Open chapter menu"><Menu /></button>
+      <button type="button" className={menuOpen ? "open" : ""} onClick={() => setMenuOpen(true)} aria-label="Open chapter menu"><span className="lustro-menu-icon"><i /><i /><i /></span></button>
       <div><span>{String(active + 1).padStart(2, "0")}</span> / {String(chapters.length).padStart(2, "0")}</div>
       <button type="button" onClick={() => goTo(active + 1)} disabled={active === chapters.length - 1} aria-label="Next chapter"><ArrowRight /></button>
     </nav>
