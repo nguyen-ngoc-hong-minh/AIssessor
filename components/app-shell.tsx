@@ -8,7 +8,7 @@ import { Brand } from "./brand";
 
 const links = [
   { href: "/dashboard", label: "Strategies", icon: BarChart3 },
-  { href: "/strategy/new/one-off", label: "New strategy", icon: Plus },
+  { href: "/choose-usage", label: "New strategy", icon: Plus },
   { href: "/billing", label: "Billing", icon: CreditCard },
   { href: "/team", label: "Team", icon: Users },
   { href: "/settings", label: "Settings", icon: Settings },

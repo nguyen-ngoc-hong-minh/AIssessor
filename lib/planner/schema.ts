@@ -30,8 +30,6 @@ export type TaskAnalysis = z.infer<typeof TaskAnalysisSchema>;
 
 export const PrioritySchema = z.enum(["lowest_cost", "balanced", "highest_quality", "fastest", "privacy", "existing_tools"]);
 export type Priority = z.infer<typeof PrioritySchema>;
-const GlobalPrioritySchema = z.enum(["lowest_cost", "balanced", "highest_quality", "fastest", "privacy"]);
-
 const OptionalContextSchema = z.object({
   informationSensitivity: z.string(), commercialUse: z.boolean(), providersToAvoid: z.array(z.string()),
   preferredLanguage: z.string(), expectedOutputs: z.string(),
@@ -53,7 +51,7 @@ export const OneOffStrategyInputSchema = z.object({
 });
 
 export const MonthlyStrategyInputSchema = z.object({
-  usageType: z.literal("monthly"), monthlyTasks: z.array(MonthlyTaskSchema).min(1).max(20), priority: GlobalPrioritySchema,
+  usageType: z.literal("monthly"), monthlyTasks: z.array(MonthlyTaskSchema).min(1).max(20), priorities: z.array(PrioritySchema).min(1).max(6),
   existingTools: z.array(z.string()).max(30), optionalContext: OptionalContextSchema,
 });
 

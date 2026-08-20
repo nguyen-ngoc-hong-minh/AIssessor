@@ -8,6 +8,8 @@ export const priorityLabels: Record<Priority, string> = {
   fastest: "Fastest Workflow", privacy: "Privacy", existing_tools: "Use Existing Tools First",
 };
 
+export const defaultPriorityRanking: Priority[] = ["balanced", "lowest_cost", "highest_quality", "fastest", "privacy", "existing_tools"];
+
 export function PriorityRanking({ priorities, onChange }: { priorities: Priority[]; onChange(value: Priority[]): void }) {
   function move(index: number, direction: -1 | 1) {
     const target = index + direction;

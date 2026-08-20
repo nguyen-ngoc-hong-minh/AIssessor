@@ -9,7 +9,7 @@ export async function POST(request:Request){try{
   const input=StrategyInputSchema.parse(await request.json());const client=await authenticatedConvex();
   const oneOff=input.usageType==="one_off";
   const description=oneOff?input.projectBrief:input.monthlyTasks.map((task)=>`${task.task} (${task.frequency}, ${task.quality})`).join("; ");
-  const priorities=oneOff?input.priorities:[input.priority,"existing_tools"];
+  const priorities=input.priorities;
   const strategyId=await client.mutation(anyApi.strategies.create,{
     usageType:input.usageType,title:(oneOff?input.projectBrief:input.monthlyTasks[0].task).slice(0,70),originalInput:description,
     expectedResult:oneOff?input.projectBrief:"A recurring monthly AI workflow for every listed task",

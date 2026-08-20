@@ -20,7 +20,7 @@ describe("input validation", () => {
     expect(budgetToUsd(500, "USD")).toBe(500);
   });
   it("validates monthly tasks without a project brief or deadline", () => {
-    const parsed = StrategyInputSchema.parse({ usageType: "monthly", monthlyTasks: [{ id: "task-1", task: "Research competitors", frequency: "daily", monthlyUses: frequencyToMonthlyUses("daily"), quality: "professional" }], priority: "balanced", existingTools: ["ChatGPT"], optionalContext: { informationSensitivity: "standard", commercialUse: true, providersToAvoid: [], preferredLanguage: "English", expectedOutputs: "" } });
+    const parsed = StrategyInputSchema.parse({ usageType: "monthly", monthlyTasks: [{ id: "task-1", task: "Research competitors", frequency: "daily", monthlyUses: frequencyToMonthlyUses("daily"), quality: "professional" }], priorities: ["balanced", "lowest_cost", "highest_quality", "fastest", "privacy", "existing_tools"], existingTools: ["ChatGPT"], optionalContext: { informationSensitivity: "standard", commercialUse: true, providersToAvoid: [], preferredLanguage: "English", expectedOutputs: "" } });
     expect(parsed.usageType).toBe("monthly");
     expect(parsed.usageType === "monthly" && parsed.monthlyTasks[0].monthlyUses).toBe(22);
     expect("deadline" in parsed).toBe(false);
