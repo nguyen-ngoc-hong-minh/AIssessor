@@ -1,85 +1,180 @@
 "use client";
 
-import { ArrowUpRight, CreditCard, ShieldCheck, Check } from "lucide-react";
-import { useState } from "react";
-import { IntegrationNotice } from "./integration-notice";
-import { integrationsConfigured } from "./providers";
+import Link from "next/link";
+import { Check } from "lucide-react";
 
 export function BillingView() {
-  const [error, setError] = useState("");
-
-  async function portal() {
-    setError("");
-    const response = await fetch("/api/billing/portal", { method: "POST" });
-    const body = (await response.json()) as { url?: string; error?: string };
-    if (!response.ok || !body.url) {
-      setError(body.error ?? "Portal unavailable");
-      return;
-    }
-    location.href = body.url;
-  }
-
   return (
-    <div className="billing-editorial-wrap space-y-10 max-w-4xl mx-auto">
-      {!integrationsConfigured && <IntegrationNotice />}
-
-      {/* Header */}
-      <div className="editorial-page-header text-left">
-        <div className="eyebrow mb-4">
+    <div className="billing-editorial-wrap space-y-12 w-full max-w-6xl mx-auto">
+      {/* Centered Slide 6 Header */}
+      <div className="text-center max-w-3xl mx-auto space-y-4">
+        <div className="eyebrow mx-auto">
           <span className="dt" />
-          BILLING &amp; SUBSCRIPTION
+          Simple pricing
         </div>
-        <h1 className="h-display text-4xl font-semibold text-white mb-3">Manage Your Subscription</h1>
-        <p className="body-lg text-ink-2 max-w-2xl leading-relaxed">
-          Verified Stripe Checkout and subscription tier access. Upgrades, downgrades, and invoices are handled securely.
+        <h1 className="h-display text-4xl md:text-5xl font-semibold text-white tracking-tight">
+          Affordable plans for every budget
+        </h1>
+        <p className="body-lg text-ink-2 leading-relaxed text-sm md:text-base">
+          Explore our range of pricing options designed to fit any budget, offering exceptional value and flexibility to meet your unique needs.
         </p>
       </div>
 
-      {/* Main Billing Card */}
-      <div className="glass-card p-8 md:p-10 space-y-8 border border-white/10">
-        <div className="flex items-start gap-6 pb-6 border-b border-white/10">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 grid place-items-center flex-none">
-            <CreditCard className="w-6 h-6" />
-          </div>
-          <div className="space-y-2">
-            <span className="font-mono text-xs text-indigo-soft tracking-wider block uppercase">CURRENT PLAN</span>
-            <h2 className="h-display text-2xl font-medium text-white">Active Workspace Tier</h2>
-            <p className="body-md text-ink-2 leading-relaxed">
-              Your subscription grants access to full AI strategy plans, evidence verification, and exportable reports.
+      {/* 3-Column Pricing Grid */}
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+        {/* Card 1: Free Plan (Current Plan) */}
+        <div className="glass-card pricing-deck-card border border-white/10 w-full flex flex-col justify-between p-8 relative">
+          <div>
+            <div className="flex items-center justify-between mb-4">
+              <div className="plan-name mb-0 text-xl font-semibold text-white">Free Plan</div>
+              <span className="font-mono text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 rounded-full uppercase tracking-wider font-semibold">
+                Current plan
+              </span>
+            </div>
+            <div className="plan-price-row flex items-baseline gap-1 my-4">
+              <span className="plan-price text-4xl font-bold text-white">$0</span>
+              <span className="plan-period text-sm text-ink-2">/month</span>
+            </div>
+            <p className="plan-desc text-xs text-ink-2 leading-relaxed mb-6">
+              Perfect for Individual Builders, Startups, and Workflow Discovery.
             </p>
+
+            <div className="plan-features-label font-mono text-xs text-indigo-soft uppercase tracking-wider mb-3">
+              Features:
+            </div>
+            <ul className="plan-features-list space-y-3 mb-8">
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Account and onboarding</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>One task analysis</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Editable workflow preview</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Limited recommendation summary</span>
+              </li>
+            </ul>
           </div>
+
+          <Link href="/dashboard" className="btn-secondary plan-cta-btn w-full text-center justify-center">
+            Get Started
+          </Link>
         </div>
 
-        {/* Benefits List */}
-        <div className="space-y-3">
-          <div className="flex items-center gap-3.5 p-4 rounded-xl bg-white/5 border border-white/10 text-sm">
-            <Check className="w-4 h-4 text-emerald-400 flex-none" />
-            <span className="text-white font-medium">Verified Stripe Checkout integration</span>
-          </div>
-          <div className="flex items-center gap-3.5 p-4 rounded-xl bg-white/5 border border-white/10 text-sm">
-            <Check className="w-4 h-4 text-emerald-400 flex-none" />
-            <span className="text-white font-medium">Instant entitlement updates via webhooks</span>
-          </div>
-          <div className="flex items-center gap-3.5 p-4 rounded-xl bg-white/5 border border-white/10 text-sm">
-            <Check className="w-4 h-4 text-emerald-400 flex-none" />
-            <span className="text-white font-medium">Download PDF invoices &amp; receipts</span>
-          </div>
-          <div className="flex items-center gap-3.5 p-4 rounded-xl bg-white/5 border border-white/10 text-sm">
-            <Check className="w-4 h-4 text-emerald-400 flex-none" />
-            <span className="text-white font-medium">Cancel or upgrade anytime without penalties</span>
-          </div>
-        </div>
+        {/* Card 2: Featured Plus Plan */}
+        <div className="glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative w-full flex flex-col justify-between p-8">
+          <div>
+            <div className="plan-name text-xl font-semibold text-white mb-4">Plus Plan</div>
+            <div className="plan-price-row flex items-baseline gap-1 my-4">
+              <span className="plan-price text-4xl font-bold text-white">$19</span>
+              <span className="plan-period text-sm text-ink-2">/month</span>
+            </div>
+            <p className="plan-desc text-xs text-ink-2 leading-relaxed mb-6">
+              Complete plans and alternatives for growing businesses.
+            </p>
 
-        {error && <p className="text-red-400 text-sm">{error}</p>}
+            <div className="plan-features-label font-mono text-xs text-indigo-soft uppercase tracking-wider mb-3">
+              Features:
+            </div>
+            <ul className="plan-features-list space-y-3 mb-8">
+              <li className="flex items-center gap-3 text-sm text-white font-medium">
+                <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span className="text-white font-medium">Full AI Strategy Plans</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Unlimited saved strategies</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Primary evidence verification</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-indigo-500 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Monthly workflow recommendations</span>
+              </li>
+            </ul>
+          </div>
 
-        <div className="pt-4 border-t border-white/10 flex justify-start">
           <button
-            className="btn-primary"
-            disabled={!integrationsConfigured}
-            onClick={portal}
+            type="button"
+            onClick={(e) => e.preventDefault()}
+            className="btn-primary plan-cta-btn w-full text-center justify-center text-black bg-white hover:bg-indigo-100"
           >
-            <span>Open Stripe Customer Portal</span>
-            <ArrowUpRight className="w-4 h-4 ml-1" />
+            Get Started
+          </button>
+        </div>
+
+        {/* Card 3: Enterprise Plan */}
+        <div className="glass-card pricing-deck-card border border-white/10 w-full flex flex-col justify-between p-8">
+          <div>
+            <div className="plan-name text-xl font-semibold text-white mb-4">Enterprise Plan</div>
+            <div className="plan-price-row flex items-baseline gap-1 my-4">
+              <span className="plan-price text-4xl font-bold text-white">Custom</span>
+            </div>
+            <p className="plan-desc text-xs text-ink-2 leading-relaxed mb-6">
+              Organisation access, custom API, and dedicated support.
+            </p>
+
+            <div className="plan-features-label font-mono text-xs text-indigo-soft uppercase tracking-wider mb-3">
+              Features:
+            </div>
+            <ul className="plan-features-list space-y-3 mb-8">
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Organisation workspace</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Custom API access</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>Implementation support</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm text-ink-2">
+                <span className="w-4 h-4 rounded-full bg-white/20 grid place-items-center flex-none">
+                  <Check className="w-2.5 h-2.5 text-white" />
+                </span>
+                <span>SLA &amp; dedicated manager</span>
+              </li>
+            </ul>
+          </div>
+
+          <button
+            type="button"
+            onClick={(e) => e.preventDefault()}
+            className="btn-secondary plan-cta-btn w-full text-center justify-center"
+          >
+            Contact Sales
           </button>
         </div>
       </div>
