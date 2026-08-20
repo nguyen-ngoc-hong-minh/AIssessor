@@ -81,16 +81,16 @@ export function DashboardView() {
         </div>
       </div>
 
-      {/* 2. HIGH-IMPACT METRICS GRID (Inspired by Reference 2025 in numbers) */}
+      {/* 2. HIGH-IMPACT METRICS GRID */}
       <div className="dash-metrics-grid">
-        <div className="dash-metric-card metric-dark">
+        <div className="dash-metric-card metric-white">
           <span className="metric-tag">[ 01. TOTAL ]</span>
           <div className="metric-huge-val">{strategies.length}</div>
           <div className="metric-title">Strategies Created</div>
           <p className="metric-desc">Total project and monthly task evaluations.</p>
         </div>
 
-        <div className="dash-metric-card metric-grey">
+        <div className="dash-metric-card metric-white">
           <span className="metric-tag">[ 02. READY ]</span>
           <div className="metric-huge-val">{savedPlans}</div>
           <div className="metric-title">Plans Completed</div>

@@ -159,7 +159,7 @@ export default function LandingPage() {
           </div>
           
           <div className="facts-editorial-grid">
-            <div className="fact-card highlight-card">
+            <div className="fact-card">
               <div className="fact-num">65%</div>
               <div className="fact-title">Average Cost Savings</div>
               <p>By eliminating duplicate AI subscriptions and selecting correct tiers.</p>

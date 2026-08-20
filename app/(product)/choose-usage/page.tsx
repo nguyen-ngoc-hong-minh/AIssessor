@@ -14,28 +14,28 @@ export default function ChooseUsagePage() {
         <p>Choose between a defined single deliverable project or a recurring monthly workload pipeline.</p>
       </div>
 
-      {/* 2-Column Choice Cards */}
+      {/* 2-Column Choice Cards - Uniform Peer Cards */}
       <div className="editorial-choice-grid">
-        <Link href="/strategy/new/one-off" className="choice-card choice-card-dark">
+        <Link href="/strategy/new/one-off" className="choice-card choice-card-unified">
           <div className="choice-card-header">
             <span className="choice-num font-mono">01.</span>
-            <div className="choice-icon-wrap">
-              <CalendarCheck2 className="w-6 h-6 text-white" />
+            <div className="choice-icon-wrap choice-icon-light">
+              <CalendarCheck2 className="w-6 h-6 text-black" />
             </div>
           </div>
           
           <h2>One-off Project</h2>
           <p>A specific deliverable with an exact target date, project brief, and budget ceiling.</p>
           
-          <div className="choice-card-footer">
+          <div className="choice-card-footer footer-light">
             <span>Plan a Project</span>
             <ArrowUpRight className="w-4 h-4" />
           </div>
         </Link>
 
-        <Link href="/strategy/new/monthly" className="choice-card choice-card-white">
+        <Link href="/strategy/new/monthly" className="choice-card choice-card-unified">
           <div className="choice-card-header">
-            <span className="choice-num font-mono text-black">02.</span>
+            <span className="choice-num font-mono">02.</span>
             <div className="choice-icon-wrap choice-icon-light">
               <RefreshCw className="w-6 h-6 text-black" />
             </div>

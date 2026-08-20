@@ -20,7 +20,7 @@ export function ParallaxHero({ children }: { children: ReactNode }) {
         </div>
 
         <div className="system-diagram-grid">
-          <div className="diagram-card input-card">
+          <div className="diagram-card">
             <span className="card-mono-lbl">[ 01. INPUT ]</span>
             <strong>Task Definition</strong>
             <p>Project goals &amp; requirements</p>
@@ -31,10 +31,8 @@ export function ParallaxHero({ children }: { children: ReactNode }) {
             <ArrowUpRight className="w-4 h-4 text-black" />
           </div>
 
-          <div className="diagram-card engine-card">
-            <div className="engine-icon-wrap">
-              <Layers className="w-5 h-5 text-white" />
-            </div>
+          <div className="diagram-card">
+            <span className="card-mono-lbl">[ 02. ENGINE ]</span>
             <strong>BENCHFLOW ENGINE</strong>
             <p>Evaluation &amp; Cost Optimization</p>
           </div>
@@ -44,8 +42,8 @@ export function ParallaxHero({ children }: { children: ReactNode }) {
             <ArrowUpRight className="w-4 h-4 text-black" />
           </div>
 
-          <div className="diagram-card output-card">
-            <span className="card-mono-lbl">[ 02. OUTPUT ]</span>
+          <div className="diagram-card">
+            <span className="card-mono-lbl">[ 03. OUTPUT ]</span>
             <strong>Optimal Stack</strong>
             <p>Products, Plans &amp; Subscriptions</p>
           </div>
