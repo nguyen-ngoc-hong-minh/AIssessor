@@ -5,6 +5,7 @@ import { BarChart3, CreditCard, Database, LogOut, Plus, Settings, Presentation }
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Brand } from "./brand";
+import { DashboardDeckNav } from "./dashboard-deck-nav";
 
 const mainNavLinks = [
   { href: "/dashboard", label: "Strategies", icon: BarChart3 },
@@ -34,6 +35,9 @@ export function AppShell({
     <div className="editorial-app-shell flex min-h-screen">
       {/* Background Deck Glow */}
       <div className="deck-bg" />
+
+      {/* Floating Lustro Deck Navigation Bar & Jump Modal for Dashboard */}
+      <DashboardDeckNav />
 
       <aside className="editorial-sidebar w-64 flex-none border-r border-white/10 p-6 flex flex-col justify-between bg-black/40 backdrop-blur-xl relative z-20 min-h-screen">
         <div>
