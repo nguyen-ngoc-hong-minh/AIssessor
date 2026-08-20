@@ -56,73 +56,43 @@ export function DashboardView() {
 
   return (
     <div className="editorial-dashboard-wrap space-y-8">
-      {/* Lustro Hero Banner */}
-      <div className="dash-hero-banner glass-card">
-        <div className="flex items-center justify-between mb-6">
-          <div className="eyebrow">
-            <span className="dt" />
-            AI STACK COMMAND CENTER
-          </div>
-          <span className="font-mono text-xs text-tertiary">v4.0 &bull; LIVE</span>
-        </div>
-
-        <div className="dash-banner-body">
-          <h1 className="h-display text-4xl font-semibold">
-            <span className="grd">$65 / Month</span> &bull; Active Stack
-          </h1>
-          <p className="body-lg mt-3" style={{ maxWidth: 620 }}>
-            Estimated <strong style={{ color: "#a5b4fc", fontWeight: 600 }}>$39 / month savings</strong> by consolidating overlapping subscriptions and optimizing model tiers.
-          </p>
-        </div>
-
-        <div className="mt-8 flex items-center gap-4">
-          <Link className="btn-primary" href="/choose-usage">
-            <span>Build Strategy</span>
-            <ArrowUpRight className="w-4 h-4 ml-1" />
-          </Link>
-          <Link className="btn-secondary" href="/pricing">
-            <span>View Subscription Stack</span>
-          </Link>
-        </div>
-      </div>
-
-      {/* Lustro Metric Grid */}
-      <div className="dash-metrics-grid">
-        <div className="metric glass-card">
+      {/* Metric Grid */}
+      <div className="dash-metrics-grid grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[190px]">
           <div>
-            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-2">ACTIVE PROJECTS</div>
-            <div className="metric-num grd">{strategies.length}</div>
-            <div className="metric-lbl">Total project and monthly task evaluations</div>
+            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-3 font-medium">ACTIVE PROJECTS</div>
+            <div className="metric-num grd text-5xl font-bold tracking-tight mb-3">{strategies.length}</div>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed">Total project and monthly task evaluations</p>
           </div>
-          <div className="metric-spark">
+          <div className="metric-spark mt-4">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
               <path d="M0,18 L15,16 L30,12 L45,14 L60,8 L75,6 L90,4 L100,3" stroke="#a5b4fc" fill="none" strokeWidth="1.5" />
             </svg>
           </div>
         </div>
 
-        <div className="metric glass-card">
+        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[190px]">
           <div>
-            <div className="font-mono text-xs text-pink-soft tracking-wider mb-2">OPTIMIZED STACK</div>
-            <div className="metric-num grd">{savedPlans}</div>
-            <div className="metric-lbl">Plans ready for deployment &amp; execution</div>
+            <div className="font-mono text-xs text-pink-soft tracking-wider mb-3 font-medium">OPTIMIZED STACK</div>
+            <div className="metric-num grd text-5xl font-bold tracking-tight mb-3">{savedPlans}</div>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed">Plans ready for deployment &amp; execution</p>
           </div>
-          <div className="metric-spark">
+          <div className="metric-spark mt-4">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
               <path d="M0,4 L15,8 L30,6 L45,12 L60,14 L75,16 L90,18 L100,20" stroke="#f9a8d4" fill="none" strokeWidth="1.5" />
             </svg>
           </div>
         </div>
 
-        <div className="metric glass-card">
+        <div className="metric glass-card p-7 flex flex-col justify-between min-h-[190px]">
           <div>
-            <div className="font-mono text-xs text-cyan tracking-wider mb-2">NEW BETTER OPTION</div>
-            <div className="metric-num grd" style={{ background: "linear-gradient(135deg, #22d3ee, #6366f1)", WebkitBackgroundClip: "text", color: "transparent" }}>
+            <div className="font-mono text-xs text-cyan tracking-wider mb-3 font-medium">NEW BETTER OPTION</div>
+            <div className="metric-num text-5xl font-bold tracking-tight mb-3" style={{ background: "linear-gradient(135deg, #22d3ee, #6366f1)", WebkitBackgroundClip: "text", color: "transparent" }}>
               &minus;32%
             </div>
-            <div className="metric-lbl">Gemini Flash X benchmark for research workflow</div>
+            <p className="metric-lbl text-xs text-ink-2 leading-relaxed">Gemini Flash X benchmark for research workflow</p>
           </div>
-          <div className="metric-spark">
+          <div className="metric-spark mt-4">
             <svg viewBox="0 0 100 24" preserveAspectRatio="none">
               <path d="M0,12 L15,10 L30,8 L45,7 L60,5 L75,4 L90,3 L100,2" stroke="#22d3ee" fill="none" strokeWidth="1.5" />
             </svg>
@@ -131,14 +101,14 @@ export function DashboardView() {
       </div>
 
       {/* Main Strategy List Section */}
-      <div className="dash-content-block glass-card">
+      <div className="dash-content-block glass-card p-8">
         <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
           <div>
-            <div className="eyebrow">
+            <div className="eyebrow mb-2">
               <span className="dt" />
               RECENT STRATEGIES
             </div>
-            <h2 className="h-display text-2xl font-semibold mt-2">Active Workload Plans</h2>
+            <h2 className="h-display text-2xl font-semibold text-white">Active Workload Plans</h2>
           </div>
           <span className="font-mono text-xs text-tertiary px-3 py-1.5 rounded-full border border-white/10">
             {strategies.length} ITEMS
@@ -148,15 +118,15 @@ export function DashboardView() {
         {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
 
         {strategies.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 grid place-items-center mx-auto mb-4">
+          <div className="text-center py-14 px-6">
+            <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 grid place-items-center mx-auto mb-5">
               <Layers className="w-7 h-7" />
             </div>
-            <h3 className="h-display text-xl font-medium">No Saved Strategies Yet</h3>
-            <p className="body-md mt-2 max-w-md mx-auto">
+            <h3 className="h-display text-2xl font-semibold text-white mb-3">No Saved Strategies Yet</h3>
+            <p className="body-md text-sm text-ink-2 leading-relaxed max-w-lg mx-auto mb-8">
               Describe your project or recurring workflow once. AIssessor will evaluate models and save your actionable plan here.
             </p>
-            <Link className="btn-primary mt-6 inline-flex" href="/choose-usage">
+            <Link className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm rounded-full" href="/choose-usage">
               <Plus className="w-4 h-4" />
               <span>Create Your First Strategy</span>
               <ArrowUpRight className="w-4 h-4" />
