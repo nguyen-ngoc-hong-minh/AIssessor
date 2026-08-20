@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Brand } from "./brand";
 import { authConfigured } from "./providers";
+import { VisualModeToggle } from "./visual-mode-toggle";
 
 function AuthActions() {
   if (!authConfigured) {
@@ -26,5 +27,5 @@ function AuthActions() {
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  return <header className="site-header"><div className="header-inner"><Brand /><button className="mobile-menu" onClick={() => setOpen(!open)} aria-label="Toggle navigation">{open ? <X /> : <Menu />}</button><nav className={open ? "open" : ""}><Link href="/how-it-works">How it works</Link><Link href="/pricing">Pricing</Link><AuthActions /></nav></div></header>;
+  return <header className="site-header"><div className="header-inner"><Brand /><div className="header-controls"><nav className={open ? "open" : ""}><Link href="/how-it-works">How it works</Link><Link href="/pricing">Pricing</Link><AuthActions /></nav><VisualModeToggle /><button className="mobile-menu" onClick={() => setOpen(!open)} aria-label="Toggle navigation" aria-expanded={open}>{open ? <X /> : <Menu />}</button></div></div></header>;
 }
