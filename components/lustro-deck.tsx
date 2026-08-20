@@ -379,30 +379,30 @@ export function LustroDeck() {
           </div>
         </section>
 
-        {/* ============ SLIDE 6: PRICING PLANS (Redesigned per Reference Layout) ============ */}
+        {/* ============ SLIDE 6: PRICING PLANS (Centered & Full Width Grid) ============ */}
         <section className={`slide ${currentIdx === 5 ? "active" : ""}`} data-section="Pricing plans">
           <div className="slide-inner s-compare">
             {/* Centered Header Layout */}
-            <div className="s-compare-head text-center max-w-3xl mx-auto mb-10">
-              <div className="eyebrow reveal mx-auto mb-3">
+            <div className="s-compare-head">
+              <div className="eyebrow reveal">
                 <span className="dt" />
                 Simple pricing
               </div>
-              <h2 className="h-display reveal text-4xl md:text-5xl font-semibold mb-3">
+              <h2 className="h-display reveal">
                 Affordable plans for every budget
               </h2>
-              <p className="body-lg reveal text-ink-2 text-sm leading-relaxed max-w-xl mx-auto">
+              <p className="body-lg reveal">
                 Explore our range of pricing options designed to fit any budget, offering exceptional value and flexibility to meet your unique needs.
               </p>
             </div>
 
-            {/* 3-Column Pricing Grid Matching Reference Layout */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-              {/* Card 1: Starter / Free Plan */}
-              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10">
+            {/* 3-Column Full-Width Centered Pricing Grid */}
+            <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+              {/* Card 1: Free Plan */}
+              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10 w-full min-h-[360px]">
                 <div>
                   <div className="text-base font-medium text-white mb-2">Free Plan</div>
-                  <div className="flex items-baseline gap-1 mb-3">
+                  <div className="flex items-baseline gap-1.5 mb-3">
                     <span className="h-display text-4xl font-bold text-white">$0</span>
                     <span className="text-xs text-ink-3">/month</span>
                   </div>
@@ -444,14 +444,14 @@ export function LustroDeck() {
                 </Link>
               </div>
 
-              {/* Card 2: Featured Plus Plan (Dark Highlight Card with White CTA Button) */}
-              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative">
+              {/* Card 2: Featured Plus Plan */}
+              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative w-full min-h-[360px]">
                 <span className="recommended-badge absolute -top-3 right-6 bg-indigo-500 text-white text-[10px] font-mono px-2.5 py-0.5 rounded-full">
                   ★ MOST POPULAR
                 </span>
                 <div>
                   <div className="text-base font-medium text-white mb-2">Plus Plan</div>
-                  <div className="flex items-baseline gap-1 mb-3">
+                  <div className="flex items-baseline gap-1.5 mb-3">
                     <span className="h-display text-4xl font-bold text-white">$19</span>
                     <span className="text-xs text-ink-3">/month</span>
                   </div>
@@ -494,10 +494,10 @@ export function LustroDeck() {
               </div>
 
               {/* Card 3: Enterprise Plan */}
-              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10">
+              <div className="glass-card p-8 rounded-2xl flex flex-col justify-between border border-white/10 w-full min-h-[360px]">
                 <div>
                   <div className="text-base font-medium text-white mb-2">Enterprise Plan</div>
-                  <div className="flex items-baseline gap-1 mb-3">
+                  <div className="flex items-baseline gap-1.5 mb-3">
                     <span className="h-display text-4xl font-bold text-white">Custom</span>
                   </div>
                   <p className="text-xs text-ink-2 leading-relaxed mb-6">
