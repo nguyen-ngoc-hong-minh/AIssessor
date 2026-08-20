@@ -7,14 +7,22 @@ import { OptionalDetails, defaultOptionalDetails } from "./optional-details";
 import { PriorityRanking, defaultPriorityRanking } from "./priority-picker";
 import { integrationsConfigured } from "./providers";
 import { apiErrorMessage } from "@/lib/client/api-error";
+import { ArrowUpRight } from "lucide-react";
 
 export function OneOffStrategyForm() {
   const router = useRouter();
-  const [baseTime] = useState(() => Date.now()); const [todayValue] = useState(() => new Date().toISOString().slice(0, 10));
-  const [brief, setBrief] = useState(""); const [deadline, setDeadline] = useState("");
-  const [budgetChoice, setBudgetChoice] = useState("100"); const [customBudget, setCustomBudget] = useState(""); const [currency, setCurrency] = useState<"USD" | "AUD" | "VND">("USD");
-  const [priorities, setPriorities] = useState(defaultPriorityRanking); const [optionalDetails, setOptionalDetails] = useState(defaultOptionalDetails);
-  const [error, setError] = useState(""); const [busy, setBusy] = useState(false);
+  const [baseTime] = useState(() => Date.now());
+  const [todayValue] = useState(() => new Date().toISOString().slice(0, 10));
+  const [brief, setBrief] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [budgetChoice, setBudgetChoice] = useState("100");
+  const [customBudget, setCustomBudget] = useState("");
+  const [currency, setCurrency] = useState<"USD" | "AUD" | "VND">("USD");
+  const [priorities, setPriorities] = useState(defaultPriorityRanking);
+  const [optionalDetails, setOptionalDetails] = useState(defaultOptionalDetails);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+
   const deadlineSummary = useMemo(() => {
     if (!deadline) return "Choose a target date";
     const days = Math.ceil((new Date(`${deadline}T23:59:59`).getTime() - baseTime) / 86_400_000);
@@ -22,21 +30,148 @@ export function OneOffStrategyForm() {
     if (days === 0) return "Today";
     return `${days} day${days === 1 ? "" : "s"} from today`;
   }, [baseTime, deadline]);
+
   async function submit(event: React.FormEvent) {
-    event.preventDefault(); setError("");
+    event.preventDefault();
+    setError("");
     const amount = Number(budgetChoice === "custom" ? customBudget : budgetChoice);
     if (brief.trim().length < 20) return setError("Tell us a little more about the result you need.");
     if (!deadline || deadline < todayValue) return setError("Choose today or a future completion date.");
     if (!Number.isFinite(amount) || amount < 0) return setError("Enter a valid budget amount.");
+
     setBusy(true);
     try {
-      const payload = { usageType: "one_off", projectBrief: brief.trim(), deadline, budgetAmount: amount, budgetCurrency: currency, priorities, existingTools: optionalDetails.existingTools.split(",").map((item) => item.trim()).filter(Boolean), optionalContext: { informationSensitivity: optionalDetails.informationSensitivity, commercialUse: optionalDetails.commercialUse, providersToAvoid: optionalDetails.providersToAvoid.split(",").map((item) => item.trim()).filter(Boolean), preferredLanguage: optionalDetails.preferredLanguage, expectedOutputs: optionalDetails.expectedOutputs } };
-      const response = await fetch("/api/strategies", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
-      const body = await response.json() as { strategyId?: string; code?: string; userMessage?: string; error?: string };
-      if (!response.ok || !body.strategyId) throw new Error(apiErrorMessage(body, "We couldn't analyze your project right now. Please try again later."));
+      const payload = {
+        usageType: "one_off",
+        projectBrief: brief.trim(),
+        deadline,
+        budgetAmount: amount,
+        budgetCurrency: currency,
+        priorities,
+        existingTools: optionalDetails.existingTools.split(",").map((item) => item.trim()).filter(Boolean),
+        optionalContext: {
+          informationSensitivity: optionalDetails.informationSensitivity,
+          commercialUse: optionalDetails.commercialUse,
+          providersToAvoid: optionalDetails.providersToAvoid.split(",").map((item) => item.trim()).filter(Boolean),
+          preferredLanguage: optionalDetails.preferredLanguage,
+          expectedOutputs: optionalDetails.expectedOutputs,
+        },
+      };
+      const response = await fetch("/api/strategies", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const body = (await response.json()) as { strategyId?: string; code?: string; userMessage?: string; error?: string };
+      if (!response.ok || !body.strategyId) {
+        throw new Error(apiErrorMessage(body, "We couldn't analyze your project right now. Please try again later."));
+      }
       router.push(`/strategy/${body.strategyId}/workflow`);
-    } catch (reason) { setError(reason instanceof Error ? reason.message : "Planning failed"); } finally { setBusy(false); }
+    } catch (reason) {
+      setError(reason instanceof Error ? reason.message : "Planning failed");
+    } finally {
+      setBusy(false);
+    }
   }
+
   if (!integrationsConfigured) return <IntegrationNotice />;
-  return <form className="card form-card strategy-form" onSubmit={submit}><div className="form-grid"><div className="field full"><label htmlFor="project-brief">Tell us what you’re working on</label><textarea id="project-brief" value={brief} onChange={(event) => setBrief(event.target.value)} placeholder="Create a 60-second financial report video for Vinamilk using its latest annual report. The video should include data visualizations, Vietnamese voice-over, and a professional corporate style." /><small>Describe the final result you need. You can write naturally — we’ll break it into the required AI workflow.</small></div><div className="field"><label htmlFor="deadline">Deadline</label><input id="deadline" type="date" min={todayValue} value={deadline} onChange={(event) => setDeadline(event.target.value)} /><small className="date-summary">{deadlineSummary}</small></div><div className="field"><label htmlFor="currency">Currency</label><select id="currency" value={currency} onChange={(event) => setCurrency(event.target.value as typeof currency)}><option>USD</option><option>AUD</option><option>VND</option></select></div><div className="field full"><span>Budget</span><div className="budget-options">{[50, 100, 500].map((amount) => <button type="button" className={budgetChoice === String(amount) ? "selected" : ""} onClick={() => setBudgetChoice(String(amount))} key={amount}>{currency === "VND" ? amount.toLocaleString() : `${currency === "USD" ? "$" : "A$"}${amount}`}</button>)}<button type="button" className={budgetChoice === "custom" ? "selected" : ""} onClick={() => setBudgetChoice("custom")}>Enter exact budget</button></div>{budgetChoice === "custom" && <input aria-label="Exact budget" type="number" min="0" step="any" value={customBudget} onChange={(event) => setCustomBudget(event.target.value)} placeholder="Enter amount" />}</div><div className="field full"><span>Rank your priorities</span><PriorityRanking priorities={priorities} onChange={setPriorities} /></div></div><OptionalDetails idPrefix="one-off" value={optionalDetails} onChange={setOptionalDetails} />{error && <p className="error-message">{error}</p>}<div className="form-actions"><button className="button button-primary" disabled={busy}>{busy ? "Analysing the project…" : "Create editable workflow"}</button></div></form>;
+
+  return (
+    <form className="editorial-card-block strategy-form-card" onSubmit={submit}>
+      <div className="form-stack">
+        <div className="styled-field full">
+          <label htmlFor="project-brief">Tell us what you’re working on</label>
+          <textarea
+            id="project-brief"
+            className="styled-textarea"
+            rows={4}
+            value={brief}
+            onChange={(event) => setBrief(event.target.value)}
+            placeholder="e.g., Create a 60-second financial report video from an annual PDF report. Needs data visualizations, voice-over, and corporate branding."
+          />
+          <small className="field-hint">Describe the final result you need in plain English — we’ll break it down into an actionable AI model workflow.</small>
+        </div>
+
+        <div className="grid-2-col gap-4">
+          <div className="styled-field">
+            <label htmlFor="deadline">Deadline</label>
+            <input
+              id="deadline"
+              type="date"
+              className="styled-input"
+              min={todayValue}
+              value={deadline}
+              onChange={(event) => setDeadline(event.target.value)}
+            />
+            <small className="field-hint">{deadlineSummary}</small>
+          </div>
+
+          <div className="styled-field">
+            <label htmlFor="currency">Budget Currency</label>
+            <select
+              id="currency"
+              className="styled-select"
+              value={currency}
+              onChange={(event) => setCurrency(event.target.value as typeof currency)}
+            >
+              <option value="USD">USD ($)</option>
+              <option value="AUD">AUD (A$)</option>
+              <option value="VND">VND (₫)</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="styled-field full">
+          <label>Budget Tier</label>
+          <div className="budget-pills-row">
+            {[50, 100, 500].map((amount) => (
+              <button
+                type="button"
+                className={`budget-pill ${budgetChoice === String(amount) ? "selected-pill" : ""}`}
+                onClick={() => setBudgetChoice(String(amount))}
+                key={amount}
+              >
+                {currency === "VND" ? amount.toLocaleString() : `${currency === "USD" ? "$" : "A$"}${amount}`}
+              </button>
+            ))}
+            <button
+              type="button"
+              className={`budget-pill ${budgetChoice === "custom" ? "selected-pill" : ""}`}
+              onClick={() => setBudgetChoice("custom")}
+            >
+              Enter exact budget
+            </button>
+          </div>
+          {budgetChoice === "custom" && (
+            <input
+              aria-label="Exact budget"
+              type="number"
+              className="styled-input mt-3"
+              min="0"
+              step="any"
+              value={customBudget}
+              onChange={(event) => setCustomBudget(event.target.value)}
+              placeholder="Enter custom budget amount"
+            />
+          )}
+        </div>
+
+        <div className="styled-field full">
+          <label>Rank Your Priorities</label>
+          <PriorityRanking priorities={priorities} onChange={setPriorities} />
+        </div>
+
+        <OptionalDetails idPrefix="one-off" value={optionalDetails} onChange={setOptionalDetails} />
+
+        {error && <p className="error-message">{error}</p>}
+
+        <div className="form-actions-bar">
+          <button className="minimal-btn minimal-btn-dark" disabled={busy}>
+            <span>{busy ? "Analyzing Project Requirements..." : "Create Editable Workflow"}</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </form>
+  );
 }

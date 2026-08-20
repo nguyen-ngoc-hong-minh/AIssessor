@@ -1,4 +1,12 @@
 import type { Metadata } from "next";
 import { BillingView } from "@/components/billing-view";
-export const metadata:Metadata={title:"Billing"};
-export default function BillingPage(){return <div className="page-wrap"><div className="page-title"><div><span className="kicker">Billing</span><h1>Plan and subscription</h1><p>Access is enforced in Convex from verified Stripe state.</p></div></div><BillingView/></div>}
+
+export const metadata: Metadata = { title: "Billing · BENCHFLOW" };
+
+export default function BillingPage() {
+  return (
+    <div className="editorial-page-container max-w-4xl">
+      <BillingView />
+    </div>
+  );
+}

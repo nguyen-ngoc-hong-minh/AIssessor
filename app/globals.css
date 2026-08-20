@@ -1491,10 +1491,340 @@ h1, h2, h3, h4, p {
 }
 
 
+/* ==========================================================================
+   EDITORIAL PRODUCT PAGES & STYLED CONTROLS
+   ========================================================================== */
+.editorial-page-container {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.editorial-page-header {
+  margin-bottom: 32px;
+}
+
+.editorial-page-header h1 {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  margin: 6px 0 8px;
+}
+
+.editorial-page-header p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 620px;
+}
+
+/* Choice Cards Grid (/choose-usage) */
+.editorial-choice-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.choice-card {
+  padding: 40px 32px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 280px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.choice-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+}
+
+.choice-card-dark {
+  background-color: #111111;
+  color: #ffffff;
+  border: 1px solid #111111;
+}
+
+.choice-card-dark p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.choice-card-white {
+  background-color: #ffffff;
+  color: #111111;
+  border: 1px solid var(--border-color);
+}
+
+.choice-card-white p {
+  color: var(--text-secondary);
+}
+
+.choice-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.choice-num {
+  font-size: 28px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.choice-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  display: grid;
+  place-items: center;
+}
+
+.choice-icon-light {
+  background: #f4f4f0;
+}
+
+.choice-card h2 {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.choice-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.choice-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.footer-light {
+  border-top-color: var(--border-color);
+}
+
+/* Editorial Card Blocks */
+.editorial-card-block {
+  padding: 36px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+}
+
+.card-block-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.card-block-top h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 2px 0 4px;
+}
+
+.card-block-top p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Form Controls */
+.form-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.styled-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.styled-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111111;
+}
+
+.styled-input, .styled-select, .styled-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: #fafafa;
+  font-size: 13px;
+  color: #111111;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.styled-input:focus, .styled-select:focus, .styled-textarea:focus {
+  outline: none;
+  border-color: #111111;
+  background-color: #ffffff;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.budget-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.budget-pill {
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background-color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.budget-pill:hover, .selected-pill {
+  background-color: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
+
+.form-actions-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 12px;
+}
+
+/* Billing View */
+.billing-card-top {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.billing-icon-wrap, .team-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background-color: #f4f4f0;
+  display: grid;
+  place-items: center;
+  flex-none: true;
+}
+
+.billing-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: #fafafa;
+  border: 1px solid var(--border-color);
+  margin-bottom: 24px;
+}
+
+.b-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.billing-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Team View */
+.team-form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.teams-table-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.team-row-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background-color: #fafafa;
+  border: 1px solid var(--border-color);
+}
+
+.team-info strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.team-role-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+/* Settings View & Clerk Container */
+.clerk-profile-shell {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.clerk-profile-shell .cl-rootBox {
+  width: 100%;
+}
+
+.clerk-profile-shell .cl-card {
+  box-shadow: none;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background-color: #ffffff;
+}
+
 /* FOOTER */
 .minimal-footer {
   padding: 80px 0 40px;
 }
+
 
 .footer-inner {
   display: grid;
