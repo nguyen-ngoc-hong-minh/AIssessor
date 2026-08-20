@@ -101,15 +101,15 @@ export function DashboardView() {
       </div>
 
       {/* Main Strategy List Section */}
-      <div className="dash-content-block glass-card p-8 md:p-10 min-h-[500px] flex flex-col justify-between">
+      <div className="dash-content-block glass-card p-8 md:p-10 min-h-[485px] flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/10">
-            <div className="space-y-3">
+            <div className="space-y-4">
               <div className="eyebrow">
                 <span className="dt" />
                 Recent strategies
               </div>
-              <h2 className="h-display text-3xl md:text-4xl font-semibold text-white pt-1">
+              <h2 className="h-display text-3xl md:text-4xl font-semibold text-white pt-3 mt-1">
                 Active Workload Plans
               </h2>
             </div>
