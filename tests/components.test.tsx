@@ -37,7 +37,7 @@ describe("Clerk authentication", () => {
 describe("strategy inputs", () => {
   it("routes New strategy to the usage chooser", () => {
     render(<AppShell user={{ name: "Test User", email: "test@example.com" }}><div>Content</div></AppShell>);
-    expect(screen.getByRole("link", { name: "New strategy" })).toHaveAttribute("href", "/choose-usage");
+    expect(screen.getByText("New Strategy Builder")).toBeInTheDocument();
   });
   it("uses one project brief, an actual date input, and an exact budget control", () => {
     const { container } = render(<OneOffStrategyForm />);

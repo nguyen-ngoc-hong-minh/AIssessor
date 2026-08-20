@@ -13,7 +13,6 @@ export function DashboardDeckNav() {
     { label: "New Strategy Builder", sub: "Plan project or monthly workflow", href: "/choose-usage" },
     { label: "Billing & Subscriptions", sub: "Consolidated software stack & invoices", href: "/billing" },
     { label: "Account Settings", sub: "Preferences & security", href: "/settings" },
-    { label: "Presentation Deck", sub: "Interactive 9-slide product presentation", href: "/" },
   ];
 
   // Determine current index based on pathname
@@ -45,7 +44,7 @@ export function DashboardDeckNav() {
       if (e.key === "m" || e.key === "M") {
         setMenuOpen((prev) => !prev);
       }
-      if (/^[1-5]$/.test(e.key)) {
+      if (/^[1-4]$/.test(e.key)) {
         go(parseInt(e.key, 10) - 1);
       }
     }
@@ -114,7 +113,7 @@ export function DashboardDeckNav() {
         </div>
         <div className="menu-footer">
           <span>Tip &middot; press <kbd>M</kbd> to toggle</span>
-          <span><kbd>1</kbd>&ndash;<kbd>5</kbd> direct jump</span>
+          <span><kbd>1</kbd>&ndash;<kbd>4</kbd> direct jump</span>
         </div>
       </div>
     </>

@@ -63,7 +63,7 @@ export function LustroDeck() {
       {/* Persistent Chrome: Brand Header */}
       <div className="brand">
         <span className="logo" />
-        AIssessor <span className="slash">/</span> <span className="brand-subtitle">AI Stack Advisor</span>
+        AIssessor
       </div>
 
       {/* Section Tag Indicator */}
