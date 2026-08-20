@@ -15,7 +15,27 @@ export function AppShell({
 }) {
   const { user: clerkUser } = useUser();
   const avatarUrl = clerkUser?.imageUrl;
-  const initial = (user.name || user.email).trim().charAt(0).toUpperCase();
+
+  const rawName =
+    clerkUser?.fullName ||
+    (clerkUser?.firstName ? `${clerkUser.firstName} ${clerkUser.lastName || ""}`.trim() : "") ||
+    user.name;
+
+  const rawEmail = clerkUser?.primaryEmailAddress?.emailAddress || user.email;
+
+  const displayName =
+    rawName && !rawName.startsWith("user_")
+      ? rawName
+      : rawEmail && !rawEmail.startsWith("user_")
+      ? rawEmail.split("@")[0]
+      : "AIssessor Member";
+
+  const displayEmail =
+    rawEmail && !rawEmail.startsWith("user_") && !rawEmail.includes("@clerk.invalid")
+      ? rawEmail
+      : "";
+
+  const initial = displayName.charAt(0).toUpperCase();
 
   return (
     <div className="editorial-app-shell min-h-screen relative overflow-x-hidden">
@@ -36,15 +56,15 @@ export function AppShell({
       {/* Presentation Deck Bottom-Left: User Profile Badge & Avatar */}
       <div className="dash-user-bottom-left flex items-center gap-3 backdrop-blur-xl bg-black/50 border border-white/10 px-3.5 py-2 rounded-full shadow-2xl">
         {avatarUrl ? (
-          <img src={avatarUrl} alt={user.name} className="w-7 h-7 rounded-full object-cover shadow-md flex-none" />
+          <img src={avatarUrl} alt={displayName} className="w-7 h-7 rounded-full object-cover shadow-md flex-none" />
         ) : (
           <span className="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 text-white font-bold grid place-items-center text-xs shadow-md flex-none">
             {initial}
           </span>
         )}
         <div className="min-w-0 pr-1">
-          <strong className="block text-xs text-white font-medium truncate max-w-[130px]">{user.name}</strong>
-          <small className="block text-[10px] text-tertiary truncate max-w-[130px]">{user.email}</small>
+          <strong className="block text-xs text-white font-medium truncate max-w-[150px]">{displayName}</strong>
+          {displayEmail && <small className="block text-[10px] text-tertiary truncate max-w-[150px]">{displayEmail}</small>}
         </div>
         <SignOutButton redirectUrl="/">
           <button className="p-1 text-tertiary hover:text-white transition-colors flex-none ml-1" aria-label="Sign out" title="Sign out">
