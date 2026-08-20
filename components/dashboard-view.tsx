@@ -101,33 +101,39 @@ export function DashboardView() {
       </div>
 
       {/* Main Strategy List Section */}
-      <div className="dash-content-block glass-card p-8">
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-          <div>
-            <div className="eyebrow mb-3">
+      <div className="dash-content-block glass-card p-8 md:p-10">
+        <div className="flex items-center justify-between pb-8 mb-10 border-b border-white/10">
+          <div className="space-y-4">
+            <div className="eyebrow">
               <span className="dt" />
               Recent strategies
             </div>
-            <h2 className="h-display text-3xl font-semibold text-white mt-4 mb-1">Active Workload Plans</h2>
+            <h2 className="h-display text-3xl md:text-4xl font-semibold text-white pt-2">
+              Active Workload Plans
+            </h2>
           </div>
-          <span className="font-mono text-xs text-tertiary px-3 py-1.5 rounded-full border border-white/10">
+          <span className="font-mono text-xs text-tertiary px-3.5 py-1.5 rounded-full border border-white/10">
             {strategies.length} items
           </span>
         </div>
 
-        {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
+        {error && <p className="text-red-400 text-sm mb-6">{error}</p>}
 
         {strategies.length === 0 ? (
-          <div className="text-center py-16 px-6">
-            <h3 className="h-display text-3xl font-semibold text-white mb-6">No Saved Strategies Yet</h3>
-            <p className="body-md text-sm text-ink-2 leading-relaxed max-w-lg mx-auto mb-10 text-center">
+          <div className="text-center py-16 px-6 space-y-8">
+            <h3 className="h-display text-3xl font-semibold text-white tracking-tight">
+              No Saved Strategies Yet
+            </h3>
+            <p className="body-md text-sm md:text-base text-ink-2 leading-relaxed max-w-xl mx-auto pt-2 pb-2">
               Describe your project or recurring workflow once. AIssessor will evaluate models and save your actionable plan here.
             </p>
-            <Link className="btn-primary inline-flex items-center gap-2 px-6 py-3 text-sm rounded-full mt-2" href="/choose-usage">
-              <Plus className="w-4 h-4" />
-              <span>Create Your First Strategy</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
+            <div className="pt-4">
+              <Link className="btn-primary inline-flex items-center gap-2 px-7 py-3.5 text-sm rounded-full shadow-lg hover:scale-105 transition-transform" href="/choose-usage">
+                <Plus className="w-4 h-4" />
+                <span>Create Your First Strategy</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
