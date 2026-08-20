@@ -2351,41 +2351,42 @@ body > .brand {
 }
 
 .auth-editorial-left {
-  padding: 48px 40px;
+  padding: 36px 32px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 36px;
+  justify-content: flex-start;
+  gap: 20px;
   background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
   border-right: 1px solid var(--glass-border);
 }
 
 .auth-title {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 500;
   color: #ffffff;
-  margin: 12px 0 16px;
-  line-height: 1.25;
+  margin: 6px 0 10px;
+  line-height: 1.2;
 }
 
 .auth-desc {
-  font-size: 14px;
-  line-height: 1.65;
+  font-size: 13.5px;
+  line-height: 1.5;
   color: var(--ink-2);
 }
 
 .auth-editorial-features {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+  margin-top: 4px;
 }
 
 .feature-pill {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  border-radius: 14px;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--line-2);
 }
@@ -2401,11 +2402,11 @@ body > .brand {
   display: block;
   font-size: 11px;
   color: var(--ink-3);
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .auth-widget-box {
-  padding: 48px 40px;
+  padding: 36px 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2414,7 +2415,7 @@ body > .brand {
 
 .auth-footer {
   text-align: center;
-  padding: 24px 0 8px;
+  padding: 16px 0 8px;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--ink-3);
@@ -2429,10 +2430,10 @@ body > .brand {
   .auth-editorial-left {
     border-right: none;
     border-bottom: 1px solid var(--glass-border);
-    padding: 32px 24px;
+    padding: 28px 20px;
   }
   .auth-widget-box {
-    padding: 32px 24px;
+    padding: 28px 20px;
   }
 }
 
@@ -2442,16 +2443,16 @@ body > .brand {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px 24px;
+  padding: 8px 16px;
   box-sizing: border-box;
   overflow: visible;
 }
 
 .cl-rootBox {
   width: 100% !important;
-  max-width: 380px !important;
+  max-width: 360px !important;
   margin: 0 auto !important;
-  padding: 0 12px !important;
+  padding: 0 8px !important;
   box-sizing: border-box !important;
 }
 
@@ -2468,16 +2469,16 @@ body > .brand {
 
 .cl-headerTitle {
   font-family: var(--font-sans) !important;
-  font-size: 24px !important;
+  font-size: 22px !important;
   font-weight: 600 !important;
   color: #ffffff !important;
 }
 
 .cl-headerSubtitle {
   font-family: var(--font-body) !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   color: var(--ink-2) !important;
-  margin-bottom: 12px !important;
+  margin-bottom: 8px !important;
 }
 
 .cl-socialButtonsBlockButton {
@@ -2485,9 +2486,9 @@ body > .brand {
   background: rgba(255, 255, 255, 0.06) !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
   color: #ffffff !important;
-  padding: 10px 18px !important;
+  padding: 8px 16px !important;
   transition: all 0.2s ease !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
 }
 
 .cl-socialButtonsBlockButton:hover {
@@ -2498,12 +2499,12 @@ body > .brand {
 .cl-socialButtonsBlockButtonText {
   color: #ffffff !important;
   font-family: var(--font-body) !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
   font-weight: 500 !important;
 }
 
 .cl-dividerRow {
-  margin: 10px 0 !important;
+  margin: 8px 0 !important;
 }
 
 .cl-dividerLine {
@@ -2513,7 +2514,7 @@ body > .brand {
 .cl-dividerText {
   color: var(--ink-3) !important;
   font-family: var(--font-mono) !important;
-  font-size: 11px !important;
+  font-size: 10px !important;
 }
 
 .cl-formFieldLabel {
@@ -2521,7 +2522,7 @@ body > .brand {
   font-family: var(--font-body) !important;
   font-size: 12px !important;
   font-weight: 500 !important;
-  margin-bottom: 4px !important;
+  margin-bottom: 3px !important;
 }
 
 .cl-formFieldInput {
@@ -2529,11 +2530,18 @@ body > .brand {
   background: rgba(255, 255, 255, 0.05) !important;
   border: 1px solid rgba(255, 255, 255, 0.12) !important;
   color: #ffffff !important;
-  padding: 10px 18px !important;
+  padding: 8px 16px !important;
   font-size: 13px !important;
   font-family: var(--font-body) !important;
   transition: all 0.2s ease !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 8px !important;
+}
+
+.cl-formFieldInput::placeholder,
+.cl-formFieldInput::-webkit-input-placeholder,
+.cl-formFieldInput::-moz-placeholder {
+  color: rgba(255, 255, 255, 0.45) !important;
+  opacity: 1 !important;
 }
 
 .cl-formFieldInput:focus {
@@ -2550,10 +2558,10 @@ body > .brand {
   font-family: var(--font-body) !important;
   font-size: 13px !important;
   font-weight: 600 !important;
-  padding: 12px 20px !important;
+  padding: 10px 18px !important;
   transition: all 0.2s ease !important;
-  margin-top: 10px !important;
-  margin-bottom: 10px !important;
+  margin-top: 8px !important;
+  margin-bottom: 6px !important;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
 }
 
@@ -2561,23 +2569,25 @@ body > .brand {
   background: #e0e7ff !important;
 }
 
+.cl-footer,
+.cl-footer *,
+.cl-footerActionText,
+.cl-footerPagesLink {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
 .cl-footer {
   background: transparent !important;
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
-  margin-top: 12px !important;
-  padding-top: 10px !important;
+  margin-top: 8px !important;
+  padding-top: 8px !important;
   background-image: none !important;
 }
 
-.cl-footerActionText {
-  color: var(--ink-2) !important;
-  font-size: 13px !important;
-}
-
 .cl-footerActionLink {
-  color: var(--indigo-soft) !important;
+  color: #a5b4fc !important;
   font-weight: 500 !important;
-  font-size: 13px !important;
+  font-size: 12.5px !important;
 }
 
 .cl-footerActionLink:hover {
