@@ -29,6 +29,7 @@ const PRIVACY_RANK = { standard: 1, business: 2, sensitive: 3, restricted: 4 } a
 const MAX_COMBINATION_TOOLS = 3;
 const COMBINATION_POOL_LIMIT = 24;
 const BEAM_WIDTH = 48;
+const MAX_EXCLUSIONS_PER_STEP = 8;
 
 function productAccess(model: CanonicalModel) {
   return model.accessOptions?.find((option) => option.accessMethod === "product");
@@ -404,7 +405,7 @@ function recommendStepData(step: WorkflowStep, models: CanonicalModel[], context
     options,
     alternatives,
     partialOptions,
-    exclusions,
+    exclusions: exclusions.slice(0, MAX_EXCLUSIONS_PER_STEP),
     dataUpdatedAt: timestamps.length ? Math.min(...timestamps) : null,
   };
   return { recommendation, candidates };

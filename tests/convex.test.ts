@@ -47,6 +47,9 @@ describe("Convex identity and authorization", () => {
     const snapshotId = await t.run((ctx) => ctx.db.insert("dataSnapshots", { source: "official_products", rawPayload: {}, payloadHash: "saved-hash", fetchedAt: 500, valid: true }));
     const plan = { variant: "recommended", steps: [], fixedCostUsd: 20, apiCostUsd: 1, totalCostUsd: 21, estimatedSavingsUsd: 0, existingSubscriptions: { kept: [], couldCancel: [] }, subscriptions: [], uniqueProductCount: 1, completeStepCount: 0, budgetUsd: null, overBudgetUsd: 0, hasUnknownSubscriptionPricing: false, assumptions: [], dataUpdatedAt: 500 };
     await t.mutation(anyApi.strategies.saveGeneratedPlans, { strategyId, dataSnapshotId: snapshotId, dataSnapshotSummary: [{ id: snapshotId, source: "official_products", fetchedAt: 500 }], plans: [plan] });
+    const planRecords = await t.run((ctx) => ctx.db.query("strategyPlans").collect());
+    expect(planRecords[0].recommendations).toEqual([]);
+    expect(planRecords[0].fullPlan).toEqual(plan);
     const [owned, stored] = await Promise.all([
       user.query(anyApi.strategies.getOwned, { strategyId }),
       user.action(anyApi.actions.recommend.loadSaved, { strategyId }),

@@ -149,6 +149,10 @@ describe("deterministic recommendation engine", () => {
     const recommendation = recommendStep(step, candidates, context);
     expect(new Set(Object.values(recommendation.options).map((option) => option?.model.name))).toEqual(new Set(["Alpha", "Bravo", "Charlie", "Delta", "Echo"]));
   });
+  it("bounds persisted eligibility diagnostics as the catalog grows", () => {
+    const excludedModels = Array.from({ length: 100 }, (_, index) => ({ ...model, id: `excluded-${index}`, canonicalId: `provider/excluded-${index}`, name: `Excluded ${index}`, modalities: ["image"] }));
+    expect(recommendStep(step, excludedModels, context).exclusions).toHaveLength(8);
+  });
   it("re-evaluates only task categories affected by changed evidence", () => {
     const categories = affectedTaskCategories(["coding", "repository_editing", "test_generation"], ["software_engineering"]);
     expect(categories).toContain("coding");
