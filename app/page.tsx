@@ -1,5 +1,5 @@
-import { LustroLanding } from "@/components/lustro-landing";
+import { LustroDeck } from "@/components/lustro-deck";
 
 export default function LandingPage() {
-  return <LustroLanding />;
+  return <LustroDeck />;
 }

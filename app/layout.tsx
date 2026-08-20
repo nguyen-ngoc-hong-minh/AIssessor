@@ -4,9 +4,9 @@ import { Providers } from "@/components/providers";
 import "./globals.css";
 import "@xyflow/react/dist/style.css";
 
-const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"] });
-const dmSans = DM_Sans({ variable: "--font-dm-sans", subsets: ["latin"] });
-const jetBrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"] });
+const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"], display: "swap" });
+const dmSans = DM_Sans({ variable: "--font-dm-sans", subsets: ["latin"], display: "swap" });
+const jetBrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
   title: { default: "BENCHFLOW — Build the right AI stack", template: "%s · BENCHFLOW" },
