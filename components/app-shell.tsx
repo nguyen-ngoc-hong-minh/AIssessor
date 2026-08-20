@@ -54,21 +54,18 @@ export function AppShell({
       <main className="editorial-app-main min-h-screen relative z-10">{children}</main>
 
       {/* Presentation Deck Bottom-Left: User Profile Badge & Avatar */}
-      <div className="dash-user-bottom-left flex items-center gap-3 backdrop-blur-xl bg-black/50 border border-white/10 px-3.5 py-2 rounded-full shadow-2xl">
+      <div className="dash-user-bottom-left flex items-center gap-3.5 backdrop-blur-xl bg-black/60 border border-white/15 px-4 py-2.5 rounded-full shadow-2xl">
         {avatarUrl ? (
-          <img src={avatarUrl} alt={displayName} className="w-7 h-7 rounded-full object-cover shadow-md flex-none" />
+          <img src={avatarUrl} alt={displayName} className="w-8 h-8 rounded-full object-cover shadow-md flex-none" />
         ) : (
-          <span className="w-7 h-7 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 text-white font-bold grid place-items-center text-xs shadow-md flex-none">
+          <span className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-pink-500 text-white font-bold grid place-items-center text-xs shadow-md flex-none">
             {initial}
           </span>
         )}
-        <div className="min-w-0 pr-1">
-          <strong className="block text-xs text-white font-medium truncate max-w-[150px]">{displayName}</strong>
-          {displayEmail && <small className="block text-[10px] text-tertiary truncate max-w-[150px]">{displayEmail}</small>}
-        </div>
+        <strong className="text-xs text-white font-medium truncate max-w-[160px] px-0.5">{displayName}</strong>
         <SignOutButton redirectUrl="/">
-          <button className="p-1 text-tertiary hover:text-white transition-colors flex-none ml-1" aria-label="Sign out" title="Sign out">
-            <LogOut className="w-3.5 h-3.5" />
+          <button className="p-1.5 text-tertiary hover:text-white transition-colors flex-none ml-1 rounded-full hover:bg-white/10" aria-label="Sign out" title="Sign out">
+            <LogOut className="w-4 h-4" />
           </button>
         </SignOutButton>
       </div>
