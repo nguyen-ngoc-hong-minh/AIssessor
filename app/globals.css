@@ -190,9 +190,9 @@ html, body {
   z-index: 100;
   display: flex;
   align-items: center;
-  gap: 10px;
-  height: 40px;
-  padding: 0 14px 0 4px;
+  gap: 12px;
+  height: 42px;
+  padding: 0 16px 0 10px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(20px);
@@ -204,8 +204,8 @@ html, body {
 
 .dash-user-pill .user-avatar-img,
 .dash-user-pill .user-avatar-fallback {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
@@ -221,23 +221,24 @@ html, body {
 }
 
 .dash-user-pill .sign-out-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  color: #ffffff;
+  background: transparent !important;
+  border: none !important;
+  color: var(--ink-3);
   cursor: pointer;
-  width: 28px;
-  height: 28px;
+  width: auto;
+  height: auto;
   display: grid;
   place-items: center;
-  border-radius: 50%;
-  transition: all 0.25s ease;
-  padding: 0;
+  border-radius: 0;
+  transition: all 0.2s ease;
+  padding: 2px;
   margin-left: 2px;
 }
 
 .dash-user-pill .sign-out-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: scale(1.08);
+  background: transparent !important;
+  color: #ffffff;
+  transform: translateX(2px);
 }
 
 @media (max-width: 768px) {
