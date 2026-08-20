@@ -9,10 +9,10 @@ export function ParallaxHero({ children }: { children: ReactNode }) {
       {/* Hero Content */}
       {children}
 
-      {/* Editorial System Flow Box (Inspired by Reference 3 & 4) */}
+      {/* Wallety System Flow Stage */}
       <div className="hero-system-flow" aria-label="System Architecture Flow">
         <div className="system-flow-top">
-          <div className="flow-badge">[ ARCHITECTURE ]</div>
+          <div className="flow-badge">✦ ARCHITECTURE</div>
           <div className="flow-status">
             <span className="dot-active" />
             <span>REAL-TIME BENCHMARKS</span>
@@ -28,18 +28,18 @@ export function ParallaxHero({ children }: { children: ReactNode }) {
 
           <div className="diagram-arrow-connector">
             <span className="line-connector" />
-            <ArrowUpRight className="w-4 h-4 text-black" />
+            <ArrowUpRight className="w-4 h-4 text-emerald-400" />
           </div>
 
-          <div className="diagram-card">
-            <span className="card-mono-lbl">[ 02. ENGINE ]</span>
-            <strong>BENCHFLOW ENGINE</strong>
+          <div className="diagram-card border-emerald-500/40 bg-emerald-950/20">
+            <span className="card-mono-lbl text-emerald-400">[ 02. ENGINE ]</span>
+            <strong className="text-emerald-300">BENCHFLOW ENGINE</strong>
             <p>Evaluation &amp; Cost Optimization</p>
           </div>
 
           <div className="diagram-arrow-connector">
             <span className="line-connector" />
-            <ArrowUpRight className="w-4 h-4 text-black" />
+            <ArrowUpRight className="w-4 h-4 text-emerald-400" />
           </div>
 
           <div className="diagram-card">
@@ -52,7 +52,7 @@ export function ParallaxHero({ children }: { children: ReactNode }) {
         {/* Metric Bar */}
         <div className="hero-metrics-bar">
           <div className="hero-metric-item">
-            <Cpu className="w-4 h-4 text-black" />
+            <Cpu className="w-5 h-5 text-emerald-400" />
             <div>
               <strong>1,200+</strong>
               <small>Evaluated AI Models</small>
@@ -60,7 +60,7 @@ export function ParallaxHero({ children }: { children: ReactNode }) {
           </div>
 
           <div className="hero-metric-item">
-            <Zap className="w-4 h-4 text-black" />
+            <Zap className="w-5 h-5 text-cyan-400" />
             <div>
               <strong>&lt; 3 Secs</strong>
               <small>Plan Generation</small>
@@ -68,7 +68,7 @@ export function ParallaxHero({ children }: { children: ReactNode }) {
           </div>
 
           <div className="hero-metric-item">
-            <ShieldCheck className="w-4 h-4 text-black" />
+            <ShieldCheck className="w-5 h-5 text-emerald-400" />
             <div>
               <strong>100%</strong>
               <small>Verified Privacy &amp; Data</small>
