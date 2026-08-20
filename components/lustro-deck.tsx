@@ -307,7 +307,7 @@ export function LustroDeck() {
                   <span className="dt" />
                   The BENCHFLOW Process
                 </div>
-                <h2 className="h-display reveal">Workflow first. Evidence second. Recommendation last.</h2>
+                <h2 className="h-display reveal">Workflow first. Evidence second. <span className="grd">Recommendation</span> last.</h2>
               </div>
               <p className="sf-r reveal">
                 BENCHFLOW turns your plain-language goal into a verified, actionable AI stack plan through a transparent 4-step process.
@@ -347,7 +347,7 @@ export function LustroDeck() {
                   <span className="dt" />
                   Choose your planning mode
                 </div>
-                <h2 className="h-display reveal">Tailored for one-off projects or recurring workloads.</h2>
+                <h2 className="h-display reveal">Tailored for <span className="grd">one-off projects</span> or <span className="grd">monthly workloads</span>.</h2>
               </div>
               <p className="sf-r reveal">
                 Select how you want to structure your AI recommendations based on your team's workflow style and delivery cadence.
