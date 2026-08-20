@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Copy, Plus, Layers, Trash2, FileText } from "lucide-react";
+import { ArrowUpRight, Copy, Plus, Layers, Trash2, FileText, Sparkles, CheckCircle2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
@@ -55,103 +55,135 @@ export function DashboardView() {
   const savedPlans = strategies.filter((strategy) => strategy.status === "complete").length;
 
   return (
-    <div className="editorial-dashboard">
-      {/* Dashboard Top Banner */}
-      <div className="dashboard-top-row">
-        <div>
-          <span className="mono-badge">[ WORKSPACE / STRATEGIES ]</span>
-          <h1>AI Strategy Library</h1>
-          <p>Manage, duplicate, and execute your saved AI model strategies and workflow plans.</p>
+    <div className="editorial-dashboard-wrap">
+      {/* 1. TOP EXECUTIVE DARK CARD (Strong Contrast Hero Banner inspired by Reference Image) */}
+      <div className="dash-hero-banner">
+        <div className="dash-banner-header">
+          <span className="banner-pill-badge">[ WORKSPACE SUMMARY ]</span>
+          <span className="banner-large-num">01</span>
         </div>
-        <Link className="minimal-btn minimal-btn-dark" href="/choose-usage">
-          <Plus className="w-4 h-4" />
-          <span>New Strategy</span>
-        </Link>
-      </div>
-
-      {/* Metrics Row */}
-      <div className="dashboard-facts-row">
-        <div className="dash-fact-card">
-          <span className="fact-code">[ 01 ]</span>
-          <div className="fact-num-val">{strategies.length}</div>
-          <span className="fact-lbl-text">Strategies Created</span>
+        
+        <div className="dash-banner-body">
+          <h1>
+            AI Strategy Library <span className="banner-sub-text">and Execution Plans.</span>
+          </h1>
+          <p>
+            Manage, evaluate, and deploy your saved AI tool pipelines. All recommendations use live, verifiable benchmark evidence.
+          </p>
         </div>
 
-        <div className="dash-fact-card">
-          <span className="fact-code">[ 02 ]</span>
-          <div className="fact-num-val">{savedPlans}</div>
-          <span className="fact-lbl-text">Plans Completed</span>
-        </div>
-
-        <div className="dash-fact-card">
-          <span className="fact-code">[ 03 ]</span>
-          <div className="fact-num-val">100%</div>
-          <span className="fact-lbl-text">Evidence Verified</span>
+        <div className="dash-banner-footer">
+          <Link className="minimal-btn minimal-btn-outline dark-theme-btn" href="/choose-usage">
+            <Plus className="w-4 h-4" />
+            <span>Create New Strategy</span>
+            <ArrowUpRight className="w-4 h-4 ml-1" />
+          </Link>
         </div>
       </div>
 
-      {/* Main List Section */}
-      <div className="dashboard-list-card">
-        <div className="list-card-header">
-          <h2>Recent Strategies</h2>
-          <span className="mono-count">[{strategies.length} ITEMS]</span>
+      {/* 2. HIGH-IMPACT METRICS GRID (Inspired by Reference 2025 in numbers) */}
+      <div className="dash-metrics-grid">
+        <div className="dash-metric-card metric-dark">
+          <span className="metric-tag">[ 01. TOTAL ]</span>
+          <div className="metric-huge-val">{strategies.length}</div>
+          <div className="metric-title">Strategies Created</div>
+          <p className="metric-desc">Total project and monthly task evaluations.</p>
+        </div>
+
+        <div className="dash-metric-card metric-grey">
+          <span className="metric-tag">[ 02. READY ]</span>
+          <div className="metric-huge-val">{savedPlans}</div>
+          <div className="metric-title">Plans Completed</div>
+          <p className="metric-desc">Ready for deployment and execution.</p>
+        </div>
+
+        <div className="dash-metric-card metric-white">
+          <span className="metric-tag">[ 03. EVIDENCE ]</span>
+          <div className="metric-huge-val">100%</div>
+          <div className="metric-title">Verified Benchmarks</div>
+          <p className="metric-desc">Source-linked evidence &amp; price sheets.</p>
+        </div>
+      </div>
+
+      {/* 3. STRATEGY LIST SECTION (Strong Hierarchy Cards & Rows) */}
+      <div className="dash-content-block">
+        <div className="block-header-row">
+          <div>
+            <span className="mono-badge">[ RECENT ACTIVITY ]</span>
+            <h2>Saved Strategies</h2>
+          </div>
+          <span className="count-pill-tag">{strategies.length} ITEMS</span>
         </div>
 
         {error && <p className="error-message">{error}</p>}
 
         {strategies.length === 0 ? (
-          <div className="dash-empty-box">
-            <Layers className="w-8 h-8 text-black mb-3" />
-            <h3>No saved strategies yet</h3>
-            <p>Describe your project or monthly task once. BENCHFLOW will keep the resulting strategy ready here.</p>
+          <div className="editorial-empty-card">
+            <div className="empty-icon-wrap">
+              <Layers className="w-8 h-8 text-black" />
+            </div>
+            <h3>No Saved Strategies Yet</h3>
+            <p>Describe your project or recurring workflow once. BENCHFLOW will evaluate models and save your actionable plan here.</p>
             <Link className="minimal-btn minimal-btn-dark" href="/choose-usage">
               <Plus className="w-4 h-4" />
               <span>Create Your First Strategy</span>
+              <ArrowUpRight className="w-4 h-4" />
             </Link>
           </div>
         ) : (
-          <div className="dash-items-list">
-            {strategies.map((strategy) => (
-              <div className="dash-item-row" key={strategy._id}>
-                <div className="dash-item-icon">
-                  <FileText className="w-4 h-4 text-black" />
-                </div>
-                
-                <div className="dash-item-info">
-                  <strong>{strategy.title}</strong>
-                  <div className="dash-item-meta">
-                    <span>{new Date(strategy.createdAt).toLocaleDateString()}</span>
-                    <span className="sep">•</span>
-                    <span>{strategy.usageType === "one_off" ? (strategy.budget === undefined ? "Budget not set" : `Budget $${strategy.budget} USD`) : "Recurring Workload"}</span>
+          <div className="strategy-cards-list">
+            {strategies.map((strategy, idx) => (
+              <div className="strategy-card-row" key={strategy._id}>
+                <div className="row-index">{String(idx + 1).padStart(2, "0")}.</div>
+
+                <div className="row-main-info">
+                  <div className="row-top-tags">
+                    <span className="type-badge">
+                      [{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]
+                    </span>
                     {strategy.refreshAvailable && (
-                      <span className="update-available-badge" title={strategy.refreshReasons?.join("; ")}>
-                        Update Available
+                      <span className="update-badge" title={strategy.refreshReasons?.join("; ")}>
+                        <RefreshCw className="w-3 h-3 flex-none" />
+                        <span>UPDATE AVAILABLE</span>
                       </span>
                     )}
                   </div>
+                  
+                  <h3>{strategy.title}</h3>
+
+                  <div className="row-meta-info">
+                    <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
+                    <span className="dot-sep">•</span>
+                    <span>
+                      {strategy.usageType === "one_off"
+                        ? strategy.budget === undefined
+                          ? "Budget not set"
+                          : `Budget: $${strategy.budget} USD`
+                        : "Recurring Workload"}
+                    </span>
+                  </div>
                 </div>
 
-                <span className="usage-type-badge">
-                  {strategy.usageType === "one_off" ? "One-off" : "Monthly"}
-                </span>
-
-                <div className="dash-item-actions">
+                <div className="row-actions-group">
                   <Link
-                    className="action-btn-icon"
+                    className="action-btn action-btn-primary"
                     href={`/strategy/${strategy._id}/${strategy.status === "complete" ? "results" : "workflow"}`}
                     title="Open strategy"
                   >
+                    <span>View Plan</span>
                     <ArrowUpRight className="w-4 h-4" />
                   </Link>
+
                   <button
-                    className="action-btn-icon"
+                    className="action-btn action-btn-subtle"
                     onClick={() => duplicate(strategy._id)}
                     title="Duplicate strategy"
                   >
                     <Copy className="w-4 h-4" />
                   </button>
+
                   <button
-                    className="action-btn-icon danger-btn"
+                    className="action-btn action-btn-danger"
                     onClick={() => remove(strategy._id)}
                     title="Delete strategy"
                   >
