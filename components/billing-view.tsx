@@ -5,7 +5,7 @@ import { Check } from "lucide-react";
 
 export function BillingView() {
   return (
-    <div className="slide-inner s-features w-full max-w-full -mt-10 md:-mt-14">
+    <div className="slide-inner s-features w-full max-w-full">
       {/* Slide 5 style header layout */}
       <div className="s-features-head">
         <div className="sf-l">

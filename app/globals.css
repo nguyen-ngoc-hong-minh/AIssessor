@@ -139,6 +139,11 @@ html, body {
   position: relative;
 }
 
+.editorial-app-main .slide-inner {
+  padding: 0;
+  min-height: auto;
+}
+
 /* Persistent Chrome */
 .brand {
   display: inline-flex;
