@@ -1,18 +1,26 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { AuthScreen } from "@/components/auth-screen";
 import { IntegrationNotice } from "@/components/integration-notice";
 import { MonthlyTaskBuilder } from "@/components/monthly-task-builder";
 import { OneOffStrategyForm } from "@/components/one-off-strategy-form";
 import { OnboardingForm } from "@/components/onboarding-form";
 
+const { routerPush } = vi.hoisted(() => ({ routerPush: vi.fn() }));
+
 vi.mock("@/components/providers", () => ({ authConfigured: true, integrationsConfigured: true }));
-vi.mock("next/navigation", () => ({ useRouter: () => ({ push: vi.fn(), replace: vi.fn() }), usePathname: () => "/" }));
+vi.mock("next/navigation", () => ({ useRouter: () => ({ push: routerPush, replace: vi.fn() }), usePathname: () => "/" }));
 vi.mock("@clerk/react", () => ({
   SignIn: (props: { fallbackRedirectUrl?: string }) => <div data-testid="clerk-sign-in" data-redirect={props.fallbackRedirectUrl} />,
   SignUp: (props: { forceRedirectUrl?: string }) => <div data-testid="clerk-sign-up" data-redirect={props.forceRedirectUrl} />,
   UserProfile: () => <div data-testid="clerk-user-profile" />,
 }));
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  routerPush.mockReset();
+  sessionStorage.clear();
+});
 
 describe("IntegrationNotice", () => {
   it("makes missing production configuration explicit", () => { render(<IntegrationNotice />); expect(screen.getByText(/live data services are not configured/i)).toBeInTheDocument(); expect(screen.getByText(/fails closed instead of showing fake/i)).toBeInTheDocument(); });
@@ -42,6 +50,16 @@ describe("strategy inputs", () => {
     expect(screen.getByDisplayValue("Research competitors copy")).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: /Delete Research competitors copy/i }));
     expect(screen.queryByDisplayValue("Research competitors copy")).not.toBeInTheDocument();
+  });
+  it("sends monthly tasks directly to AI stack results", async () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify({ strategyId: "monthly-id", result: { plans: [] } }), { status: 200 }));
+    render(<MonthlyTaskBuilder />);
+    fireEvent.change(screen.getByLabelText("What do you regularly use AI for?"), { target: { value: "Research competitors" } });
+    fireEvent.click(screen.getByRole("button", { name: /Add task/i }));
+    fireEvent.click(screen.getByRole("button", { name: "Find my monthly AI stack" }));
+    await vi.waitFor(() => expect(routerPush).toHaveBeenCalledWith("/strategy/monthly-id/results"));
+    expect(routerPush).not.toHaveBeenCalledWith(expect.stringContaining("/workflow"));
+    expect(sessionStorage.getItem("benchflow:result:monthly-id")).toBe(JSON.stringify({ plans: [] }));
   });
   it("asks stakeholder-specific onboarding questions", () => {
     render(<OnboardingForm />);

@@ -2,6 +2,7 @@ import { anyApi } from "convex/server";
 import { StrategyInputSchema } from "@/lib/planner/schema";
 import { apiError, authenticatedConvex } from "@/lib/server/convex";
 import { budgetToUsd } from "@/lib/currency";
+import { generateMonthlyRecommendations } from "@/lib/server/workflow-generation";
 
 export async function GET(){try{const client=await authenticatedConvex();return Response.json(await client.query(anyApi.strategies.listMine,{}));}catch(error){return apiError(error)}}
 export async function POST(request:Request){try{
@@ -17,5 +18,7 @@ export async function POST(request:Request){try{
     budgetAmount:oneOff?input.budgetAmount??undefined:undefined,budgetCurrency:oneOff?input.budgetCurrency:undefined,
     monthlyTasks:oneOff?undefined:input.monthlyTasks,existingTools:input.existingTools,priorities,
   });
-  const analysis=await client.action(anyApi.actions.planner.analyse,{strategyId,input});return Response.json({strategyId,analysis});
+  const analysis=await client.action(anyApi.actions.planner.analyse,{strategyId,input});
+  const result=await generateMonthlyRecommendations(client,strategyId,input.usageType);
+  return Response.json({strategyId,analysis,...(result?{result}:{})});
 }catch(error){return apiError(error)}}

@@ -3,7 +3,7 @@ import { ConvexError } from "convex/values";
 import { apiErrorMessage } from "@/lib/client/api-error";
 import { applicationErrorData } from "@/lib/application-errors";
 import { apiError, type AuthenticatedConvexClient } from "@/lib/server/convex";
-import { approveThenGenerate } from "@/lib/server/workflow-generation";
+import { approveThenGenerate, generateMonthlyRecommendations } from "@/lib/server/workflow-generation";
 
 describe("public application errors", () => {
   it("preserves structured workflow errors without exposing Convex internals", async () => {
@@ -27,5 +27,17 @@ describe("workflow approval order", () => {
     const result = await approveThenGenerate(client, "strategy-id");
     expect(order).toEqual(["approved", "recommended"]);
     expect(result).toEqual({ plans: [] });
+  });
+  it("auto-approves monthly work but leaves one-off projects for review", async () => {
+    const client = {
+      mutation: vi.fn(async () => undefined),
+      action: vi.fn(async () => ({ plans: [{ variant: "recommended" }] })),
+    } as unknown as AuthenticatedConvexClient;
+    expect(await generateMonthlyRecommendations(client, "monthly-id", "monthly")).toEqual({ plans: [{ variant: "recommended" }] });
+    expect(client.mutation).toHaveBeenCalledTimes(1);
+    expect(client.action).toHaveBeenCalledTimes(1);
+    expect(await generateMonthlyRecommendations(client, "one-off-id", "one_off")).toBeNull();
+    expect(client.mutation).toHaveBeenCalledTimes(1);
+    expect(client.action).toHaveBeenCalledTimes(1);
   });
 });
