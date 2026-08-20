@@ -101,36 +101,34 @@ export function DashboardView() {
       </div>
 
       {/* Main Strategy List Section */}
-      <div className="dash-content-block glass-card p-10 md:p-12">
-        <div className="flex items-center justify-between pb-8 mb-14 border-b border-white/10">
-          <div className="space-y-4">
-            <div className="eyebrow">
-              <span className="dt" />
-              Recent strategies
+      <div className="dash-content-block glass-card p-8 md:p-10 min-h-[500px] flex flex-col justify-between">
+        <div>
+          <div className="flex items-center justify-between pb-6 mb-6 border-b border-white/10">
+            <div className="space-y-3">
+              <div className="eyebrow">
+                <span className="dt" />
+                Recent strategies
+              </div>
+              <h2 className="h-display text-3xl md:text-4xl font-semibold text-white pt-1">
+                Active Workload Plans
+              </h2>
             </div>
-            <h2 className="h-display text-3xl md:text-4xl font-semibold text-white pt-2">
-              Active Workload Plans
-            </h2>
+            <span className="font-mono text-xs text-tertiary">
+              {strategies.length} items
+            </span>
           </div>
-          <span className="font-mono text-xs text-tertiary">
-            {strategies.length} items
-          </span>
+
+          {error && <p className="text-red-400 text-sm mb-6">{error}</p>}
         </div>
 
-        {error && <p className="text-red-400 text-sm mb-6">{error}</p>}
-
         {strategies.length === 0 ? (
-          <div className="flex flex-col items-center justify-center text-center py-20 px-6 w-full">
-            <h3 className="h-display text-3xl md:text-4xl font-semibold text-white tracking-tight text-center mb-8">
-              No Saved Strategies Yet
-            </h3>
-            <p
-              className="body-md text-sm md:text-base text-ink-2 leading-relaxed max-w-xl text-center mx-auto mb-10"
-              style={{ textAlign: "center" }}
-            >
-              Describe your project or recurring workflow once. AIssessor will evaluate models and save your actionable plan here.
-            </p>
-            <div className="flex justify-center w-full mt-2">
+          <div className="flex-1 flex flex-col justify-between py-6">
+            <div className="flex-1 flex items-center justify-center my-auto py-10">
+              <p className="body-md text-sm md:text-base text-ink-2 text-center">
+                No Saved Strategies Yet
+              </p>
+            </div>
+            <div className="flex justify-center w-full pt-4">
               <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm rounded-full shadow-lg hover:scale-105 transition-transform" href="/choose-usage">
                 <Plus className="w-4 h-4" />
                 <span>Create Your First Strategy</span>
