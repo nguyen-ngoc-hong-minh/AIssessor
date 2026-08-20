@@ -1,12 +1,5 @@
-import type { Metadata } from "next";
-import { TeamView } from "@/components/team-view";
-
-export const metadata: Metadata = { title: "Team · BENCHFLOW" };
+import { redirect } from "next/navigation";
 
 export default function TeamPage() {
-  return (
-    <div className="editorial-page-container max-w-4xl">
-      <TeamView />
-    </div>
-  );
+  redirect("/dashboard");
 }
