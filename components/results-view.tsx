@@ -198,8 +198,8 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               )}
             </div>
 
-            {/* 20px Spacer Div below Step Header */}
-            <div className="h-[20px] w-full block" />
+            {/* 50px Spacer Div (Hình 1) */}
+            <div className="h-[50px] w-full block" />
 
             {/* Title & Cost Row */}
             <div className="flex items-start justify-between gap-6">
@@ -224,23 +224,32 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               )}
             </div>
 
-            {/* 24px Spacer Div between Description and Tool Box */}
-            <div className="h-[24px] w-full block" />
+            {/* 50px Spacer Div (Hình 2) */}
+            <div className="h-[50px] w-full block" />
 
             {/* Selected Tool Details Container */}
             {step.selected ? (
-              <div className="space-y-6">
+              <div>
                 <div className="tool-access-list space-y-4">
                   {step.selected.tools.map((tool) => (
                     <ToolAccess key={`${tool.model.canonicalId}-${tool.access.productId ?? tool.access.modelId}`} tool={tool} />
                   ))}
                 </div>
 
+                {/* 50px Spacer Div (Hình 3) */}
+                <div className="h-[50px] w-full block" />
+
                 {step.options && (
-                  <details className="text-xs text-ink-2 cursor-pointer pt-2 group">
-                    <summary className="font-mono font-semibold text-indigo-soft hover:underline tracking-wide list-none flex items-center gap-2">
-                      <span>▶ Compare Alternative Tools</span>
+                  <details className="text-xs text-ink-2 cursor-pointer group">
+                    <summary className="list-none flex items-center gap-2 select-none outline-none">
+                      <h3 className="text-xl font-semibold text-white font-sans no-underline hover:no-underline hover:text-indigo-300 hover:drop-shadow-[0_0_12px_rgba(165,180,252,0.85)] transition-all flex items-center gap-2">
+                        <span>▶ Compare Alternative Tools</span>
+                      </h3>
                     </summary>
+
+                    {/* 50px Spacer Div (Hình 4) */}
+                    <div className="h-[50px] w-full block" />
+
                     <StepOptions options={step.options} />
                   </details>
                 )}
