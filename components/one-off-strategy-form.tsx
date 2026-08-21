@@ -186,10 +186,10 @@ export function OneOffStrategyForm() {
         <PriorityRanking priorities={priorities} onChange={setPriorities} />
       </section>
 
-      {/* Section 4: Optional Details */}
+      {/* Section 4: Project Parameters */}
       <section className="settings-faint-block">
         <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
-          Optional Details
+          Project Parameters
         </h2>
         <OptionalDetails idPrefix="one-off" value={optionalDetails} onChange={setOptionalDetails} />
       </section>
