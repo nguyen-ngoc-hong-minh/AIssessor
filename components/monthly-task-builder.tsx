@@ -88,28 +88,166 @@ export function MonthlyTaskBuilder() {
 
   if (!integrationsConfigured) return <IntegrationNotice />;
 
-  return <form className="monthly-builder" onSubmit={submit}>
-    <section className="card task-composer">
-      <label htmlFor="new-task">What do you regularly use AI for?</label>
-      <div><input id="new-task" value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); addTask(); } }} placeholder="Create social media videos" /><button className="button button-primary" type="button" onClick={addTask}><Plus /> Add task</button></div>
-    </section>
+  return (
+    <form className="space-y-8" onSubmit={submit}>
+      {/* Section 1: Add Recurring Task */}
+      <section className="settings-faint-block">
+        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          Recurring AI Workload
+        </h2>
+        <div>
+          <label htmlFor="new-task" className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider">
+            What do you regularly use AI for?
+          </label>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <input
+              id="new-task"
+              value={draft}
+              onChange={(event) => setDraft(event.target.value)}
+              onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); addTask(); } }}
+              placeholder="e.g. Create social media videos, write research summaries..."
+              className="styled-input pill-input py-3.5 flex-1"
+            />
+            <button
+              className="btn-primary text-xs px-6 py-3 rounded-full inline-flex items-center gap-2 flex-none"
+              type="button"
+              onClick={addTask}
+            >
+              <Plus className="w-4 h-4" />
+              <span>Add task</span>
+            </button>
+          </div>
+        </div>
+      </section>
 
-    <div className="task-list">{tasks.map((task, index) => {
-      const frequencyIndex = frequencyValues.findIndex((item) => item.value === task.frequency);
-      const qualityIndex = qualityValues.findIndex((item) => item.value === task.quality);
-      return <article className="card monthly-task-card" key={task.id}>
-        <header><span>{index + 1}</span><input aria-label={`Task ${index + 1}`} value={task.task} onChange={(event) => updateTask(task.id, { task: event.target.value })} /><div><button type="button" title="Edit task" aria-label={`Edit ${task.task}`} onClick={() => document.querySelector<HTMLInputElement>(`[aria-label='Task ${index + 1}']`)?.focus()}><Pencil /></button><button type="button" title="Duplicate task" aria-label={`Duplicate ${task.task}`} onClick={() => duplicateTask(task)}><Copy /></button><button type="button" title="Delete task" aria-label={`Delete ${task.task}`} onClick={() => setTasks((current) => current.filter((item) => item.id !== task.id))}><Trash2 /></button></div></header>
-        <div className="task-sliders"><label><span>How often do you do this?<strong>{frequencyValues[frequencyIndex].label}</strong></span><input type="range" min="0" max="4" step="1" value={frequencyIndex} onChange={(event) => { const option = frequencyValues[Number(event.target.value)]; updateTask(task.id, { frequency: option.value, monthlyUses: option.uses }); }} /><small><i>Rarely</i><i>Daily</i></small></label><label><span>What quality do you usually need?<strong>{qualityValues[qualityIndex].label}</strong></span><input type="range" min="0" max="3" step="1" value={qualityIndex} onChange={(event) => updateTask(task.id, { quality: qualityValues[Number(event.target.value)].value })} /><small><i>Good enough</i><i>Best possible</i></small></label></div>
-      </article>;
-    })}</div>
+      {/* Section 2: Added Task List (Rendered only when tasks.length > 0) */}
+      {tasks.length > 0 && (
+        <section className="settings-faint-block space-y-6">
+          <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+            Configured Tasks ({tasks.length})
+          </h2>
+          <div className="space-y-4">
+            {tasks.map((task, index) => {
+              const frequencyIndex = frequencyValues.findIndex((item) => item.value === task.frequency);
+              const qualityIndex = qualityValues.findIndex((item) => item.value === task.quality);
+              return (
+                <div className="p-[10px] rounded-3xl bg-transparent border border-transparent space-y-4" key={task.id}>
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-3 flex-1">
+                      <span className="w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-300 text-xs font-mono font-bold grid place-items-center flex-none">
+                        {index + 1}
+                      </span>
+                      <input
+                        aria-label={`Task ${index + 1}`}
+                        value={task.task}
+                        onChange={(event) => updateTask(task.id, { task: event.target.value })}
+                        className="styled-input pill-input py-2 text-sm font-semibold flex-1"
+                      />
+                    </div>
+                    <div className="flex items-center gap-2 flex-none">
+                      <button
+                        type="button"
+                        className="p-2 rounded-full hover:bg-white/10 text-ink-2 hover:text-white transition-colors"
+                        title="Edit task"
+                        aria-label={`Edit ${task.task}`}
+                        onClick={() => document.querySelector<HTMLInputElement>(`[aria-label='Task ${index + 1}']`)?.focus()}
+                      >
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        className="p-2 rounded-full hover:bg-white/10 text-ink-2 hover:text-white transition-colors"
+                        title="Duplicate task"
+                        aria-label={`Duplicate ${task.task}`}
+                        onClick={() => duplicateTask(task)}
+                      >
+                        <Copy className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        className="p-2 rounded-full hover:bg-white/10 text-red-400 hover:text-red-300 transition-colors"
+                        title="Delete task"
+                        aria-label={`Delete ${task.task}`}
+                        onClick={() => setTasks((current) => current.filter((item) => item.id !== task.id))}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
 
-    {tasks.length > 0 && <button className="add-another" type="button" onClick={() => document.getElementById("new-task")?.focus()}><Plus /> Add another task</button>}
+                  {/* Spacer Div height 10px as requested */}
+                  <div className="h-[10px]" />
 
-    <section className="card monthly-global">
-      <div className="field full"><span>Rank your priorities</span><PriorityRanking priorities={priorities} onChange={setPriorities} /></div>
-      <OptionalDetails idPrefix="monthly" value={optionalDetails} onChange={setOptionalDetails} />
-      {error && <p className="error-message">{error}</p>}
-      <div className="form-actions"><button className="button button-primary" disabled={busy || !tasks.length}>{busy ? "Finding your AI stack…" : "Find my monthly AI stack"}</button></div>
-    </section>
-  </form>;
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-1">
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs text-ink-2 mb-1">
+                        <span>Frequency</span>
+                        <span className="font-semibold text-indigo-soft">{frequencyValues[frequencyIndex].label}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="4"
+                        step="1"
+                        value={frequencyIndex}
+                        onChange={(event) => {
+                          const option = frequencyValues[Number(event.target.value)];
+                          updateTask(task.id, { frequency: option.value, monthlyUses: option.uses });
+                        }}
+                        className="custom-range-slider w-full"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs text-ink-2 mb-1">
+                        <span>Quality Required</span>
+                        <span className="font-semibold text-indigo-soft">{qualityValues[qualityIndex].label}</span>
+                      </div>
+                      <input
+                        type="range"
+                        min="0"
+                        max="3"
+                        step="1"
+                        value={qualityIndex}
+                        onChange={(event) => updateTask(task.id, { quality: qualityValues[Number(event.target.value)].value })}
+                        className="custom-range-slider w-full"
+                      />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* Section 3: Priority Ranking */}
+      <section className="settings-faint-block">
+        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          Rank your priorities
+        </h2>
+        <PriorityRanking priorities={priorities} onChange={setPriorities} />
+      </section>
+
+      {/* Section 4: Optional Details */}
+      <section className="settings-faint-block">
+        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          Optional Details
+        </h2>
+        <OptionalDetails idPrefix="monthly" value={optionalDetails} onChange={setOptionalDetails} />
+      </section>
+
+      {error && <p className="text-red-400 text-sm font-medium">{error}</p>}
+
+      {/* Spacer Div */}
+      <div className="h-[30px] w-full block" style={{ height: "30px", minHeight: "30px" }} />
+
+      {/* Form Actions Footer */}
+      <div className="flex items-center justify-end gap-4 pt-4">
+        <button className="btn-primary text-xs px-8 py-3 rounded-full shadow-lg shadow-indigo-600/30" disabled={busy || !tasks.length}>
+          <span>{busy ? "Finding your AI stack…" : "Find my monthly AI stack"}</span>
+        </button>
+      </div>
+    </form>
+  );
 }

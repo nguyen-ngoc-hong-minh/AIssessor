@@ -41,12 +41,6 @@ export function DashboardDeckNav() {
       if (menuOpen) return;
       if (e.key === "ArrowRight" && currentIdx < totalSections - 1) go(currentIdx + 1);
       if (e.key === "ArrowLeft" && currentIdx > 0) go(currentIdx - 1);
-      if (e.key === "m" || e.key === "M") {
-        setMenuOpen((prev) => !prev);
-      }
-      if (/^[1-4]$/.test(e.key)) {
-        go(parseInt(e.key, 10) - 1);
-      }
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -112,8 +106,7 @@ export function DashboardDeckNav() {
           ))}
         </div>
         <div className="menu-footer">
-          <span>Tip &middot; press <kbd>M</kbd> to toggle</span>
-          <span><kbd>1</kbd>&ndash;<kbd>4</kbd> direct jump</span>
+          <span>Press <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to navigate</span>
         </div>
       </div>
     </>

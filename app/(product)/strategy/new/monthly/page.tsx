@@ -5,13 +5,13 @@ export const metadata: Metadata = { title: "New Monthly Strategy · AIssessor" }
 
 export default function NewMonthlyStrategyPage() {
   return (
-    <main className="form-page">
-      <div className="form-header">
-        <span className="eyebrow"><span className="dt" />Monthly pipeline workflow</span>
-        <h1 className="h-display font-medium text-3xl mt-2">Build Recurring AI Stack</h1>
-        <p>Add each recurring task and workload volume. AIssessor will analyze model pricing and generate a consolidated subscription stack.</p>
+    <div className="editorial-page-container max-w-4xl mx-auto my-auto space-y-8 py-4">
+      <div className="editorial-page-header mb-8">
+        <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+          Monthly Pipeline Workflow
+        </h1>
       </div>
       <MonthlyTaskBuilder />
-    </main>
+    </div>
   );
 }

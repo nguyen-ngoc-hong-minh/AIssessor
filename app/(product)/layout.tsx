@@ -1,4 +1,3 @@
-import { redirect } from "next/navigation";
 import { AppShell } from "@/components/app-shell";
 import { IntegrationNotice } from "@/components/integration-notice";
 import { integrationsConfigured } from "@/components/providers";
@@ -14,6 +13,5 @@ export default async function ProductLayout({ children }: { children: React.Reac
     client.query(anyApi.users.current, {}) as Promise<{ user: { name?: string; email: string; onboardingComplete: boolean } }>,
     client.query(anyApi.modelSync.adminStatus, {}) as Promise<{ isAdmin: boolean }>,
   ]);
-  if (!current.user.onboardingComplete) redirect("/onboarding");
   return <AppShell user={{ name: current.user.name ?? current.user.email, email: current.user.email }} isAdmin={admin.isAdmin}>{children}</AppShell>;
 }

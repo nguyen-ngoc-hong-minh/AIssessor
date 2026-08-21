@@ -5,35 +5,33 @@ import { Check } from "lucide-react";
 
 export function BillingView() {
   return (
-    <div className="slide-inner s-features w-full max-w-full pt-5">
-      {/* Slide 5 style header layout */}
-      <div className="s-features-head">
-        <div className="sf-l">
-          <div className="eyebrow mb-2">
-            <span className="dt" />
-            Simple pricing
-          </div>
-          <h2 className="h-display text-4xl md:text-5xl lg:text-6xl font-semibold">
-            Affordable plans for <span className="grd">every budget</span>.
-          </h2>
+    <div className="slide-inner s-compare w-full max-w-full">
+      {/* Deck 6 style header layout */}
+      <div className="s-compare-head">
+        <div className="eyebrow mb-2">
+          <span className="dt" />
+          Simple pricing
         </div>
-        <p className="sf-r body-lg">
+        <h2 className="h-display text-4xl md:text-5xl lg:text-6xl font-semibold">
+          Affordable plans for every budget
+        </h2>
+        <p className="body-lg">
           Explore our range of pricing options designed to fit any budget, offering exceptional value and flexibility to meet your unique needs.
         </p>
       </div>
 
-      {/* 3-Column Pricing Grid matching Slide 5 feature-grid */}
-      <div className="feature-grid grid grid-cols-1 md:grid-cols-3 gap-6" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+      {/* 3-Column Pricing Grid matching Slide 6 */}
+      <div className="feature-grid grid grid-cols-1 md:grid-cols-3 gap-6 mt-6" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
         {/* Card 1: Free Plan (Current Plan) */}
-        <div className="feature glass-card pricing-deck-card flex flex-col justify-between p-8 relative">
+        <div className="feature glass-card pricing-deck-card flex flex-col justify-between p-8 relative overflow-visible pt-8 z-20">
+          {/* Overlay Badge Top Right */}
+          <div className="eyebrow absolute -top-3.5 right-6 z-[100] bg-[#131626] border border-indigo-400/50 shadow-md">
+            <span className="dt" />
+            <span>Current plan</span>
+          </div>
+
           <div>
-            <div className="flex items-center justify-between mb-4">
-              <div className="plan-name mb-0 text-xl font-semibold text-white">Free Plan</div>
-              <div className="eyebrow text-xs py-1 px-3">
-                <span className="dt" />
-                Current plan
-              </div>
-            </div>
+            <div className="plan-name mb-2 text-xl font-semibold text-white">Free Plan</div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
               <span className="plan-price text-4xl font-bold text-white">$0</span>
               <span className="plan-period text-sm text-ink-2">/month</span>
@@ -79,15 +77,15 @@ export function BillingView() {
         </div>
 
         {/* Card 2: Featured Plus Plan (Recommended) */}
-        <div className="feature glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative flex flex-col justify-between p-8">
+        <div className="feature glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative overflow-visible flex flex-col justify-between p-8 pt-8 z-20">
+          {/* Overlay Badge Top Right */}
+          <div className="eyebrow absolute -top-3.5 right-6 z-[100] bg-[#181a30] border border-indigo-400/60 shadow-md">
+            <span className="dt" />
+            <span>Recommended</span>
+          </div>
+
           <div>
-            <div className="flex items-center justify-between mb-4">
-              <div className="plan-name mb-0 text-xl font-semibold text-white">Plus Plan</div>
-              <div className="eyebrow text-xs py-1 px-3">
-                <span className="dt" />
-                Recommended
-              </div>
-            </div>
+            <div className="plan-name mb-2 text-xl font-semibold text-white">Plus Plan</div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
               <span className="plan-price text-4xl font-bold text-white">$19</span>
               <span className="plan-period text-sm text-ink-2">/month</span>

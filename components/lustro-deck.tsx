@@ -44,12 +44,6 @@ export function LustroDeck() {
         e.preventDefault();
         go(currentIdx + 1);
       }
-      if (e.key === "m" || e.key === "M") {
-        setMenuOpen((prev) => !prev);
-      }
-      if (/^[1-7]$/.test(e.key)) {
-        go(parseInt(e.key, 10) - 1);
-      }
     }
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -127,8 +121,7 @@ export function LustroDeck() {
           ))}
         </div>
         <div className="menu-footer">
-          <span>Tip &middot; press <kbd>M</kbd> to toggle</span>
-          <span><kbd>1</kbd>&ndash;<kbd>7</kbd> direct jump</span>
+          <span>Press <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to navigate</span>
         </div>
       </div>
 
@@ -396,9 +389,15 @@ export function LustroDeck() {
             </div>
 
             {/* 3-Column Pricing Grid */}
-            <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+            <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mt-6">
               {/* Card 1: Free Plan */}
-              <div className="glass-card pricing-deck-card border border-white/10 w-full">
+              <div className="glass-card pricing-deck-card border border-white/10 w-full relative overflow-visible pt-8 z-20">
+                {/* Overlay Badge Top Right */}
+                <div className="eyebrow absolute -top-3.5 right-6 z-[100] bg-[#131626] border border-indigo-400/50 shadow-md">
+                  <span className="dt" />
+                  <span>Current plan</span>
+                </div>
+
                 <div>
                   <div className="plan-name">Free Plan</div>
                   <div className="plan-price-row">
@@ -444,15 +443,15 @@ export function LustroDeck() {
               </div>
 
               {/* Card 2: Featured Plus Plan */}
-              <div className="glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative w-full">
+              <div className="glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative overflow-visible w-full pt-8 z-20">
+                {/* Overlay Badge Top Right */}
+                <div className="eyebrow absolute -top-3.5 right-6 z-[100] bg-[#181a30] border border-indigo-400/60 shadow-md">
+                  <span className="dt" />
+                  <span>Recommended</span>
+                </div>
+
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="plan-name mb-0">Plus Plan</div>
-                    <div className="eyebrow text-xs py-1 px-3">
-                      <span className="dt" />
-                      Recommended
-                    </div>
-                  </div>
+                  <div className="plan-name mb-2">Plus Plan</div>
                   <div className="plan-price-row">
                     <span className="plan-price">$19</span>
                     <span className="plan-period">/month</span>

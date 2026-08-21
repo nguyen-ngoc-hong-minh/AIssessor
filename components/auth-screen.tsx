@@ -130,7 +130,7 @@ export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
                   routing="path"
                   path="/sign-up"
                   signInUrl="/sign-in"
-                  forceRedirectUrl="/onboarding"
+                  forceRedirectUrl="/dashboard"
                   appearance={{
                     elements: {
                       rootBox: "w-full max-w-[360px] mx-auto px-4",

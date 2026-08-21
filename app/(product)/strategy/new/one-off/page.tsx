@@ -5,11 +5,11 @@ export const metadata: Metadata = { title: "New Strategy · AIssessor" };
 
 export default function OneOffPage() {
   return (
-    <div className="editorial-page-container max-w-4xl">
-      <div className="editorial-page-header">
-        <span className="mono-badge">[ Project input / Step 01 ]</span>
-        <h1>What are you working on?</h1>
-        <p>Describe what you want to accomplish. AIssessor builds the workflow and compares current AI options.</p>
+    <div className="editorial-page-container max-w-4xl mx-auto my-auto space-y-8 py-4">
+      <div className="editorial-page-header mb-8">
+        <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+          One-Off Project Input
+        </h1>
       </div>
       <OneOffStrategyForm />
     </div>

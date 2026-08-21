@@ -1,17 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
 import { OptionalDetails, defaultOptionalDetails } from "./optional-details";
 import { PriorityRanking, defaultPriorityRanking } from "./priority-picker";
 import { integrationsConfigured } from "./providers";
 import { apiErrorMessage } from "@/lib/client/api-error";
-import { ArrowUpRight } from "lucide-react";
 
 export function OneOffStrategyForm() {
   const router = useRouter();
-  const [baseTime] = useState(() => Date.now());
   const [todayValue] = useState(() => new Date().toISOString().slice(0, 10));
   const [brief, setBrief] = useState("");
   const [deadline, setDeadline] = useState("");
@@ -22,14 +20,6 @@ export function OneOffStrategyForm() {
   const [optionalDetails, setOptionalDetails] = useState(defaultOptionalDetails);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-
-  const deadlineSummary = useMemo(() => {
-    if (!deadline) return "Choose a target date";
-    const days = Math.ceil((new Date(`${deadline}T23:59:59`).getTime() - baseTime) / 86_400_000);
-    if (days < 0) return "Choose today or a future date";
-    if (days === 0) return "Today";
-    return `${days} day${days === 1 ? "" : "s"} from today`;
-  }, [baseTime, deadline]);
 
   async function submit(event: React.FormEvent) {
     event.preventDefault();
@@ -77,102 +67,141 @@ export function OneOffStrategyForm() {
   if (!integrationsConfigured) return <IntegrationNotice />;
 
   return (
-    <form className="editorial-card-block glass-card space-y-6" onSubmit={submit}>
-      {/* Dominant AI Input Surface */}
-      <div className="styled-field full">
-        <label htmlFor="project-brief" className="font-mono text-xs text-indigo-soft uppercase tracking-wider block mb-2">
-          Tell us what you’re working on
-        </label>
-        <textarea
-          id="project-brief"
-          className="styled-textarea text-base p-5 min-h-[160px]"
-          value={brief}
-          onChange={(event) => setBrief(event.target.value)}
-          placeholder="Describe what you want to accomplish... (e.g. Launch a new skincare brand: market research, brand positioning, campaign visuals, and web app build)"
-        />
-      </div>
-
-      {/* Secondary Parameters */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="styled-field">
-          <label htmlFor="deadline" className="text-xs text-ink-2 font-mono uppercase tracking-wider block mb-1">
-            Deadline
+    <form className="space-y-8" onSubmit={submit}>
+      {/* Section 1: Project Brief */}
+      <section className="settings-faint-block">
+        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          Project Brief
+        </h2>
+        <div>
+          <label htmlFor="project-brief" className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider">
+            Tell us what you’re working on
           </label>
-          <input
-            id="deadline"
-            type="date"
-            className="styled-input"
-            min={todayValue}
-            value={deadline}
-            onChange={(event) => setDeadline(event.target.value)}
+          <textarea
+            id="project-brief"
+            className="styled-textarea text-base p-5 min-h-[160px] rounded-3xl w-full"
+            value={brief}
+            onChange={(event) => setBrief(event.target.value)}
+            placeholder="Describe what you want to accomplish... (e.g. Launch a new skincare brand: market research, brand positioning, campaign visuals, and web app build)"
           />
-          <small className="font-mono text-[11px] text-ink-3 mt-1 block">{deadlineSummary}</small>
         </div>
+      </section>
 
-        <div className="styled-field">
-          <label htmlFor="currency" className="text-xs text-ink-2 font-mono uppercase tracking-wider block mb-1">
-            Currency
-          </label>
-          <select
-            id="currency"
-            className="styled-select"
-            value={currency}
-            onChange={(event) => setCurrency(event.target.value as typeof currency)}
-          >
-            <option value="USD">USD ($)</option>
-            <option value="AUD">AUD (A$)</option>
-            <option value="VND">VND (₫)</option>
-          </select>
-        </div>
-      </div>
+      {/* Section 2: Project Parameters */}
+      <section className="settings-faint-block">
+        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          Project Parameters
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+          <div>
+            <label htmlFor="deadline" className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider">
+              Deadline
+            </label>
+            <input
+              id="deadline"
+              type="date"
+              className="styled-input pill-input py-3.5"
+              min={todayValue}
+              value={deadline}
+              onChange={(event) => setDeadline(event.target.value)}
+            />
+          </div>
 
-      <div className="styled-field full">
-        <label className="text-xs text-ink-2 font-mono uppercase tracking-wider block mb-2">Budget Ceiling</label>
-        <div className="budget-pills-row flex flex-wrap gap-2">
-          {[50, 100, 500].map((amount) => (
-            <button
-              type="button"
-              className={`budget-pill ${budgetChoice === String(amount) ? "selected-pill" : ""}`}
-              onClick={() => setBudgetChoice(String(amount))}
-              key={amount}
+          <div>
+            <label htmlFor="currency" className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider">
+              Currency
+            </label>
+            <select
+              id="currency"
+              className="styled-select pill-input py-3.5 rounded-full"
+              value={currency}
+              onChange={(event) => {
+                const newCurr = event.target.value as typeof currency;
+                setCurrency(newCurr);
+                if (newCurr === "VND" && (budgetChoice === "50" || budgetChoice === "100" || budgetChoice === "500")) {
+                  setBudgetChoice("100000");
+                } else if ((newCurr === "USD" || newCurr === "AUD") && (budgetChoice === "50000" || budgetChoice === "100000" || budgetChoice === "500000")) {
+                  setBudgetChoice("100");
+                }
+              }}
             >
-              {currency === "VND" ? amount.toLocaleString() : `${currency === "USD" ? "$" : "A$"}${amount}`}
-            </button>
-          ))}
-          <button
-            type="button"
-            className={`budget-pill ${budgetChoice === "custom" ? "selected-pill" : ""}`}
-            onClick={() => setBudgetChoice("custom")}
-          >
-            Enter exact budget
-          </button>
+              <option value="USD">USD ($)</option>
+              <option value="AUD">AUD (A$)</option>
+              <option value="VND">VND (₫)</option>
+            </select>
+          </div>
+
+          <div className="sm:col-span-2">
+            <label className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider">
+              Budget Amount
+            </label>
+            <div className="budget-pills-row flex flex-wrap gap-3">
+              {(currency === "VND" ? [50000, 100000, 500000] : [50, 100, 500]).map((amount) => {
+                const label = currency === "VND"
+                  ? `${amount.toLocaleString("vi-VN")}`
+                  : `${currency === "USD" ? "$" : "A$"}${amount}`;
+                return (
+                  <button
+                    type="button"
+                    className={`budget-pill rounded-full ${budgetChoice === String(amount) ? "selected-pill" : ""}`}
+                    onClick={() => setBudgetChoice(String(amount))}
+                    key={amount}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+              <button
+                type="button"
+                className={`budget-pill rounded-full ${budgetChoice === "custom" ? "selected-pill" : ""}`}
+                onClick={() => setBudgetChoice("custom")}
+              >
+                Enter exact budget
+              </button>
+            </div>
+            {budgetChoice === "custom" && (
+              <>
+                <div className="h-[10px]" />
+                <input
+                  aria-label="Exact budget"
+                  type="number"
+                  className="styled-input pill-input py-3.5 w-full"
+                  min="0"
+                  step="any"
+                  value={customBudget}
+                  onChange={(event) => setCustomBudget(event.target.value)}
+                  placeholder="Enter budget amount"
+                />
+              </>
+            )}
+          </div>
         </div>
-        {budgetChoice === "custom" && (
-          <input
-            aria-label="Exact budget"
-            type="number"
-            className="styled-input mt-3"
-            min="0"
-            step="any"
-            value={customBudget}
-            onChange={(event) => setCustomBudget(event.target.value)}
-            placeholder="Enter budget amount"
-          />
-        )}
-      </div>
+      </section>
 
-      <div className="styled-field full">
-        <label className="text-xs text-ink-2 font-mono uppercase tracking-wider block mb-2">Priority Ranking</label>
+      {/* Section 3: Priority Ranking */}
+      <section className="settings-faint-block">
+        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          Priority Ranking
+        </h2>
         <PriorityRanking priorities={priorities} onChange={setPriorities} />
-      </div>
+      </section>
 
-      <OptionalDetails idPrefix="one-off" value={optionalDetails} onChange={setOptionalDetails} />
+      {/* Section 4: Optional Details */}
+      <section className="settings-faint-block">
+        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          Optional Details
+        </h2>
+        <OptionalDetails idPrefix="one-off" value={optionalDetails} onChange={setOptionalDetails} />
+      </section>
 
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-red-400 text-sm font-medium">{error}</p>}
 
-      {/* Primary CTA */}
-      <div className="pt-4 border-t border-white/10 flex justify-end">
-        <button className="btn-primary" disabled={busy}>
+      {/* Spacer Div */}
+      <div className="h-[30px] w-full block" style={{ height: "30px", minHeight: "30px" }} />
+
+      {/* Form Actions Footer */}
+      <div className="flex items-center justify-end gap-4 pt-4">
+        <button className="btn-primary text-xs px-8 py-3 rounded-full shadow-lg shadow-indigo-600/30" disabled={busy}>
           <span>{busy ? "ANALYZING PROJECT..." : "Build Strategy →"}</span>
         </button>
       </div>

@@ -31,7 +31,7 @@ describe("IntegrationNotice", () => {
 });
 
 describe("Clerk authentication", () => {
-  it("sends new accounts to onboarding", () => { render(<AuthScreen mode="sign-up" />); expect(screen.getByTestId("clerk-sign-up")).toHaveAttribute("data-redirect", "/onboarding"); expect(screen.getByText(/email or Google/i)).toBeInTheDocument(); });
+  it("sends new accounts to dashboard", () => { render(<AuthScreen mode="sign-up" />); expect(screen.getByTestId("clerk-sign-up")).toHaveAttribute("data-redirect", "/dashboard"); expect(screen.getByText(/email or Google/i)).toBeInTheDocument(); });
   it("sends returning users to the dashboard", () => { render(<AuthScreen mode="sign-in" />); expect(screen.getByTestId("clerk-sign-in")).toHaveAttribute("data-redirect", "/dashboard"); });
 });
 

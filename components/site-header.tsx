@@ -1,6 +1,6 @@
 "use client";
 
-import { Show, UserButton } from "@clerk/react";
+import { Show, UserButton } from "@clerk/nextjs";
 import { Menu, X, ArrowUpRight, Presentation, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
