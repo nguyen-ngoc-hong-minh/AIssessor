@@ -269,15 +269,15 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
       {/* 30px Spacer Div */}
       <div className="h-[30px] w-full block" />
 
-      {/* Consolidated Subscription Stack Section (Dark Glass Outer, White-Blue Gradient Inner Box) */}
-      <section className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-500/30 bg-[#0e111d] shadow-xl">
+      {/* Consolidated Subscription Stack Section (Outer Box White-Blue Gradient) */}
+      <section className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-200/80 bg-gradient-to-br from-white via-[#e0e7ff] to-[#dbeafe] shadow-2xl">
         {/* Header Row */}
         <div className="space-y-2">
-          <div className="eyebrow">
-            <span className="dt" />
+          <div className="eyebrow bg-indigo-950/10 border border-indigo-300/80 text-indigo-950 font-semibold">
+            <span className="dt bg-indigo-600" />
             Consolidated subscription stack
           </div>
-          <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight font-sans">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-sans">
             Your Optimized AI Stack
           </h2>
         </div>
@@ -291,7 +291,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               {subscriptions.map((sub) => (
                 <div
                   key={sub.productId}
-                  className="flex items-center justify-between !p-6 rounded-2xl bg-gradient-to-r from-white via-[#f0f4ff] to-[#dbeafe] text-slate-900 border border-white/80 shadow-lg gap-6"
+                  className="flex items-center justify-between !p-6 rounded-2xl bg-white/90 border border-indigo-100/90 shadow-md gap-6"
                 >
                   <div className="space-y-1">
                     <strong className="text-base font-bold text-slate-900 block">{sub.productName}</strong>
@@ -319,8 +319,8 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
             {/* 30px Spacer Div */}
             <div className="h-[30px] w-full block" />
 
-            <div className="flex items-center justify-between !p-6 rounded-2xl bg-[#131626] border border-white/10 text-white shadow-md gap-6">
-              <span className="font-mono text-xs font-bold text-indigo-soft uppercase tracking-wider">
+            <div className="flex items-center justify-between !p-6 rounded-2xl bg-indigo-950 text-white shadow-lg border border-indigo-900/80 gap-6">
+              <span className="font-mono text-xs font-bold text-indigo-300 uppercase tracking-wider">
                 {subscriptions.length} SUBSCRIPTIONS • CONSOLIDATED STACK
               </span>
               <strong className="text-2xl font-bold text-white font-sans">
@@ -329,7 +329,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
             </div>
           </div>
         ) : (
-          <p className="text-xs text-ink-2 !p-6 rounded-2xl bg-white/5 border border-white/10">No paid AI products required for this workflow.</p>
+          <p className="text-xs text-slate-600 !p-6 rounded-2xl bg-white/90 border border-indigo-100">No paid AI products required for this workflow.</p>
         )}
       </section>
 
