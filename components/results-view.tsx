@@ -61,11 +61,11 @@ function ToolAccess({ tool }: { tool: Tool }) {
   const productName = tool.access.productName ?? tool.model.provider;
   const planName = tool.access.planName ?? (tool.access.accessMethod === "api" ? "Usage based API" : "Standard access");
   return (
-    <div className="p-6 md:p-7 rounded-2xl bg-[#131626] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6 my-4 shadow-md">
-      <div className="tool-role flex-1 space-y-2">
+    <div className="!p-6 md:!p-7 rounded-2xl bg-[#131626] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6 my-4 shadow-md">
+      <div className="tool-role flex-1 flex flex-col gap-[10px]">
         <strong className="text-white text-lg font-semibold block leading-snug">{tool.model.name}</strong>
         <span className="block text-xs text-ink-2 leading-relaxed">{tool.access.aiRole ?? tool.coversCapabilities.map(humanize).join(" • ")}</span>
-        <small className="text-[11px] font-mono text-ink-3 block pt-1">Manual work: {tool.access.requiredManualWork ?? "Review and refine output"}</small>
+        <small className="text-[11px] font-mono text-ink-3 block">{tool.access.requiredManualWork ? `Manual work: ${tool.access.requiredManualWork}` : "Manual work: Review and refine output"}</small>
       </div>
 
       <div className="flex items-center gap-6 flex-none">
@@ -234,7 +234,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
       <div className="h-[30px] w-full block" />
 
       {/* Consolidated Subscription Stack & Savings Section (p-8/p-10 padding, NO dividers) */}
-      <section className="glass-card p-8 md:p-10 rounded-3xl border border-indigo-500/30 bg-gradient-to-b from-[#131626] to-[#0b0d17] space-y-8 shadow-xl">
+      <section className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-500/30 bg-gradient-to-b from-[#131626] to-[#0b0d17] space-y-8 shadow-xl">
         <div className="flex items-center justify-between flex-wrap gap-6">
           <div className="space-y-2">
             <div className="eyebrow">
