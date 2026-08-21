@@ -36,7 +36,7 @@ function candidateName(candidate: Selected | null) {
 
 function StepOptions({ options }: { options: Options }) {
   return (
-    <div className="mt-4 p-6 rounded-2xl bg-[#0e111d] border border-white/10 shadow-inner" aria-label="Options for this workflow step">
+    <div className="mt-4 !p-6 rounded-2xl bg-[#0e111d] border border-white/10 shadow-inner" aria-label="Options for this workflow step">
       <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
         {optionEntries.map(([key, label]) => (
           <div key={key} className="option-col text-xs space-y-1.5">
@@ -85,12 +85,12 @@ function ToolAccess({ tool }: { tool: Tool }) {
 
 function PartialOptions({ options }: { options: Selected[] }) {
   return (
-    <div className="partial-options p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-4 my-4">
+    <div className="partial-options !p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-4 my-4">
       <h4 className="text-sm font-semibold text-white tracking-tight">{options.length ? "PARTIAL OPTIONS AVAILABLE" : "NO COMPLETE AI MATCH YET"}</h4>
       <p className="text-xs text-ink-2 leading-relaxed">We&apos;re checking whether a combination of AI tools can cover this step.</p>
       <div className="space-y-3 pt-2">
         {options.map((option) => (
-          <div key={option.model.canonicalId} className="text-xs p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
+          <div key={option.model.canonicalId} className="text-xs !p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
             <strong className="text-white font-semibold block">{option.model.name}</strong>
             <span className="block text-ink-3 text-[11px]">Covers: {option.coveredCapabilities.map(humanize).join(", ") || "None verified"}</span>
           </div>
@@ -127,14 +127,14 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
 
   if (!integrationsConfigured) return <IntegrationNotice />;
   if (error) return (
-    <div className="glass-card text-center py-12 p-8 rounded-3xl border border-white/10">
+    <div className="glass-card text-center !py-12 !p-8 rounded-3xl border border-white/10">
       <DatabaseZap className="w-8 h-8 text-indigo-400 mx-auto mb-3" />
       <h2 className="text-xl font-semibold text-white">STRATEGY TEMPORARILY UNAVAILABLE</h2>
       <p className="text-xs text-ink-2 mt-2">{error}. Your previous strategy is still safe.</p>
     </div>
   );
   if (!result) return (
-    <div className="glass-card text-center py-16 p-8 rounded-3xl border border-white/10">
+    <div className="glass-card text-center !py-16 !p-8 rounded-3xl border border-white/10">
       <div className="w-3 h-3 rounded-full bg-indigo-400 animate-ping mx-auto mb-4" />
       <h2 className="text-xl font-semibold text-white">MATCHING OPTIMAL AI STACK</h2>
       <p className="text-xs text-ink-2 mt-2">AIssessor is verifying primary benchmark evidence and calculating subscription costs.</p>
@@ -219,7 +219,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
                 )}
               </div>
             ) : step.step.noAIEligible ? (
-              <div className="p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-2 my-4">
+              <div className="!p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-2 my-4">
                 <strong className="text-base font-semibold text-white block">No AI Needed</strong>
                 <p className="text-sm text-ink-2 leading-relaxed">{step.step.noAIAlternative}</p>
               </div>
@@ -256,7 +256,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
           <div className="space-y-6">
             <div className="space-y-4">
               {subscriptions.map((sub) => (
-                <div key={sub.productId} className="flex items-center justify-between p-6 rounded-2xl bg-white/5 border border-white/10 gap-6">
+                <div key={sub.productId} className="flex items-center justify-between !p-6 rounded-2xl bg-white/5 border border-white/10 gap-6">
                   <div className="space-y-1">
                     <strong className="text-base font-semibold text-white block">{sub.productName}</strong>
                     <span className="block text-xs text-ink-2 leading-relaxed">{sub.planName} • Used for {sub.stepNames.join(", ")}</span>
@@ -273,7 +273,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               ))}
             </div>
 
-            <div className="flex items-center justify-between p-6 rounded-2xl bg-gradient-to-r from-indigo-500/10 to-pink-500/10 border border-indigo-500/30 gap-6">
+            <div className="flex items-center justify-between !p-6 rounded-2xl bg-gradient-to-r from-indigo-500/10 to-pink-500/10 border border-indigo-500/30 gap-6">
               <span className="font-mono text-xs font-bold text-indigo-soft uppercase tracking-wider">
                 {subscriptions.length} SUBSCRIPTIONS • CONSOLIDATED STACK
               </span>
@@ -283,7 +283,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
             </div>
           </div>
         ) : (
-          <p className="text-xs text-ink-2 p-6 rounded-2xl bg-white/5 border border-white/10">No paid AI products required for this workflow.</p>
+          <p className="text-xs text-ink-2 !p-6 rounded-2xl bg-white/5 border border-white/10">No paid AI products required for this workflow.</p>
         )}
       </section>
 
