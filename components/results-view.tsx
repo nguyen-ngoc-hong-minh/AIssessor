@@ -171,7 +171,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
       {/* Workflow Steps Roadmap Cards (20px gap between blocks, 20px padding inside each card) */}
       <div className="flex flex-col gap-[20px]">
         {plan.steps.map((step, index) => (
-          <article className="glass-card p-8 rounded-3xl space-y-6 border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
+          <article className="glass-card !p-8 rounded-3xl space-y-6 border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
             {/* Step Header Row */}
             <div className="flex items-center justify-between gap-4">
               <span className="font-mono text-xs font-bold text-indigo-soft tracking-widest uppercase">
