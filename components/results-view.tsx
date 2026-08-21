@@ -98,12 +98,12 @@ function ToolAccess({ tool }: { tool: Tool }) {
 
 function PartialOptions({ options }: { options: Selected[] }) {
   return (
-    <div className="partial-options !p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-6 my-4 w-full">
-      <div>
-        <h4 className="text-sm font-semibold text-white tracking-tight">
-          {options.length ? "PARTIAL OPTIONS AVAILABLE" : "NO COMPLETE AI MATCH YET"}
-        </h4>
-        <p className="text-xs text-ink-2 leading-relaxed mt-1">
+    <div className="partial-options !p-6 md:!p-7 rounded-2xl bg-[#131626] border border-white/10 my-4 w-full flex flex-col gap-[30px]">
+      <div className="flex flex-col gap-[10px]">
+        <h3 className="text-xl font-semibold text-white font-sans tracking-tight">
+          {options.length ? "Partial Options Available" : "No Complete AI Match Yet"}
+        </h3>
+        <p className="text-xs text-ink-2 leading-relaxed">
           We&apos;re checking whether a combination of AI tools can cover this step.
         </p>
       </div>
