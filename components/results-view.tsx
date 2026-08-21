@@ -36,23 +36,36 @@ function candidateName(candidate: Selected | null) {
 
 function StepOptions({ options }: { options: Options }) {
   return (
-    <div className="mt-4 !p-6 rounded-2xl bg-[#0e111d] border border-white/10 shadow-inner" aria-label="Options for this workflow step">
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-6">
-        {optionEntries.map(([key, label]) => (
-          <div key={key} className="option-col text-xs space-y-1.5">
-            <span className="font-mono text-[10px] text-indigo-soft uppercase tracking-wider block mb-1">{label}</span>
-            <strong className="block text-white text-sm font-semibold truncate">{candidateName(options[key])}</strong>
-            {options[key] && (
-              <div className="mt-1.5 flex items-center justify-between text-ink-2 text-[11px] pt-1">
-                <span>{friendlyCost(options[key]!.estimatedCostUsd)}</span>
-                <a href={options[key]!.tools[0].access.url} target="_blank" rel="noreferrer" className="text-indigo-300 inline-flex items-center gap-0.5 hover:underline font-medium">
-                  View <ArrowUpRight className="w-3 h-3" />
+    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" aria-label="Options for this workflow step">
+      {optionEntries.map(([key, label]) => {
+        const candidate = options[key];
+        return (
+          <div key={key} className="feature glass-card !p-5 rounded-2xl border border-white/10 flex flex-col justify-between space-y-3 shadow-md">
+            <div>
+              <div className="f-num text-[10px] font-mono font-bold text-indigo-soft tracking-widest uppercase mb-2">
+                {label}
+              </div>
+              <h3 className="text-base font-semibold text-white tracking-tight leading-snug line-clamp-2">
+                {candidateName(candidate)}
+              </h3>
+            </div>
+            {candidate && (
+              <div className="pt-2 flex items-center justify-between text-xs text-ink-2">
+                <span className="font-medium text-white/80">{friendlyCost(candidate.estimatedCostUsd)}</span>
+                <a
+                  href={candidate.tools[0]?.access.url ?? "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="f-link text-indigo-soft hover:underline font-mono text-[11px] inline-flex items-center gap-1"
+                >
+                  <span>View</span>
+                  <ArrowUpRight className="w-3 h-3" />
                 </a>
               </div>
             )}
           </div>
-        ))}
-      </div>
+        );
+      })}
     </div>
   );
 }
