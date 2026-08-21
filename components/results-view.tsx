@@ -270,7 +270,10 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
       <div className="h-[30px] w-full block" />
 
       {/* Consolidated Subscription Stack Section (Outer Box White-Blue Gradient) */}
-      <section className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-200/80 bg-gradient-to-br from-white via-[#e0e7ff] to-[#dbeafe] shadow-2xl">
+      <section
+        className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-200/80 shadow-2xl"
+        style={{ background: "linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #dbeafe 100%)" }}
+      >
         {/* Header Row */}
         <div className="space-y-2">
           <div className="eyebrow bg-indigo-950/10 border border-indigo-300/80 text-indigo-950 font-semibold">
