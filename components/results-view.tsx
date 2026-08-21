@@ -153,6 +153,8 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
           <span className="dt" />
           AI Strategy Results
         </div>
+        {/* 10px spacer below eyebrow */}
+        <div className="h-[10px] w-full block" />
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight text-center max-w-[700px] mx-auto leading-tight font-sans">
           AI Stack Roadmap
         </h1>
@@ -161,44 +163,25 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
         </p>
       </div>
 
-      {/* 30px Spacer Div */}
-      <div className="h-[30px] w-full block" />
-
-      {/* Strategy Variant Switcher Tabs Bar (NO "Strategy Variant" label, NO divider line!) */}
-      <div className="flex items-center justify-center p-2 rounded-full bg-white/5 border border-white/10 max-w-max mx-auto shadow-lg">
-        {result.plans.map((item) => (
-          <button
-            key={item.variant}
-            className={`px-6 py-2.5 rounded-full font-mono text-xs font-bold transition-all ${
-              tab === item.variant
-                ? "bg-gradient-to-r from-indigo-500 to-pink-500 text-white shadow-lg shadow-indigo-500/25"
-                : "text-ink-2 hover:text-white"
-            }`}
-            onClick={() => setTab(item.variant)}
-          >
-            {tabLabels[item.variant] ?? humanize(item.variant)}
-          </button>
-        ))}
-      </div>
-
       {stale && <span className="font-mono text-xs text-amber-400 bg-amber-400/10 px-4 py-1.5 rounded-full border border-amber-400/20 block w-max mx-auto">DATA LAST UPDATED &gt; 7 DAYS AGO</span>}
 
       {/* 30px Spacer Div */}
       <div className="h-[30px] w-full block" />
 
-      {/* Workflow Steps Roadmap Cards (Spaced 32px apart, generous p-8/p-10 padding, NO dividers) */}
-      <div className="space-y-8">
+      {/* Workflow Steps Roadmap Cards (20px gap between blocks, 20px padding inside each card) */}
+      <div className="flex flex-col gap-[20px]">
         {plan.steps.map((step, index) => (
-          <article className="glass-card p-8 md:p-10 rounded-3xl space-y-6 border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
+          <article className="glass-card p-[20px] rounded-3xl space-y-6 border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
             {/* Step Header Row */}
             <div className="flex items-center justify-between gap-4">
               <span className="font-mono text-xs font-bold text-indigo-soft tracking-widest uppercase">
                 STEP {String(index + 1).padStart(2, "0")} / {String(plan.steps.length).padStart(2, "0")} • {humanize(step.taskCategory ?? "WORKFLOW")}
               </span>
               {step.selected && (
-                <span className="font-mono text-[10px] text-emerald-400 bg-emerald-400/10 px-3.5 py-1.5 rounded-full border border-emerald-400/30 font-semibold uppercase tracking-wider">
-                  {step.selected.evidenceConfidence ? `${step.selected.evidenceConfidence} Evidence` : step.selected.label}
-                </span>
+                <div className="eyebrow bg-[#131626] border border-indigo-400/50 shadow-md">
+                  <span className="dt" />
+                  <span>{step.selected.evidenceConfidence ? `${step.selected.evidenceConfidence} Evidence` : step.selected.label}</span>
+                </div>
               )}
             </div>
 
