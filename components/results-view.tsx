@@ -98,14 +98,47 @@ function ToolAccess({ tool }: { tool: Tool }) {
 
 function PartialOptions({ options }: { options: Selected[] }) {
   return (
-    <div className="partial-options !p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-4 my-4">
-      <h4 className="text-sm font-semibold text-white tracking-tight">{options.length ? "PARTIAL OPTIONS AVAILABLE" : "NO COMPLETE AI MATCH YET"}</h4>
-      <p className="text-xs text-ink-2 leading-relaxed">We&apos;re checking whether a combination of AI tools can cover this step.</p>
-      <div className="space-y-3 pt-2">
-        {options.map((option) => (
-          <div key={option.model.canonicalId} className="text-xs !p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
-            <strong className="text-white font-semibold block">{option.model.name}</strong>
-            <span className="block text-ink-3 text-[11px]">Covers: {option.coveredCapabilities.map(humanize).join(", ") || "None verified"}</span>
+    <div className="space-y-4 pt-2">
+      <div>
+        <h4 className="text-sm font-semibold text-white tracking-tight">
+          {options.length ? "PARTIAL OPTIONS AVAILABLE" : "NO COMPLETE AI MATCH YET"}
+        </h4>
+        <p className="text-xs text-ink-2 leading-relaxed mt-1">
+          We&apos;re checking whether a combination of AI tools can cover this step.
+        </p>
+      </div>
+
+      {/* 30px Spacer Div */}
+      <div className="h-[30px] w-full block" />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {options.map((option, index) => (
+          <div
+            key={option.model.canonicalId}
+            className="feature glass-card !p-5 rounded-2xl border border-white/10 flex flex-col justify-between space-y-3 shadow-md"
+          >
+            <div>
+              <div className="f-num text-[10px] font-mono font-bold text-indigo-soft tracking-widest uppercase mb-2">
+                PARTIAL {String(index + 1).padStart(2, "0")}
+              </div>
+              <h3 className="text-base font-semibold text-white tracking-tight leading-snug line-clamp-2">
+                {option.model.name}
+              </h3>
+            </div>
+            <div className="pt-2 flex items-center justify-between text-xs text-ink-2">
+              <span className="font-mono text-[10px] text-ink-3 truncate pr-2">
+                Covers: {option.coveredCapabilities.map(humanize).join(", ") || "Partial"}
+              </span>
+              <a
+                href={option.tools[0]?.access.url ?? "#"}
+                target="_blank"
+                rel="noreferrer"
+                className="f-link text-indigo-soft hover:underline font-mono text-[11px] inline-flex items-center gap-1 flex-none"
+              >
+                <span>View</span>
+                <ArrowUpRight className="w-3 h-3" />
+              </a>
+            </div>
           </div>
         ))}
       </div>
