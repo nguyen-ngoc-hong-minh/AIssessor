@@ -32,104 +32,102 @@ export function OptionalDetails({
   }
 
   return (
-    <div className="w-full space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Information Sensitivity */}
-        <div className="space-y-2">
-          <label
-            htmlFor={`${idPrefix}-sensitivity`}
-            className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
-          >
-            Information sensitivity
-          </label>
-          <select
-            id={`${idPrefix}-sensitivity`}
-            className="styled-input pill-input py-3.5 w-full bg-[#131626] border border-white/10 text-white text-xs rounded-full px-4 focus:border-indigo-500 outline-none"
-            value={value.informationSensitivity}
-            onChange={(event) =>
-              update({ informationSensitivity: event.target.value })
-            }
-          >
-            <option value="standard">Standard work</option>
-            <option value="business">Confidential business</option>
-            <option value="sensitive">Sensitive information</option>
-            <option value="restricted">Restricted or regulated</option>
-          </select>
-        </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full pt-2">
+      {/* Information Sensitivity */}
+      <div className="space-y-2">
+        <label
+          htmlFor={`${idPrefix}-sensitivity`}
+          className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
+        >
+          Information sensitivity
+        </label>
+        <select
+          id={`${idPrefix}-sensitivity`}
+          className="styled-input pill-input py-3.5 w-full bg-[#131626] border border-white/10 text-white text-xs rounded-full px-4 focus:border-indigo-500 outline-none"
+          value={value.informationSensitivity}
+          onChange={(event) =>
+            update({ informationSensitivity: event.target.value })
+          }
+        >
+          <option value="standard">Standard work</option>
+          <option value="business">Confidential business</option>
+          <option value="sensitive">Sensitive information</option>
+          <option value="restricted">Restricted or regulated</option>
+        </select>
+      </div>
 
-        {/* Preferred Language */}
-        <div className="space-y-2">
-          <label
-            htmlFor={`${idPrefix}-language`}
-            className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
-          >
-            Preferred language
-          </label>
-          <input
-            id={`${idPrefix}-language`}
-            className="styled-input pill-input py-3.5 w-full text-xs"
-            value={value.preferredLanguage}
-            onChange={(event) =>
-              update({ preferredLanguage: event.target.value })
-            }
-            placeholder="e.g. English, Vietnamese"
-          />
-        </div>
+      {/* Preferred Language */}
+      <div className="space-y-2">
+        <label
+          htmlFor={`${idPrefix}-language`}
+          className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
+        >
+          Preferred language
+        </label>
+        <input
+          id={`${idPrefix}-language`}
+          className="styled-input pill-input py-3.5 w-full text-xs"
+          value={value.preferredLanguage}
+          onChange={(event) =>
+            update({ preferredLanguage: event.target.value })
+          }
+          placeholder="e.g. English, Vietnamese"
+        />
+      </div>
 
-        {/* Providers To Avoid */}
-        <div className="space-y-2 md:col-span-2">
-          <label
-            htmlFor={`${idPrefix}-providers`}
-            className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
-          >
-            Providers to avoid
-          </label>
-          <input
-            id={`${idPrefix}-providers`}
-            className="styled-input pill-input py-3.5 w-full text-xs"
-            value={value.providersToAvoid}
-            onChange={(event) =>
-              update({ providersToAvoid: event.target.value })
-            }
-            placeholder="Comma-separated (e.g. OpenAI, Anthropic)"
-          />
-        </div>
+      {/* Providers To Avoid */}
+      <div className="space-y-2 md:col-span-2">
+        <label
+          htmlFor={`${idPrefix}-providers`}
+          className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
+        >
+          Providers to avoid
+        </label>
+        <input
+          id={`${idPrefix}-providers`}
+          className="styled-input pill-input py-3.5 w-full text-xs"
+          value={value.providersToAvoid}
+          onChange={(event) =>
+            update({ providersToAvoid: event.target.value })
+          }
+          placeholder="Comma-separated (e.g. OpenAI, Anthropic)"
+        />
+      </div>
 
-        {/* Expected Output Details */}
-        <div className="md:col-span-2 space-y-2">
-          <label
-            htmlFor={`${idPrefix}-outputs`}
-            className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
-          >
-            Expected output details
-          </label>
-          <input
-            id={`${idPrefix}-outputs`}
-            className="styled-input pill-input py-3.5 w-full text-xs"
-            value={value.expectedOutputs}
-            onChange={(event) =>
-              update({ expectedOutputs: event.target.value })
-            }
-            placeholder="Optional quantities or file formats"
-          />
-        </div>
+      {/* Expected Output Details */}
+      <div className="md:col-span-2 space-y-2">
+        <label
+          htmlFor={`${idPrefix}-outputs`}
+          className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
+        >
+          Expected output details
+        </label>
+        <input
+          id={`${idPrefix}-outputs`}
+          className="styled-input pill-input py-3.5 w-full text-xs"
+          value={value.expectedOutputs}
+          onChange={(event) =>
+            update({ expectedOutputs: event.target.value })
+          }
+          placeholder="Optional quantities or file formats"
+        />
+      </div>
 
-        {/* Commercial Use Required Checkbox */}
-        <div className="md:col-span-2 pt-2 flex items-center gap-3">
-          <input
-            type="checkbox"
-            id={`${idPrefix}-commercial`}
-            className="w-4 h-4 rounded-full appearance-none border-2 border-indigo-500/40 checked:bg-indigo-500 checked:border-indigo-500 relative cursor-pointer"
-            checked={value.commercialUse}
-            onChange={(event) => update({ commercialUse: event.target.checked })}
-          />
-          <label
-            htmlFor={`${idPrefix}-commercial`}
-            className="text-xs font-medium text-white cursor-pointer select-none"
-          >
-            Commercial use required
-          </label>
-        </div>
+      {/* Commercial Use Required Checkbox */}
+      <div className="md:col-span-2 pt-2 flex items-center gap-3">
+        <input
+          type="checkbox"
+          id={`${idPrefix}-commercial`}
+          className="w-4 h-4 rounded-full appearance-none border-2 border-indigo-500/40 checked:bg-indigo-500 checked:border-indigo-500 relative cursor-pointer"
+          checked={value.commercialUse}
+          onChange={(event) => update({ commercialUse: event.target.checked })}
+        />
+        <label
+          htmlFor={`${idPrefix}-commercial`}
+          className="text-xs font-medium text-white cursor-pointer select-none"
+        >
+          Commercial use required
+        </label>
       </div>
     </div>
   );
