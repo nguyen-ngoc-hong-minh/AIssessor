@@ -184,7 +184,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
       {/* Workflow Steps Roadmap Cards (20px gap between blocks, 20px padding inside each card) */}
       <div className="flex flex-col gap-[20px]">
         {plan.steps.map((step, index) => (
-          <article className="glass-card !p-8 rounded-3xl space-y-6 border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
+          <article className="glass-card !p-8 md:!p-10 rounded-3xl border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
             {/* Step Header Row */}
             <div className="flex items-center justify-between gap-4">
               <span className="font-mono text-xs font-bold text-indigo-soft tracking-widest uppercase">
@@ -198,11 +198,22 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               )}
             </div>
 
+            {/* 20px Spacer Div below Step Header */}
+            <div className="h-[20px] w-full block" />
+
             {/* Title & Cost Row */}
             <div className="flex items-start justify-between gap-6">
-              <div className="space-y-2 flex-1">
-                <h3 className="text-2xl font-semibold text-white tracking-tight leading-snug font-sans">{step.step.name}</h3>
-                <p className="text-sm text-ink-2 leading-relaxed">{step.step.plainLanguageDescription}</p>
+              <div className="flex-1">
+                <h3 className="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-snug font-sans">
+                  {step.step.name}
+                </h3>
+
+                {/* 16px Spacer Div between Title and Description */}
+                <div className="h-[16px] w-full block" />
+
+                <p className="text-sm md:text-base text-ink-2 leading-relaxed">
+                  {step.step.plainLanguageDescription}
+                </p>
               </div>
 
               {step.selected && (
@@ -213,9 +224,12 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               )}
             </div>
 
+            {/* 24px Spacer Div between Description and Tool Box */}
+            <div className="h-[24px] w-full block" />
+
             {/* Selected Tool Details Container */}
             {step.selected ? (
-              <div className="space-y-6 pt-2">
+              <div className="space-y-6">
                 <div className="tool-access-list space-y-4">
                   {step.selected.tools.map((tool) => (
                     <ToolAccess key={`${tool.model.canonicalId}-${tool.access.productId ?? tool.access.modelId}`} tool={tool} />
@@ -232,7 +246,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
                 )}
               </div>
             ) : step.step.noAIEligible ? (
-              <div className="!p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-2 my-4">
+              <div className="!p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-2">
                 <strong className="text-base font-semibold text-white block">No AI Needed</strong>
                 <p className="text-sm text-ink-2 leading-relaxed">{step.step.noAIAlternative}</p>
               </div>
