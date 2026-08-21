@@ -198,8 +198,8 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               )}
             </div>
 
-            {/* 50px Spacer Div (Hình 1) */}
-            <div className="h-[50px] w-full block" />
+            {/* 30px Spacer Div (Hình 1) */}
+            <div className="h-[30px] w-full block" />
 
             {/* Title & Cost Row */}
             <div className="flex items-start justify-between gap-6">
@@ -224,8 +224,8 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               )}
             </div>
 
-            {/* 50px Spacer Div (Hình 2) */}
-            <div className="h-[50px] w-full block" />
+            {/* 30px Spacer Div (Hình 2) */}
+            <div className="h-[30px] w-full block" />
 
             {/* Selected Tool Details Container */}
             {step.selected ? (
@@ -236,8 +236,8 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
                   ))}
                 </div>
 
-                {/* 50px Spacer Div (Hình 3) */}
-                <div className="h-[50px] w-full block" />
+                {/* 30px Spacer Div (Hình 3) */}
+                <div className="h-[30px] w-full block" />
 
                 {step.options && (
                   <details className="text-xs text-ink-2 cursor-pointer group">
@@ -247,8 +247,8 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
                       </h3>
                     </summary>
 
-                    {/* 50px Spacer Div (Hình 4) */}
-                    <div className="h-[50px] w-full block" />
+                    {/* 30px Spacer Div (Hình 4) */}
+                    <div className="h-[30px] w-full block" />
 
                     <StepOptions options={step.options} />
                   </details>
