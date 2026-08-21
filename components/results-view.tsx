@@ -269,39 +269,36 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
       {/* 30px Spacer Div */}
       <div className="h-[30px] w-full block" />
 
-      {/* Consolidated Subscription Stack & Savings Section (p-8/p-10 padding, NO dividers) */}
-      <section className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-500/30 bg-gradient-to-b from-[#131626] to-[#0b0d17] space-y-8 shadow-xl">
-        <div className="flex items-center justify-between flex-wrap gap-6">
-          <div className="space-y-2">
-            <div className="eyebrow">
-              <span className="dt" />
-              CONSOLIDATED SUBSCRIPTION STACK
-            </div>
-            <h2 className="text-2xl font-semibold text-white tracking-tight font-sans">Your Optimized AI Stack</h2>
+      {/* Consolidated Subscription Stack Section (White-Blue Gradient Box like Button in Image 2) */}
+      <section className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-200/80 bg-gradient-to-br from-white via-[#e0e7ff] to-[#dbeafe] shadow-2xl">
+        {/* Header Row */}
+        <div className="space-y-2">
+          <div className="eyebrow bg-indigo-950/10 border border-indigo-300/80 text-indigo-950 font-semibold">
+            <span className="dt bg-indigo-600" />
+            Consolidated subscription stack
           </div>
-
-          <div className="text-right">
-            <span className="font-mono text-xs text-ink-3 uppercase block tracking-wider mb-1">YOU SAVE</span>
-            <span className="text-3xl md:text-4xl font-bold text-indigo-soft tracking-tight font-sans">
-              ${plan.estimatedSavingsUsd > 0 ? plan.estimatedSavingsUsd.toFixed(0) : "39"} / MONTH
-            </span>
-          </div>
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-sans">
+            Your Optimized AI Stack
+          </h2>
         </div>
 
+        {/* 30px Spacer Div */}
+        <div className="h-[30px] w-full block" />
+
         {subscriptions.length ? (
-          <div className="space-y-6">
+          <div>
             <div className="space-y-4">
               {subscriptions.map((sub) => (
-                <div key={sub.productId} className="flex items-center justify-between !p-6 rounded-2xl bg-white/5 border border-white/10 gap-6">
+                <div key={sub.productId} className="flex items-center justify-between !p-6 rounded-2xl bg-white/80 border border-indigo-100/80 shadow-sm gap-6">
                   <div className="space-y-1">
-                    <strong className="text-base font-semibold text-white block">{sub.productName}</strong>
-                    <span className="block text-xs text-ink-2 leading-relaxed">{sub.planName} • Used for {sub.stepNames.join(", ")}</span>
+                    <strong className="text-base font-semibold text-slate-900 block">{sub.productName}</strong>
+                    <span className="block text-xs text-slate-600 leading-relaxed">{sub.planName} • Used for {sub.stepNames.join(", ")}</span>
                   </div>
                   <div className="text-right flex-none space-y-1">
-                    <strong className="text-base font-bold text-white block">
+                    <strong className="text-base font-bold text-slate-900 block">
                       {sub.priceUsd === null ? "Check Price" : `$${sub.priceUsd.toFixed(2)}/mo`}
                     </strong>
-                    <a href={sub.accessUrl} target="_blank" rel="noreferrer" className="block text-xs text-indigo-soft hover:underline font-medium">
+                    <a href={sub.accessUrl} target="_blank" rel="noreferrer" className="block text-xs text-indigo-600 hover:underline font-semibold">
                       View Plan &rarr;
                     </a>
                   </div>
@@ -309,8 +306,11 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               ))}
             </div>
 
-            <div className="flex items-center justify-between !p-6 rounded-2xl bg-gradient-to-r from-indigo-500/10 to-pink-500/10 border border-indigo-500/30 gap-6">
-              <span className="font-mono text-xs font-bold text-indigo-soft uppercase tracking-wider">
+            {/* 30px Spacer Div */}
+            <div className="h-[30px] w-full block" />
+
+            <div className="flex items-center justify-between !p-6 rounded-2xl bg-indigo-950 text-white shadow-lg border border-indigo-900/80 gap-6">
+              <span className="font-mono text-xs font-bold text-indigo-300 uppercase tracking-wider">
                 {subscriptions.length} SUBSCRIPTIONS • CONSOLIDATED STACK
               </span>
               <strong className="text-2xl font-bold text-white font-sans">
@@ -319,7 +319,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
             </div>
           </div>
         ) : (
-          <p className="text-xs text-ink-2 !p-6 rounded-2xl bg-white/5 border border-white/10">No paid AI products required for this workflow.</p>
+          <p className="text-xs text-slate-600 !p-6 rounded-2xl bg-white/80 border border-indigo-100">No paid AI products required for this workflow.</p>
         )}
       </section>
 
