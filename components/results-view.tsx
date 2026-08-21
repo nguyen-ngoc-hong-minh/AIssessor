@@ -122,15 +122,15 @@ function PartialOptions({ options }: { options: Selected[] }) {
                 {option.model.name}
               </h3>
             </div>
-            <div className="pt-2 flex items-center justify-between text-xs text-ink-2">
-              <span className="font-mono text-[10px] text-ink-3 truncate pr-2">
+            <div className="pt-2 flex flex-col gap-2 text-xs text-ink-2">
+              <span className="font-mono text-[10px] text-ink-3 leading-relaxed whitespace-normal break-words">
                 Covers: {option.coveredCapabilities.map(humanize).join(", ") || "Partial"}
               </span>
               <a
                 href={option.tools[0]?.access.url ?? "#"}
                 target="_blank"
                 rel="noreferrer"
-                className="f-link text-indigo-soft hover:underline font-mono text-[11px] inline-flex items-center gap-1 flex-none"
+                className="f-link text-indigo-soft hover:underline font-mono text-[11px] inline-flex items-center gap-1 self-start"
               >
                 <span>View</span>
                 <ArrowUpRight className="w-3 h-3" />
