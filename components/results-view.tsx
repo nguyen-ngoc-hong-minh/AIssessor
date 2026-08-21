@@ -98,7 +98,7 @@ function ToolAccess({ tool }: { tool: Tool }) {
 
 function PartialOptions({ options }: { options: Selected[] }) {
   return (
-    <div className="space-y-4 pt-2">
+    <div className="partial-options !p-6 rounded-2xl bg-[#131626] border border-white/10 space-y-6 my-4 w-full">
       <div>
         <h4 className="text-sm font-semibold text-white tracking-tight">
           {options.length ? "PARTIAL OPTIONS AVAILABLE" : "NO COMPLETE AI MATCH YET"}
@@ -108,14 +108,11 @@ function PartialOptions({ options }: { options: Selected[] }) {
         </p>
       </div>
 
-      {/* 30px Spacer Div */}
-      <div className="h-[30px] w-full block" />
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
         {options.map((option, index) => (
           <div
             key={option.model.canonicalId}
-            className="feature glass-card !p-5 rounded-2xl border border-white/10 flex flex-col justify-between space-y-3 shadow-md"
+            className="feature glass-card !p-5 rounded-2xl border border-white/10 flex flex-col justify-between space-y-3 shadow-md w-full"
           >
             <div>
               <div className="f-num text-[10px] font-mono font-bold text-indigo-soft tracking-widest uppercase mb-2">
