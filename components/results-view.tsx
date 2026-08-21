@@ -275,11 +275,15 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
         style={{ background: "linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #dbeafe 100%)" }}
       >
         {/* Header Row */}
-        <div className="space-y-2">
-          <div className="eyebrow bg-indigo-950/10 border border-indigo-300/80 text-indigo-950 font-semibold">
-            <span className="dt bg-indigo-600" />
+        <div>
+          <div className="eyebrow bg-indigo-900/25 border border-indigo-900/40 text-[#1e1b4b] font-bold shadow-sm">
+            <span className="dt bg-indigo-900" />
             Consolidated subscription stack
           </div>
+
+          {/* 30px Spacer Div right below eyebrow */}
+          <div className="h-[30px] w-full block" />
+
           <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-sans">
             Your Optimized AI Stack
           </h2>
