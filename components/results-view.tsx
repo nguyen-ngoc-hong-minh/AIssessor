@@ -81,7 +81,7 @@ function ToolAccess({ tool }: { tool: Tool }) {
         <small className="text-[11px] font-mono text-ink-3 block">{tool.access.requiredManualWork ? `Manual work: ${tool.access.requiredManualWork}` : "Manual work: Review and refine output"}</small>
       </div>
 
-      <div className="flex items-center gap-6 flex-none">
+      <div className="flex flex-col items-start md:items-end gap-3 flex-none">
         <div className="text-left md:text-right space-y-1">
           <span className="block text-[10px] font-mono text-indigo-soft uppercase tracking-wider">Product / Plan</span>
           <strong className="text-xs text-white/90 font-medium block">{productName} • {planName}</strong>
