@@ -67,6 +67,7 @@ describe("strategy inputs", () => {
     expect(screen.queryByDisplayValue("Research competitors copy")).not.toBeInTheDocument();
     expect(screen.getByText("Rank your priorities")).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Move Balanced down" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Tools already owned")).toBeInTheDocument();
     expect(screen.getByLabelText("Expected output details")).toBeInTheDocument();
   });
   it("sends monthly tasks directly to AI stack results", async () => {

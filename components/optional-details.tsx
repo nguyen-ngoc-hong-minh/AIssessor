@@ -33,7 +33,10 @@ export function OptionalDetails({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full pt-2">
-      {/* Information Sensitivity */}
+      <p className="md:col-span-2 text-xs text-ink-2 leading-relaxed !p-4 rounded-2xl bg-indigo-500/10 border border-indigo-400/20">
+        Every answer below changes model eligibility, total cost, or ranking. Add as much detail as possible for a more accurate plan.
+      </p>
+
       <div className="space-y-2">
         <label
           htmlFor={`${idPrefix}-sensitivity`}
@@ -56,7 +59,6 @@ export function OptionalDetails({
         </select>
       </div>
 
-      {/* Preferred Language */}
       <div className="space-y-2">
         <label
           htmlFor={`${idPrefix}-language`}
@@ -75,8 +77,24 @@ export function OptionalDetails({
         />
       </div>
 
-      {/* Providers To Avoid */}
-      <div className="space-y-2 md:col-span-2">
+      <div className="space-y-2">
+        <label
+          htmlFor={`${idPrefix}-tools`}
+          className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
+        >
+          Tools already owned
+        </label>
+        <input
+          id={`${idPrefix}-tools`}
+          className="styled-input pill-input py-3.5 w-full text-xs"
+          value={value.existingTools}
+          onChange={(event) => update({ existingTools: event.target.value })}
+          placeholder="Comma-separated (e.g. ChatGPT, Canva)"
+        />
+        <p className="text-[11px] text-ink-3">Owned subscriptions are treated as no additional monthly cost.</p>
+      </div>
+
+      <div className="space-y-2">
         <label
           htmlFor={`${idPrefix}-providers`}
           className="settings-label text-xs font-mono font-semibold text-indigo-soft uppercase tracking-wider block"
@@ -94,7 +112,6 @@ export function OptionalDetails({
         />
       </div>
 
-      {/* Expected Output Details */}
       <div className="md:col-span-2 space-y-2">
         <label
           htmlFor={`${idPrefix}-outputs`}
@@ -109,11 +126,10 @@ export function OptionalDetails({
           onChange={(event) =>
             update({ expectedOutputs: event.target.value })
           }
-          placeholder="Optional quantities or file formats"
+          placeholder="Quantities, file formats, dimensions, or delivery requirements"
         />
       </div>
 
-      {/* Commercial Use Required Checkbox */}
       <div className="md:col-span-2 pt-2 flex items-center gap-3">
         <input
           type="checkbox"

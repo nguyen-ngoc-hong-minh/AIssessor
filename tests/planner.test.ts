@@ -47,6 +47,8 @@ describe("Planner AI", () => {
     const request = parse.mock.calls[0][0] as { input: Array<{ role: string; content: string }> };
     expect(request.input[0].content).toContain("How can AI substantially complete this project?");
     expect(request.input[0].content).toContain("never imply that ordinary manual software is an AI solution");
+    expect(request.input[0].content).toContain("Treat every supplied input as authoritative");
+    expect(request.input[1].content).toContain('"expectedOutputs":"A report"');
   });
   it("returns a validated workflow from the Gemini free-tier planner", async () => {
     const parse = vi.fn().mockResolvedValue({ choices: [{ message: { parsed: plannerOutput } }] });
