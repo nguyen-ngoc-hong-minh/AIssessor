@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { OnboardingSchema } from "@/lib/onboarding";
 import { StrategyInputSchema, TaskAnalysisSchema, frequencyToMonthlyUses, validatePriorityRanking } from "@/lib/planner/schema";
-import { budgetToUsd } from "@/lib/currency";
+import { budgetToUsd, usdToCurrency } from "@/lib/currency";
 import { createTaskAnalysis, getPlannerConfiguration } from "@/lib/planner/openai";
 
 const plannerInput = { usageType: "one_off" as const, projectBrief: "Create a complete market research report for a new product launch.", deadline: "2027-08-20", budgetAmount: 500, budgetCurrency: "USD" as const, priorities: ["balanced" as const], existingTools: [], optionalContext: { informationSensitivity: "standard", commercialUse: false, providersToAvoid: [], preferredLanguage: "English", expectedOutputs: "A report" } };
@@ -18,6 +18,11 @@ describe("input validation", () => {
     const parsed = StrategyInputSchema.parse({ usageType: "one_off", projectBrief: "Create a complete financial report video with charts and narration.", deadline: "2027-08-20", budgetAmount: 500, budgetCurrency: "USD", priorities: ["balanced"], existingTools: [], optionalContext: { informationSensitivity: "business", commercialUse: true, providersToAvoid: [], preferredLanguage: "English", expectedOutputs: "" } });
     expect(parsed.usageType).toBe("one_off");
     expect(budgetToUsd(500, "USD")).toBe(500);
+  });
+  it("keeps VND conversion precise enough for a consistent remaining balance", () => {
+    expect(budgetToUsd(29_999_971, "VND")).toBe(1139.998898);
+    expect(usdToCurrency(0.54, "VND")).toBe(14_211);
+    expect(29_999_971 - usdToCurrency(0.54, "VND")).toBe(29_985_760);
   });
   it("validates monthly tasks without a project brief or deadline", () => {
     const parsed = StrategyInputSchema.parse({ usageType: "monthly", monthlyTasks: [{ id: "task-1", task: "Research competitors", frequency: "daily", monthlyUses: frequencyToMonthlyUses("daily"), quality: "professional" }], priorities: ["balanced", "lowest_cost", "highest_quality", "fastest", "privacy", "existing_tools"], existingTools: ["ChatGPT"], optionalContext: { informationSensitivity: "standard", commercialUse: true, providersToAvoid: [], preferredLanguage: "English", expectedOutputs: "" } });

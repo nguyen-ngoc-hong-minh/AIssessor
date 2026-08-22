@@ -460,7 +460,16 @@ function owned(existingTools: string[], tool: CandidateScore["tools"][number]) {
   return tool.model.existingTool || existingTools.some((item) => haystack.includes(item.toLowerCase()));
 }
 
-function candidateUtility(candidate: CandidateScore, variant: StrategyVariant, reusedProducts: number, newProducts: number, deadlineUrgent: boolean) {
+function budgetFitUtility(candidate: CandidateScore, budgetUsd: number | null, incrementalCostUsd: number, variant: StrategyVariant) {
+  if (budgetUsd === null || variant !== "recommended") return 0;
+  const budgetScale = Math.max(0, Math.min(1, Math.log10(Math.max(1, budgetUsd)) / 3));
+  const qualityHeadroom = normalise(candidate.qualityScore, 100) * (8 + 18 * budgetScale);
+  const spendShare = Math.max(0, Math.min(1, incrementalCostUsd / Math.max(0.01, budgetUsd)));
+  const economyReward = (1 - spendShare) * 18 * (1 - budgetScale);
+  return qualityHeadroom + economyReward;
+}
+
+function candidateUtility(candidate: CandidateScore, variant: StrategyVariant, reusedProducts: number, newProducts: number, deadlineUrgent: boolean, budgetUsd: number | null, incrementalCostUsd: number) {
   const base = variant === "lowest_cost"
     ? candidate.roundedScore * 0.4 + (1 / (1 + candidate.estimatedCostUsd)) * 60
     : variant === "highest_quality"
@@ -471,7 +480,7 @@ function candidateUtility(candidate: CandidateScore, variant: StrategyVariant, r
           ? candidate.privacyScore * 0.75 + candidate.roundedScore * 0.25
           : candidate.roundedScore;
   const urgencyBoost = deadlineUrgent && variant === "recommended" ? normalise(candidate.speedScore, 250) * 10 : 0;
-  return base + urgencyBoost + reusedProducts * 8 - newProducts * 6 - candidate.workflowFriction - Math.max(0, candidate.tools.length - 1) * 4;
+  return base + urgencyBoost + budgetFitUtility(candidate, budgetUsd, incrementalCostUsd, variant) + reusedProducts * 8 - newProducts * 6 - candidate.workflowFriction - Math.max(0, candidate.tools.length - 1) * 4;
 }
 
 type BeamState = { choices: Array<CandidateScore | null>; products: Set<string>; apiCost: number; fixedCost: number; utility: number };
@@ -503,7 +512,7 @@ function chooseGlobalStack(pools: CandidateScore[][], context: RecommendationCon
       const products = new Set(state.products);
       identities.forEach((identity) => products.add(identity.key));
       const reused = identities.length - newIdentities.length;
-      next.push({ choices: [...state.choices, choice], products, apiCost, fixedCost, utility: state.utility + candidateUtility(choice, variant, reused, newIdentities.length, deadlineUrgent) });
+      next.push({ choices: [...state.choices, choice], products, apiCost, fixedCost, utility: state.utility + candidateUtility(choice, variant, reused, newIdentities.length, deadlineUrgent, context.budgetUsd, choice.estimatedCostUsd + fixedIncrement) });
     }
     beam = next.sort((a, b) => b.utility - a.utility || a.apiCost + a.fixedCost - (b.apiCost + b.fixedCost) || a.products.size - b.products.size).slice(0, BEAM_WIDTH);
   }
@@ -597,6 +606,9 @@ export function generateStrategyPlan(steps: WorkflowStep[], models: CanonicalMod
       "Existing subscriptions are treated as zero additional subscription cost where the product or plan name matches.",
       "Provider prices exclude taxes and third-party platform fees.",
       ...(context.budgetUsd !== null ? ["The entered budget is a hard cap across new subscription costs and estimated API usage; unpriced new subscriptions are not selected."] : []),
+      ...(context.budgetUsd !== null ? [context.budgetUsd >= 100
+        ? "The available budget provides quality headroom, so stronger verified models receive more weight when their quality gain justifies the additional cost."
+        : "The available budget is cost-sensitive, so complete lower-cost options receive more weight while minimum quality and all hard requirements remain enforced."] : []),
       `All saved requirements were applied: ${context.priorities.join(", ")} priority order; ${context.informationSensitivity ?? "standard"} information sensitivity; ${context.commercialUse ?? true ? "commercial" : "non-commercial"} use; ${context.preferredLanguage?.trim() || "English"} output.`,
       ...(hasUnknownSubscriptionPricing ? ["The displayed total is a known-cost subtotal; plans without a verified current price are not included."] : []),
     ],

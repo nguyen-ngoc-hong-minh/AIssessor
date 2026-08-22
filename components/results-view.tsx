@@ -4,6 +4,7 @@ import { ArrowUpRight, DatabaseZap, PencilLine, ShieldCheck } from "lucide-react
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { apiErrorMessage } from "@/lib/client/api-error";
+import { formatCurrency, formatUsdInCurrency, usdExchangeRate, usdToCurrency, type SupportedCurrency } from "@/lib/currency";
 import { IntegrationNotice } from "./integration-notice";
 import { integrationsConfigured } from "./providers";
 
@@ -22,10 +23,14 @@ type Result = { locked: boolean; usageType: "one_off" | "monthly"; estimatedComp
 const optionEntries: Array<[keyof Options, string]> = [["bestFit", "Best fit"], ["budget", "Budget"], ["premium", "Higher quality"], ["fastest", "Fastest"], ["privacy", "Privacy focused"]];
 
 function humanize(value: string) { return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase()); }
-function friendlyCost(value: number) {
+function preferredCurrency(inputs: Plan["inputsUsed"]): SupportedCurrency {
+  return inputs?.budgetOriginalCurrency === "VND" || inputs?.budgetOriginalCurrency === "AUD" ? inputs.budgetOriginalCurrency : "USD";
+}
+function friendlyCost(value: number, inputs?: Plan["inputsUsed"]) {
   if (value === 0) return "No extra cost";
-  if (value < 0.01) return "Less than $0.01";
-  return `$${value.toFixed(2)}`;
+  const currency = preferredCurrency(inputs);
+  if (currency === "USD" && value < 0.01) return "Less than $0.01";
+  return formatUsdInCurrency(value, currency);
 }
 function candidateName(candidate: Selected | null) {
   if (!candidate) return "Not available";
@@ -35,22 +40,29 @@ function candidateName(candidate: Selected | null) {
 
 function originalBudgetLabel(inputs: Plan["inputsUsed"]) {
   if (inputs?.budgetOriginalAmount === null || inputs?.budgetOriginalAmount === undefined || !inputs.budgetOriginalCurrency) return null;
-  try {
-    return new Intl.NumberFormat(inputs.budgetOriginalCurrency === "VND" ? "vi-VN" : "en-US", {
-      style: "currency",
-      currency: inputs.budgetOriginalCurrency,
-      maximumFractionDigits: inputs.budgetOriginalCurrency === "VND" ? 0 : 2,
-    }).format(inputs.budgetOriginalAmount);
-  } catch {
-    return `${inputs.budgetOriginalAmount.toLocaleString()} ${inputs.budgetOriginalCurrency}`;
+  const currency = preferredCurrency(inputs);
+  return formatCurrency(inputs.budgetOriginalAmount, currency);
+}
+
+function budgetRemainingLabel(plan: Plan) {
+  const inputs = plan.inputsUsed;
+  if (inputs?.budgetOriginalAmount !== null && inputs?.budgetOriginalAmount !== undefined && inputs.budgetOriginalCurrency) {
+    return formatCurrency(Math.max(0, inputs.budgetOriginalAmount - usdToCurrency(plan.totalCostUsd, preferredCurrency(inputs))), preferredCurrency(inputs));
   }
+  return plan.budgetRemainingUsd !== null && plan.budgetRemainingUsd !== undefined ? friendlyCost(plan.budgetRemainingUsd, inputs) : "Not applicable";
+}
+
+function exchangeRateLabel(inputs: Plan["inputsUsed"]) {
+  const currency = preferredCurrency(inputs);
+  if (currency === "USD") return null;
+  return `Provider prices are normalized in USD, then displayed in ${currency} at 1 USD ≈ ${formatCurrency(usdExchangeRate(currency), currency)}.`;
 }
 
 function hasBudgetExclusion(step: Step) {
   return step.exclusions.some((exclusion) => exclusion.reasons.some((reason) => /budget|price|subscription cost|afford/i.test(reason)));
 }
 
-function StepOptions({ options }: { options: Options }) {
+function StepOptions({ options, inputs }: { options: Options; inputs?: Plan["inputsUsed"] }) {
   return (
     <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" aria-label="Options for this workflow step">
       {optionEntries.map(([key, label]) => {
@@ -67,7 +79,7 @@ function StepOptions({ options }: { options: Options }) {
             </div>
             {candidate && (
               <div className="pt-2 flex items-center justify-between text-xs text-ink-2">
-                <span className="font-medium text-white/80">{friendlyCost(candidate.estimatedCostUsd)}</span>
+                <span className="font-medium text-white/80">{friendlyCost(candidate.estimatedCostUsd, inputs)}</span>
                 <a
                   href={candidate.tools[0]?.access.url ?? "#"}
                   target="_blank"
@@ -86,12 +98,12 @@ function StepOptions({ options }: { options: Options }) {
   );
 }
 
-function ToolAccess({ tool }: { tool: Tool }) {
+function ToolAccess({ tool, inputs }: { tool: Tool; inputs?: Plan["inputsUsed"] }) {
   const productName = tool.access.productName ?? tool.model.provider;
   const planName = tool.access.planName ?? (tool.access.accessMethod === "api" ? "Usage based API" : "Standard access");
   const accessCost = tool.access.accessMethod === "product"
-    ? tool.access.monthlyPriceUsd === undefined ? "Current plan price not verified" : `${friendlyCost(tool.access.monthlyPriceUsd)} / month`
-    : `${friendlyCost(tool.estimatedCostUsd)} estimated usage`;
+    ? tool.access.monthlyPriceUsd === undefined ? "Current plan price not verified" : `${friendlyCost(tool.access.monthlyPriceUsd, inputs)} / month`
+    : `${friendlyCost(tool.estimatedCostUsd, inputs)} estimated usage`;
   return (
     <div className="!p-6 md:!p-7 rounded-2xl bg-[#131626] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6 my-4 shadow-md">
       <div className="tool-role flex-1 flex flex-col gap-[10px]">
@@ -210,6 +222,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
   const inputs = plan.inputsUsed;
   const budgetConfigured = plan.budgetUsd !== null && plan.budgetUsd !== undefined;
   const originalBudget = originalBudgetLabel(inputs);
+  const rateNote = exchangeRateLabel(inputs);
   const costPeriod = result.usageType === "monthly" ? "Estimated monthly total" : "First-month project total";
   const completeCoverage = plan.steps.length > 0 && plan.completeStepCount === plan.steps.length;
   const withinKnownBudget = !budgetConfigured || (!plan.hasUnknownSubscriptionPricing && plan.totalCostUsd <= plan.budgetUsd! + 0.0001);
@@ -222,53 +235,47 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
         : "PARTIAL · WITHIN BUDGET";
 
   return (
-    <div className="w-full max-w-6xl mx-auto my-auto py-6 space-y-8">
-      {/* Header with Largest H1: AI Stack Roadmap */}
-      <div className="flex flex-col items-center justify-center text-center space-y-4">
+    <div className="w-full max-w-6xl mx-auto py-3 space-y-6 font-body">
+      <div className="flex flex-col items-center justify-center text-center gap-3 pt-2">
         <div className="eyebrow justify-center">
           <span className="dt" />
           AI Strategy Results
         </div>
-        {/* 10px spacer below eyebrow */}
-        <div className="h-[10px] w-full block" />
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight text-center max-w-[700px] mx-auto leading-tight font-sans">
+        <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tight text-center max-w-[700px] mx-auto leading-tight font-sans">
           AI Stack Roadmap
         </h1>
-        <p className="text-sm text-ink-2 text-center max-w-xl mx-auto leading-relaxed pt-1">
+        <p className="text-sm text-ink-2 text-center max-w-2xl mx-auto leading-relaxed">
           Each option is matched to your workload, checked against current primary evidence, and saved to your account.
         </p>
       </div>
 
       {stale && <span className="font-mono text-xs text-amber-400 bg-amber-400/10 px-4 py-1.5 rounded-full border border-amber-400/20 block w-max mx-auto">DATA LAST UPDATED &gt; 7 DAYS AGO</span>}
 
-      {/* 30px Spacer Div */}
-      <div className="h-[30px] w-full block" />
-
-      <section className="glass-card !p-6 md:!p-8 rounded-3xl border border-white/10 space-y-6" aria-label="Requirements used for this recommendation">
-        <div className="flex items-start justify-between gap-6 flex-wrap">
+      <section className="glass-card !p-5 md:!p-6 rounded-2xl border border-white/10 space-y-5" aria-label="Requirements used for this recommendation">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
           <div>
-            <span className="font-mono text-[10px] text-indigo-soft uppercase tracking-wider">YOUR REQUIREMENTS WERE APPLIED</span>
-            <h2 className="text-xl font-semibold text-white mt-1">Budget and input check</h2>
-            <p className="text-xs text-ink-2 mt-2 max-w-2xl">The budget is a hard cap across new subscriptions and estimated usage. Every saved answer is applied to eligibility and ranking.</p>
+            <span className="text-[11px] font-semibold text-indigo-soft uppercase tracking-[0.14em]">Your requirements were applied</span>
+            <h2 className="text-xl font-semibold text-white mt-1.5 font-sans">Budget and input check</h2>
+            <p className="text-sm text-ink-2 mt-2 max-w-2xl leading-relaxed">The budget is a hard cap across the complete stack. Smaller budgets favor value; larger budgets give stronger verified models more weight when the quality gain is worthwhile.</p>
           </div>
-          <span className={`font-mono text-xs font-bold px-4 py-2 rounded-full border ${withinKnownBudget ? "text-emerald-300 bg-emerald-400/10 border-emerald-400/30" : "text-amber-300 bg-amber-400/10 border-amber-400/30"}`}>
+          <span className={`text-xs font-semibold px-3 py-1.5 rounded-full border ${withinKnownBudget ? "text-emerald-300 bg-emerald-400/10 border-emerald-400/30" : "text-amber-300 bg-amber-400/10 border-amber-400/30"}`}>
             {budgetStatus}
           </span>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10">
-            <span className="block text-[10px] font-mono text-ink-3 uppercase">Your budget cap</span>
-            <strong className="block text-white mt-1">{originalBudget ?? (budgetConfigured ? friendlyCost(plan.budgetUsd!) : "Not set")}</strong>
-            {originalBudget && inputs?.budgetOriginalCurrency !== "USD" && budgetConfigured && <small className="block text-[10px] text-ink-3 mt-1">≈ {friendlyCost(plan.budgetUsd!)} used for USD price comparison</small>}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10 min-h-[88px]">
+            <span className="block text-xs font-medium text-ink-3">Your budget cap</span>
+            <strong className="block text-xl text-white mt-2 font-sans">{originalBudget ?? (budgetConfigured ? friendlyCost(plan.budgetUsd!, inputs) : "Not set")}</strong>
           </div>
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10"><span className="block text-[10px] font-mono text-ink-3 uppercase">Projected total</span><strong className="block text-white mt-1">{friendlyCost(plan.totalCostUsd)}</strong></div>
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10"><span className="block text-[10px] font-mono text-ink-3 uppercase">Budget remaining</span><strong className="block text-white mt-1">{budgetConfigured && plan.budgetRemainingUsd !== null && plan.budgetRemainingUsd !== undefined ? friendlyCost(plan.budgetRemainingUsd) : "Not applicable"}</strong></div>
-          <div className="p-4 rounded-2xl bg-white/5 border border-white/10"><span className="block text-[10px] font-mono text-ink-3 uppercase">Workflow coverage</span><strong className="block text-white mt-1">{plan.completeStepCount}/{plan.steps.length} steps</strong></div>
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10 min-h-[88px]"><span className="block text-xs font-medium text-ink-3">Projected total</span><strong className="block text-xl text-white mt-2 font-sans">{friendlyCost(plan.totalCostUsd, inputs)}</strong></div>
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10 min-h-[88px]"><span className="block text-xs font-medium text-ink-3">Budget remaining</span><strong className="block text-xl text-white mt-2 font-sans">{budgetConfigured ? budgetRemainingLabel(plan) : "Not applicable"}</strong></div>
+          <div className="p-4 rounded-xl bg-white/5 border border-white/10 min-h-[88px]"><span className="block text-xs font-medium text-ink-3">Workflow coverage</span><strong className="block text-xl text-white mt-2 font-sans">{plan.completeStepCount}/{plan.steps.length} steps</strong></div>
         </div>
+        {rateNote && <p className="text-xs text-ink-3 leading-relaxed">{rateNote} The remaining balance is calculated in your selected currency, so the displayed subtraction stays consistent.</p>}
         {inputs && (
-          <details className="text-xs text-ink-2">
-            <summary className="font-mono font-semibold text-indigo-soft cursor-pointer">View every input used</summary>
-            <div className="grid md:grid-cols-2 gap-3 mt-4 !p-4 rounded-2xl bg-white/5 border border-white/10">
+          <details className="text-sm text-ink-2">
+            <summary className="font-semibold text-indigo-soft cursor-pointer">View every input used</summary>
+            <div className="grid md:grid-cols-2 gap-x-8 gap-y-3 mt-4 !p-5 rounded-xl bg-white/5 border border-white/10 leading-relaxed">
               <p><strong className="text-white">Project:</strong> {inputs.projectDescription ?? "Saved project brief"}</p>
               <p><strong className="text-white">Expected result:</strong> {inputs.expectedResult ?? "Defined by the approved workflow"}</p>
               <p><strong className="text-white">Priority order:</strong> {inputs.priorityRanking.map(humanize).join(" → ")}</p>
@@ -285,12 +292,9 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
         )}
       </section>
 
-      <div className="h-[20px] w-full block" />
-
-      {/* Workflow Steps Roadmap Cards (20px gap between blocks) */}
-      <div className="flex flex-col gap-[20px]">
+      <div className="flex flex-col gap-5">
         {plan.steps.map((step, index) => (
-          <article className="glass-card !p-8 md:!p-10 rounded-3xl border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
+          <article className="glass-card !p-6 md:!p-7 rounded-2xl border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
             {/* Step Header Row */}
             <div className="flex items-center justify-between gap-4">
               <span className="font-mono text-xs font-bold text-indigo-soft tracking-widest uppercase">
@@ -304,20 +308,14 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               )}
             </div>
 
-            {/* 30px Spacer Div (Hình 1) */}
-            <div className="h-[30px] w-full block" />
-
             {/* Title & Cost Row */}
-            <div className="flex items-start justify-between gap-6">
+            <div className="flex items-start justify-between gap-6 mt-5">
               <div className="flex-1">
                 <h3 className="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-snug font-sans">
                   {step.step.name}
                 </h3>
 
-                {/* 16px Spacer Div between Title and Description */}
-                <div className="h-[16px] w-full block" />
-
-                <p className="text-sm md:text-base text-ink-2 leading-relaxed">
+                <p className="text-sm text-ink-2 leading-relaxed mt-3">
                   {step.step.plainLanguageDescription}
                 </p>
               </div>
@@ -325,38 +323,29 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               {step.selected && (
                 <div className="text-right flex-none pl-4">
                   <span className="font-mono text-[10px] text-ink-3 uppercase block tracking-wider mb-1">ESTIMATED STEP USAGE</span>
-                  <strong className="text-2xl font-bold text-white font-sans">{friendlyCost(step.selected.estimatedCostUsd)}</strong>
+                  <strong className="text-xl font-bold text-white font-sans">{friendlyCost(step.selected.estimatedCostUsd, inputs)}</strong>
                 </div>
               )}
             </div>
 
-            {/* 30px Spacer Div (Hình 2) */}
-            <div className="h-[30px] w-full block" />
-
             {/* Selected Tool Details Container */}
             {step.selected ? (
-              <div>
+              <div className="mt-5">
                 <div className="tool-access-list space-y-4">
                   {step.selected.tools.map((tool) => (
-                    <ToolAccess key={`${tool.model.canonicalId}-${tool.access.productId ?? tool.access.modelId}`} tool={tool} />
+                    <ToolAccess key={`${tool.model.canonicalId}-${tool.access.productId ?? tool.access.modelId}`} tool={tool} inputs={inputs} />
                   ))}
                 </div>
 
-                {/* 30px Spacer Div (Hình 3) */}
-                <div className="h-[30px] w-full block" />
-
                 {step.options && (
-                  <details className="text-xs text-ink-2 cursor-pointer group">
+                  <details className="text-xs text-ink-2 cursor-pointer group mt-5">
                     <summary className="list-none flex items-center gap-2 select-none outline-none">
-                      <h3 className="text-xl font-semibold text-white font-sans no-underline hover:no-underline hover:text-indigo-300 hover:drop-shadow-[0_0_12px_rgba(165,180,252,0.85)] transition-all flex items-center gap-2">
+                      <h3 className="text-base font-semibold text-white font-sans no-underline hover:no-underline hover:text-indigo-300 transition-all flex items-center gap-2">
                         <span>▶ Compare Alternative Tools</span>
                       </h3>
                     </summary>
 
-                    {/* 30px Spacer Div (Hình 4) */}
-                    <div className="h-[30px] w-full block" />
-
-                    <StepOptions options={step.options} />
+                    <StepOptions options={step.options} inputs={inputs} />
                   </details>
                 )}
               </div>
@@ -370,7 +359,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
                 <PartialOptions options={step.partialOptions ?? []} />
                 <p className="text-xs text-amber-300 mt-3">
                   {budgetConfigured && hasBudgetExclusion(step)
-                    ? `No verified complete option for this step fits the total $${plan.budgetUsd!.toFixed(2)} USD budget with the other workflow steps.`
+                    ? `No verified complete option for this step fits the total ${originalBudget ?? friendlyCost(plan.budgetUsd!, inputs)} budget with the other workflow steps.`
                     : "No verified complete option currently satisfies every capability and evidence requirement for this step."}
                 </p>
               </div>
@@ -379,12 +368,9 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
         ))}
       </div>
 
-      {/* 30px Spacer Div */}
-      <div className="h-[30px] w-full block" />
-
       {/* Consolidated Subscription Stack Section (Outer Box White-Blue Gradient) */}
       <section
-        className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-200/80 shadow-2xl"
+        className="glass-card !p-6 md:!p-7 rounded-2xl border border-indigo-200/80 shadow-2xl"
         style={{ background: "linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #dbeafe 100%)" }}
       >
         {/* Header Row */}
@@ -394,29 +380,25 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               <span className="dt bg-indigo-900" />
               Consolidated subscription stack
             </div>
-            <div className="h-[30px] w-full block" />
-            <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-sans">
+            <h2 className="text-2xl font-bold text-slate-900 tracking-tight font-sans mt-4">
               Your Optimized AI Stack
             </h2>
           </div>
           <div className="text-right">
-            <span className="font-mono text-xs text-slate-600 uppercase block tracking-wider mb-1">{plan.estimatedSavingsUsd > 0 ? "Verified savings" : costPeriod}</span>
-            <span className="text-3xl font-bold text-indigo-900 tracking-tight">
-              {plan.estimatedSavingsUsd > 0 ? `${friendlyCost(plan.estimatedSavingsUsd)} saved` : friendlyCost(plan.totalCostUsd)}
+            <span className="text-xs font-medium text-slate-600 block mb-1">{plan.estimatedSavingsUsd > 0 ? "Verified savings" : costPeriod}</span>
+            <span className="text-2xl font-bold text-indigo-900 tracking-tight">
+              {plan.estimatedSavingsUsd > 0 ? `${friendlyCost(plan.estimatedSavingsUsd, inputs)} saved` : friendlyCost(plan.totalCostUsd, inputs)}
             </span>
           </div>
         </div>
 
-        {/* 30px Spacer Div */}
-        <div className="h-[30px] w-full block" />
-
         {subscriptions.length ? (
-          <div>
-            <div className="space-y-4">
+          <div className="mt-5">
+            <div className="space-y-3">
               {subscriptions.map((sub) => (
                 <div
                   key={sub.productId}
-                  className="flex items-center justify-between !p-6 rounded-2xl bg-white/90 border border-indigo-100/90 shadow-md gap-6"
+                  className="flex items-center justify-between !p-5 rounded-xl bg-white/90 border border-indigo-100/90 shadow-md gap-6"
                 >
                   <div className="space-y-1">
                     <strong className="text-base font-bold text-slate-900 block">{sub.productName}</strong>
@@ -427,8 +409,8 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
                   <div className="text-right flex-none space-y-1">
                     <strong className="text-base font-bold text-slate-900 block">
                       {sub.accessMethod === "product"
-                        ? sub.priceUsd === null ? "Price not verified" : `$${sub.priceUsd.toFixed(2)}/mo`
-                        : `${friendlyCost(sub.apiUsageEstimateUsd)} usage`}
+                        ? sub.priceUsd === null ? "Price not verified" : `${friendlyCost(sub.priceUsd, inputs)}/mo`
+                        : `${friendlyCost(sub.apiUsageEstimateUsd, inputs)} usage`}
                     </strong>
                     <a
                       href={sub.accessUrl}
@@ -443,22 +425,16 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               ))}
             </div>
 
-            {/* 30px Spacer Div */}
-            <div className="h-[30px] w-full block" />
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 !p-6 rounded-2xl bg-indigo-950 text-white shadow-lg border border-indigo-900/80">
-              <div><span className="block text-[10px] font-mono text-indigo-300 uppercase">New subscriptions</span><strong className="text-lg text-white">{friendlyCost(plan.fixedCostUsd)} / month</strong></div>
-              <div><span className="block text-[10px] font-mono text-indigo-300 uppercase">Estimated API usage</span><strong className="text-lg text-white">{friendlyCost(plan.apiCostUsd)}</strong></div>
-              <div><span className="block text-[10px] font-mono text-indigo-300 uppercase">{costPeriod}</span><strong className="text-lg text-white">{friendlyCost(plan.totalCostUsd)}</strong></div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 !p-5 rounded-xl bg-indigo-950 text-white shadow-lg border border-indigo-900/80 mt-5">
+              <div><span className="block text-xs text-indigo-300">New subscriptions</span><strong className="text-lg text-white">{friendlyCost(plan.fixedCostUsd, inputs)} / month</strong></div>
+              <div><span className="block text-xs text-indigo-300">Estimated API usage</span><strong className="text-lg text-white">{friendlyCost(plan.apiCostUsd, inputs)}</strong></div>
+              <div><span className="block text-xs text-indigo-300">{costPeriod}</span><strong className="text-lg text-white">{friendlyCost(plan.totalCostUsd, inputs)}</strong></div>
             </div>
           </div>
         ) : (
           <p className="text-xs text-slate-600 !p-6 rounded-2xl bg-white/90 border border-indigo-100">No paid AI products required for this workflow.</p>
         )}
       </section>
-
-      {/* 20px Spacer Div */}
-      <div className="h-[20px] w-full block" />
 
       {/* Footer Actions Row (NO divider line) */}
       <div className="flex items-center justify-between pt-4 flex-wrap gap-4">

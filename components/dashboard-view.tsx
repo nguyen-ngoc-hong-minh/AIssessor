@@ -5,12 +5,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
 import { integrationsConfigured } from "./providers";
+import { formatCurrency, type SupportedCurrency } from "@/lib/currency";
 
 type Strategy = {
   _id: string;
   title: string;
   usageType: "one_off" | "monthly";
   budget?: number;
+  budgetAmount?: number;
+  budgetCurrency?: SupportedCurrency;
   status: string;
   createdAt: number;
   refreshAvailable?: boolean;
@@ -149,9 +152,9 @@ export function DashboardView() {
                       <span>&bull;</span>
                       <span>
                         {strategy.usageType === "one_off"
-                          ? strategy.budget === undefined
+                          ? strategy.budgetAmount === undefined && strategy.budget === undefined
                             ? "Budget not set"
-                            : `Budget: $${strategy.budget} USD`
+                            : `Budget: ${strategy.budgetAmount !== undefined && strategy.budgetCurrency ? formatCurrency(strategy.budgetAmount, strategy.budgetCurrency) : formatCurrency(strategy.budget ?? 0, "USD")}`
                           : "Recurring Workload"}
                       </span>
                     </div>

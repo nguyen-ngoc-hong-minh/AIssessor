@@ -55,6 +55,15 @@ describe("strategy inputs", () => {
     expect(await screen.findByText("Saved to your account")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Edit workflow" })).toHaveAttribute("href", "/strategy/saved-strategy/workflow");
   });
+  it("shows project costs and the exact remaining balance in the selected VND currency", async () => {
+    const result = { locked: false, usageType: "one_off", plans: [{ variant: "recommended", steps: [], fixedCostUsd: 0, apiCostUsd: 0.54, totalCostUsd: 0.54, estimatedSavingsUsd: 0, existingSubscriptions: { kept: [], couldCancel: [] }, subscriptions: [], uniqueProductCount: 0, completeStepCount: 0, budgetUsd: 1139.998898, budgetRemainingUsd: 1139.458898, inputsUsed: { projectDescription: "Project", expectedResult: "Result", budgetUsd: 1139.998898, budgetOriginalAmount: 29_999_971, budgetOriginalCurrency: "VND", deadline: null, priorityRanking: ["balanced"], existingTools: [], informationSensitivity: "standard", commercialUse: false, providersToAvoid: [], preferredLanguage: "Vietnamese", expectedOutputs: null, region: "global" }, assumptions: [], dataUpdatedAt: Date.now() }], dataSnapshot: { fetchedAt: Date.now(), sources: [] } };
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify(result), { status: 200 }));
+    render(<ResultsView strategyId="vnd-strategy" />);
+    expect(await screen.findByText(/29\.999\.971/)).toBeInTheDocument();
+    expect(screen.getAllByText(/14\.211/).length).toBeGreaterThan(0);
+    expect(screen.getByText(/29\.985\.760/)).toBeInTheDocument();
+    expect(screen.getByText(/displayed in VND/i)).toBeInTheDocument();
+  });
   it("adds, edits, duplicates, and deletes monthly tasks with two sliders", () => {
     const { container } = render(<MonthlyTaskBuilder />);
     fireEvent.change(screen.getByLabelText("What do you regularly use AI for?"), { target: { value: "Research competitors" } });

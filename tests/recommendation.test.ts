@@ -138,6 +138,18 @@ describe("deterministic recommendation engine", () => {
     expect(plan.totalCostUsd).toBe(0);
     expect(plan.budgetCompatible).toBe(false);
   });
+  it("uses budget headroom for higher-quality models and value options for a small budget", () => {
+    const cheapEvidence = { ...preferenceEvidence, normalizedValue: 70, rawValue: 70 };
+    const premiumEvidence = { ...preferenceEvidence, normalizedValue: 95, rawValue: 95 };
+    const cheap = { ...model, id: "value", canonicalId: "provider/value", name: "Value model", qualityScore: 70, evidence: [cheapEvidence, pricingEvidence], accessOptions: [{ ...model.accessOptions![0], productId: "value", productName: "Value Suite", accessMethod: "product" as const, monthlyPriceUsd: 5 }] };
+    const premium = { ...model, id: "premium", canonicalId: "provider/premium", name: "Premium model", qualityScore: 95, evidence: [premiumEvidence, pricingEvidence], accessOptions: [{ ...model.accessOptions![0], productId: "premium", productName: "Premium Suite", accessMethod: "product" as const, monthlyPriceUsd: 80 }] };
+    const smallBudget = generateStrategyPlan([step], [cheap, premium], { ...context, budgetUsd: 10 }, "recommended");
+    const largeBudget = generateStrategyPlan([step], [cheap, premium], { ...context, budgetUsd: 200 }, "recommended");
+    expect(smallBudget.steps[0].selected?.model.name).toBe("Value model");
+    expect(largeBudget.steps[0].selected?.model.name).toBe("Premium model");
+    expect(smallBudget.totalCostUsd).toBe(5);
+    expect(largeBudget.totalCostUsd).toBe(80);
+  });
   it("rejects an unpriced new subscription when a budget was provided", () => {
     const unpriced = { ...model, accessOptions: [{ ...model.accessOptions![0], productName: "Mystery Suite", planName: "Pro", accessMethod: "product" as const }] };
     expect(getExclusionReasons(step, unpriced, context)).toContain("Subscription price is not verified, so budget compatibility cannot be confirmed");
