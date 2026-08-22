@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, ArrowDown } from "lucide-react";
 
 export function LustroDeck() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -186,8 +186,9 @@ export function LustroDeck() {
                 <Link href="/sign-up" className="btn-primary">
                   Build My AI Strategy &rarr;
                 </Link>
-                <button onClick={() => go(1)} className="btn-secondary">
-                  <span>Scroll down</span> &rarr;
+                <button onClick={() => go(1)} className="btn-secondary inline-flex items-center gap-2">
+                  <span>Scroll down</span>
+                  <ArrowDown className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
