@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, ChevronDown, ChevronUp } from "lucide-react";
 
 export function LustroDeck() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -151,7 +151,7 @@ export function LustroDeck() {
           ))}
         </div>
         <div className="menu-footer">
-          <span>Press <kbd>&larr;</kbd> <kbd>&rarr;</kbd> to navigate</span>
+          <span>Scroll down or press <kbd>&darr;</kbd> <kbd>&uarr;</kbd> to navigate</span>
         </div>
       </div>
 
@@ -187,10 +187,9 @@ export function LustroDeck() {
                   Build My AI Strategy &rarr;
                 </Link>
                 <button onClick={() => go(1)} className="btn-secondary">
-                  Explore Presentation
+                  <span>Scroll down</span> &rarr;
                 </button>
               </div>
-              <div className="s-cover-version">PRESS / DECK / 0001 &middot; AISESSOR HQ</div>
             </div>
           </div>
         </section>
@@ -222,8 +221,8 @@ export function LustroDeck() {
                 <div className="problem-card glass-card reveal">
                   <div className="pc-num">02</div>
                   <div className="pc-body">
-                    <h3>Hidden API &amp; usage limits</h3>
-                    <p>Rate limits and unexpected usage bills cause surprise charges mid-project.</p>
+                    <h3>Hidden subscription costs</h3>
+                    <p>Subscribing to multiple $20-$200/mo plans without knowing if models actually perform on your tasks.</p>
                   </div>
                 </div>
                 <div className="problem-card glass-card reveal">
@@ -235,6 +234,9 @@ export function LustroDeck() {
                 </div>
               </div>
             </div>
+            <button onClick={() => go(2)} className="scroll-down-circle reveal" aria-label="Scroll down" title="Scroll down">
+              <ChevronDown className="w-5 h-5 animate-bounce" />
+            </button>
           </div>
         </section>
 
@@ -317,6 +319,9 @@ export function LustroDeck() {
                 </div>
               </div>
             </div>
+            <button onClick={() => go(3)} className="scroll-down-circle reveal" aria-label="Scroll down" title="Scroll down">
+              <ChevronDown className="w-5 h-5 animate-bounce" />
+            </button>
           </div>
         </section>
 
@@ -357,6 +362,9 @@ export function LustroDeck() {
                 <p>Priority-controlled weights calculate performance fit, subscription consolidation, and net monthly dollar savings.</p>
               </div>
             </div>
+            <button onClick={() => go(4)} className="scroll-down-circle reveal" aria-label="Scroll down" title="Scroll down">
+              <ChevronDown className="w-5 h-5 animate-bounce" />
+            </button>
           </div>
         </section>
 
@@ -398,13 +406,15 @@ export function LustroDeck() {
                 </Link>
               </div>
             </div>
+            <button onClick={() => go(5)} className="scroll-down-circle reveal" aria-label="Scroll down" title="Scroll down">
+              <ChevronDown className="w-5 h-5 animate-bounce" />
+            </button>
           </div>
         </section>
 
         {/* ============ SLIDE 6: PRICING PLANS ============ */}
         <section ref={(el) => { slideRefs.current[5] = el; }} data-index={5} className={`slide ${currentIdx === 5 ? "active" : ""}`} data-section="Pricing plans">
           <div className="slide-inner s-compare">
-            {/* Centered Single-Line Header */}
             <div className="s-compare-head">
               <div className="eyebrow reveal">
                 <span className="dt" />
@@ -418,11 +428,8 @@ export function LustroDeck() {
               </p>
             </div>
 
-            {/* 3-Column Pricing Grid */}
             <div className="w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch mt-6">
-              {/* Card 1: Free Plan */}
               <div className="glass-card pricing-deck-card border border-white/10 w-full relative overflow-visible pt-8 z-20">
-                {/* Overlay Badge Top Right */}
                 <div className="eyebrow absolute -top-3.5 right-6 z-[100] bg-[#131626] border border-indigo-400/50 shadow-md">
                   <span className="dt" />
                   <span>Current plan</span>
@@ -472,9 +479,7 @@ export function LustroDeck() {
                 </Link>
               </div>
 
-              {/* Card 2: Featured Plus Plan */}
               <div className="glass-card pricing-deck-card bg-gradient-to-b from-[#151929] to-[#0c0f1c] border-2 border-indigo-500/60 shadow-2xl relative overflow-visible w-full pt-8 z-20">
-                {/* Overlay Badge Top Right */}
                 <div className="eyebrow absolute -top-3.5 right-6 z-[100] bg-[#181a30] border border-indigo-400/60 shadow-md">
                   <span className="dt" />
                   <span>Recommended</span>
@@ -524,7 +529,6 @@ export function LustroDeck() {
                 </Link>
               </div>
 
-              {/* Card 3: Enterprise Plan */}
               <div className="glass-card pricing-deck-card border border-white/10 w-full">
                 <div>
                   <div className="plan-name">Enterprise Plan</div>
@@ -569,6 +573,9 @@ export function LustroDeck() {
                 </a>
               </div>
             </div>
+            <button onClick={() => go(6)} className="scroll-down-circle reveal" aria-label="Scroll down" title="Scroll down">
+              <ChevronDown className="w-5 h-5 animate-bounce" />
+            </button>
           </div>
         </section>
 
@@ -608,6 +615,9 @@ export function LustroDeck() {
                 </div>
               </div>
             </div>
+            <button onClick={() => go(0)} className="scroll-down-circle reveal" aria-label="Scroll to top" title="Scroll to top">
+              <ChevronUp className="w-5 h-5" />
+            </button>
           </div>
         </section>
       </div>

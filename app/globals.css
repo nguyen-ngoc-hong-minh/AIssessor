@@ -108,9 +108,13 @@ html, body {
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(165, 180, 252, 0.25) transparent;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   z-index: 1;
+}
+
+.deck::-webkit-scrollbar {
+  display: none;
 }
 
 /* Slide Container */
@@ -137,11 +141,38 @@ html, body {
 }
 
 .slide-inner {
-  min-height: 100%;
-  padding: 90px 6vmin 80px;
+  min-height: 100vh;
+  padding: 90px 6vmin 70px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   position: relative;
+}
+
+.scroll-down-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--indigo-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 32px auto 0 auto;
+  cursor: pointer;
+  transition: all 0.3s var(--ee);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+
+.scroll-down-circle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(165, 180, 252, 0.4);
+  color: #ffffff;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 12px 30px rgba(165, 180, 252, 0.2);
 }
 
 .editorial-app-main .slide-inner {
