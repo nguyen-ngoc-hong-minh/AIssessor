@@ -82,6 +82,17 @@ export function summarizeAnalytics(sessions: AnalyticsSession[], events: Analyti
   const uniqueVisitors = new Set(sessions.map((session) => session.visitorHash)).size;
   const pageViews = sessions.reduce((sum, session) => sum + session.pageViews, 0);
   const engagedMs = sessions.reduce((sum, session) => sum + session.engagedMs, 0);
+  const visitTimes = sessions.map((session) => session.engagedMs).sort((a, b) => a - b);
+  const medianEngagementMs = visitTimes.length ? visitTimes.length % 2
+    ? visitTimes[Math.floor(visitTimes.length / 2)]
+    : Math.round((visitTimes[visitTimes.length / 2 - 1] + visitTimes[visitTimes.length / 2]) / 2) : 0;
+  const stayRanges = [
+    { label: "Under 10 seconds", min: 0, max: 10_000 },
+    { label: "10–30 seconds", min: 10_000, max: 30_000 },
+    { label: "30 seconds–2 minutes", min: 30_000, max: 120_000 },
+    { label: "2–5 minutes", min: 120_000, max: 300_000 },
+    { label: "5+ minutes", min: 300_000, max: Number.POSITIVE_INFINITY },
+  ];
   const bounces = sessions.filter((session) => session.pageViews <= 1 && session.meaningfulActions === 0 && session.engagedMs < 10_000).length;
   const pageMap = new Map<string, { path: string; views: number; engagedMs: number; entries: number; exits: number }>();
   for (const session of sessions) {
@@ -117,8 +128,13 @@ export function summarizeAnalytics(sessions: AnalyticsSession[], events: Analyti
       visits: sessions.length, uniqueVisitors, pageViews,
       bounceRate: sessions.length ? Math.round((bounces / sessions.length) * 1000) / 10 : 0,
       averageEngagementMs: sessions.length ? Math.round(engagedMs / sessions.length) : 0,
+      medianEngagementMs, longestEngagementMs: visitTimes.at(-1) ?? 0, totalEngagementMs: engagedMs,
       signedInSessions: sessions.filter((session) => session.actorType === "signed_in").length,
     },
+    stayTime: stayRanges.map((range) => {
+      const count = visitTimes.filter((value) => value >= range.min && value < range.max).length;
+      return { label: range.label, count, percentage: sessions.length ? Math.round((count / sessions.length) * 1000) / 10 : 0 };
+    }),
     daily,
     pages: [...pageMap.values()].map((page) => ({ ...page, averageEngagementMs: page.views ? Math.round(page.engagedMs / page.views) : 0 })).sort((a, b) => b.views - a.views).slice(0, 12),
     acquisition: ranked(sessions, (session) => session.referrerDomain || "Direct"),

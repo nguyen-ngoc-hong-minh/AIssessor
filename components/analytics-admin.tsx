@@ -5,7 +5,8 @@ import { useCallback, useEffect, useState } from "react";
 
 type Ranked = { label: string; count: number };
 type AnalyticsData = {
-  summary: { visits: number; uniqueVisitors: number; pageViews: number; bounceRate: number; averageEngagementMs: number; signedInSessions: number };
+  summary: { visits: number; uniqueVisitors: number; pageViews: number; bounceRate: number; averageEngagementMs: number; medianEngagementMs: number; longestEngagementMs: number; totalEngagementMs: number; signedInSessions: number };
+  stayTime: Array<{ label: string; count: number; percentage: number }>;
   daily: Array<{ date: string; visits: number; pageViews: number; uniqueVisitors: number }>;
   pages: Array<{ path: string; views: number; entries: number; exits: number; averageEngagementMs: number }>;
   acquisition: Ranked[]; locations: Ranked[]; devices: Ranked[]; journeys: Ranked[]; interactions: Ranked[];
@@ -16,7 +17,9 @@ type AnalyticsData = {
 function duration(ms: number) {
   if (ms < 1_000) return "<1s";
   const seconds = Math.round(ms / 1_000);
-  return seconds < 60 ? `${seconds}s` : `${Math.floor(seconds / 60)}m ${seconds % 60}s`;
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  return minutes < 60 ? `${minutes}m ${seconds % 60}s` : `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
 }
 function number(value: number) { return new Intl.NumberFormat().format(value); }
 function eventLabel(event: AnalyticsData["recentActivity"][number]) {
@@ -69,9 +72,10 @@ export function AnalyticsAdmin() {
       <article><Activity /><span>Unique visitors</span><strong>{number(data.summary.uniqueVisitors)}</strong><small>Pseudonymous browsers</small></article>
       <article><Eye /><span>Page views</span><strong>{number(data.summary.pageViews)}</strong><small>{data.summary.visits ? (data.summary.pageViews / data.summary.visits).toFixed(1) : "0.0"} per visit</small></article>
       <article><ArrowRight /><span>Bounce rate</span><strong>{data.summary.bounceRate}%</strong><small>One page, &lt;10s, no action</small></article>
-      <article><Clock3 /><span>Avg. engagement</span><strong>{duration(data.summary.averageEngagementMs)}</strong><small>Active time per visit</small></article>
+      <article><Clock3 /><span>Avg. time on website</span><strong>{duration(data.summary.averageEngagementMs)}</strong><small>Active, visible time per visit</small></article>
       <article><MousePointerClick /><span>Signed-in use</span><strong>{signedInRate}%</strong><small>{number(data.summary.signedInSessions)} signed-in sessions</small></article>
     </section>
+    <section className="analytics-panel analytics-stay"><header><div><h2>How long people stay</h2><p>Active, visible time only—idle or background tabs are not counted.</p></div></header><div className="analytics-stay-body"><div className="analytics-stay-stats"><article><span>Median visit</span><strong>{duration(data.summary.medianEngagementMs)}</strong></article><article><span>Longest visit</span><strong>{duration(data.summary.longestEngagementMs)}</strong></article><article><span>Total active time</span><strong>{duration(data.summary.totalEngagementMs)}</strong></article></div><div className="analytics-stay-ranges">{data.stayTime.map((range) => <div key={range.label}><div><strong>{range.label}</strong><span>{range.count} visits · {range.percentage}%</span></div><i><b style={{ width: `${range.percentage}%` }} /></i></div>)}</div></div></section>
     <section className="analytics-panel analytics-trend"><header><div><h2>Traffic over time</h2><p>Daily visits, with unique visitors shown below each date.</p></div></header><div className="analytics-bars">{data.daily.map((day) => <div key={day.date} className="analytics-day" title={`${day.visits} visits · ${day.uniqueVisitors} unique · ${day.pageViews} views`}><div className="analytics-bar-value">{day.visits || ""}</div><div className="analytics-bar-track"><i style={{ height: `${Math.max(day.visits ? 8 : 2, (day.visits / maxDaily) * 100)}%` }} /></div><strong>{new Date(`${day.date}T00:00:00Z`).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</strong><span>{day.uniqueVisitors} unique</span></div>)}</div></section>
     <div className="analytics-grid"><Ranking title="Acquisition" subtitle="Where visits came from" rows={data.acquisition} /><Ranking title="Locations" subtitle="Approximate city and country" rows={data.locations} /><Ranking title="Devices" subtitle="Device and browser mix" rows={data.devices} /><Ranking title="Page journeys" subtitle="Where people went next" rows={data.journeys} /></div>
     <section className="analytics-panel analytics-pages"><header><div><h2>Page performance</h2><p>Views, entry and exit points, and active engagement.</p></div></header><div className="analytics-table"><div className="analytics-table-head"><span>Page</span><span>Views</span><span>Entries</span><span>Exits</span><span>Avg. time</span></div>{data.pages.length ? data.pages.map((page) => <div key={page.path}><strong>{page.path}</strong><span>{number(page.views)}</span><span>{number(page.entries)}</span><span>{number(page.exits)}</span><span>{duration(page.averageEngagementMs)}</span></div>) : <p className="analytics-empty">No page views recorded yet.</p>}</div></section>
