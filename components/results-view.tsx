@@ -104,6 +104,7 @@ function ToolAccess({ tool, inputs }: { tool: Tool; inputs?: Plan["inputsUsed"] 
   const accessCost = tool.access.accessMethod === "product"
     ? tool.access.monthlyPriceUsd === undefined ? "Current plan price not verified" : `${friendlyCost(tool.access.monthlyPriceUsd, inputs)} / month`
     : `${friendlyCost(tool.estimatedCostUsd, inputs)} estimated usage`;
+
   return (
     <div className="!p-6 md:!p-7 rounded-2xl bg-[#131626] border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-6 my-4 shadow-md">
       <div className="tool-role flex-1 flex flex-col gap-[10px]">
@@ -116,7 +117,7 @@ function ToolAccess({ tool, inputs }: { tool: Tool; inputs?: Plan["inputsUsed"] 
         <div className="text-left md:text-right space-y-1">
           <span className="block text-[10px] font-mono text-indigo-soft uppercase tracking-wider">Product / Plan</span>
           <strong className="text-xs text-white/90 font-medium block">{productName} • {planName}</strong>
-          <small className="block text-[11px] text-ink-3">{accessCost}</small>
+          <small className="block text-[11px] font-mono text-ink-3 pt-0.5">{accessCost}</small>
         </div>
 
         <a className="btn-primary text-xs px-6 py-3 rounded-full inline-flex items-center gap-2 shadow-lg shadow-indigo-600/30 flex-none" href={tool.access.url} target="_blank" rel="noreferrer">
@@ -235,66 +236,113 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
         : "PARTIAL · WITHIN BUDGET";
 
   return (
-    <div className="w-full max-w-6xl mx-auto py-3 space-y-6 font-body">
-      <div className="flex flex-col items-center justify-center text-center gap-3 pt-2">
+    <div className="w-full max-w-6xl mx-auto my-auto py-6 space-y-8">
+      {/* Header with Largest H1: AI Stack Roadmap */}
+      <div className="flex flex-col items-center justify-center text-center space-y-4">
         <div className="eyebrow justify-center">
           <span className="dt" />
           AI Strategy Results
         </div>
-        <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tight text-center max-w-[700px] mx-auto leading-tight font-sans">
+        {/* 10px spacer below eyebrow */}
+        <div className="h-[10px] w-full block" />
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white tracking-tight text-center max-w-[700px] mx-auto leading-tight font-sans">
           AI Stack Roadmap
         </h1>
-        <p className="text-sm text-ink-2 text-center max-w-2xl mx-auto leading-relaxed">
+        <p className="text-sm text-ink-2 text-center max-w-xl mx-auto leading-relaxed pt-1">
           Each option is matched to your workload, checked against current primary evidence, and saved to your account.
         </p>
       </div>
 
       {stale && <span className="font-mono text-xs text-amber-400 bg-amber-400/10 px-4 py-1.5 rounded-full border border-amber-400/20 block w-max mx-auto">DATA LAST UPDATED &gt; 7 DAYS AGO</span>}
 
-      <section className="glass-card !p-5 md:!p-6 rounded-2xl border border-white/10 space-y-5" aria-label="Requirements used for this recommendation">
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div>
-            <span className="text-[11px] font-semibold text-indigo-soft uppercase tracking-[0.14em]">Your requirements were applied</span>
-            <h2 className="text-xl font-semibold text-white mt-1.5 font-sans">Budget and input check</h2>
-            <p className="text-sm text-ink-2 mt-2 max-w-2xl leading-relaxed">The budget is a hard cap across the complete stack. Smaller budgets favor value; larger budgets give stronger verified models more weight when the quality gain is worthwhile.</p>
+      {/* 30px Spacer Div */}
+      <div className="h-[30px] w-full block" />
+
+      {/* Budget & Input Check Glass Card */}
+      <section className="glass-card !p-8 md:!p-10 rounded-3xl border border-white/10 relative shadow-xl overflow-hidden" aria-label="Requirements used for this recommendation">
+        <div className="flex items-center justify-between gap-4 flex-wrap">
+          <div className="eyebrow">
+            <span className="dt" />
+            YOUR REQUIREMENTS WERE APPLIED
           </div>
-          <span className={`text-xs font-semibold px-3 py-1.5 rounded-full border ${withinKnownBudget ? "text-emerald-300 bg-emerald-400/10 border-emerald-400/30" : "text-amber-300 bg-amber-400/10 border-amber-400/30"}`}>
-            {budgetStatus}
-          </span>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 min-h-[88px]">
-            <span className="block text-xs font-medium text-ink-3">Your budget cap</span>
-            <strong className="block text-xl text-white mt-2 font-sans">{originalBudget ?? (budgetConfigured ? friendlyCost(plan.budgetUsd!, inputs) : "Not set")}</strong>
+          <div className="eyebrow bg-[#131626] border border-indigo-400/50 shadow-md">
+            <span className="dt" />
+            <span>{budgetStatus}</span>
           </div>
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 min-h-[88px]"><span className="block text-xs font-medium text-ink-3">Projected total</span><strong className="block text-xl text-white mt-2 font-sans">{friendlyCost(plan.totalCostUsd, inputs)}</strong></div>
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 min-h-[88px]"><span className="block text-xs font-medium text-ink-3">Budget remaining</span><strong className="block text-xl text-white mt-2 font-sans">{budgetConfigured ? budgetRemainingLabel(plan) : "Not applicable"}</strong></div>
-          <div className="p-4 rounded-xl bg-white/5 border border-white/10 min-h-[88px]"><span className="block text-xs font-medium text-ink-3">Workflow coverage</span><strong className="block text-xl text-white mt-2 font-sans">{plan.completeStepCount}/{plan.steps.length} steps</strong></div>
         </div>
-        {rateNote && <p className="text-xs text-ink-3 leading-relaxed">{rateNote} The remaining balance is calculated in your selected currency, so the displayed subtraction stays consistent.</p>}
+
+        {/* 20px Spacer Div */}
+        <div className="h-[20px] w-full block" />
+
+        <div className="space-y-2">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-snug font-sans">Budget and input check</h2>
+          <p className="text-sm md:text-base text-ink-2 leading-relaxed max-w-3xl">The budget is a hard cap across the complete stack. Smaller budgets favor value; larger budgets give stronger verified models more weight when the quality gain is worthwhile.</p>
+        </div>
+
+        {/* 30px Spacer Div */}
+        <div className="h-[30px] w-full block" />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+          <div className="feature glass-card !p-6 rounded-2xl border border-white/10 flex flex-col justify-between space-y-2 shadow-md">
+            <span className="font-mono text-[10px] font-bold text-indigo-soft uppercase tracking-wider block">Your budget cap</span>
+            <strong className="text-xl md:text-2xl font-bold text-white font-sans block">{originalBudget ?? (budgetConfigured ? friendlyCost(plan.budgetUsd!, inputs) : "Not set")}</strong>
+          </div>
+          <div className="feature glass-card !p-6 rounded-2xl border border-white/10 flex flex-col justify-between space-y-2 shadow-md">
+            <span className="font-mono text-[10px] font-bold text-indigo-soft uppercase tracking-wider block">Projected total</span>
+            <strong className="text-xl md:text-2xl font-bold text-white font-sans block">{friendlyCost(plan.totalCostUsd, inputs)}</strong>
+          </div>
+          <div className="feature glass-card !p-6 rounded-2xl border border-white/10 flex flex-col justify-between space-y-2 shadow-md">
+            <span className="font-mono text-[10px] font-bold text-indigo-soft uppercase tracking-wider block">Budget remaining</span>
+            <strong className="text-xl md:text-2xl font-bold text-white font-sans block">{budgetConfigured ? budgetRemainingLabel(plan) : "Not applicable"}</strong>
+          </div>
+          <div className="feature glass-card !p-6 rounded-2xl border border-white/10 flex flex-col justify-between space-y-2 shadow-md">
+            <span className="font-mono text-[10px] font-bold text-indigo-soft uppercase tracking-wider block">Workflow coverage</span>
+            <strong className="text-xl md:text-2xl font-bold text-white font-sans block">{plan.completeStepCount}/{plan.steps.length} steps</strong>
+          </div>
+        </div>
+
+        {rateNote && <p className="text-xs text-ink-3 leading-relaxed pt-3">{rateNote} The remaining balance is calculated in your selected currency, so the displayed subtraction stays consistent.</p>}
+
         {inputs && (
-          <details className="text-sm text-ink-2">
-            <summary className="font-semibold text-indigo-soft cursor-pointer">View every input used</summary>
-            <div className="grid md:grid-cols-2 gap-x-8 gap-y-3 mt-4 !p-5 rounded-xl bg-white/5 border border-white/10 leading-relaxed">
-              <p><strong className="text-white">Project:</strong> {inputs.projectDescription ?? "Saved project brief"}</p>
-              <p><strong className="text-white">Expected result:</strong> {inputs.expectedResult ?? "Defined by the approved workflow"}</p>
-              <p><strong className="text-white">Priority order:</strong> {inputs.priorityRanking.map(humanize).join(" → ")}</p>
-              <p><strong className="text-white">Deadline:</strong> {inputs.deadline ?? "No deadline"}</p>
-              <p><strong className="text-white">Language:</strong> {inputs.preferredLanguage}</p>
-              <p><strong className="text-white">Information sensitivity:</strong> {humanize(inputs.informationSensitivity)}</p>
-              <p><strong className="text-white">Commercial use:</strong> {inputs.commercialUse ? "Required" : "Not required"}</p>
-              <p><strong className="text-white">Existing tools:</strong> {inputs.existingTools.join(", ") || "None provided"}</p>
-              <p><strong className="text-white">Providers avoided:</strong> {inputs.providersToAvoid.join(", ") || "None"}</p>
-              <p><strong className="text-white">Region:</strong> {inputs.region}</p>
-              <p className="md:col-span-2"><strong className="text-white">Expected outputs:</strong> {inputs.expectedOutputs ?? "Defined by the approved workflow"}</p>
-            </div>
-          </details>
+          <div className="pt-4">
+            {/* 30px Spacer Div */}
+            <div className="h-[30px] w-full block" />
+
+            <details className="text-xs text-ink-2 cursor-pointer group">
+              <summary className="list-none flex items-center gap-2 select-none outline-none">
+                <h3 className="text-xl font-semibold text-white font-sans no-underline hover:no-underline hover:text-indigo-300 hover:drop-shadow-[0_0_12px_rgba(165,180,252,0.85)] transition-all flex items-center gap-2">
+                  <span>▶ View every input used</span>
+                </h3>
+              </summary>
+
+              {/* 20px Spacer Div */}
+              <div className="h-[20px] w-full block" />
+
+              <div className="mt-2 !p-6 rounded-2xl bg-[#0e111d] border border-white/10 shadow-inner grid grid-cols-1 md:grid-cols-2 gap-4 text-xs leading-relaxed">
+                <p><strong className="text-white font-semibold">Project:</strong> {inputs.projectDescription ?? "Saved project brief"}</p>
+                <p><strong className="text-white font-semibold">Expected result:</strong> {inputs.expectedResult ?? "Defined by the approved workflow"}</p>
+                <p><strong className="text-white font-semibold">Priority order:</strong> {inputs.priorityRanking.map(humanize).join(" → ")}</p>
+                <p><strong className="text-white font-semibold">Deadline:</strong> {inputs.deadline ?? "No deadline"}</p>
+                <p><strong className="text-white font-semibold">Language:</strong> {inputs.preferredLanguage}</p>
+                <p><strong className="text-white font-semibold">Information sensitivity:</strong> {humanize(inputs.informationSensitivity)}</p>
+                <p><strong className="text-white font-semibold">Commercial use:</strong> {inputs.commercialUse ? "Required" : "Not required"}</p>
+                <p><strong className="text-white font-semibold">Existing tools:</strong> {inputs.existingTools.join(", ") || "None provided"}</p>
+                <p><strong className="text-white font-semibold">Providers avoided:</strong> {inputs.providersToAvoid.join(", ") || "None"}</p>
+                <p><strong className="text-white font-semibold">Region:</strong> {inputs.region}</p>
+                <p className="md:col-span-2"><strong className="text-white font-semibold">Expected outputs:</strong> {inputs.expectedOutputs ?? "Defined by the approved workflow"}</p>
+              </div>
+            </details>
+          </div>
         )}
       </section>
 
-      <div className="flex flex-col gap-5">
+      {/* 30px Spacer Div */}
+      <div className="h-[30px] w-full block" />
+
+      {/* Workflow Steps Roadmap Cards (20px gap between blocks, 32px padding inside each card) */}
+      <div className="flex flex-col gap-[20px]">
         {plan.steps.map((step, index) => (
-          <article className="glass-card !p-6 md:!p-7 rounded-2xl border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
+          <article className="glass-card !p-8 md:!p-10 rounded-3xl border border-white/10 relative shadow-xl overflow-hidden" key={step.stepId}>
             {/* Step Header Row */}
             <div className="flex items-center justify-between gap-4">
               <span className="font-mono text-xs font-bold text-indigo-soft tracking-widest uppercase">
@@ -308,42 +356,57 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               )}
             </div>
 
+            {/* 30px Spacer Div (Hình 1) */}
+            <div className="h-[30px] w-full block" />
+
             {/* Title & Cost Row */}
-            <div className="flex items-start justify-between gap-6 mt-5">
+            <div className="flex items-start justify-between gap-6">
               <div className="flex-1">
                 <h3 className="text-2xl md:text-3xl font-semibold text-white tracking-tight leading-snug font-sans">
                   {step.step.name}
                 </h3>
 
-                <p className="text-sm text-ink-2 leading-relaxed mt-3">
+                {/* 16px Spacer Div between Title and Description */}
+                <div className="h-[16px] w-full block" />
+
+                <p className="text-sm md:text-base text-ink-2 leading-relaxed">
                   {step.step.plainLanguageDescription}
                 </p>
               </div>
 
               {step.selected && (
                 <div className="text-right flex-none pl-4">
-                  <span className="font-mono text-[10px] text-ink-3 uppercase block tracking-wider mb-1">ESTIMATED STEP USAGE</span>
-                  <strong className="text-xl font-bold text-white font-sans">{friendlyCost(step.selected.estimatedCostUsd, inputs)}</strong>
+                  <span className="font-mono text-[10px] text-ink-3 uppercase block tracking-wider mb-1">ESTIMATED STEP COST</span>
+                  <strong className="text-2xl font-bold text-white font-sans">{friendlyCost(step.selected.estimatedCostUsd, inputs)}</strong>
                 </div>
               )}
             </div>
 
+            {/* 30px Spacer Div (Hình 2) */}
+            <div className="h-[30px] w-full block" />
+
             {/* Selected Tool Details Container */}
             {step.selected ? (
-              <div className="mt-5">
+              <div>
                 <div className="tool-access-list space-y-4">
                   {step.selected.tools.map((tool) => (
                     <ToolAccess key={`${tool.model.canonicalId}-${tool.access.productId ?? tool.access.modelId}`} tool={tool} inputs={inputs} />
                   ))}
                 </div>
 
+                {/* 30px Spacer Div (Hình 3) */}
+                <div className="h-[30px] w-full block" />
+
                 {step.options && (
-                  <details className="text-xs text-ink-2 cursor-pointer group mt-5">
+                  <details className="text-xs text-ink-2 cursor-pointer group">
                     <summary className="list-none flex items-center gap-2 select-none outline-none">
-                      <h3 className="text-base font-semibold text-white font-sans no-underline hover:no-underline hover:text-indigo-300 transition-all flex items-center gap-2">
+                      <h3 className="text-xl font-semibold text-white font-sans no-underline hover:no-underline hover:text-indigo-300 hover:drop-shadow-[0_0_12px_rgba(165,180,252,0.85)] transition-all flex items-center gap-2">
                         <span>▶ Compare Alternative Tools</span>
                       </h3>
                     </summary>
+
+                    {/* 30px Spacer Div (Hình 4) */}
+                    <div className="h-[30px] w-full block" />
 
                     <StepOptions options={step.options} inputs={inputs} />
                   </details>
@@ -357,7 +420,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
             ) : (
               <div>
                 <PartialOptions options={step.partialOptions ?? []} />
-                <p className="text-xs text-amber-300 mt-3">
+                <p className="text-xs text-amber-300 mt-4">
                   {budgetConfigured && hasBudgetExclusion(step)
                     ? `No verified complete option for this step fits the total ${originalBudget ?? friendlyCost(plan.budgetUsd!, inputs)} budget with the other workflow steps.`
                     : "No verified complete option currently satisfies every capability and evidence requirement for this step."}
@@ -368,37 +431,39 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
         ))}
       </div>
 
+      {/* 30px Spacer Div */}
+      <div className="h-[30px] w-full block" />
+
       {/* Consolidated Subscription Stack Section (Outer Box White-Blue Gradient) */}
       <section
-        className="glass-card !p-6 md:!p-7 rounded-2xl border border-indigo-200/80 shadow-2xl"
+        className="glass-card !p-8 md:!p-10 rounded-3xl border border-indigo-200/80 shadow-2xl"
         style={{ background: "linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #dbeafe 100%)" }}
       >
         {/* Header Row */}
-        <div className="flex items-start justify-between gap-6 flex-wrap">
-          <div>
-            <div className="eyebrow bg-indigo-900/25 border border-indigo-900/40 text-[#1e1b4b] font-bold shadow-sm">
-              <span className="dt bg-indigo-900" />
-              Consolidated subscription stack
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 tracking-tight font-sans mt-4">
-              Your Optimized AI Stack
-            </h2>
+        <div>
+          <div className="eyebrow bg-indigo-900/25 border border-indigo-900/40 text-[#1e1b4b] font-bold shadow-sm">
+            <span className="dt bg-indigo-900" />
+            Consolidated subscription stack
           </div>
-          <div className="text-right">
-            <span className="text-xs font-medium text-slate-600 block mb-1">{plan.estimatedSavingsUsd > 0 ? "Verified savings" : costPeriod}</span>
-            <span className="text-2xl font-bold text-indigo-900 tracking-tight">
-              {plan.estimatedSavingsUsd > 0 ? `${friendlyCost(plan.estimatedSavingsUsd, inputs)} saved` : friendlyCost(plan.totalCostUsd, inputs)}
-            </span>
-          </div>
+
+          {/* 30px Spacer Div right below eyebrow */}
+          <div className="h-[30px] w-full block" />
+
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-sans">
+            Your Optimized AI Stack
+          </h2>
         </div>
 
+        {/* 30px Spacer Div */}
+        <div className="h-[30px] w-full block" />
+
         {subscriptions.length ? (
-          <div className="mt-5">
-            <div className="space-y-3">
+          <div>
+            <div className="space-y-4">
               {subscriptions.map((sub) => (
                 <div
                   key={sub.productId}
-                  className="flex items-center justify-between !p-5 rounded-xl bg-white/90 border border-indigo-100/90 shadow-md gap-6"
+                  className="flex items-center justify-between !p-6 rounded-2xl bg-white/90 border border-indigo-100/90 shadow-md gap-6"
                 >
                   <div className="space-y-1">
                     <strong className="text-base font-bold text-slate-900 block">{sub.productName}</strong>
@@ -425,16 +490,25 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               ))}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 !p-5 rounded-xl bg-indigo-950 text-white shadow-lg border border-indigo-900/80 mt-5">
-              <div><span className="block text-xs text-indigo-300">New subscriptions</span><strong className="text-lg text-white">{friendlyCost(plan.fixedCostUsd, inputs)} / month</strong></div>
-              <div><span className="block text-xs text-indigo-300">Estimated API usage</span><strong className="text-lg text-white">{friendlyCost(plan.apiCostUsd, inputs)}</strong></div>
-              <div><span className="block text-xs text-indigo-300">{costPeriod}</span><strong className="text-lg text-white">{friendlyCost(plan.totalCostUsd, inputs)}</strong></div>
+            {/* 30px Spacer Div */}
+            <div className="h-[30px] w-full block" />
+
+            <div className="flex items-center justify-between !p-6 rounded-2xl bg-indigo-950 text-white shadow-lg border border-indigo-900/80 gap-6">
+              <span className="font-mono text-xs font-bold text-indigo-300 uppercase tracking-wider">
+                {subscriptions.length} SUBSCRIPTIONS • CONSOLIDATED STACK
+              </span>
+              <strong className="text-2xl font-bold text-white font-sans">
+                {friendlyCost(plan.totalCostUsd, inputs)} / MONTH
+              </strong>
             </div>
           </div>
         ) : (
           <p className="text-xs text-slate-600 !p-6 rounded-2xl bg-white/90 border border-indigo-100">No paid AI products required for this workflow.</p>
         )}
       </section>
+
+      {/* 20px Spacer Div */}
+      <div className="h-[20px] w-full block" />
 
       {/* Footer Actions Row (NO divider line) */}
       <div className="flex items-center justify-between pt-4 flex-wrap gap-4">
