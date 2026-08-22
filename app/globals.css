@@ -562,6 +562,46 @@ html, body {
   transform: translateY(0);
 }
 
+/* Dashboard Page Route Transition Animation (Presentation Deck Style) */
+.dash-page-transition {
+  animation: deckSlideEnter 0.75s var(--eq) forwards;
+  will-change: transform, opacity, filter;
+}
+
+.dash-page-transition .reveal {
+  animation: deckRevealItem 0.85s var(--ee) forwards;
+}
+
+.dash-page-transition .reveal:nth-of-type(1) { animation-delay: 0.1s; }
+.dash-page-transition .reveal:nth-of-type(2) { animation-delay: 0.2s; }
+.dash-page-transition .reveal:nth-of-type(3) { animation-delay: 0.3s; }
+.dash-page-transition .reveal:nth-of-type(4) { animation-delay: 0.4s; }
+.dash-page-transition .reveal:nth-of-type(5) { animation-delay: 0.5s; }
+
+@keyframes deckSlideEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(32px) scale(0.985);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes deckRevealItem {
+  0% {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .slide.active .reveal:nth-of-type(1) { transition-delay: 0.5s; }
 .slide.active .reveal:nth-of-type(2) { transition-delay: 0.65s; }
 .slide.active .reveal:nth-of-type(3) { transition-delay: 0.8s; }

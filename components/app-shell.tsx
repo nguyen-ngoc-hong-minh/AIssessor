@@ -4,6 +4,7 @@ import { SignOutButton, useUser } from "@clerk/react";
 import { LogOut } from "lucide-react";
 import { Brand } from "./brand";
 import { DashboardDeckNav } from "./dashboard-deck-nav";
+import { PageTransition } from "./page-transition";
 
 export function AppShell({
   children,
@@ -47,7 +48,9 @@ export function AppShell({
       </div>
 
       {/* Main Workspace Presentation Area */}
-      <main className="editorial-app-main min-h-screen relative z-10">{children}</main>
+      <main className="editorial-app-main min-h-screen relative z-10">
+        <PageTransition>{children}</PageTransition>
+      </main>
 
       {/* Presentation Deck Bottom-Left: User Profile Pill (Matches Top Toggle Glass Style) */}
       <div className="dash-user-pill">
