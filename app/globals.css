@@ -103,28 +103,33 @@ html, body {
 .deck {
   position: fixed;
   inset: 0;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(165, 180, 252, 0.25) transparent;
+  z-index: 1;
 }
 
 /* Slide Container */
 .slide {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.9s var(--eq), visibility 0.9s;
-  z-index: 1;
-  overflow-y: auto;
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  opacity: 0.3;
+  visibility: visible;
+  transition: opacity 0.6s var(--eq);
+  overflow-y: visible;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(165, 180, 252, 0.25) transparent;
 }
 
 .slide.active {
   opacity: 1;
   visibility: visible;
-  transition-delay: 0.4s;
 }
 
 .slide.exiting {

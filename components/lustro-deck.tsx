@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { Check } from "lucide-react";
 
 export function LustroDeck() {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const slideRefs = useRef<(HTMLElement | null)[]>([]);
 
   const slidesCount = 7;
 
@@ -22,14 +22,38 @@ export function LustroDeck() {
   ];
 
   const go = useCallback((targetIdx: number) => {
-    if (isAnimating || targetIdx === currentIdx || targetIdx < 0 || targetIdx >= slidesCount) return;
-    setIsAnimating(true);
-    setCurrentIdx(targetIdx);
+    if (targetIdx < 0 || targetIdx >= slidesCount) return;
+    const el = slideRefs.current[targetIdx];
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
     setMenuOpen(false);
-    setTimeout(() => {
-      setIsAnimating(false);
-    }, 800);
-  }, [isAnimating, currentIdx, slidesCount]);
+  }, [slidesCount]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idxStr = entry.target.getAttribute("data-index");
+            if (idxStr !== null) {
+              const idx = parseInt(idxStr, 10);
+              if (!isNaN(idx)) {
+                setCurrentIdx(idx);
+              }
+            }
+          }
+        });
+      },
+      { threshold: 0.45 }
+    );
+
+    slideRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -38,8 +62,14 @@ export function LustroDeck() {
         return;
       }
       if (menuOpen) return;
-      if (e.key === "ArrowRight") go(currentIdx + 1);
-      if (e.key === "ArrowLeft") go(currentIdx - 1);
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        e.preventDefault();
+        go(currentIdx + 1);
+      }
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        go(currentIdx - 1);
+      }
       if (e.key === " ") {
         e.preventDefault();
         go(currentIdx + 1);
@@ -128,7 +158,7 @@ export function LustroDeck() {
       {/* DECK SLIDES */}
       <div className="deck">
         {/* ============ SLIDE 1: COVER ============ */}
-        <section className={`slide ${currentIdx === 0 ? "active" : ""}`} data-section="Cover">
+        <section ref={(el) => { slideRefs.current[0] = el; }} data-index={0} className={`slide ${currentIdx === 0 ? "active" : ""}`} data-section="Cover">
           <div className="slide-inner s-cover">
             <div className="s-cover-inner">
               <div className="s-cover-glow" />
@@ -166,7 +196,7 @@ export function LustroDeck() {
         </section>
 
         {/* ============ SLIDE 2: PROBLEM ============ */}
-        <section className={`slide ${currentIdx === 1 ? "active" : ""}`} data-section="The problem">
+        <section ref={(el) => { slideRefs.current[1] = el; }} data-index={1} className={`slide ${currentIdx === 1 ? "active" : ""}`} data-section="The problem">
           <div className="slide-inner s-problem">
             <div className="s-problem-grid">
               <div className="s-problem-left">
@@ -209,7 +239,7 @@ export function LustroDeck() {
         </section>
 
         {/* ============ SLIDE 3: INTRODUCING AISESSOR ============ */}
-        <section className={`slide ${currentIdx === 2 ? "active" : ""}`} data-section="Introducing AIssessor">
+        <section ref={(el) => { slideRefs.current[2] = el; }} data-index={2} className={`slide ${currentIdx === 2 ? "active" : ""}`} data-section="Introducing AIssessor">
           <div className="slide-inner s-product">
             <div className="s-product-grid">
               <div className="s-product-left">
@@ -291,7 +321,7 @@ export function LustroDeck() {
         </section>
 
         {/* ============ SLIDE 4: THE PROCESS ============ */}
-        <section className={`slide ${currentIdx === 3 ? "active" : ""}`} data-section="The process">
+        <section ref={(el) => { slideRefs.current[3] = el; }} data-index={3} className={`slide ${currentIdx === 3 ? "active" : ""}`} data-section="The process">
           <div className="slide-inner s-features">
             <div className="s-features-head">
               <div className="sf-l">
@@ -331,7 +361,7 @@ export function LustroDeck() {
         </section>
 
         {/* ============ SLIDE 5: PLANNING MODES ============ */}
-        <section className={`slide ${currentIdx === 4 ? "active" : ""}`} data-section="Planning modes">
+        <section ref={(el) => { slideRefs.current[4] = el; }} data-index={4} className={`slide ${currentIdx === 4 ? "active" : ""}`} data-section="Planning modes">
           <div className="slide-inner s-features">
             <div className="s-features-head">
               <div className="sf-l">
@@ -372,7 +402,7 @@ export function LustroDeck() {
         </section>
 
         {/* ============ SLIDE 6: PRICING PLANS ============ */}
-        <section className={`slide ${currentIdx === 5 ? "active" : ""}`} data-section="Pricing plans">
+        <section ref={(el) => { slideRefs.current[5] = el; }} data-index={5} className={`slide ${currentIdx === 5 ? "active" : ""}`} data-section="Pricing plans">
           <div className="slide-inner s-compare">
             {/* Centered Single-Line Header */}
             <div className="s-compare-head">
@@ -543,7 +573,7 @@ export function LustroDeck() {
         </section>
 
         {/* ============ SLIDE 7: GET STARTED (CTA) ============ */}
-        <section className={`slide ${currentIdx === 6 ? "active" : ""}`} data-section="Get started">
+        <section ref={(el) => { slideRefs.current[6] = el; }} data-index={6} className={`slide ${currentIdx === 6 ? "active" : ""}`} data-section="Get started">
           <div className="slide-inner s-cta">
             <div className="s-cta-inner">
               <div className="s-cta-glow" />
