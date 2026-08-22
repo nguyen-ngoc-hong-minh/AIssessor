@@ -183,7 +183,7 @@ export function LustroDeck() {
                 <span>1,200+ AI Models</span>
               </div>
               <div className="s-cover-cta reveal">
-                <Link href="/sign-up" className="btn-primary">
+                <Link href="/choose-usage" className="btn-primary">
                   Build My AI Strategy &rarr;
                 </Link>
                 <button onClick={() => go(1)} className="btn-secondary inline-flex items-center gap-2">
@@ -268,7 +268,7 @@ export function LustroDeck() {
                   </div>
                 </div>
                 <div className="s-product-cta reveal">
-                  <Link href="/sign-up" className="btn-primary">
+                  <Link href="/choose-usage" className="btn-primary">
                     Build Strategy &rarr;
                   </Link>
                 </div>
@@ -597,7 +597,7 @@ export function LustroDeck() {
                 Free to start. No credit card required. Describe your project and AIssessor will deliver an actionable AI stack plan in seconds.
               </p>
               <div className="s-cta-row reveal">
-                <Link href="/sign-up" className="btn-primary">
+                <Link href="/choose-usage" className="btn-primary">
                   Build My AI Strategy &rarr;
                 </Link>
               </div>
