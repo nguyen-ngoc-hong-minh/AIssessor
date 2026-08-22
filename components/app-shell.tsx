@@ -8,6 +8,7 @@ import { DashboardDeckNav } from "./dashboard-deck-nav";
 export function AppShell({
   children,
   user,
+  isAdmin = false,
 }: {
   children: React.ReactNode;
   user: { name: string; email: string };
@@ -42,7 +43,7 @@ export function AppShell({
 
       {/* Presentation Deck Persistent Top-Right Controls: Deck Nav Toggle */}
       <div className="dash-top-right-chrome">
-        <DashboardDeckNav />
+        <DashboardDeckNav isAdmin={isAdmin} />
       </div>
 
       {/* Main Workspace Presentation Area */}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import { Providers } from "@/components/providers";
+import { AnalyticsTracker } from "@/components/analytics-tracker";
 import "./globals.css";
 import "@xyflow/react/dist/style.css";
 
@@ -20,5 +21,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body className={`${spaceGrotesk.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}><Providers>{children}</Providers></body></html>;
+  return <html lang="en"><body className={`${spaceGrotesk.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}><Providers><AnalyticsTracker />{children}</Providers></body></html>;
 }

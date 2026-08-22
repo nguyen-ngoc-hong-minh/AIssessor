@@ -1,25 +1,28 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-export function DashboardDeckNav() {
+export function DashboardDeckNav({ isAdmin = false }: { isAdmin?: boolean }) {
   const pathname = usePathname();
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const sections = [
+  const sections = useMemo(() => [
     { label: "Strategies Overview", sub: "Command center & active plans", href: "/dashboard" },
     { label: "New Strategy Builder", sub: "Plan project or monthly workflow", href: "/choose-usage" },
     { label: "Billing & Subscriptions", sub: "Consolidated software stack & invoices", href: "/billing" },
     { label: "Account Settings", sub: "Preferences & security", href: "/settings" },
-  ];
+    ...(isAdmin ? [
+      { label: "Website Analytics", sub: "Visitors, journeys & interactions", href: "/admin/analytics" },
+      { label: "Evidence Diagnostics", sub: "Model sources & recommendation health", href: "/admin/evidence" },
+    ] : []),
+  ], [isAdmin]);
 
   // Determine current index based on pathname
-  let currentIdx = 0;
-  if (pathname.startsWith("/choose-usage") || pathname.startsWith("/strategy/new")) currentIdx = 1;
-  else if (pathname.startsWith("/billing")) currentIdx = 2;
-  else if (pathname.startsWith("/settings")) currentIdx = 3;
+  let currentIdx = sections.findIndex((section) => pathname.startsWith(section.href));
+  if (pathname.startsWith("/strategy/new")) currentIdx = 1;
+  if (currentIdx < 0) currentIdx = 0;
 
   const totalSections = sections.length;
 
@@ -29,7 +32,7 @@ export function DashboardDeckNav() {
       setMenuOpen(false);
       router.push(sections[idx].href);
     },
-    [router, totalSections]
+    [router, sections, totalSections]
   );
 
   useEffect(() => {

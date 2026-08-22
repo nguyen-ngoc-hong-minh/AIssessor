@@ -12,6 +12,7 @@ import type * as actions_billing from "../actions/billing.js";
 import type * as actions_planner from "../actions/planner.js";
 import type * as actions_recommend from "../actions/recommend.js";
 import type * as actions_syncModels from "../actions/syncModels.js";
+import type * as analytics from "../analytics.js";
 import type * as crons from "../crons.js";
 import type * as http from "../http.js";
 import type * as lib_auth from "../lib/auth.js";
@@ -35,6 +36,7 @@ declare const fullApi: ApiFromModules<{
   "actions/planner": typeof actions_planner;
   "actions/recommend": typeof actions_recommend;
   "actions/syncModels": typeof actions_syncModels;
+  analytics: typeof analytics;
   crons: typeof crons;
   http: typeof http;
   "lib/auth": typeof lib_auth;

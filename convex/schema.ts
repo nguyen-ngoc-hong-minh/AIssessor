@@ -102,4 +102,19 @@ export default defineSchema({
     .index("by_team", ["teamId"]).index("by_user", ["userId"]).index("by_team_user", ["teamId", "userId"]),
   webhookEvents: defineTable({ provider: v.string(), eventId: v.string(), eventType: v.string(), processedAt: v.number() })
     .index("by_provider_event", ["provider", "eventId"]),
+  analyticsSessions: defineTable({
+    sessionHash: v.string(), visitorHash: v.string(), actorHash: v.optional(v.string()), actorType: v.union(v.literal("anonymous"), v.literal("signed_in")),
+    startedAt: v.number(), lastSeenAt: v.number(), entryPath: v.string(), exitPath: v.string(), referrerDomain: v.optional(v.string()),
+    country: v.optional(v.string()), region: v.optional(v.string()), city: v.optional(v.string()), device: v.string(), browser: v.string(),
+    pageViews: v.number(), eventCount: v.number(), meaningfulActions: v.number(), engagedMs: v.number(), maxScrollDepth: v.number(),
+    rateWindowStartedAt: v.number(), rateWindowCount: v.number(),
+    pages: v.array(v.object({ path: v.string(), views: v.number(), engagedMs: v.number() })),
+  }).index("by_session_hash", ["sessionHash"]).index("by_started_at", ["startedAt"]),
+  analyticsEvents: defineTable({
+    sessionHash: v.string(), visitorHash: v.string(), actorType: v.union(v.literal("anonymous"), v.literal("signed_in")),
+    eventType: v.union(v.literal("page_view"), v.literal("engagement"), v.literal("click"), v.literal("form_submit")),
+    path: v.string(), fromPath: v.optional(v.string()), toPath: v.optional(v.string()), referrerDomain: v.optional(v.string()),
+    targetLabel: v.optional(v.string()), targetType: v.optional(v.string()), durationMs: v.optional(v.number()), scrollDepth: v.optional(v.number()),
+    country: v.optional(v.string()), region: v.optional(v.string()), city: v.optional(v.string()), device: v.string(), browser: v.string(), occurredAt: v.number(),
+  }).index("by_occurred_at", ["occurredAt"]).index("by_session_occurred", ["sessionHash", "occurredAt"]),
 });
