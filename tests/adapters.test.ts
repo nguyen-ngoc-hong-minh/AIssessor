@@ -68,11 +68,19 @@ describe("source normalizers", () => {
     const codex = models.find((candidate) => candidate.canonicalId === "openai/codex-product");
     const elicit = models.find((candidate) => candidate.canonicalId === "elicit/elicit-product");
     const deepl = models.find((candidate) => candidate.canonicalId === "deepl/deepl-translator");
+    const firefly = models.find((candidate) => candidate.canonicalId === "adobe/firefly-standard");
+    const synthesia = models.find((candidate) => candidate.canonicalId === "synthesia/synthesia-starter");
+    const suno = models.find((candidate) => candidate.canonicalId === "suno/suno-pro");
+    const jasper = models.find((candidate) => candidate.canonicalId === "jasper/jasper-pro");
     expect(models).toHaveLength(OFFICIAL_AI_PRODUCTS.length);
     expect(codex).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["repository_editing", "test_generation"]), benchmarks: [] });
     expect(codex?.capabilityEvidence[0]).toMatchObject({ confidence: "official_provider_docs" });
     expect(elicit).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["web_research", "citation_support", "long_context"]) });
     expect(deepl).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["translation", "document_parsing", "long_context"]) });
+    expect(firefly).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["image_generation", "video_generation", "audio_generation"]), accessOptions: [expect.objectContaining({ monthlyPriceUsd: 9.99 })] });
+    expect(synthesia).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["video_generation", "text_to_speech", "translation"]), accessOptions: [expect.objectContaining({ monthlyPriceUsd: 29 })] });
+    expect(suno).toMatchObject({ status: "eligible", capabilities: ["audio_generation"], accessOptions: [expect.objectContaining({ monthlyPriceUsd: 8 })] });
+    expect(jasper).toMatchObject({ status: "eligible", capabilities: expect.arrayContaining(["text_generation", "image_generation", "workflow_automation"]), accessOptions: [expect.objectContaining({ monthlyPriceUsd: 69 })] });
   });
 
   it("fails closed when an official product page no longer confirms its expected terms", () => {
