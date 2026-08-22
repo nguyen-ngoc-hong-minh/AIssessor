@@ -797,7 +797,7 @@ html, body {
 }
 
 .s-cover-inner {
-  max-width: 980px;
+  max-width: 1100px;
   max-height: 85vh;
   width: 100%;
   display: flex;
@@ -829,7 +829,7 @@ html, body {
 }
 
 .s-cover h1 {
-  font-size: clamp(32px, 5.2vw, 84px);
+  font-size: clamp(54px, 8vw, 140px);
   line-height: 1.05;
 }
 
@@ -853,20 +853,20 @@ html, body {
 
 .s-cover-meta {
   display: flex;
-  gap: 18px;
+  gap: 32px;
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 2px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
 
 .s-cover-meta .sep {
-  width: 16px;
+  width: 24px;
   height: 1px;
   background: var(--ink-4);
 }
