@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { SignOutButton, useUser } from "@clerk/react";
 import { LogOut } from "lucide-react";
 import { Brand } from "./brand";
@@ -15,6 +16,8 @@ export function AppShell({
   user: { name: string; email: string };
   isAdmin?: boolean;
 }) {
+  const pathname = usePathname();
+  const isLongPage = pathname.startsWith("/strategy/");
   const { user: clerkUser } = useUser();
   const avatarUrl = clerkUser?.imageUrl;
 
@@ -48,7 +51,7 @@ export function AppShell({
       </div>
 
       {/* Main Workspace Presentation Area */}
-      <main className="editorial-app-main min-h-screen relative z-10">
+      <main className={`editorial-app-main min-h-screen relative z-10 ${isLongPage ? "is-long-page" : ""}`}>
         <PageTransition>{children}</PageTransition>
       </main>
 

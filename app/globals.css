@@ -2189,6 +2189,23 @@ html, body {
   box-sizing: border-box;
 }
 
+/* Long Pages (Strategy Input Forms, Workflows, Strategy Plan Results) */
+.editorial-app-main.is-long-page {
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+  justify-content: flex-start !important;
+  padding-top: 72px !important;
+  padding-bottom: 80px !important;
+}
+
+.editorial-app-main.is-long-page .slide-inner,
+.editorial-app-main.is-long-page .dash-page-transition {
+  height: auto !important;
+  max-height: none !important;
+  justify-content: flex-start !important;
+}
+
 .settings-card-box {
   padding: 60px !important;
   border-radius: 28px;
