@@ -270,9 +270,9 @@ export function LustroLanding() {
           <div><div className="lustro-eyebrow lustro-reveal"><span /> Pricing</div><h2 className="lustro-display lustro-reveal">Start free. Upgrade when the full plan helps.</h2></div>
         </div>
         <div className="lustro-pricing-grid">
-          <article className="lustro-plan lustro-reveal"><small>Free</small><h3>$0</h3><p>Try one task analysis and see a short recommendation summary.</p><Link href="/sign-up">Start free <ArrowRight /></Link></article>
-          <article className="lustro-plan lustro-plan-featured lustro-reveal"><span>Most popular</span><small>Plus</small><h3>$19 <em>/ month</em></h3><p>Complete strategies, alternatives, saved plans, and monthly workflows.</p><Link href="/pricing">See Plus <ArrowRight /></Link></article>
-          <article className="lustro-plan lustro-reveal"><small>Team</small><h3>$49 <em>/ month</em></h3><p>Shared strategies and collaboration for a small team.</p><Link href="/pricing">See Team <ArrowRight /></Link></article>
+          <article className="lustro-plan lustro-reveal"><small>STARTER</small><h3>$2.99 <em>/ month</em></h3><p>3 AI Task Assessments, AI recommendation, cost estimate &amp; 3 saved strategies.</p><Link href="/sign-up">Start Starter <ArrowRight /></Link></article>
+          <article className="lustro-plan lustro-plan-featured lustro-reveal"><span>Recommended</span><small>OPTIMISE</small><h3>$9.99 <em>/ month</em></h3><p>20 AI Task Assessments, full AI workflow, subscription optimisation &amp; monthly recommendations.</p><Link href="/choose-usage">Start Optimise <ArrowRight /></Link></article>
+          <article className="lustro-plan lustro-reveal"><small>TEAM</small><h3>CUSTOM</h3><p>Custom AI Task Assessments, shared AI workspace, team cost tracking &amp; recommendations.</p><a href="mailto:sales@aissessor.app">Contact Sales <ArrowRight /></a></article>
         </div>
       </div>
     </section>
