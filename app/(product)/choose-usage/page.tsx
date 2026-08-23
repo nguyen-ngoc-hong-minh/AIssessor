@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Planning Modes · AIssessor" };
+export const metadata: Metadata = { title: "Planning Modes · Aissessor" };
 
 export default function ChooseUsagePage() {
   return (

@@ -14,7 +14,7 @@ export function LustroDeck() {
   const slidesData = [
     { section: "Cover", sub: "The launch headline" },
     { section: "The problem", sub: "Why teams struggle today" },
-    { section: "Introducing AIssessor", sub: "The optimization engine" },
+    { section: "Introducing Aissessor", sub: "The optimization engine" },
     { section: "The process", sub: "Goal analysis to strategy plan" },
     { section: "Planning modes", sub: "One-off project or monthly pipeline" },
     { section: "Pricing plans", sub: "Free, Plus, and Enterprise" },
@@ -86,7 +86,7 @@ export function LustroDeck() {
 
       {/* Persistent Chrome: Brand Header */}
       <div className="brand">
-        <span className="brand-text">AIssessor</span>
+        <span className="brand-text">Aissessor</span>
       </div>
 
       {/* Section Tag Indicator */}
@@ -98,7 +98,7 @@ export function LustroDeck() {
       {/* Right Credit Tag */}
       <a className="tm-credit" href="https://github.com/tttam2702-ui/dms4_mvp" target="_blank" rel="noreferrer">
         <span className="tm-dot" />
-        <span className="tm-label">AIssessor v4.0</span>
+        <span className="tm-label">Aissessor</span>
       </a>
 
       {/* Persistent Nav & Counter */}
@@ -164,21 +164,20 @@ export function LustroDeck() {
               <div className="s-cover-glow" />
               <div className="eyebrow reveal">
                 <span className="dt" />
-                AIssessor 4.0 Launch
+                Aissessor Launch
               </div>
               <h1 className="h-display">
                 <span className="line">
-                  <span><span className="grd">AIssessor</span> is here.</span>
+                  <span><span className="grd">Aissessor</span> is here.</span>
                 </span>
                 <span className="line">
                   <span>AI Stack, finally optimized.</span>
                 </span>
               </h1>
               <p className="body-lg reveal" style={{ maxWidth: 680 }}>
-                Tell us what you need to accomplish. AIssessor builds the workflow, compares current AI options, and finds the subscriptions worth paying for.
+                Tell us what you need to accomplish. Aissessor builds the workflow, compares current AI options, and finds the subscriptions worth paying for.
               </p>
               <div className="s-cover-meta reveal">
-                <span>v 4.0</span><span className="sep" />
                 <span>August 2026</span><span className="sep" />
                 <span>1,200+ AI Models</span>
               </div>
@@ -242,16 +241,16 @@ export function LustroDeck() {
         </section>
 
         {/* ============ SLIDE 3: INTRODUCING AISESSOR ============ */}
-        <section ref={(el) => { slideRefs.current[2] = el; }} data-index={2} className={`slide ${currentIdx === 2 ? "active" : ""}`} data-section="Introducing AIssessor">
+        <section ref={(el) => { slideRefs.current[2] = el; }} data-index={2} className={`slide ${currentIdx === 2 ? "active" : ""}`} data-section="Introducing Aissessor">
           <div className="slide-inner s-product">
             <div className="s-product-grid">
               <div className="s-product-left">
-                <span className="product-tag reveal">&#10022; New &middot; In AIssessor 4.0</span>
+                <span className="product-tag reveal">&#10022; New &middot; In Aissessor</span>
                 <h2 className="h-display reveal">
-                  Meet <span className="grd">AIssessor</span>. Your AI stack, explained.
+                  Meet <span className="grd">Aissessor</span>. Your AI stack, explained.
                 </h2>
                 <p className="body-lg reveal">
-                  AIssessor turns your workload goals into a verified, plain-language AI strategy. Ask questions in English. Get exact tool stacks, subscription tiers, and dollar savings.
+                  Aissessor turns your workload goals into a verified, plain-language AI strategy. Ask questions in English. Get exact tool stacks, subscription tiers, and dollar savings.
                 </p>
                 <div className="s-product-features reveal">
                   <div className="pf">
@@ -333,19 +332,19 @@ export function LustroDeck() {
               <div className="sf-l">
                 <div className="eyebrow reveal">
                   <span className="dt" />
-                  The AIssessor Process
+                  The Aissessor Process
                 </div>
                 <h2 className="h-display reveal">Workflow first. Evidence second. <span className="grd">Recommendation</span> last.</h2>
               </div>
               <p className="sf-r reveal">
-                AIssessor turns your plain-language goal into a verified, actionable AI stack plan through a transparent 4-step process.
+                Aissessor turns your plain-language goal into a verified, actionable AI stack plan through a transparent 4-step process.
               </p>
             </div>
             <div className="feature-grid">
               <div className="feature glass-card reveal">
                 <div className="f-num">01</div>
                 <h3>Describe the result</h3>
-                <p>Tell AIssessor what you need in everyday language, along with budget, target deadline, and priority ranking.</p>
+                <p>Tell Aissessor what you need in everyday language, along with budget, target deadline, and priority ranking.</p>
               </div>
               <div className="feature-grid-item feature glass-card reveal">
                 <div className="f-num">02</div>
@@ -594,7 +593,7 @@ export function LustroDeck() {
                 <span className="mw"><span>your AI stack.</span></span>
               </h2>
               <p className="body-lg reveal" style={{ maxWidth: 580 }}>
-                Free to start. No credit card required. Describe your project and AIssessor will deliver an actionable AI stack plan in seconds.
+                Free to start. No credit card required. Describe your project and Aissessor will deliver an actionable AI stack plan in seconds.
               </p>
               <div className="s-cta-row reveal">
                 <Link href="/choose-usage" className="btn-primary">

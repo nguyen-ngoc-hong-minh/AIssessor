@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { WorkflowEditor } from "@/components/workflow-editor";
 
-export const metadata: Metadata = { title: "Review Workflow · AIssessor" };
+export const metadata: Metadata = { title: "Review Workflow · Aissessor" };
 
 export default async function WorkflowPage({
   params,

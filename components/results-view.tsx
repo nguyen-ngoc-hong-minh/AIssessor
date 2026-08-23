@@ -237,7 +237,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
     <div className="glass-card text-center !py-16 !p-8 rounded-3xl border border-white/10">
       <div className="w-3 h-3 rounded-full bg-indigo-400 animate-ping mx-auto mb-4" />
       <h2 className="text-xl font-semibold text-white">MATCHING OPTIMAL AI STACK</h2>
-      <p className="text-xs text-ink-2 mt-2">AIssessor is verifying primary benchmark evidence and calculating subscription costs.</p>
+      <p className="text-xs text-ink-2 mt-2">Aissessor is verifying primary benchmark evidence and calculating subscription costs.</p>
     </div>
   );
 

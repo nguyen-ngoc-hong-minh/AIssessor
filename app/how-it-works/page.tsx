@@ -3,10 +3,10 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowUpRight } from "lucide-react";
 
-export const metadata: Metadata = { title: "How It Works · AIssessor" };
+export const metadata: Metadata = { title: "How It Works · Aissessor" };
 
 const steps = [
-  ["01.", "Describe Objectives", "Tell AIssessor what you need in everyday language, along with budget, timing, and priorities."],
+  ["01.", "Describe Objectives", "Tell Aissessor what you need in everyday language, along with budget, timing, and priorities."],
   ["02.", "Planner AI Maps Workload", "The planner engine returns a validated workflow with workload assumptions without bias toward familiar models."],
   ["03.", "Approve Workflow Steps", "Edit, reorder, add, remove, or mark steps as manual before any recommendation is calculated."],
   ["04.", "Compatibility Filtering", "Incompatible modalities, insufficient context windows, missing privacy evidence, and hard-budget failures are excluded."],
@@ -23,7 +23,7 @@ export default function HowItWorksPage() {
           <span className="mono-badge">[ METHODOLOGY ]</span>
           <h1>Workflow First. Evidence Second. Recommendation Last.</h1>
           <p className="lead-text">
-            AIssessor separates understanding your workload from choosing the technology. This guarantees unbiased, verifiable recommendations tailored to your exact budget and requirements.
+            Aissessor separates understanding your workload from choosing the technology. This guarantees unbiased, verifiable recommendations tailored to your exact budget and requirements.
           </p>
         </div>
 

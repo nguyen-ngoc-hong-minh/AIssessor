@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { MonthlyTaskBuilder } from "@/components/monthly-task-builder";
 
-export const metadata: Metadata = { title: "New Monthly Strategy · AIssessor" };
+export const metadata: Metadata = { title: "New Monthly Strategy · Aissessor" };
 
 export default function NewMonthlyStrategyPage() {
   return (

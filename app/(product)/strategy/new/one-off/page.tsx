@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { OneOffStrategyForm } from "@/components/one-off-strategy-form";
 
-export const metadata: Metadata = { title: "New Strategy · AIssessor" };
+export const metadata: Metadata = { title: "New Strategy · Aissessor" };
 
 export default function OneOffPage() {
   return (

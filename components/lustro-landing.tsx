@@ -26,7 +26,7 @@ import { authConfigured } from "./providers";
 const chapters = [
   { id: "cover", label: "Start", sub: "The AI stack advisor" },
   { id: "problem", label: "The problem", sub: "Why choosing tools is hard" },
-  { id: "product", label: "AIssessor", sub: "Start with the work" },
+  { id: "product", label: "Aissessor", sub: "Start with the work" },
   { id: "modes", label: "Ways to plan", sub: "Project or monthly work" },
   { id: "process", label: "Process", sub: "Four clear steps" },
   { id: "checks", label: "Evidence checks", sub: "How options qualify" },
@@ -53,7 +53,7 @@ const checks = [
 const process = [
   ["01", "Describe the work", "Write the goal, budget, deadline, and priorities in normal language."],
   ["02", "Review the workflow", "For projects, check and edit the steps before any recommendation is generated."],
-  ["03", "Compare qualified options", "AIssessor checks capability, evidence, price, speed, privacy, and access."],
+  ["03", "Compare qualified options", "Aissessor checks capability, evidence, price, speed, privacy, and access."],
   ["04", "Save the strategy", "Return to the tools, subscription plans, alternatives, and costs whenever you need them."],
 ];
 
@@ -159,7 +159,7 @@ export function LustroLanding() {
       <div className="lustro-slide-inner lustro-cover-inner">
         <div className="lustro-eyebrow lustro-reveal"><span /> Evidence-led AI procurement</div>
         <h1 className="lustro-cover-headline">
-          <span className="lustro-cover-line"><span><em>AIssessor</em> is here.</span></span>
+          <span className="lustro-cover-line"><span><em>Aissessor</em> is here.</span></span>
           <span className="lustro-cover-line"><span>AI, finally clear.</span></span>
         </h1>
         <p className="lustro-body-lg lustro-reveal">Describe a project or recurring task. Get a clear set of AI products, plans, costs, alternatives, and reasons.</p>
@@ -172,7 +172,7 @@ export function LustroLanding() {
           <Link href="/sign-up" className="lustro-primary-action">Build my AI strategy <ArrowRight /></Link>
           <button type="button" className="lustro-secondary-action" onClick={() => goTo(1)}>See how it works</button>
         </div>
-        <div className="lustro-cover-version">PRODUCT / DECK / 0001 · AISESSOR</div>
+        <div className="lustro-cover-version">PRODUCT / DECK / 0001 · AISSESSOR</div>
       </div>
     </section>
 
@@ -194,9 +194,9 @@ export function LustroLanding() {
     <section id="product" className={`lustro-slide ${active === 2 ? "active" : ""}`} aria-hidden={active !== 2}>
       <div className="lustro-slide-inner lustro-two-column">
         <div className="lustro-chapter-copy">
-          <div className="lustro-eyebrow lustro-reveal"><span /> AIssessor</div>
+          <div className="lustro-eyebrow lustro-reveal"><span /> Aissessor</div>
           <h2 className="lustro-display lustro-reveal">Start with the work.<br /><em>Not a leaderboard.</em></h2>
-          <p className="lustro-body-lg lustro-reveal">AIssessor understands the task first, then compares only the AI-first products that can help complete it.</p>
+          <p className="lustro-body-lg lustro-reveal">Aissessor understands the task first, then compares only the AI-first products that can help complete it.</p>
           <div className="lustro-feature-pairs lustro-reveal">
             <span><Search /> Current evidence</span><span><Layers3 /> Multi-tool combinations</span><span><CircleDollarSign /> Plan-level costs</span><span><ShieldCheck /> Clear limitations</span>
           </div>
@@ -216,7 +216,7 @@ export function LustroLanding() {
           <p className="lustro-body-lg lustro-reveal">A defined project needs a reviewed workflow. Recurring work can move directly from task analysis to stack matching.</p>
         </div>
         <div className="lustro-mode-grid">
-          <article className="lustro-mode-card lustro-reveal"><span>01</span><MousePointer2 /><small>One clear outcome</small><h3>One-off Project</h3><p>Create and approve an editable workflow before AIssessor recommends the tools for each step.</p><Link href="/strategy/new/one-off">Plan a project <ArrowRight /></Link></article>
+          <article className="lustro-mode-card lustro-reveal"><span>01</span><MousePointer2 /><small>One clear outcome</small><h3>One-off Project</h3><p>Create and approve an editable workflow before Aissessor recommends the tools for each step.</p><Link href="/strategy/new/one-off">Plan a project <ArrowRight /></Link></article>
           <article className="lustro-mode-card lustro-mode-featured lustro-reveal"><span>02</span><RefreshCw /><small>Work that repeats</small><h3>Monthly Workflow</h3><p>Describe recurring tasks and move straight to the AI stack, plan, and monthly subscription summary.</p><Link href="/strategy/new/monthly">Plan monthly work <ArrowRight /></Link></article>
         </div>
       </div>

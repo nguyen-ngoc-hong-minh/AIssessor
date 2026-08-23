@@ -34,7 +34,7 @@ export function AppShell({
       ? rawName
       : rawEmail && !rawEmail.startsWith("user_")
       ? rawEmail.split("@")[0]
-      : "AIssessor Member";
+      : "Aissessor Member";
 
   const initial = displayName.charAt(0).toUpperCase();
 
