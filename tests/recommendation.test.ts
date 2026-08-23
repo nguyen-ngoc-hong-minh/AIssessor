@@ -3,6 +3,7 @@ import { estimateStepCost, generateStrategyPlan, getExclusionReasons, isMaterial
 import { MONTHLY_FREQUENCY_MULTIPLIERS } from "@/lib/recommendation/config";
 import { affectedTaskCategories, effectiveModelCapabilities } from "@/lib/recommendation/taxonomy";
 import { aiAccessMetadata } from "@/lib/recommendation/ai-first";
+import { candidateId, customizeStrategyPlan } from "@/lib/recommendation/customize";
 import type { WorkflowStep, Priority } from "@/lib/planner/schema";
 import type { CanonicalModel, EvidenceReference } from "@/lib/recommendation/types";
 
@@ -149,6 +150,12 @@ describe("deterministic recommendation engine", () => {
     expect(largeBudget.steps[0].selected?.model.name).toBe("Premium model");
     expect(smallBudget.totalCostUsd).toBe(5);
     expect(largeBudget.totalCostUsd).toBe(80);
+    const budgetOption = largeBudget.steps[0].options.budget;
+    expect(budgetOption).not.toBeNull();
+    const customized = customizeStrategyPlan(largeBudget, { s1: candidateId(budgetOption) });
+    expect(customized.steps[0].selected?.model.name).toBe("Value model");
+    expect(customized.totalCostUsd).toBe(5);
+    expect(customized.budgetRemainingUsd).toBe(195);
   });
   it("rejects an unpriced new subscription when a budget was provided", () => {
     const unpriced = { ...model, accessOptions: [{ ...model.accessOptions![0], productName: "Mystery Suite", planName: "Pro", accessMethod: "product" as const }] };

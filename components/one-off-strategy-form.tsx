@@ -7,6 +7,7 @@ import { OptionalDetails, defaultOptionalDetails } from "./optional-details";
 import { PriorityRanking, defaultPriorityRanking } from "./priority-picker";
 import { integrationsConfigured } from "./providers";
 import { apiErrorMessage } from "@/lib/client/api-error";
+import { BriefSuggestions } from "./brief-suggestions";
 
 export function OneOffStrategyForm() {
   const router = useRouter();
@@ -83,6 +84,10 @@ export function OneOffStrategyForm() {
             value={brief}
             onChange={(event) => setBrief(event.target.value)}
             placeholder="Describe what you want to accomplish... (e.g. Launch a new skincare brand: market research, brand positioning, campaign visuals, and web app build)"
+          />
+          <BriefSuggestions
+            brief={brief}
+            onApply={(text) => setBrief((current) => `${current.trim()}\n\n${text}`.trim())}
           />
         </div>
       </section>

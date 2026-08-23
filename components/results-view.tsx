@@ -1,29 +1,23 @@
 "use client";
 
-import { ArrowUpRight, DatabaseZap, PencilLine, ShieldCheck } from "lucide-react";
+import { ArrowUpRight, Check, DatabaseZap, PencilLine, RotateCcw, Save, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { apiErrorMessage } from "@/lib/client/api-error";
 import { formatCurrency, formatUsdInCurrency, usdExchangeRate, usdToCurrency, type SupportedCurrency } from "@/lib/currency";
+import { candidateId, customizeStrategyPlan } from "@/lib/recommendation/customize";
+import type { CandidateScore as Selected, StepOptionSet as Options, StepRecommendation as Step, StrategyPlan as Plan } from "@/lib/recommendation/types";
 import { IntegrationNotice } from "./integration-notice";
 import { integrationsConfigured } from "./providers";
 
-type Evidence = { kind: string; source: string; sourceUrl: string | null; retrievedAt: number; modelVersion: string | null; metricName: string; rawValue: unknown; normalizedValue: number | null; category: string; confidence: string; notes: string | null };
-type AccessOption = { label: string; url: string; modelId: string; sourceUrl: string; verifiedAt: number; productId?: string; productName?: string; planId?: string; planName?: string; accessMethod?: "product" | "api" | "marketplace" | "cloud"; monthlyPriceUsd?: number; aiFirstClass?: "AI_NATIVE" | "AI_CENTRIC" | "AI_ASSISTED" | "TRADITIONAL"; aiRole?: string; aiContributionLevel?: "LOW" | "MEDIUM" | "HIGH"; automationLevel?: "LOW" | "MEDIUM" | "HIGH"; requiredManualWork?: string };
-type Tool = { model: Model; access: AccessOption; coversCapabilities: string[]; estimatedCostUsd: number; costBasis: string };
-type Model = { canonicalId: string; name: string; provider: string; privacyLevel: string | null; commercialUse: boolean | null; contextWindow: number | null; accessOptions: AccessOption[] };
-type Selected = { kind: "single" | "combination" | "partial"; model: Model; roundedScore: number; label: string; estimatedCostUsd: number; estimatedSavingsUsd: number; costBasis: string; explanation: string[]; limitations: string[]; evidence: Evidence[]; evidenceConfidence: "High" | "Moderate" | "Limited"; coveredCapabilities: string[]; missingCapabilities: string[]; tools: Tool[] };
-type Options = { bestFit: Selected | null; budget: Selected | null; premium: Selected | null; fastest: Selected | null; privacy: Selected | null };
-type Step = { stepId: string; step: { name: string; plainLanguageDescription: string; inputDescription: string; outputDescription: string; humanReviewRecommended: boolean; noAIEligible: boolean; noAIAlternative: string }; taskCategory: string; requiredCapabilities: string[]; selected: Selected | null; options: Options; alternatives: Selected[]; partialOptions: Selected[]; exclusions: Array<{ modelName: string; reasons: string[] }>; dataUpdatedAt: number | null };
-type Subscription = { productId: string; productName: string; planName: string; accessMethod?: string; priceUsd: number | null; accessUrl: string; stepIds: string[]; stepNames: string[]; modelNames: string[]; alreadyOwned: boolean; additionalCostUsd: number | null; apiUsageEstimateUsd: number };
-type Plan = { variant: string; steps: Step[]; fixedCostUsd: number; apiCostUsd: number; totalCostUsd: number; estimatedSavingsUsd: number; existingSubscriptions: { kept: string[]; couldCancel: string[] }; subscriptions: Subscription[]; uniqueProductCount: number; completeStepCount: number; budgetUsd?: number | null; overBudgetUsd?: number; hasUnknownSubscriptionPricing?: boolean; budgetCompatible?: boolean; budgetRemainingUsd?: number | null; inputsUsed?: { projectDescription: string | null; expectedResult: string | null; budgetUsd: number | null; budgetOriginalAmount: number | null; budgetOriginalCurrency: string | null; deadline: string | null; priorityRanking: string[]; existingTools: string[]; informationSensitivity: string; commercialUse: boolean; providersToAvoid: string[]; preferredLanguage: string; expectedOutputs: string | null; region: string }; assumptions: string[]; dataUpdatedAt: number | null };
+type Tool = Selected["tools"][number];
 type SnapshotSource = { source: string; sourceUrl?: string; attribution?: string; fetchedAt: number; sourceVersion?: string };
 type Result = { locked: boolean; usageType: "one_off" | "monthly"; estimatedCompletionTime?: string; plans: Plan[]; dataSnapshot: { fetchedAt: number; sources?: SnapshotSource[] } };
 
 const optionEntries: Array<[keyof Options, string]> = [["bestFit", "Best fit"], ["budget", "Budget"], ["premium", "Higher quality"], ["fastest", "Fastest"], ["privacy", "Privacy focused"]];
 
 function humanize(value: string) { return value.replaceAll("_", " ").replace(/\b\w/g, (letter) => letter.toUpperCase()); }
-function preferredCurrency(inputs: Plan["inputsUsed"]): SupportedCurrency {
+function preferredCurrency(inputs?: Plan["inputsUsed"]): SupportedCurrency {
   return inputs?.budgetOriginalCurrency === "VND" || inputs?.budgetOriginalCurrency === "AUD" ? inputs.budgetOriginalCurrency : "USD";
 }
 function friendlyCost(value: number, inputs?: Plan["inputsUsed"]) {
@@ -62,33 +56,37 @@ function hasBudgetExclusion(step: Step) {
   return step.exclusions.some((exclusion) => exclusion.reasons.some((reason) => /budget|price|subscription cost|afford/i.test(reason)));
 }
 
-function StepOptions({ options, inputs }: { options: Options; inputs?: Plan["inputsUsed"] }) {
+function StepOptions({ options, alternatives, inputs, selected, onSelect }: { options: Options; alternatives: Selected[]; inputs?: Plan["inputsUsed"]; selected: Selected | null; onSelect(candidate: Selected): void }) {
+  const entries = [
+    ...optionEntries.map(([key, label]) => ({ key, label, candidate: options[key] })),
+    ...alternatives.map((candidate, index) => ({ key: `alternative-${index}`, label: `Alternative ${index + 1}`, candidate })),
+  ].filter((entry, index, all) => entry.candidate === null || all.findIndex((other) => other.candidate && entry.candidate && candidateId(other.candidate) === candidateId(entry.candidate)) === index);
   return (
-    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" aria-label="Options for this workflow step">
-      {optionEntries.map(([key, label]) => {
-        const candidate = options[key];
+    <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" aria-label="Options for this workflow step">
+      {entries.map(({ key, label, candidate }) => {
+        const isSelected = Boolean(candidate && selected && candidateId(candidate) === candidateId(selected));
         return (
-          <div key={key} className="feature glass-card !p-5 rounded-2xl border border-white/10 flex flex-col justify-between space-y-3 shadow-md">
+          <div key={key} className={`feature glass-card !p-5 rounded-2xl border flex flex-col justify-between space-y-4 shadow-md transition-all ${isSelected ? "border-emerald-400/70 bg-emerald-400/[0.07]" : "border-white/10 hover:border-indigo-400/60"}`}>
             <div>
-              <div className="f-num text-[10px] font-mono font-bold text-indigo-soft tracking-widest uppercase mb-2">
-                {label}
+              <div className="flex items-center justify-between gap-2 mb-2">
+                <div className="f-num text-[10px] font-mono font-bold text-indigo-soft tracking-widest uppercase">{label}</div>
+                {isSelected && <span className="text-[10px] font-mono text-emerald-300 inline-flex items-center gap-1"><Check className="w-3 h-3" /> SELECTED</span>}
               </div>
               <h3 className="text-base font-semibold text-white tracking-tight leading-snug line-clamp-2">
                 {candidateName(candidate)}
               </h3>
             </div>
             {candidate && (
-              <div className="pt-2 flex items-center justify-between text-xs text-ink-2">
+              <div className="pt-2 flex flex-wrap items-center justify-between gap-3 text-xs text-ink-2">
                 <span className="font-medium text-white/80">{friendlyCost(candidate.estimatedCostUsd, inputs)}</span>
-                <a
-                  href={candidate.tools[0]?.access.url ?? "#"}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="f-link text-indigo-soft hover:underline font-mono text-[11px] inline-flex items-center gap-1"
-                >
-                  <span>View</span>
-                  <ArrowUpRight className="w-3 h-3" />
-                </a>
+                <div className="flex items-center gap-2">
+                  <button type="button" disabled={isSelected} onClick={() => onSelect(candidate)} className="rounded-full border border-indigo-400/40 px-3 py-1.5 text-[11px] font-semibold text-indigo-100 hover:bg-indigo-400/15 disabled:border-emerald-400/30 disabled:text-emerald-300 disabled:cursor-default">
+                    {isSelected ? "In your stack" : "Use this model"}
+                  </button>
+                  <a href={candidate.tools[0]?.access.url ?? "#"} target="_blank" rel="noreferrer" className="f-link text-indigo-soft hover:underline font-mono text-[11px] inline-flex items-center gap-1" title="Open provider page">
+                    <ArrowUpRight className="w-3 h-3" />
+                  </a>
+                </div>
               </div>
             )}
           </div>
@@ -129,7 +127,7 @@ function ToolAccess({ tool, inputs }: { tool: Tool; inputs?: Plan["inputsUsed"] 
   );
 }
 
-function PartialOptions({ options }: { options: Selected[] }) {
+function PartialOptions({ options, selected, inputs, onSelect }: { options: Selected[]; selected: Selected | null; inputs?: Plan["inputsUsed"]; onSelect(candidate: Selected): void }) {
   return (
     <div className="partial-options !p-6 md:!p-7 rounded-2xl bg-[#131626] border border-white/10 my-4 w-full flex flex-col gap-[30px]">
       <div className="flex flex-col gap-[10px]">
@@ -142,10 +140,12 @@ function PartialOptions({ options }: { options: Selected[] }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full">
-        {options.map((option, index) => (
+        {options.map((option, index) => {
+          const isSelected = Boolean(selected && candidateId(option) === candidateId(selected));
+          return (
           <div
-            key={option.model.canonicalId}
-            className="feature glass-card !p-5 rounded-2xl border border-white/10 flex flex-col justify-between space-y-3 shadow-md w-full"
+            key={candidateId(option)}
+            className={`feature glass-card !p-5 rounded-2xl border flex flex-col justify-between space-y-3 shadow-md w-full ${isSelected ? "border-emerald-400/70 bg-emerald-400/[0.07]" : "border-white/10 hover:border-indigo-400/60"}`}
           >
             <div>
               <div className="f-num text-[10px] font-mono font-bold text-indigo-soft tracking-widest uppercase mb-2">
@@ -159,18 +159,16 @@ function PartialOptions({ options }: { options: Selected[] }) {
               <span className="font-mono text-[10px] text-ink-3 leading-relaxed whitespace-normal break-words">
                 Covers: {option.coveredCapabilities.map(humanize).join(", ") || "Partial"}
               </span>
-              <a
-                href={option.tools[0]?.access.url ?? "#"}
-                target="_blank"
-                rel="noreferrer"
-                className="f-link text-indigo-soft hover:underline font-mono text-[11px] inline-flex items-center gap-1 self-start"
-              >
-                <span>View</span>
-                <ArrowUpRight className="w-3 h-3" />
-              </a>
+              <span className="font-medium text-white/80">{friendlyCost(option.estimatedCostUsd, inputs)}</span>
+              <div className="flex items-center gap-2">
+                <button type="button" disabled={isSelected} onClick={() => onSelect(option)} className="rounded-full border border-indigo-400/40 px-3 py-1.5 text-[11px] font-semibold text-indigo-100 hover:bg-indigo-400/15 disabled:border-emerald-400/30 disabled:text-emerald-300">
+                  {isSelected ? "In your stack" : "Use partial option"}
+                </button>
+                <a href={option.tools[0]?.access.url ?? "#"} target="_blank" rel="noreferrer" className="f-link text-indigo-soft hover:underline inline-flex items-center" title="Open provider page"><ArrowUpRight className="w-3 h-3" /></a>
+              </div>
             </div>
           </div>
-        ))}
+        );})}
       </div>
     </div>
   );
@@ -181,6 +179,9 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
   const [error, setError] = useState("");
   const [tab] = useState("recommended");
   const [loadedAt] = useState(() => Date.now());
+  const [customSelections, setCustomSelections] = useState<Record<string, string>>({});
+  const [saveBusy, setSaveBusy] = useState(false);
+  const [saveMessage, setSaveMessage] = useState("");
 
   useEffect(() => {
     if (!integrationsConfigured) return;
@@ -201,6 +202,29 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
     }
   }, [strategyId]);
 
+  async function saveCustomization() {
+    const selections = Object.entries(customSelections).map(([stepId, selectedCandidateId]) => ({ stepId, candidateId: selectedCandidateId }));
+    if (!selections.length) return;
+    setSaveBusy(true);
+    setSaveMessage("");
+    try {
+      const response = await fetch(`/api/strategies/${strategyId}/results`, {
+        method: "PUT",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ selections }),
+      });
+      const body = await response.json() as Plan | { code?: string; userMessage?: string; error?: string };
+      if (!response.ok || !("steps" in body)) throw new Error(apiErrorMessage(body, "We couldn't save this custom stack."));
+      setResult((current) => current ? { ...current, plans: current.plans.map((item) => item.variant === "recommended" ? body : item) } : current);
+      setCustomSelections({});
+      setSaveMessage("Custom stack saved to consultation history.");
+    } catch (reason) {
+      setSaveMessage(reason instanceof Error ? reason.message : "Unable to save custom stack");
+    } finally {
+      setSaveBusy(false);
+    }
+  }
+
   if (!integrationsConfigured) return <IntegrationNotice />;
   if (error) return (
     <div className="glass-card text-center !py-12 !p-8 rounded-3xl border border-white/10">
@@ -217,7 +241,9 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
     </div>
   );
 
-  const plan = result.plans.find((item) => item.variant === tab) ?? result.plans[0];
+  const basePlan = result.plans.find((item) => item.variant === tab) ?? result.plans[0];
+  const plan = customizeStrategyPlan(basePlan, customSelections);
+  const isCustomized = Object.keys(customSelections).length > 0;
   const stale = loadedAt - result.dataSnapshot.fetchedAt > 7 * 86_400_000;
   const subscriptions = plan.subscriptions ?? [];
   const inputs = plan.inputsUsed;
@@ -257,6 +283,24 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
 
       {/* 30px Spacer Div */}
       <div className="h-[30px] w-full block" />
+
+      {isCustomized && (
+        <div className="sticky top-4 z-20 glass-card rounded-2xl border border-indigo-400/50 px-5 py-4 shadow-2xl flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-white">Custom stack preview</p>
+            <p className="text-xs text-ink-2 mt-1">Costs, budget remaining, coverage, and subscriptions below have been recalculated.</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <button type="button" onClick={() => { setCustomSelections({}); setSaveMessage(""); }} className="btn-secondary text-xs px-4 py-2.5 rounded-full inline-flex items-center gap-2">
+              <RotateCcw className="w-3.5 h-3.5" /> Reset
+            </button>
+            <button type="button" disabled={saveBusy} onClick={saveCustomization} className="btn-primary text-xs px-5 py-2.5 rounded-full inline-flex items-center gap-2">
+              <Save className="w-3.5 h-3.5" /> {saveBusy ? "Saving…" : "Save custom stack"}
+            </button>
+          </div>
+        </div>
+      )}
+      {saveMessage && <p className={`text-xs text-center ${saveMessage.startsWith("Custom") ? "text-emerald-300" : "text-amber-300"}`}>{saveMessage}</p>}
 
       {/* Budget & Input Check Glass Card */}
       <section className="glass-card !p-8 md:!p-10 rounded-3xl border border-white/10 relative shadow-xl overflow-hidden" aria-label="Requirements used for this recommendation">
@@ -408,7 +452,16 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
                     {/* 30px Spacer Div (Hình 4) */}
                     <div className="h-[30px] w-full block" />
 
-                    <StepOptions options={step.options} inputs={inputs} />
+                    <StepOptions
+                      options={step.options}
+                      alternatives={step.alternatives ?? []}
+                      inputs={inputs}
+                      selected={step.selected}
+                      onSelect={(candidate) => {
+                        setCustomSelections((current) => ({ ...current, [step.stepId]: candidateId(candidate) }));
+                        setSaveMessage("");
+                      }}
+                    />
                   </details>
                 )}
               </div>
@@ -419,7 +472,15 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
               </div>
             ) : (
               <div>
-                <PartialOptions options={step.partialOptions ?? []} />
+                <PartialOptions
+                  options={step.partialOptions ?? []}
+                  selected={step.selected}
+                  inputs={inputs}
+                  onSelect={(candidate) => {
+                    setCustomSelections((current) => ({ ...current, [step.stepId]: candidateId(candidate) }));
+                    setSaveMessage("");
+                  }}
+                />
                 <p className="text-xs text-amber-300 mt-4">
                   {budgetConfigured && hasBudgetExclusion(step)
                     ? `No verified complete option for this step fits the total ${originalBudget ?? friendlyCost(plan.budgetUsd!, inputs)} budget with the other workflow steps.`
@@ -495,10 +556,10 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
 
             <div className="flex items-center justify-between !p-6 rounded-2xl bg-indigo-950 text-white shadow-lg border border-indigo-900/80 gap-6">
               <span className="font-mono text-xs font-bold text-indigo-300 uppercase tracking-wider">
-                {subscriptions.length} SUBSCRIPTIONS • CONSOLIDATED STACK
+                {subscriptions.length} PRODUCTS • {costPeriod.toUpperCase()}
               </span>
               <strong className="text-2xl font-bold text-white font-sans">
-                {friendlyCost(plan.totalCostUsd, inputs)} / MONTH
+                {friendlyCost(plan.totalCostUsd, inputs)}{result.usageType === "monthly" ? " / MONTH" : " FIRST MONTH"}
               </strong>
             </div>
           </div>

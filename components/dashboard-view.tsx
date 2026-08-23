@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Copy, Plus, Layers, Trash2, RefreshCw, Zap } from "lucide-react";
+import { ArrowUpRight, Copy, History, Plus, Trash2, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
@@ -59,6 +59,16 @@ export function DashboardView() {
 
   return (
     <div className="editorial-dashboard-wrap space-y-4 pt-3">
+      <div className="flex items-center justify-end gap-3 pb-1">
+        <Link className="btn-secondary text-xs px-5 py-3 rounded-full inline-flex items-center gap-2" href="#consultation-history">
+          <History className="w-4 h-4" />
+          <span>Consultation History</span>
+        </Link>
+        <Link className="btn-primary text-xs px-5 py-3 rounded-full inline-flex items-center gap-2" href="/choose-usage">
+          <Plus className="w-4 h-4" />
+          <span>New Consultation</span>
+        </Link>
+      </div>
       {/* Metric Grid */}
       <div className="dash-metrics-grid grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
@@ -89,20 +99,21 @@ export function DashboardView() {
       </div>
 
       {/* Main Strategy List Section */}
-      <div className="dash-content-block glass-card p-8 md:p-10 min-h-[485px] flex flex-col justify-between">
+      <div id="consultation-history" className="dash-content-block glass-card p-8 md:p-10 min-h-[485px] flex flex-col justify-between scroll-mt-24">
         <div>
           <div className="eyebrow mb-6">
             <span className="dt" />
-            Recent strategies
+            Consultation history
           </div>
 
-          <div className="flex items-end justify-between pb-6 mb-6 border-b border-white/10">
+          <div className="flex items-end justify-between gap-4 pb-6 mb-6 border-b border-white/10">
             <h2 className="h-display text-3xl md:text-4xl font-semibold text-white">
-              Active Workload Plans
+              Previous Consultations
             </h2>
-            <span className="font-mono text-xs text-tertiary mb-1">
-              {strategies.length} items
-            </span>
+            <div className="flex items-center gap-2 text-tertiary mb-1">
+              <History className="w-4 h-4" aria-hidden="true" />
+              <span className="font-mono text-xs">{strategies.length} saved</span>
+            </div>
           </div>
 
           {error && <p className="text-red-400 text-sm mb-6">{error}</p>}

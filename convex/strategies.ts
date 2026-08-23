@@ -2,11 +2,13 @@ import { internalMutationGeneric as internalMutation, internalQueryGeneric as in
 import { v } from "convex/values";
 import { canAccessStrategy, requireUser } from "./lib/auth";
 import { taskCategory } from "../lib/recommendation/engine";
+import { availableCandidates, candidateId, customizeStrategyPlan } from "../lib/recommendation/customize";
+import type { StrategyPlan } from "../lib/recommendation/types";
 import type { WorkflowStep } from "../lib/planner/schema";
 
 export const listMine = query({ args: {}, handler: async (ctx) => {
   const user = await requireUser(ctx);
-  const strategies = await ctx.db.query("strategies").withIndex("by_user", (q) => q.eq("userId", user._id)).order("desc").take(20);
+  const strategies = await ctx.db.query("strategies").withIndex("by_user", (q) => q.eq("userId", user._id)).order("desc").take(100);
   return Promise.all(strategies.map(async (strategy) => {
     const refreshes = await ctx.db.query("strategyRefreshes").withIndex("by_strategy", (q) => q.eq("strategyId", strategy._id)).order("desc").take(10);
     const refresh = refreshes.find((item) => item.status === "available");
@@ -89,6 +91,37 @@ export const saveGeneratedPlans = internalMutation({ args: { strategyId: v.id("s
   for (const refresh of refreshes.filter((item) => item.status === "available")) await ctx.db.patch(refresh._id, { status: "applied", evaluatedAt: Date.now() });
   await ctx.db.patch(strategyId, { status: "complete", updatedAt: Date.now() });
 } });
+
+export const customizePlan = mutation({
+  args: {
+    strategyId: v.id("strategies"),
+    selections: v.array(v.object({ stepId: v.string(), candidateId: v.string() })),
+  },
+  handler: async (ctx, { strategyId, selections }) => {
+    const user = await requireUser(ctx);
+    const strategy = await ctx.db.get(strategyId);
+    if (!strategy || String(strategy.userId) !== String(user._id)) throw new Error("Forbidden");
+    const records = await ctx.db.query("strategyPlans").withIndex("by_strategy", (q) => q.eq("strategyId", strategyId)).collect();
+    const recommended = records.find((record) => record.planType === "recommended" && record.fullPlan);
+    if (!recommended?.fullPlan) throw new Error("Saved recommendation not found");
+    const plan = recommended.fullPlan as StrategyPlan;
+    const selectionMap: Record<string, string> = {};
+    for (const selection of selections) {
+      const step = plan.steps.find((item) => item.stepId === selection.stepId);
+      if (!step || !availableCandidates(step).some((candidate) => candidateId(candidate) === selection.candidateId)) throw new Error("Invalid model selection");
+      selectionMap[selection.stepId] = selection.candidateId;
+    }
+    const customized = customizeStrategyPlan(plan, selectionMap);
+    await ctx.db.patch(recommended._id, {
+      fullPlan: customized,
+      costEstimate: { fixed: customized.fixedCostUsd, api: customized.apiCostUsd, total: customized.totalCostUsd },
+      confidence: customized.steps.some((step) => step.selected?.label === "Limited Evidence") ? "Limited Evidence" : "Good Fit",
+      createdAt: Date.now(),
+    });
+    await ctx.db.patch(strategyId, { updatedAt: Date.now() });
+    return customized;
+  },
+});
 
 function storedStep(record: { _id: string; order: number; name: string; description: string; requirements: unknown; estimates: unknown }): WorkflowStep {
   const requirements = record.requirements as Record<string, unknown>;
