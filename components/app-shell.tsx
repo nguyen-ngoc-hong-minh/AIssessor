@@ -18,7 +18,7 @@ export function AppShell({
   isAdmin?: boolean;
 }) {
   const pathname = usePathname();
-  const isLongPage = pathname.startsWith("/strategy/");
+  const isLongPage = pathname.startsWith("/strategy/") || pathname.startsWith("/admin/");
   const { user: clerkUser } = useUser();
   const avatarUrl = clerkUser?.imageUrl;
 
