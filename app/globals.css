@@ -187,9 +187,10 @@ html, body {
 .editorial-app-main .slide-inner {
   padding: 0;
   min-height: auto;
-  height: auto;
+  height: 100%;
   max-height: 90vh;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Persistent Chrome */
@@ -614,11 +615,13 @@ html, body {
 .dash-page-transition {
   animation: deckSlideEnter 0.75s var(--eq) forwards;
   will-change: transform, opacity, filter;
+  height: 100%;
   max-height: 90vh;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
 }
 
 .dash-page-transition .reveal {
@@ -2170,13 +2173,13 @@ html, body {
 }
 
 .editorial-app-main {
-  min-height: calc(100vh - 40px);
+  height: 90vh;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  padding: 64px 6vmin 30px;
+  padding: 20px 6vmin;
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
