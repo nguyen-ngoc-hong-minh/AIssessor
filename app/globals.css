@@ -2165,10 +2165,61 @@ html, body {
   gap: 14px;
 }
 
+.dash-top-right-chrome .nav {
+  position: static;
+}
+
+.top-history-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(165, 180, 252, 0.4);
+  background: rgba(19, 22, 38, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #f8fafc;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+.top-history-button svg {
+  width: 15px;
+  height: 15px;
+  color: var(--indigo-soft);
+}
+
+.top-history-button:hover {
+  border-color: rgba(165, 180, 252, 0.8);
+  background: rgba(99, 102, 241, 0.18);
+  transform: translateY(-1px);
+}
+
 @media (max-width: 768px) {
   .dash-top-right-chrome {
     top: 20px;
     right: 20px;
+  }
+
+  .top-history-button {
+    width: 42px;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .top-history-button span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
   }
 }
 

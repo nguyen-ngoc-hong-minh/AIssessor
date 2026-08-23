@@ -2,7 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import { SignOutButton, useUser } from "@clerk/react";
-import { LogOut } from "lucide-react";
+import { History, LogOut } from "lucide-react";
+import Link from "next/link";
 import { Brand } from "./brand";
 import { DashboardDeckNav } from "./dashboard-deck-nav";
 import { PageTransition } from "./page-transition";
@@ -47,6 +48,10 @@ export function AppShell({
 
       {/* Presentation Deck Persistent Top-Right Controls: Deck Nav Toggle */}
       <div className="dash-top-right-chrome">
+        <Link className="top-history-button" href="/dashboard#consultation-history" aria-label="View previous consultations">
+          <History aria-hidden="true" />
+          <span>Previous consultations</span>
+        </Link>
         <DashboardDeckNav isAdmin={isAdmin} />
       </div>
 

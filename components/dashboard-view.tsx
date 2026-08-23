@@ -59,16 +59,6 @@ export function DashboardView() {
 
   return (
     <div className="editorial-dashboard-wrap space-y-4 pt-3">
-      <div className="flex items-center justify-end gap-3 pb-1">
-        <Link className="btn-secondary text-xs px-5 py-3 rounded-full inline-flex items-center gap-2" href="#consultation-history">
-          <History className="w-4 h-4" />
-          <span>Consultation History</span>
-        </Link>
-        <Link className="btn-primary text-xs px-5 py-3 rounded-full inline-flex items-center gap-2" href="/choose-usage">
-          <Plus className="w-4 h-4" />
-          <span>New Consultation</span>
-        </Link>
-      </div>
       {/* Metric Grid */}
       <div className="dash-metrics-grid grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
