@@ -38,7 +38,7 @@ The browser and Next.js server use `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLER
 Clerk user synchronization is delivered directly to the existing Convex HTTP Action:
 
 ```text
-https://scrupulous-deer-129.convex.site/clerk-webhook
+https://perceptive-snake-642.convex.site/clerk-webhook
 ```
 
 Subscribe that endpoint to `user.created`, `user.updated`, and `user.deleted`. Store its signing secret as `CLERK_WEBHOOK_SIGNING_SECRET` in the Convex deployment, and store a private relay value as `CLERK_WEBHOOK_SYNC_KEY` in the same deployment. Neither value belongs in browser code or a `NEXT_PUBLIC_*` variable.

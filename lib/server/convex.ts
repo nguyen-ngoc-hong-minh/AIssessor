@@ -3,6 +3,7 @@ import { ConvexHttpClient } from "convex/browser";
 import { anyApi } from "convex/server";
 import { headers } from "next/headers";
 import { APPLICATION_ERROR_MESSAGES, applicationErrorData, applicationErrorFromUnknown, type ApplicationErrorCode } from "@/lib/application-errors";
+import { resolveConvexUrl } from "@/lib/convex-deployment";
 
 type QueryReference = Parameters<ConvexHttpClient["query"]>[0];
 type MutationReference = Parameters<ConvexHttpClient["mutation"]>[0];
@@ -28,8 +29,7 @@ async function serverAuth() {
 }
 
 export async function authenticatedConvex() {
-  const url = process.env.NEXT_PUBLIC_CONVEX_URL;
-  if (!url) throw new Error("Live Convex service is not configured");
+  const url = resolveConvexUrl(process.env.NEXT_PUBLIC_CONVEX_URL);
   const session = await serverAuth();
   const token = await session.getToken({ template: "convex" });
   if (!token) throw new Error("Unable to obtain a Convex identity token");

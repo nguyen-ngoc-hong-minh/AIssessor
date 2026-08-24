@@ -3,6 +3,7 @@ import { ConvexHttpClient } from "convex/browser";
 import { anyApi } from "convex/server";
 import { createHash } from "node:crypto";
 import { z } from "zod";
+import { resolveConvexUrl } from "@/lib/convex-deployment";
 
 const eventSchema = z.object({
   visitorId: z.string().min(16).max(100), sessionId: z.string().min(16).max(100),
@@ -53,8 +54,7 @@ export async function POST(request: Request) {
   if (/bot|crawler|spider|preview/i.test(request.headers.get("user-agent") ?? "")) return new Response(null, { status: 204 });
   const result = eventSchema.safeParse(await request.json().catch(() => null));
   if (!result.success) return Response.json({ error: "Invalid analytics event" }, { status: 400 });
-  const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
-  if (!convexUrl) return new Response(null, { status: 204 });
+  const convexUrl = resolveConvexUrl(process.env.NEXT_PUBLIC_CONVEX_URL);
 
   let clerkUserId: string | null = null;
   if (process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
