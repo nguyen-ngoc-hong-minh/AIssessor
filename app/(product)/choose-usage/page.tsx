@@ -17,7 +17,7 @@ export default function ChooseUsagePage() {
           </h2>
         </div>
         <p className="sf-r body-lg">
-          Select how you want to structure your AI recommendations based on your team&apos;s workflow style and delivery cadence.
+          Select how you want to structure your AI stack recommendations based on whether you are a solo freelancer or standardising tools across a small team.
         </p>
       </div>
       <div className="feature-grid grid grid-cols-1 md:grid-cols-2 gap-8" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
@@ -25,7 +25,7 @@ export default function ChooseUsagePage() {
           <div>
             <div className="f-num">01</div>
             <h3>One-off Project Strategy</h3>
-            <p>A specific deliverable with an exact target completion date, project brief, and budget ceiling limit.</p>
+            <p>Best for freelancers &amp; creators delivering a specific client project with an exact deadline and budget ceiling.</p>
           </div>
           <Link href="/strategy/new/one-off" className="f-link">
             <span>Plan One-off Project</span> <span>&rarr;</span>
@@ -36,7 +36,7 @@ export default function ChooseUsagePage() {
           <div>
             <div className="f-num">02</div>
             <h3>Monthly Workload Pipeline</h3>
-            <p>Multiple recurring tasks, each with its own execution frequency, model tier, and quality requirements.</p>
+            <p>Best for small teams (2–20) seeking to audit duplicate seats, standardise tool usage, and track recurring AI spend.</p>
           </div>
           <Link href="/strategy/new/monthly" className="f-link">
             <span>Build Monthly Pipeline</span> <span>&rarr;</span>

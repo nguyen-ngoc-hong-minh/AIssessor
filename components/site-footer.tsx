@@ -7,7 +7,7 @@ export function SiteFooter() {
       <div className="section footer-inner">
         <div className="footer-col-brand">
           <Brand />
-          <p>An intelligent, objective AI stack evaluation engine for real-world engineering and business tasks.</p>
+          <p>Evidence-based AI stack recommendations for freelancers, creators, and small teams.</p>
         </div>
         
         <div className="footer-col">

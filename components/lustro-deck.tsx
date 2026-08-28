@@ -164,22 +164,23 @@ export function LustroDeck() {
               <div className="s-cover-glow" />
               <div className="eyebrow reveal">
                 <span className="dt" />
-                Aissessor Launch
+                Evidence-Led AI Stack Optimizer
               </div>
               <h1 className="h-display">
                 <span className="line">
-                  <span><span className="grd">Aissessor</span> is here.</span>
+                  <span>Choose the <span className="grd">smallest AI stack</span></span>
                 </span>
                 <span className="line">
-                  <span>AI Stack, finally optimized.</span>
+                  <span>that handles your paid work.</span>
                 </span>
               </h1>
               <p className="body-lg reveal" style={{ maxWidth: 680 }}>
-                Tell us what you need to accomplish. Aissessor builds the workflow, compares current AI options, and finds the subscriptions worth paying for.
+                Audit overlapping subscriptions, stop paying for duplicate tools, and build a workload-matched AI stack with transparent cost and evidence checks.
               </p>
               <div className="s-cover-meta reveal">
-                <span>August 2026</span><span className="sep" />
-                <span>1,200+ AI Models</span>
+                <span>For Freelancers &amp; Small Teams (2–20)</span><span className="sep" />
+                <span>Zero Subscription Overlap</span><span className="sep" />
+                <span>Evidence-Based</span>
               </div>
               <div className="s-cover-cta reveal">
                 <Link href="/choose-usage" className="btn-primary">
@@ -204,32 +205,32 @@ export function LustroDeck() {
                   The problem
                 </div>
                 <h2 className="h-display reveal">
-                  Modern AI stacks are <em>loud</em>. Teams are tired of decoding options.
+                  AI tool sprawl causes <em>comparison fatigue</em> and budget leaks.
                 </h2>
                 <p className="body-lg reveal" style={{ maxWidth: 520 }}>
-                  Teams spend an average of <strong style={{ color: "#fff", fontWeight: 500 }}>6.5 hours per project</strong> piecing together which AI tools and subscription tiers to use. We think that&apos;s broken.
+                  <strong style={{ color: "#fff", fontWeight: 500 }}>80% of workers</strong> bring their own AI tools to work. Without clear stack guidance, freelancers pay for duplicate features and small teams waste budget on overlapping seat licenses.
                 </p>
               </div>
               <div className="s-problem-right">
                 <div className="problem-card glass-card reveal">
                   <div className="pc-num">01</div>
                   <div className="pc-body">
-                    <h3>Too many tools &amp; tiers</h3>
-                    <p>ChatGPT, Claude, Perplexity, Midjourney—each with separate seats and overlapping feature sets.</p>
+                    <h3>Overlapping subscriptions</h3>
+                    <p>Paying separately for ChatGPT, Claude, Perplexity, and Midjourney without knowing which ones you actually need.</p>
                   </div>
                 </div>
                 <div className="problem-card glass-card reveal">
                   <div className="pc-num">02</div>
                   <div className="pc-body">
-                    <h3>Hidden subscription costs</h3>
-                    <p>Subscribing to multiple $20-$200/mo plans without knowing if models actually perform on your tasks.</p>
+                    <h3>Unclear tool ROI</h3>
+                    <p>Constantly changing model benchmarks and pricing tiers create comparison fatigue and uncertain value.</p>
                   </div>
                 </div>
                 <div className="problem-card glass-card reveal">
                   <div className="pc-num">03</div>
                   <div className="pc-body">
-                    <h3>Context &amp; privacy risks</h3>
-                    <p>Lack of clarity on data privacy terms, server regions, and commercial licensing.</p>
+                    <h3>Team handoff friction</h3>
+                    <p>Unstandardised tool usage across 2–20 person teams leads to inconsistent outputs and uncoordinated seat costs.</p>
                   </div>
                 </div>
               </div>
@@ -245,25 +246,25 @@ export function LustroDeck() {
           <div className="slide-inner s-product">
             <div className="s-product-grid">
               <div className="s-product-left">
-                <span className="product-tag reveal">&#10022; New &middot; In Aissessor</span>
+                <span className="product-tag reveal">&#10022; Decision Support &middot; Aissessor</span>
                 <h2 className="h-display reveal">
-                  Meet <span className="grd">Aissessor</span>. Your AI stack, explained.
+                  Meet <span className="grd">Aissessor</span>. Your AI stack advisor.
                 </h2>
                 <p className="body-lg reveal">
-                  Aissessor turns your workload goals into a verified, plain-language AI strategy. Ask questions in English. Get exact tool stacks, subscription tiers, and dollar savings.
+                  Aissessor maps your paid work into a clean workflow, compares qualified AI options against benchmark evidence, and recommends the smallest stack that delivers the quality you need.
                 </p>
                 <div className="s-product-features reveal">
                   <div className="pf">
-                    <span>Natural language workflow</span>
+                    <span>Workload-matched AI stacks</span>
                   </div>
                   <div className="pf">
-                    <span>Verified benchmark evidence</span>
+                    <span>Audit overlapping subscriptions</span>
                   </div>
                   <div className="pf">
-                    <span>Plain-English summaries</span>
+                    <span>Transparent benchmark evidence</span>
                   </div>
                   <div className="pf">
-                    <span>Consolidated subscription savings</span>
+                    <span>Standardise small team tools</span>
                   </div>
                 </div>
                 <div className="s-product-cta reveal">
@@ -284,10 +285,10 @@ export function LustroDeck() {
                   <div className="mock-stat">
                     <div className="ms-l">
                       <span>CONSOLIDATED SUBSCRIPTION STACK</span>
-                      <strong>$55<span style={{ fontSize: ".55em", color: "var(--ink-3)", fontWeight: 400 }}>/mo</span></strong>
+                      <strong>$2.99<span style={{ fontSize: ".55em", color: "var(--ink-3)", fontWeight: 400 }}>/mo</span></strong>
                     </div>
                     <div className="mock-stat">
-                      <span className="ms-delta">SAVE $39 / MO</span>
+                      <span className="ms-delta">OPTIMISED STACK</span>
                     </div>
                   </div>
                   <div className="mock-chart">
@@ -308,12 +309,12 @@ export function LustroDeck() {
                       <strong>1,200+</strong>
                     </div>
                     <div className="mock-tile">
-                      <span>Speed</span>
-                      <strong>&lt; 3 Secs</strong>
+                      <span>Evaluation</span>
+                      <strong>Benchmark Data</strong>
                     </div>
                     <div className="mock-tile">
-                      <span>Evidence</span>
-                      <strong>100%</strong>
+                      <span>Bias</span>
+                      <strong>0% Vendor Bias</strong>
                     </div>
                   </div>
                 </div>
@@ -377,10 +378,10 @@ export function LustroDeck() {
                   <span className="dt" />
                   Choose your planning mode
                 </div>
-                <h2 className="h-display reveal">Tailored for <span className="grd">one-off projects</span> or <span className="grd">monthly workloads</span>.</h2>
+                <h2 className="h-display reveal">Tailored for <span className="grd">one-off projects</span> or <span className="grd">recurring team workflows</span>.</h2>
               </div>
               <p className="sf-r reveal">
-                Select how you want to structure your AI recommendations based on your team&apos;s workflow style and delivery cadence.
+                Select how you want to structure your AI recommendations based on whether you are a solo freelancer or standardising tools across a small team.
               </p>
             </div>
             <div className="feature-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
@@ -388,7 +389,7 @@ export function LustroDeck() {
                 <div>
                   <div className="f-num">01</div>
                   <h3>One-off Project Strategy</h3>
-                  <p>A specific deliverable with an exact target completion date, project brief, and budget ceiling limit.</p>
+                  <p>Best for freelancers &amp; creators delivering a specific client project with an exact deadline and budget ceiling.</p>
                 </div>
                 <Link href="/strategy/new/one-off" className="f-link">
                   <span>Plan One-off Project</span> <span>&rarr;</span>
@@ -399,7 +400,7 @@ export function LustroDeck() {
                 <div>
                   <div className="f-num">02</div>
                   <h3>Monthly Workload Pipeline</h3>
-                  <p>Multiple recurring tasks, each with its own execution frequency, model tier, and quality requirements.</p>
+                  <p>Best for small teams (2–20) seeking to audit duplicate seats, standardise tool usage, and track recurring AI spend.</p>
                 </div>
                 <Link href="/strategy/new/monthly" className="f-link">
                   <span>Build Monthly Pipeline</span> <span>&rarr;</span>
@@ -620,7 +621,7 @@ export function LustroDeck() {
                 <span className="mw"><span>your AI stack.</span></span>
               </h2>
               <p className="body-lg reveal" style={{ maxWidth: 580 }}>
-                Free to start. No credit card required. Describe your project and Aissessor will deliver an actionable AI stack plan in seconds.
+                Start with 3 AI Task Assessments. Describe your paid work or recurring team tasks, and Aissessor will recommend your optimal AI stack.
               </p>
               <div className="s-cta-row reveal">
                 <Link href="/choose-usage" className="btn-primary">
@@ -630,15 +631,15 @@ export function LustroDeck() {
               <div className="s-cta-launch-info reveal">
                 <div className="launch-item">
                   <span className="li-l">Pricing</span>
-                  <span className="li-v">From <span className="accent">$0</span> / month</span>
+                  <span className="li-v">From <span className="accent">$2.99</span> / month</span>
                 </div>
                 <div className="launch-item">
-                  <span className="li-l">Available</span>
-                  <span className="li-v">1,200+ models indexed</span>
+                  <span className="li-l">Target Audience</span>
+                  <span className="li-v">Freelancers &amp; Teams (2–20)</span>
                 </div>
                 <div className="launch-item">
-                  <span className="li-l">Compliance</span>
-                  <span className="li-v">SOC 2 &middot; ISO 27001 &middot; HIPAA</span>
+                  <span className="li-l">Evaluation</span>
+                  <span className="li-v">Benchmark &amp; Evidence Checks</span>
                 </div>
               </div>
             </div>

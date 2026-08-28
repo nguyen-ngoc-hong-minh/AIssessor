@@ -157,16 +157,16 @@ export function LustroLanding() {
 
     <section id="cover" className={`lustro-slide lustro-cover ${active === 0 ? "active" : ""}`} aria-hidden={active !== 0}>
       <div className="lustro-slide-inner lustro-cover-inner">
-        <div className="lustro-eyebrow lustro-reveal"><span /> Evidence-led AI procurement</div>
+        <div className="lustro-eyebrow lustro-reveal"><span /> Evidence-led AI stack advisor</div>
         <h1 className="lustro-cover-headline">
           <span className="lustro-cover-line"><span><em>Aissessor</em> is here.</span></span>
-          <span className="lustro-cover-line"><span>AI, finally clear.</span></span>
+          <span className="lustro-cover-line"><span>AI stack, finally clear.</span></span>
         </h1>
-        <p className="lustro-body-lg lustro-reveal">Describe a project or recurring task. Get a clear set of AI products, plans, costs, alternatives, and reasons.</p>
+        <p className="lustro-body-lg lustro-reveal">Audit overlapping subscriptions, choose the smallest effective AI stack for your actual work, and stop paying for duplicate tools.</p>
         <div className="lustro-cover-meta lustro-reveal">
-          <span>One-off projects</span><i />
-          <span>Monthly workflows</span><i />
-          <span>Current evidence</span>
+          <span>For freelancers</span><i />
+          <span>Small team workflows</span><i />
+          <span>Zero duplicate seats</span>
         </div>
         <div className="lustro-actions lustro-reveal">
           <Link href="/sign-up" className="lustro-primary-action">Build my AI strategy <ArrowRight /></Link>
