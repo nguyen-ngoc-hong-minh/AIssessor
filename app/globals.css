@@ -12,6 +12,26 @@
   color: var(--ink);
 }
 
+.trial-page.is-embedded {
+  width: 100%;
+  min-height: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.trial-page.is-embedded .trial-parameters,
+.trial-page.is-embedded .trial-workflow,
+.trial-page.is-embedded .trial-results {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.trial-page.is-embedded .trial-processing {
+  min-height: calc(100svh - 152px);
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
 .trial-grid {
   display: none !important;
 }
@@ -3833,25 +3853,74 @@ input::-moz-placeholder {
     border-color: rgba(19, 108, 252, 0.3) !important;
   }
 
-  /* --- Swiss Minimalist Typography Overrides for Light Mode --- */
+/* ==========================================================================
+   STRICT NO-GRADIENT & 4-COLOR PALETTE SYSTEM OVERRIDE
+   Palette Hexes: #103FD5 (Electric Blue), #FFFFFF (White), #071A57 (Deep Navy), #67BAE4 (Sky Blue)
+   ========================================================================== */
+*, *::before, *::after {
+  background-image: none !important;
+}
+
+:root {
+  --bg: #071A57 !important;
+  --bg-2: #051342 !important;
+  --ink: #FFFFFF !important;
+  --ink-2: #67BAE4 !important;
+  --ink-3: rgba(255, 255, 255, 0.65) !important;
+  --glass-bg: #0B2067 !important;
+  --glass-border: rgba(103, 186, 228, 0.25) !important;
+  --input-bg: #051342 !important;
+  --input-color: #FFFFFF !important;
+  --input-border: rgba(103, 186, 228, 0.3) !important;
+  --input-placeholder: rgba(103, 186, 228, 0.5) !important;
+  --indigo: #103FD5 !important;
+  --indigo-soft: #67BAE4 !important;
+  --cyan: #67BAE4 !important;
+  --pink: #67BAE4 !important;
+}
+
+:root[data-theme="light"] {
+  --bg: #F0F6FC !important;
+  --bg-2: #E2EFF9 !important;
+  --ink: #071A57 !important;
+  --ink-2: #103FD5 !important;
+  --ink-3: rgba(7, 26, 87, 0.65) !important;
+  --glass-bg: #FFFFFF !important;
+  --glass-border: rgba(16, 63, 213, 0.15) !important;
+  --input-bg: #FFFFFF !important;
+  --input-color: #071A57 !important;
+  --input-border: rgba(16, 63, 213, 0.25) !important;
+  --input-placeholder: rgba(7, 26, 87, 0.45) !important;
+  --indigo: #103FD5 !important;
+  --indigo-soft: #103FD5 !important;
+  --cyan: #67BAE4 !important;
+  --pink: #103FD5 !important;
+
   .trial-intro h1 em, .trial-workflow h1 em, .trial-result-hero h1 em, .trial-animated-title em {
-    color: #136CFC !important;
+    color: #103FD5 !important;
   }
   .text-pink-soft, .text-pink, .text-green, .text-cyan, .text-indigo-soft, .text-indigo {
-    color: #136CFC !important;
-  }
-  .text-amber-400, .text-amber {
-    color: #b45309 !important;
-  }
-  .text-emerald-400 {
-    color: #047857 !important;
+    color: #071A57 !important;
   }
   .text-indigo-300, .text-indigo-400 {
-    color: #136CFC !important;
+    color: #103FD5 !important;
   }
-  .text-pink-400 {
-    color: #b91c1c !important;
-  }
+}
+
+.trial-primary-button, .btn-primary {
+  background-color: #103FD5 !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+.trial-secondary-button, .btn-secondary {
+  background-color: var(--glass-bg) !important;
+  color: var(--ink) !important;
+  border-color: var(--line) !important;
+}
+
+.feature, .glass-card, .pricing-deck-card, .problem-card, .dash-content-block, .settings-faint-block {
+  background-color: var(--glass-bg) !important;
 }
 
 /* ==========================================================================

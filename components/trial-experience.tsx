@@ -17,6 +17,7 @@ type Frequency = "once" | "occasionally" | "monthly" | "ongoing";
 type Currency = "USD" | "AUD" | "VND";
 type Phase = "intro" | "parameters" | "workflow" | "processing" | "results";
 type Result = { locked: boolean; usageType: "one_off" | "monthly"; plans: StrategyPlan[]; dataSnapshot: { fetchedAt: number } };
+type SignedInMode = "one_off" | "monthly";
 
 const defaultPriorities: Priority[] = ["balanced", "lowest_cost", "highest_quality", "existing_tools", "fastest", "privacy"];
 
@@ -33,12 +34,14 @@ function budgetLabel(amount: number, currency: Currency) {
   return `${currency === "AUD" ? "A$" : "$"}${amount}`;
 }
 
-export function TrialExperience() {
+export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode } = {}) {
   const { isSignedIn } = useAuth();
+  const authenticatedBuilder = Boolean(signedInMode);
+  const cacheKey = authenticatedBuilder ? `aissessor:builder:${signedInMode}` : "aissessor:trial";
   const parameterRef = useRef<HTMLElement>(null);
-  const [phase, setPhase] = useState<Phase>("intro");
+  const [phase, setPhase] = useState<Phase>(authenticatedBuilder ? "parameters" : "intro");
   const [brief, setBrief] = useState("");
-  const [frequency, setFrequency] = useState<Frequency>("once");
+  const [frequency, setFrequency] = useState<Frequency>(signedInMode === "monthly" ? "monthly" : "once");
   const [currency, setCurrency] = useState<Currency>("USD");
   const [budgetChoice, setBudgetChoice] = useState("5");
   const [customBudget, setCustomBudget] = useState("");
@@ -64,7 +67,7 @@ export function TrialExperience() {
   const budgets = useMemo(() => suggestedBudgets(currency), [currency]);
 
   useEffect(() => {
-    const cached = sessionStorage.getItem("aissessor:trial");
+    const cached = sessionStorage.getItem(cacheKey);
     if (!cached) return;
     let frame = 0;
     try {
@@ -72,16 +75,16 @@ export function TrialExperience() {
       if (!saved.trialId || !saved.token || !saved.analysis) return;
       frame = window.requestAnimationFrame(() => {
         setTrialId(saved.trialId); setTrialToken(saved.token); setAnalysis(saved.analysis); setSteps(saved.steps);
-        if (saved.result) { setResult(saved.result); setPendingSave(saved.pendingSave ?? false); setPhase("results"); }
+        if (saved.result) { setResult(saved.result); setPendingSave(saved.pendingSave ?? authenticatedBuilder); setPhase("results"); }
       });
-    } catch { sessionStorage.removeItem("aissessor:trial"); }
+    } catch { sessionStorage.removeItem(cacheKey); }
     return () => window.cancelAnimationFrame(frame);
-  }, []);
+  }, [authenticatedBuilder, cacheKey]);
 
   useEffect(() => {
     if (!trialId || !trialToken || !analysis || savedStrategyId) return;
-    sessionStorage.setItem("aissessor:trial", JSON.stringify({ trialId, token: trialToken, analysis, steps, result, pendingSave }));
-  }, [analysis, pendingSave, result, savedStrategyId, steps, trialId, trialToken]);
+    sessionStorage.setItem(cacheKey, JSON.stringify({ trialId, token: trialToken, analysis, steps, result, pendingSave }));
+  }, [analysis, cacheKey, pendingSave, result, savedStrategyId, steps, trialId, trialToken]);
 
   useEffect(() => {
     if (phase !== "processing") return;
@@ -130,7 +133,7 @@ export function TrialExperience() {
       const body = await response.json() as { trialId?: string; token?: string; analysis?: TaskAnalysis; code?: string; userMessage?: string; error?: string };
       if (!response.ok || !body.trialId || !body.token || !body.analysis) throw new Error(apiErrorMessage(body, "We couldn't understand this project right now."));
       setTrialId(body.trialId); setTrialToken(body.token); setAnalysis(body.analysis); setSteps(body.analysis.workflowSteps); setPhase("workflow");
-      sessionStorage.setItem("aissessor:trial", JSON.stringify({ trialId: body.trialId, token: body.token, analysis: body.analysis, steps: body.analysis.workflowSteps }));
+      sessionStorage.setItem(cacheKey, JSON.stringify({ trialId: body.trialId, token: body.token, analysis: body.analysis, steps: body.analysis.workflowSteps }));
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't understand this project right now."); }
     finally { setBusy(false); }
@@ -149,14 +152,28 @@ export function TrialExperience() {
 
   function removeStep(index: number) { setSteps((current) => current.filter((_, stepIndex) => stepIndex !== index).map((step, order) => ({ ...step, order }))); }
 
+  async function claimTrial(id = trialId, token = trialToken) {
+    const response = await fetch(`/api/trial/${id}/save`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token }) });
+    const body = await response.json() as { strategyId?: string; code?: string; userMessage?: string; error?: string };
+    if (!response.ok || !body.strategyId) throw new Error(apiErrorMessage(body, "We couldn't save your AI stack."));
+    setSavedStrategyId(body.strategyId); setPendingSave(false); sessionStorage.removeItem(cacheKey);
+  }
+
   async function recommend() {
     setError(""); setBusy(true); setLoadingIndex(0); setPhase("processing"); window.scrollTo({ top: 0, behavior: "smooth" });
     try {
       const response = await fetch(`/api/trial/${trialId}/recommend`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: trialToken, workflowSteps: steps }) });
       const body = await response.json() as Result | { code?: string; userMessage?: string; error?: string };
       if (!response.ok || !("plans" in body)) throw new Error(apiErrorMessage(body, "We couldn't build your AI stack right now."));
-      setResult(body); setPhase("results"); setPendingSave(false);
-      sessionStorage.setItem("aissessor:trial", JSON.stringify({ trialId, token: trialToken, analysis, steps, result: body }));
+      setResult(body); setPhase("results"); setPendingSave(authenticatedBuilder);
+      sessionStorage.setItem(cacheKey, JSON.stringify({ trialId, token: trialToken, analysis, steps, result: body, pendingSave: authenticatedBuilder }));
+      if (authenticatedBuilder && isSignedIn) {
+        try {
+          await claimTrial();
+        } catch (saveError) {
+          setError(saveError instanceof Error ? saveError.message : "We couldn't save your AI stack.");
+        }
+      }
     } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't build your AI stack right now."); setPhase("workflow"); }
     finally { setBusy(false); }
   }
@@ -165,20 +182,17 @@ export function TrialExperience() {
     if (!isSignedIn) { setPendingSave(true); return; }
     setBusy(true); setError("");
     try {
-      const response = await fetch(`/api/trial/${trialId}/save`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: trialToken }) });
-      const body = await response.json() as { strategyId?: string; code?: string; userMessage?: string; error?: string };
-      if (!response.ok || !body.strategyId) throw new Error(apiErrorMessage(body, "We couldn't save your AI stack."));
-      setSavedStrategyId(body.strategyId); setPendingSave(false); sessionStorage.removeItem("aissessor:trial");
+      await claimTrial();
     } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't save your AI stack."); }
     finally { setBusy(false); }
   }
 
   function markTrialForSave() {
     setPendingSave(true);
-    const cached = sessionStorage.getItem("aissessor:trial");
+    const cached = sessionStorage.getItem(cacheKey);
     if (!cached) return;
     try {
-      sessionStorage.setItem("aissessor:trial", JSON.stringify({ ...JSON.parse(cached), pendingSave: true }));
+      sessionStorage.setItem(cacheKey, JSON.stringify({ ...JSON.parse(cached), pendingSave: true }));
     } catch {
       // The state-backed persistence effect will retry with a valid payload.
     }
@@ -191,13 +205,13 @@ export function TrialExperience() {
   );
 
   return (
-    <main className="trial-page">
-      <div className="trial-grid" aria-hidden="true" />
-      <header className="trial-header"><Brand /><div className="flex items-center gap-4"><VisualModeToggle /><nav>{isSignedIn ? <Link href="/dashboard">Consultation history</Link> : <Link href="/sign-in">Sign in</Link>}</nav></div></header>
+    <main className={`trial-page ${authenticatedBuilder ? "is-embedded" : ""}`}>
+      {!authenticatedBuilder && <div className="trial-grid" aria-hidden="true" />}
+      {!authenticatedBuilder && <header className="trial-header"><Brand /><div className="flex items-center gap-4"><VisualModeToggle /><nav>{isSignedIn ? <Link href="/dashboard">Consultation history</Link> : <Link href="/sign-in">Sign in</Link>}</nav></div></header>}
 
       {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker"><span /> YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
-      {phase === "parameters" && <section className="trial-parameters trial-enter" ref={parameterRef}><div className="trial-progress"><span className="active">1</span><i /><span>2</span><i /><span>3</span><small>Tell us → Review → Your AI stack</small></div><div className="trial-section-heading"><p>FREE AI MATCH</p><h2>Tell us what you need.</h2><span>We&apos;ll match a specific AI model to every job.</span></div>
+      {phase === "parameters" && <section className="trial-parameters trial-enter" ref={parameterRef}><div className="trial-progress"><span className="active">1</span><i /><span>2</span><i /><span>3</span><small>Tell us → Review → Your AI stack</small></div><div className="trial-section-heading"><p>{authenticatedBuilder ? "NEW AI STRATEGY" : "FREE AI MATCH"}</p><h2>Tell us what you need.</h2><span>We&apos;ll match a specific AI model to every job.</span></div>
           <form onSubmit={analyse} className="trial-form">
             <fieldset className="trial-field-wide"><legend>What are you working on? <InfoTip label="What are you working on?">Tell us about the work you want AI to help with. The more specific you are, the better we can match tools to your needs.</InfoTip></legend><textarea value={brief} onChange={(event) => setBrief(event.target.value)} placeholder="e.g. Create a brand identity, write campaign copy and generate presentation visuals for a client." minLength={20} required /><BriefSuggestions brief={brief} onApply={(text) => setBrief((current) => `${current.trim()}\n\n${text}`.trim())} /></fieldset>
 
@@ -219,7 +233,7 @@ export function TrialExperience() {
 
       {phase === "processing" && <section className="trial-processing" aria-live="polite"><div className="trial-processing-orbit"><Sparkles /><i /><i /></div><p>ANALYSING YOUR WORK</p><h1>{loadingMessages[loadingIndex]}</h1><div className="trial-loading-bar"><span key={loadingIndex} /></div><small>Using current tool, pricing, and evidence data. No artificial wait.</small></section>}
 
-      {phase === "results" && result && <><div className="trial-progress result"><span className="done"><Check /></span><i className="done" /><span className="done"><Check /></span><i className="done" /><span className="active">3</span><small>Tell us → Review workflow → See your stack</small></div><TrialResults result={result} saveControl={saveControl} savedStrategyId={savedStrategyId} />{error && <p className="trial-error floating" role="alert">{error}</p>}</>}
+      {phase === "results" && result && <><div className="trial-progress result"><span className="done"><Check /></span><i className="done" /><span className="done"><Check /></span><i className="done" /><span className="active">3</span><small>Tell us → Review workflow → See your stack</small></div><TrialResults result={result} mode={savedStrategyId ? "saved" : "trial"} saveControl={savedStrategyId ? <Link className="trial-primary-button" href="/dashboard">Consultation history</Link> : saveControl} savedStrategyId={savedStrategyId} />{error && <p className="trial-error floating" role="alert">{error}</p>}</>}
     </main>
   );
 }
