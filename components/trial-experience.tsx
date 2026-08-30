@@ -9,8 +9,8 @@ import { frequencyToMonthlyUses, type Priority, type TaskAnalysis, type Workflow
 import type { StrategyPlan } from "@/lib/recommendation/types";
 import { Brand } from "./brand";
 import { BriefSuggestions } from "./brief-suggestions";
+import { FloatingGeometricCanvas } from "./floating-geometric-canvas";
 import { InfoTip } from "./info-tip";
-import { InteractivePixelGrid } from "./interactive-pixel-grid";
 import { TrialResults } from "./trial-results";
 import { VisualModeToggle } from "./visual-mode-toggle";
 
@@ -207,7 +207,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
   return (
     <main className={`trial-page ${authenticatedBuilder ? "is-embedded" : ""}`}>
-      {!authenticatedBuilder && phase === "intro" && <InteractivePixelGrid />}
+      {!authenticatedBuilder && phase === "intro" && <FloatingGeometricCanvas />}
       {!authenticatedBuilder && (
         <header className="trial-header z-[100] relative w-full flex justify-between items-start">
           <div className="swiss-badge shadow-md">
