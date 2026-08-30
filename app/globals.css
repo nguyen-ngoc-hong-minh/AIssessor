@@ -3647,17 +3647,17 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   background-color: var(--bg) !important;
 }
 
-.cl-socialButtonsBlockButton {
+.auth-widget-box .cl-socialButtonsBlockButton {
   background-color: var(--input-bg) !important;
   border: 1px solid var(--input-border) !important;
 }
 
-.cl-formFieldInput {
+.auth-widget-box .cl-formFieldInput {
   background-color: var(--input-bg) !important;
   border: 1px solid var(--input-border) !important;
 }
 
-.cl-formButtonPrimary {
+.auth-widget-box .cl-formButtonPrimary {
   background-color: var(--indigo) !important;
 }
 
