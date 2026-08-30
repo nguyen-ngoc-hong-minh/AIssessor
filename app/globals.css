@@ -4349,3 +4349,74 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
     min-width: 0 !important;
   }
 }
+
+/* ==========================================================================
+   SWISS ART DIRECTION OVERRIDES (NO DROP SHADOWS, SHARP CORNERS, PROPER CONTRAST)
+   ========================================================================== */
+
+/* 1. Eliminate ALL border radii across the entire app for the brutalist boxy look */
+:root, :root[data-theme="light"], * {
+  --r-sm: 0px !important;
+  --r-md: 0px !important;
+  --r-lg: 0px !important;
+  --r-xl: 0px !important;
+  border-radius: 0px !important;
+}
+
+/* 2. Ensure inputs and form elements are sharp and have proper contrast */
+.trial-page input, 
+.trial-page select, 
+.trial-page textarea, 
+.trial-page button,
+.trial-field-wide,
+.trial-field-half,
+.trial-choice-grid button,
+fieldset {
+  border-radius: 0px !important;
+}
+
+/* 3. The Swiss Art Direction Accents for the Intro Hero */
+/* Adding a subtle blueprint grid specifically to the intro section */
+.trial-intro {
+  background-image: 
+    linear-gradient(rgba(16, 63, 213, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 63, 213, 0.05) 1px, transparent 1px) !important;
+  background-size: 64px 64px !important;
+  background-position: center !important;
+}
+
+/* The Swiss Blue Badge */
+.trial-intro::before {
+  content: "[ ◉ AISSESSOR / AI ADVISOR ]";
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  background-color: #103FD5;
+  color: #FFFFFF;
+  padding: 8px 16px;
+  font-family: var(--font-jetbrains-mono);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  z-index: 20;
+}
+
+/* The stepped blue pixel block geometry */
+.trial-intro::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 220px;
+  height: 160px;
+  background-color: #103FD5;
+  clip-path: polygon(100% 0, 100% 100%, 50% 100%, 50% 66%, 25% 66%, 25% 33%, 0 33%, 0 0);
+  z-index: 20;
+}
+
+/* Hide these decorative accents on mobile to prevent clutter */
+@media (max-width: 768px) {
+  .trial-intro::before, .trial-intro::after {
+    display: none !important;
+  }
+}
