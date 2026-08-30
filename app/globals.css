@@ -11,7 +11,7 @@
   background:
     radial-gradient(circle at 12% 14%, var(--ambient-glow-1), transparent 34%),
     radial-gradient(circle at 88% 76%, var(--ambient-glow-2), transparent 34%),
-    var(--bg-image) no-repeat center center / cover fixed;
+    var(--bg);
   color: var(--ink);
 }
 
@@ -19,10 +19,10 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: .48;
-  background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse at center, black 20%, transparent 84%);
+  opacity: .35;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
 }
 
 .trial-header {
@@ -505,42 +505,42 @@
    ========================================================================== */
 
 :root {
-  --bg-image: url(/bg-dark.jpg);
-  --ambient-glow-1: rgba(19, 108, 252, 0.35);
-  --ambient-glow-2: rgba(195, 248, 74, 0.15);
+  --bg-image: none;
+  --ambient-glow-1: rgba(19, 108, 252, 0.25);
+  --ambient-glow-2: rgba(19, 108, 252, 0.08);
   
-  --input-bg: rgba(21, 38, 65, 0.7);
+  --input-bg: rgba(13, 27, 62, 0.8);
   --input-color: #ffffff;
-  --input-border: rgba(255, 255, 255, 0.1);
-  --input-placeholder: rgba(255, 255, 255, 0.35);
+  --input-border: rgba(255, 255, 255, 0.12);
+  --input-placeholder: rgba(255, 255, 255, 0.4);
   
-  --button-choice-bg: rgba(255, 255, 255, 0.02);
-  --fieldset-bg: linear-gradient(135deg, rgba(21, 38, 65, 0.75), rgba(15, 26, 49, 0.8));
-  --glass-shadow: 0 24px 80px rgba(0, 0, 0, 0.3);
+  --button-choice-bg: rgba(255, 255, 255, 0.03);
+  --fieldset-bg: linear-gradient(135deg, rgba(13, 27, 62, 0.9), rgba(8, 18, 43, 0.95));
+  --glass-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
 
   --ee: cubic-bezier(0.19, 1, 0.22, 1);
   --eq: cubic-bezier(0.77, 0, 0.175, 1);
   --es: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   --bg: #152641;
-  --bg-2: #0f1c30;
+  --bg-2: #0d1b3e;
   --ink: #ffffff;
-  --ink-2: rgba(255, 255, 255, 0.75);
-  --ink-3: rgba(255, 255, 255, 0.55);
-  --ink-4: rgba(255, 255, 255, 0.35);
+  --ink-2: rgba(255, 255, 255, 0.82);
+  --ink-3: rgba(255, 255, 255, 0.60);
+  --ink-4: rgba(255, 255, 255, 0.38);
 
-  --line: rgba(255, 255, 255, 0.1);
-  --line-2: rgba(255, 255, 255, 0.05);
+  --line: rgba(255, 255, 255, 0.12);
+  --line-2: rgba(255, 255, 255, 0.06);
 
-  --glass-bg: rgba(21, 38, 65, 0.88);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: blur(25px);
+  --glass-bg: rgba(13, 27, 62, 0.88);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(20px);
 
   --indigo: #136CFC;
-  --indigo-soft: #136CFC;
+  --indigo-soft: #60a5fa;
   --pink: #C3F84A;
   --pink-soft: #C3F84A;
-  --cyan: #22d3ee;
+  --cyan: #38bdf8;
   --green: #C3F84A;
   --amber: #fbbf24;
 
@@ -559,42 +559,42 @@
 }
 
 :root[data-theme="light"] {
-  --bg-image: url(/bg-light.jpg);
-  --ambient-glow-1: rgba(19, 108, 252, 0.15);
-  --ambient-glow-2: rgba(195, 248, 74, 0.1);
+  --bg-image: none;
+  --ambient-glow-1: rgba(19, 108, 252, 0.08);
+  --ambient-glow-2: rgba(19, 108, 252, 0.03);
 
-  --input-bg: rgba(255, 255, 255, 0.8);
-  --input-color: #152641;
-  --input-border: rgba(21, 38, 65, 0.14);
-  --input-placeholder: rgba(21, 38, 65, 0.45);
+  --input-bg: #ffffff;
+  --input-color: #136CFC;
+  --input-border: rgba(19, 108, 252, 0.18);
+  --input-placeholder: rgba(19, 108, 252, 0.45);
 
-  --button-choice-bg: rgba(21, 38, 65, 0.03);
-  --fieldset-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.6));
-  --glass-shadow: 0 16px 48px rgba(21, 38, 65, 0.08);
+  --button-choice-bg: rgba(19, 108, 252, 0.04);
+  --fieldset-bg: #ffffff;
+  --glass-shadow: 0 12px 36px rgba(19, 108, 252, 0.06);
 
-  --bg: #E8F4FC;
-  --bg-2: #d9e8f5;
-  --ink: #152641;
-  --ink-2: rgba(21, 38, 65, 0.78);
-  --ink-3: rgba(21, 38, 65, 0.58);
-  --ink-4: rgba(21, 38, 65, 0.38);
+  --bg: #F4F6FB;
+  --bg-2: #E8EDF5;
+  --ink: #136CFC;
+  --ink-2: #152641;
+  --ink-3: rgba(21, 38, 65, 0.65);
+  --ink-4: rgba(21, 38, 65, 0.45);
 
-  --line: rgba(21, 38, 65, 0.08);
-  --line-2: rgba(21, 38, 65, 0.04);
+  --line: rgba(19, 108, 252, 0.14);
+  --line-2: rgba(19, 108, 252, 0.06);
 
-  --glass-bg: rgba(255, 255, 255, 0.92);
-  --glass-border: rgba(21, 38, 65, 0.08);
-  --glass-blur: blur(20px);
+  --glass-bg: #ffffff;
+  --glass-border: rgba(19, 108, 252, 0.15);
+  --glass-blur: blur(0px);
 
   --indigo: #136CFC;
-  --indigo-soft: #152641;
-  --pink: #C3F84A;
-  --pink-soft: #C3F84A;
-  --cyan: #0369a1;
+  --indigo-soft: #136CFC;
+  --pink: #136CFC;
+  --pink-soft: #136CFC;
+  --cyan: #136CFC;
 
-  --grad-a: linear-gradient(135deg, #152641 0%, #136CFC 50%, #C3F84A 100%);
+  --grad-a: linear-gradient(135deg, #136CFC 0%, #152641 100%);
   --grad-b: linear-gradient(135deg, #136CFC, #152641);
-  --grad-c: linear-gradient(90deg, #136CFC, #E8F4FC);
+  --grad-c: linear-gradient(90deg, #136CFC, #F4F6FB);
 }
 
 @theme {
@@ -691,7 +691,7 @@ html, body {
   background:
     radial-gradient(circle at 15% 20%, var(--ambient-glow-1) 0%, transparent 50%),
     radial-gradient(circle at 85% 80%, var(--ambient-glow-2) 0%, transparent 50%),
-    var(--bg-image) no-repeat center center / cover fixed;
+    var(--bg);
   z-index: 0;
   animation: ambient 14s ease-in-out infinite alternate;
 }
@@ -708,12 +708,13 @@ html, body {
   position: fixed;
   inset: 0;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(ellipse at center, black 25%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 80%);
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
   z-index: 0;
+  opacity: 0.35;
 }
 
 .deck {
@@ -3851,18 +3852,12 @@ input::-moz-placeholder {
     border-color: rgba(19, 108, 252, 0.3) !important;
   }
 
-  /* --- High-contrast metric and label text colors for Light Mode --- */
+  /* --- Swiss Minimalist Typography Overrides for Light Mode --- */
   .trial-intro h1 em, .trial-workflow h1 em, .trial-result-hero h1 em, .trial-animated-title em {
-    color: #C3F84A !important;
+    color: #136CFC !important;
   }
-  .text-pink-soft, .text-pink, .text-green {
-    color: #C3F84A !important;
-  }
-  .text-cyan {
-    color: #0369a1 !important; /* Dark Ocean Blue - High contrast on white */
-  }
-  .text-indigo-soft, .text-indigo {
-    color: #152641 !important; /* Dark Blue - High contrast on white */
+  .text-pink-soft, .text-pink, .text-green, .text-cyan, .text-indigo-soft, .text-indigo {
+    color: #136CFC !important;
   }
   .text-amber-400, .text-amber {
     color: #b45309 !important;
@@ -3871,7 +3866,7 @@ input::-moz-placeholder {
     color: #047857 !important;
   }
   .text-indigo-300, .text-indigo-400 {
-    color: #1d4ed8 !important;
+    color: #136CFC !important;
   }
   .text-pink-400 {
     color: #b91c1c !important;
