@@ -4349,3 +4349,45 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
     min-width: 0 !important;
   }
 }
+
+/* ==========================================================================
+   INTERACTIVE HERO STYLES & FLOATING BADGE ANIMATIONS
+   ========================================================================== */
+.interactive-hero-wrapper {
+  padding-top: 100px;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@keyframes floatBadge1 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-9px) rotate(1deg); }
+}
+
+@keyframes floatBadge2 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(-1.5deg); }
+}
+
+@keyframes floatBadge3 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-8px) rotate(-1deg); }
+}
+
+@keyframes floatBadge4 {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-11px) rotate(1.2deg); }
+}
+
+.float-badge-1 { animation: floatBadge1 6s ease-in-out infinite; }
+.float-badge-2 { animation: floatBadge2 7s ease-in-out infinite 0.8s; }
+.float-badge-3 { animation: floatBadge3 6.5s ease-in-out infinite 1.5s; }
+.float-badge-4 { animation: floatBadge4 7.5s ease-in-out infinite 0.4s; }
+
+:root[data-theme="light"] .interactive-hero-wrapper .trial-primary-button {
+  background: var(--ink) !important;
+  color: #ffffff !important;
+}
+
