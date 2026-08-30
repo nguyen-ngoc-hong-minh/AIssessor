@@ -588,9 +588,9 @@
 
   --indigo: #136CFC;
   --indigo-soft: #152641;
-  --pink: #C3F84A;
-  --pink-soft: #C3F84A;
-  --cyan: #0284c7;
+  --pink: #15803d;
+  --pink-soft: #15803d;
+  --cyan: #0369a1;
 
   --grad-a: linear-gradient(135deg, #152641 0%, #136CFC 50%, #C3F84A 100%);
   --grad-b: linear-gradient(135deg, #136CFC, #152641);
@@ -3849,5 +3849,28 @@ input::-moz-placeholder {
   }
   .strategy-card-row:hover {
     border-color: rgba(19, 108, 252, 0.3) !important;
+  }
+
+  /* --- High-contrast metric and label text colors for Light Mode --- */
+  .text-pink-soft, .text-pink, .text-green {
+    color: #15803d !important; /* Dark Green - High contrast on white */
+  }
+  .text-cyan {
+    color: #0369a1 !important; /* Dark Ocean Blue - High contrast on white */
+  }
+  .text-indigo-soft, .text-indigo {
+    color: #152641 !important; /* Dark Blue - High contrast on white */
+  }
+  .text-amber-400, .text-amber {
+    color: #b45309 !important;
+  }
+  .text-emerald-400 {
+    color: #047857 !important;
+  }
+  .text-indigo-300, .text-indigo-400 {
+    color: #1d4ed8 !important;
+  }
+  .text-pink-400 {
+    color: #b91c1c !important;
   }
 }
