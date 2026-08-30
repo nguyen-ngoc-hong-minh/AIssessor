@@ -4636,3 +4636,8 @@ fieldset {
   border: none !important;
   box-shadow: none !important;
 }
+
+/* Double enforce global background for the flat look */
+html, body {
+  background-color: var(--bg) !important;
+}
