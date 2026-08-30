@@ -10,6 +10,7 @@ import type { StrategyPlan } from "@/lib/recommendation/types";
 import { Brand } from "./brand";
 import { BriefSuggestions } from "./brief-suggestions";
 import { InfoTip } from "./info-tip";
+import { PixelCanvas } from "./pixel-canvas";
 import { TrialResults } from "./trial-results";
 import { VisualModeToggle } from "./visual-mode-toggle";
 
@@ -206,6 +207,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
   return (
     <main className={`trial-page ${authenticatedBuilder ? "is-embedded" : ""}`}>
+      {!authenticatedBuilder && phase === "intro" && <PixelCanvas />}
       {!authenticatedBuilder && (
         <header className="trial-header z-[100] relative w-full flex justify-between items-start">
           <div className="swiss-badge shadow-md">

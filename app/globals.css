@@ -4590,3 +4590,21 @@ fieldset {
 .trial-header > .relative > div:first-child { animation-delay: 1.2s; } /* stepped block */
 .trial-header .swiss-nav-block { animation-delay: 1.3s; }
 
+
+/* Ensure homepage has Cream/Off-white background */
+:root[data-theme="light"] {
+  --bg: #FAF9F6 !important;
+}
+
+.trial-page {
+  background-color: #FAF9F6 !important; /* override permanently for the flat look */
+}
+
+/* Remove static grid background from intro, we now use the interactive pixel canvas */
+.trial-intro {
+  background-image: none !important;
+}
+
+:root[data-theme="dark"] .trial-page {
+  background-color: #051342 !important;
+}
