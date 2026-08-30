@@ -20,7 +20,7 @@ export function PixelTransition() {
       {bars.map((_, i) => (
         <div
           key={i}
-          className="h-full bg-[#103FD5] flex-1"
+          className="h-full bg-[#1A24A9] flex-1"
           style={{
             animation: `pixelSlideUp 1s cubic-bezier(0.76, 0, 0.24, 1) forwards`,
             animationDelay: `${Math.random() * 0.4}s`,

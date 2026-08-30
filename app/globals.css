@@ -3954,7 +3954,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 /* ==========================================================================
    STRICT NO-GRADIENT & 4-COLOR PALETTE SYSTEM OVERRIDE
-   Palette Hexes: #103FD5 (Electric Blue), #FFFFFF (White), #071A57 (Deep Navy), #67BAE4 (Sky Blue)
+   Palette Hexes: #1A24A9 (Electric Blue), #FFFFFF (White), #071A57 (Deep Navy), #67BAE4 (Sky Blue)
    ========================================================================== */
 *, *::before, *::after {
   background-image: none !important;
@@ -3972,7 +3972,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   --input-color: #FFFFFF !important;
   --input-border: rgba(103, 186, 228, 0.3) !important;
   --input-placeholder: rgba(103, 186, 228, 0.5) !important;
-  --indigo: #103FD5 !important;
+  --indigo: #1A24A9 !important;
   --indigo-soft: #67BAE4 !important;
   --cyan: #67BAE4 !important;
   --pink: #67BAE4 !important;
@@ -3982,7 +3982,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   --bg: #F0F6FC !important;
   --bg-2: #E2EFF9 !important;
   --ink: #071A57 !important;
-  --ink-2: #103FD5 !important;
+  --ink-2: #1A24A9 !important;
   --ink-3: rgba(7, 26, 87, 0.65) !important;
   --glass-bg: #FFFFFF !important;
   --glass-border: rgba(16, 63, 213, 0.15) !important;
@@ -3990,24 +3990,24 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   --input-color: #071A57 !important;
   --input-border: rgba(16, 63, 213, 0.25) !important;
   --input-placeholder: rgba(7, 26, 87, 0.45) !important;
-  --indigo: #103FD5 !important;
-  --indigo-soft: #103FD5 !important;
+  --indigo: #1A24A9 !important;
+  --indigo-soft: #1A24A9 !important;
   --cyan: #67BAE4 !important;
-  --pink: #103FD5 !important;
+  --pink: #1A24A9 !important;
 
   .trial-intro h1 em, .trial-workflow h1 em, .trial-result-hero h1 em, .trial-animated-title em {
-    color: #103FD5 !important;
+    color: #1A24A9 !important;
   }
   .text-pink-soft, .text-pink, .text-green, .text-cyan, .text-indigo-soft, .text-indigo {
     color: #071A57 !important;
   }
   .text-indigo-300, .text-indigo-400 {
-    color: #103FD5 !important;
+    color: #1A24A9 !important;
   }
 }
 
 .trial-primary-button, .btn-primary {
-  background-color: #103FD5 !important;
+  background-color: #1A24A9 !important;
   color: #FFFFFF !important;
   box-shadow: none !important;
 }
@@ -4392,7 +4392,7 @@ fieldset {
 }
 
 .swiss-badge {
-  background-color: #103FD5;
+  background-color: #1A24A9;
   color: #FFFFFF;
   padding: 8px 16px;
   font-family: var(--font-jetbrains-mono);
@@ -4417,8 +4417,8 @@ fieldset {
   display: flex;
   align-items: center;
   background-color: #E7E6E1;
-  border: 2px solid #103FD5;
-  color: #103FD5;
+  border: 2px solid #1A24A9;
+  color: #1A24A9;
   font-family: var(--font-jetbrains-mono);
   font-size: 12px;
   font-weight: bold;
@@ -4430,16 +4430,16 @@ fieldset {
 }
 
 .swiss-nav-block > *:not(:last-child) {
-  border-right: 2px solid #103FD5;
+  border-right: 2px solid #1A24A9;
 }
 
 :root[data-theme="dark"] .swiss-nav-block {
   background-color: #071A57;
   color: #FFFFFF;
-  border-color: #103FD5;
+  border-color: #1A24A9;
 }
 :root[data-theme="dark"] .swiss-nav-block > *:not(:last-child) {
-  border-right-color: #103FD5;
+  border-right-color: #1A24A9;
 }
 
 
@@ -4451,7 +4451,7 @@ fieldset {
 }
 
 .swiss-nav-block nav a:hover {
-  background-color: #103FD5 !important;
+  background-color: #1A24A9 !important;
   color: #FFFFFF !important;
 }
 
@@ -4495,7 +4495,7 @@ fieldset {
 .trial-tool-picker button,
 .trial-form .trial-budget-row button,
 .trial-form .trial-budget-row select {
-  background-color: #103FD5 !important;
+  background-color: #1A24A9 !important;
   border: none !important;
   color: #FFFFFF !important;
 }

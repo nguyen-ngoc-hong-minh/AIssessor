@@ -138,7 +138,7 @@ export function PixelCanvas() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Draw Grid Cells
-      ctx.fillStyle = "#103FD5"; // Electric Blue
+      ctx.fillStyle = "#1A24A9"; // Electric Blue
       
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
@@ -155,7 +155,7 @@ export function PixelCanvas() {
       // Draw Ripples
       ripples.forEach((rip, i) => {
         ctx.globalAlpha = rip.alpha;
-        ctx.strokeStyle = "#103FD5";
+        ctx.strokeStyle = "#1A24A9";
         ctx.lineWidth = 4;
         ctx.beginPath();
         ctx.arc(rip.x, rip.y, rip.radius, 0, Math.PI * 2);
