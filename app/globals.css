@@ -12,6 +12,26 @@
   color: var(--ink);
 }
 
+.trial-page.is-embedded {
+  width: 100%;
+  min-height: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.trial-page.is-embedded .trial-parameters,
+.trial-page.is-embedded .trial-workflow,
+.trial-page.is-embedded .trial-results {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.trial-page.is-embedded .trial-processing {
+  min-height: calc(100svh - 152px);
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
 .trial-grid {
   display: none !important;
 }

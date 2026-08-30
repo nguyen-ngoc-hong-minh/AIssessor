@@ -7,6 +7,7 @@ import { OneOffStrategyForm } from "@/components/one-off-strategy-form";
 import { OnboardingForm } from "@/components/onboarding-form";
 import { ResultsView } from "@/components/results-view";
 import { SignedInHome } from "@/components/signed-in-home";
+import { TrialExperience } from "@/components/trial-experience";
 import { TrialResults } from "@/components/trial-results";
 import type { StrategyPlan } from "@/lib/recommendation/types";
 
@@ -21,6 +22,10 @@ vi.mock("@clerk/react", () => ({
   UserButton: () => <button data-testid="clerk-user-button">Profile</button>,
   SignOutButton: ({ children }: { children: React.ReactNode }) => children,
   useUser: () => ({ user: null }),
+}));
+vi.mock("@clerk/nextjs", () => ({
+  SignInButton: ({ children }: { children: React.ReactNode }) => children,
+  useAuth: () => ({ isSignedIn: true }),
 }));
 
 afterEach(() => {
@@ -53,6 +58,53 @@ describe("strategy inputs", () => {
     expect(await screen.findByText(/now saved to this account/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /open saved plan/i })).toHaveAttribute("href", "/strategy/saved-id/results");
     expect(sessionStorage.getItem("aissessor:trial")).toBeNull();
+  });
+  it("uses the trial feature set for a signed-in one-off project", () => {
+    render(<TrialExperience signedInMode="one_off" />);
+    expect(screen.getByRole("heading", { name: "Tell us what you need." })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Once" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByText("AI products you already use")).toBeInTheDocument();
+    expect(screen.getByText("Optional details")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /try it for free/i })).not.toBeInTheDocument();
+  });
+  it("preselects recurring work for a signed-in monthly project", () => {
+    render(<TrialExperience signedInMode="monthly" />);
+    expect(screen.getByRole("button", { name: "Monthly" })).toHaveAttribute("aria-pressed", "true");
+    expect(screen.getByText("Monthly AI budget")).toBeInTheDocument();
+    expect(screen.queryByText("Deadline")).not.toBeInTheDocument();
+  });
+  it("automatically saves a completed signed-in builder result", async () => {
+    const workflowStep = {
+      id: "step-1", order: 0, name: "Research", plainLanguageDescription: "Research current information.",
+      requirements: { requiredModalities: ["text"], requiredCapabilities: ["web_research"], importance: "high", noAIEligible: false },
+      estimates: { requests: 1, inputExpected: 500, outputExpected: 300 },
+    };
+    const result = {
+      locked: false, usageType: "one_off", dataSnapshot: { fetchedAt: Date.now() },
+      plans: [{
+        variant: "recommended", steps: [{ stepId: "step-1", taskCategory: "research", step: workflowStep, selected: null, partialOptions: [] }],
+        fixedCostUsd: 0, apiCostUsd: 0, totalCostUsd: 0, estimatedSavingsUsd: 0, budgetUsd: 5, budgetRemainingUsd: 5,
+        existingSubscriptions: { kept: [], couldCancel: [] }, subscriptions: [], uniqueProductCount: 0, completeStepCount: 0,
+        inputsUsed: { budgetOriginalCurrency: "USD", budgetOriginalAmount: 5 }, assumptions: [], dataUpdatedAt: Date.now(),
+      }],
+    };
+    const request = vi.spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+      const url = String(input);
+      if (url === "/api/trial") return new Response(JSON.stringify({ trialId: "trial-id", token: "t".repeat(32), analysis: { workflowSteps: [workflowStep] } }), { status: 200 });
+      if (url === "/api/trial/trial-id/recommend") return new Response(JSON.stringify(result), { status: 200 });
+      if (url === "/api/trial/trial-id/save") return new Response(JSON.stringify({ strategyId: "saved-id" }), { status: 200 });
+      return new Response(null, { status: 404 });
+    });
+
+    render(<TrialExperience signedInMode="one_off" />);
+    fireEvent.change(screen.getByPlaceholderText(/Create a brand identity/i), { target: { value: "Create a researched campaign and complete client presentation." } });
+    fireEvent.click(screen.getByRole("button", { name: /Show me the workflow/i }));
+    expect(await screen.findByLabelText("Step 1 name")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: /Looks right/i }));
+
+    await vi.waitFor(() => expect(request).toHaveBeenCalledWith("/api/trial/trial-id/save", expect.objectContaining({ method: "POST" })));
+    expect(await screen.findByText(/This model-by-model plan is in your history/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /Consultation history/i })).toHaveAttribute("href", "/dashboard");
   });
   it("uses one project brief, an actual date input, and an exact budget control", () => {
     const { container } = render(<OneOffStrategyForm />);
