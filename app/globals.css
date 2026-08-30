@@ -3356,19 +3356,19 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 .auth-editorial-left {
-  padding: 40px 36px;
+  padding: 36px 32px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 24px;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(236, 72, 153, 0.05));
-  border-right: 1px solid var(--glass-border);
+  background: var(--bg-2);
+  border-right: 1px solid var(--line);
 }
 
 .auth-title {
   font-size: 28px;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--ink);
   margin: 18px 0 14px;
   line-height: 1.25;
 }
@@ -3392,15 +3392,15 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   gap: 12px;
   padding: 10px 14px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--line-2);
+  background: var(--input-bg);
+  border: 1px solid var(--line);
 }
 
 .feature-pill strong {
   display: block;
   font-size: 13px;
   font-weight: 500;
-  color: #ffffff;
+  color: var(--ink);
 }
 
 .feature-pill small {
@@ -3415,7 +3415,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--glass-bg);
 }
 
 .auth-footer {
@@ -3434,7 +3434,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   }
   .auth-editorial-left {
     border-right: none;
-    border-bottom: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--line);
     padding: 28px 20px;
   }
   .auth-widget-box {
@@ -3442,7 +3442,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   }
 }
 
-/* Clerk Custom Dark Styling & Rounded Input Boxes & Padding Margins */
+/* Clerk Custom Theme-Aware Styling */
 .clerk-container {
   width: 100%;
   display: flex;
@@ -3476,33 +3476,32 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   font-family: var(--font-sans) !important;
   font-size: 22px !important;
   font-weight: 600 !important;
-  color: #ffffff !important;
+  color: var(--ink) !important;
 }
 
 .cl-headerSubtitle {
   font-family: var(--font-body) !important;
   font-size: 12.5px !important;
-  color: var(--ink-2) !important;
+  color: var(--ink-3) !important;
   margin-bottom: 8px !important;
 }
 
 .cl-socialButtonsBlockButton {
   border-radius: 99px !important;
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  color: #ffffff !important;
+  background: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+  color: var(--input-color) !important;
   padding: 8px 16px !important;
   transition: all 0.2s ease !important;
   margin-bottom: 8px !important;
 }
 
 .cl-socialButtonsBlockButton:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(255, 255, 255, 0.3) !important;
+  border-color: var(--indigo) !important;
 }
 
 .cl-socialButtonsBlockButtonText {
-  color: #ffffff !important;
+  color: var(--input-color) !important;
   font-family: var(--font-body) !important;
   font-size: 12.5px !important;
   font-weight: 500 !important;
@@ -3513,7 +3512,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 .cl-dividerLine {
-  background: rgba(255, 255, 255, 0.1) !important;
+  background: var(--line) !important;
 }
 
 .cl-dividerText {
@@ -3523,7 +3522,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 .cl-formFieldLabel {
-  color: #ffffff !important;
+  color: var(--ink) !important;
   font-family: var(--font-body) !important;
   font-size: 12px !important;
   font-weight: 500 !important;
@@ -3532,9 +3531,9 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 .cl-formFieldInput {
   border-radius: 99px !important;
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  color: #ffffff !important;
+  background: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+  color: var(--input-color) !important;
   padding: 8px 16px !important;
   font-size: 13px !important;
   font-family: var(--font-body) !important;
@@ -3542,7 +3541,6 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   margin-bottom: 8px !important;
 }
 
-/* Force Ultra-Bright Silver-White Input Placeholder Text */
 .clerk-container input::placeholder,
 .clerk-container input::-webkit-input-placeholder,
 .clerk-container input::-moz-placeholder,
@@ -3564,14 +3562,14 @@ input[type="password"]::placeholder,
 input::placeholder,
 input::-webkit-input-placeholder,
 input::-moz-placeholder {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
+  color: var(--input-placeholder) !important;
+  -webkit-text-fill-color: var(--input-placeholder) !important;
   opacity: 0.9 !important;
 }
 
 .cl-formFieldInputShowPasswordButton,
 .cl-formFieldInputShowPasswordIcon {
-  color: #ffffff !important;
+  color: var(--input-color) !important;
   opacity: 0.8 !important;
 }
 
