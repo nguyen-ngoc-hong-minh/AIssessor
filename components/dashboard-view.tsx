@@ -71,7 +71,7 @@ export function DashboardView() {
 
         <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
           <div>
-            <div className="font-mono text-xs text-pink-soft tracking-wider mb-2 font-medium">Optimized stack</div>
+            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-2 font-medium">Optimized stack</div>
             <div className="metric-num text-5xl font-bold tracking-tight my-4 text-ink">{savedPlans}</div>
             <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-2">Plans ready for deployment &amp; execution</p>
           </div>
@@ -79,7 +79,7 @@ export function DashboardView() {
 
         <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
           <div>
-            <div className="font-mono text-xs text-cyan tracking-wider mb-2 font-medium">New better option</div>
+            <div className="font-mono text-xs text-indigo-soft tracking-wider mb-2 font-medium">New better option</div>
             <div className="metric-num text-5xl font-bold tracking-tight my-4 text-ink">
               &minus;32%
             </div>
@@ -135,7 +135,7 @@ export function DashboardView() {
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-3 mb-1">
-                      <span className="font-mono text-xs text-cyan uppercase tracking-wider">
+                      <span className="font-mono text-xs text-indigo-soft uppercase tracking-wider">
                         [{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]
                       </span>
                       {strategy.refreshAvailable && (
