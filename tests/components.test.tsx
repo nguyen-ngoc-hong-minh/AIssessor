@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AuthScreen } from "@/components/auth-screen";
 import { AppShell } from "@/components/app-shell";
+import { DashboardView } from "@/components/dashboard-view";
 import { IntegrationNotice } from "@/components/integration-notice";
 import { MonthlyTaskBuilder } from "@/components/monthly-task-builder";
 import { OneOffStrategyForm } from "@/components/one-off-strategy-form";
@@ -18,6 +19,7 @@ vi.mock("@clerk/react", () => ({
   SignIn: (props: { fallbackRedirectUrl?: string }) => <div data-testid="clerk-sign-in" data-redirect={props.fallbackRedirectUrl} />,
   SignUp: (props: { forceRedirectUrl?: string }) => <div data-testid="clerk-sign-up" data-redirect={props.forceRedirectUrl} />,
   UserProfile: () => <div data-testid="clerk-user-profile" />,
+  UserButton: () => <button data-testid="clerk-user-button">Profile</button>,
   SignOutButton: ({ children }: { children: React.ReactNode }) => children,
   useUser: () => ({ user: null }),
 }));
@@ -38,9 +40,11 @@ describe("Clerk authentication", () => {
 });
 
 describe("strategy inputs", () => {
-  it("routes New strategy to the usage chooser", () => {
-    render(<AppShell user={{ name: "Test User", email: "test@example.com" }}><div>Content</div></AppShell>);
-    expect(screen.getByText("New Strategy Builder")).toBeInTheDocument();
+  it("puts one-off and monthly strategy actions on the dashboard", () => {
+    vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify([]), { status: 200 }));
+    render(<DashboardView />);
+    expect(screen.getAllByRole("link", { name: /one-off project/i }).every((link) => link.getAttribute("href") === "/strategy/new/one-off")).toBe(true);
+    expect(screen.getAllByRole("link", { name: /monthly workflow/i }).every((link) => link.getAttribute("href") === "/strategy/new/monthly")).toBe(true);
   });
   it("uses one project brief, an actual date input, and an exact budget control", () => {
     const { container } = render(<OneOffStrategyForm />);

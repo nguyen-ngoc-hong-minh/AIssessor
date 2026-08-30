@@ -57,7 +57,6 @@ export function SiteHeader() {
             <LayoutDashboard className="w-3.5 h-3.5 text-pink-400" />
             <span>Mode Switcher</span>
           </Link>
-          <Link href="/pricing">Pricing</Link>
           <AuthActions />
         </nav>
 

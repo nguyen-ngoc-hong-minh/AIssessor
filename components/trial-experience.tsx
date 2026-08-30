@@ -67,15 +67,22 @@ export function TrialExperience() {
     if (!cached) return;
     let frame = 0;
     try {
-      const saved = JSON.parse(cached) as { trialId: string; token: string; analysis: TaskAnalysis; steps: WorkflowStep[]; result?: Result };
+      const saved = JSON.parse(cached) as { trialId: string; token: string; analysis: TaskAnalysis; steps: WorkflowStep[]; result?: Result; pendingSave?: boolean };
       if (!saved.trialId || !saved.token || !saved.analysis) return;
       frame = window.requestAnimationFrame(() => {
         setTrialId(saved.trialId); setTrialToken(saved.token); setAnalysis(saved.analysis); setSteps(saved.steps);
-        if (saved.result) { setResult(saved.result); setPhase("results"); }
+        if (saved.result) { setResult(saved.result); setPendingSave(saved.pendingSave ?? false); setPhase("results"); }
       });
     } catch { sessionStorage.removeItem("aissessor:trial"); }
     return () => window.cancelAnimationFrame(frame);
   }, []);
+
+  // Keep the anonymous trial alive while Clerk opens its sign-in flow. This lets
+  // the authenticated session claim the exact trial instead of losing it on reload.
+  useEffect(() => {
+    if (!trialId || !trialToken || !analysis || savedStrategyId) return;
+    sessionStorage.setItem("aissessor:trial", JSON.stringify({ trialId, token: trialToken, analysis, steps, result, pendingSave }));
+  }, [analysis, pendingSave, result, savedStrategyId, steps, trialId, trialToken]);
 
   useEffect(() => {
     if (phase !== "processing") return;

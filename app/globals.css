@@ -3162,6 +3162,81 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   padding: 28px 32px;
 }
 
+.dashboard-create-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 24px 28px;
+  border: 1px solid rgba(165, 180, 252, 0.22);
+  background: linear-gradient(110deg, rgba(99, 102, 241, 0.16), rgba(236, 72, 153, 0.08));
+}
+
+.dashboard-create-bar h1 {
+  margin: 4px 0;
+  font: 600 24px/1.2 var(--font-sans);
+  color: var(--ink);
+}
+
+.dashboard-create-bar > div:first-child > span {
+  color: var(--ink-2);
+  font: 14px/1.5 var(--font-body);
+}
+
+.dashboard-create-kicker {
+  margin: 0;
+  color: var(--indigo-soft);
+  font: 11px/1 var(--font-mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.dashboard-create-actions,
+.dashboard-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.dashboard-create-actions a,
+.dashboard-empty-actions a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.dashboard-create-actions svg,
+.dashboard-empty-actions svg {
+  width: 15px;
+  height: 15px;
+}
+
+.dash-user-pill .cl-userButtonBox {
+  width: 30px;
+  height: 30px;
+}
+
+.dash-user-pill .cl-userButtonTrigger {
+  width: 30px;
+  height: 30px;
+}
+
+@media (max-width: 760px) {
+  .dashboard-create-bar {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 22px;
+  }
+
+  .dashboard-create-actions,
+  .dashboard-empty-actions {
+    justify-content: flex-start;
+  }
+}
+
 /* ==========================================================================
    AUTH PAGE & HEADER LAYOUT RULES
    ========================================================================== */

@@ -14,7 +14,6 @@ export function SiteFooter() {
           <strong>[ PRODUCT ]</strong>
           <Link href="#overview">Overview</Link>
           <Link href="#process">Process</Link>
-          <Link href="/pricing">Pricing</Link>
           <Link href="/sign-up">New Strategy</Link>
         </div>
 

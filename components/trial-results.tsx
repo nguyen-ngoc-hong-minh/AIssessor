@@ -136,8 +136,6 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
 
       <section className="trial-save-panel"><Sparkles /><div><p>{mode === "saved" ? "SAVED CONSULTATION" : "SAVE YOUR RESULT"}</p><h2>{mode === "saved" ? "This model-by-model plan is in your history." : "Keep this model-by-model plan."}</h2><span>{mode === "saved" ? "Return to it anytime, edit the workflow, or customize the selected models below." : "Sign in is only needed to add it to consultation history."}</span></div>{mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}</section>
 
-      <section className="trial-optimise-tease"><div><p>OPTIONAL</p><h2>Check this stack again when models or prices change.</h2></div><Link href="/pricing">See Optimise <ArrowUpRight /></Link></section>
-
       <details className="trial-technical"><summary>Technical recommendation details <ChevronDown /></summary><div><p>Workflow coverage: {plan.completeStepCount}/{plan.steps.length} jobs</p><p>Evidence last updated: {plan.dataUpdatedAt ? new Date(plan.dataUpdatedAt).toLocaleDateString() : "Mixed source dates"}</p><p>Assumptions: {plan.assumptions.join(" ") || "No additional assumptions."}</p></div></details>
     </div>
   );
