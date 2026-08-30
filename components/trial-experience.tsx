@@ -10,6 +10,8 @@ import type { StrategyPlan } from "@/lib/recommendation/types";
 import { Brand } from "./brand";
 import { BriefSuggestions } from "./brief-suggestions";
 import { InfoTip } from "./info-tip";
+import { InteractiveBackground } from "./interactive-background";
+import { IntroSplash } from "./intro-splash";
 import { TrialResults } from "./trial-results";
 import { VisualModeToggle } from "./visual-mode-toggle";
 
@@ -206,6 +208,8 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
   return (
     <main className={`trial-page ${authenticatedBuilder ? "is-embedded" : ""}`}>
+      {!authenticatedBuilder && <IntroSplash />}
+      {!authenticatedBuilder && <InteractiveBackground />}
       {!authenticatedBuilder && <div className="trial-grid" aria-hidden="true" />}
       {!authenticatedBuilder && <header className="trial-header"><Brand /><div className="flex items-center gap-4"><VisualModeToggle /><nav>{isSignedIn ? <Link href="/dashboard">Consultation history</Link> : <Link href="/sign-in">Sign in</Link>}</nav></div></header>}
 
