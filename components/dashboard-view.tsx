@@ -96,11 +96,11 @@ export function DashboardView() {
             Consultation history
           </div>
 
-          <div className="flex items-end justify-between gap-4 pb-6 mb-6 border-b border-white/10">
-            <h2 className="h-display text-3xl md:text-4xl font-semibold text-white">
+          <div className="flex items-end justify-between gap-4 pb-6 mb-6 border-b border-line">
+            <h2 className="h-display text-3xl md:text-4xl font-semibold text-ink">
               Previous Consultations
             </h2>
-            <div className="flex items-center gap-2 text-tertiary mb-1">
+            <div className="flex items-center gap-2 text-ink-3 mb-1">
               <History className="w-4 h-4" aria-hidden="true" />
               <span className="font-mono text-xs">{strategies.length} saved</span>
             </div>
@@ -146,9 +146,9 @@ export function DashboardView() {
                       )}
                     </div>
 
-                    <h3 className="font-sans text-lg font-medium text-white truncate">{strategy.title}</h3>
+                    <h3 className="font-sans text-lg font-medium text-ink truncate">{strategy.title}</h3>
 
-                    <div className="flex items-center gap-3 text-xs text-tertiary mt-1 font-body">
+                    <div className="flex items-center gap-3 text-xs text-ink-3 mt-1 font-body">
                       <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
                       <span>&bull;</span>
                       <span>
