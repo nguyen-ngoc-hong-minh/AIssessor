@@ -12,15 +12,14 @@ export function PixelTransition() {
 
   if (!active) return null;
 
-  // 24 thinner bars look more detailed and cinematic
-  const bars = Array.from({ length: 24 });
+  // Reverted to 12 big bars as requested, keeping the smooth hardware acceleration
+  const bars = Array.from({ length: 12 });
 
-  // A visually appealing, hardcoded pseudo-random delay pattern (avoids SSR hydration glitch)
-  // These values range from 0.0 to 0.5 seconds
+  // Deterministic delay pattern for 12 bars (0.0s to 0.4s) to avoid hydration glitch
   const delays = [
-    0.12, 0.45, 0.03, 0.38, 0.22, 0.15, 0.49, 0.08, 
-    0.31, 0.19, 0.42, 0.05, 0.27, 0.35, 0.11, 0.48, 
-    0.24, 0.02, 0.39, 0.17, 0.44, 0.09, 0.29, 0.36
+    0.15, 0.38, 0.05, 0.22, 
+    0.41, 0.12, 0.32, 0.02, 
+    0.28, 0.45, 0.18, 0.09
   ];
 
   return (
@@ -31,7 +30,6 @@ export function PixelTransition() {
           className="h-full bg-[#1A24A9]"
           style={{
             flex: 1,
-            // 0.8s duration, extremely smooth ease-in-out bezier
             animation: `pixelSlideUp 0.85s cubic-bezier(0.85, 0, 0.15, 1) forwards`,
             animationDelay: `${delays[i]}s`,
             willChange: "transform",
