@@ -207,7 +207,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
   return (
     <main className={`trial-page ${authenticatedBuilder ? "is-embedded" : ""}`}>
-      {!authenticatedBuilder && <InteractivePixelGrid />}
+      {!authenticatedBuilder && phase === "intro" && <InteractivePixelGrid />}
       {!authenticatedBuilder && (
         <header className="trial-header z-[100] relative w-full flex justify-between items-start">
           <div className="swiss-badge shadow-md">
