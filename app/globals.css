@@ -3582,8 +3582,8 @@ input::-moz-placeholder {
 
 .cl-formButtonPrimary {
   border-radius: 99px !important;
-  background: #ffffff !important;
-  color: #000000 !important;
+  background-color: var(--indigo) !important;
+  color: #ffffff !important;
   font-family: var(--font-body) !important;
   font-size: 13px !important;
   font-weight: 600 !important;
@@ -3591,40 +3591,40 @@ input::-moz-placeholder {
   transition: all 0.2s ease !important;
   margin-top: 8px !important;
   margin-bottom: 6px !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: none !important;
 }
 
 .cl-formButtonPrimary:hover {
-  background: #e0e7ff !important;
+  opacity: 0.9 !important;
 }
 
 .cl-footer,
 .cl-footer *,
 .cl-footerActionText,
 .cl-footerPagesLink {
-  color: rgba(255, 255, 255, 0.65) !important;
+  color: var(--ink-3) !important;
 }
 
 .cl-footer {
   background: transparent !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: 1px solid var(--line) !important;
   margin-top: 8px !important;
   padding-top: 8px !important;
   background-image: none !important;
 }
 
 .cl-footerActionLink {
-  color: #a5b4fc !important;
-  font-weight: 500 !important;
+  color: var(--indigo) !important;
+  font-weight: 600 !important;
   font-size: 12.5px !important;
 }
 
 .cl-footerActionLink:hover {
-  color: #ffffff !important;
+  text-decoration: underline !important;
 }
 
 .cl-userButtonPopoverCard {
-  background: #0d1220 !important;
+  background-color: var(--glass-bg) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 16px !important;
 }

@@ -55,7 +55,7 @@ export function AppShell({
       {/* Presentation Deck Bottom-Left: User Profile Pill (Matches Top Toggle Glass Style) */}
       <div className="dash-user-pill">
         <UserButton userProfileMode="modal" />
-        <strong className="text-xs text-white font-medium truncate max-w-[150px]">{displayName}</strong>
+        <strong className="text-xs text-ink font-semibold truncate max-w-[150px]">{displayName}</strong>
       </div>
     </div>
   );
