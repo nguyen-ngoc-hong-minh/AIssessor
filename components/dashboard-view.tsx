@@ -64,7 +64,7 @@ export function DashboardView() {
         <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
           <div>
             <div className="font-mono text-xs text-indigo-soft tracking-wider mb-2 font-medium">Active projects</div>
-            <div className="metric-num grd text-5xl font-bold tracking-tight my-4">{strategies.length}</div>
+            <div className="metric-num text-5xl font-bold tracking-tight my-4 text-ink">{strategies.length}</div>
             <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-2">Total project and monthly task evaluations</p>
           </div>
         </div>
@@ -72,7 +72,7 @@ export function DashboardView() {
         <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
           <div>
             <div className="font-mono text-xs text-pink-soft tracking-wider mb-2 font-medium">Optimized stack</div>
-            <div className="metric-num grd text-5xl font-bold tracking-tight my-4">{savedPlans}</div>
+            <div className="metric-num text-5xl font-bold tracking-tight my-4 text-ink">{savedPlans}</div>
             <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-2">Plans ready for deployment &amp; execution</p>
           </div>
         </div>
