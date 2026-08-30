@@ -72,6 +72,7 @@ describe("strategy inputs", () => {
     expect(screen.getByRole("heading", { name: "What do you work on regularly?" })).toBeInTheDocument();
     expect(screen.getByLabelText("Recurring task")).toBeInTheDocument();
     expect(screen.getByRole("group", { name: /Monthly AI budget/ })).toBeInTheDocument();
+    expect(screen.getByDisplayValue("English")).toBeInTheDocument();
     expect(screen.queryByText("Deadline")).not.toBeInTheDocument();
   });
   it("lets monthly users add tasks and set frequency for each one", () => {

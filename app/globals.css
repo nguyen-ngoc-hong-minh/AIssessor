@@ -536,6 +536,19 @@
   height: 17px;
 }
 
+.monthly-task-add + .trial-field-help {
+  margin: 12px 0 0;
+}
+
+.trial-advanced-static > summary {
+  cursor: default;
+  pointer-events: none;
+}
+
+.trial-advanced-static > summary svg {
+  display: none;
+}
+
 .monthly-task-list {
   display: grid;
   gap: 12px;
