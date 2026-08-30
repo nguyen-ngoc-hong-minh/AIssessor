@@ -3498,14 +3498,49 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   margin-bottom: 8px !important;
 }
 
+.clerk-container .cl-socialButtonsBlockButtonContainer,
+.clerk-container [class*="socialButtonsBlockButtonContainer"] {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-top: 8px !important;
+  margin-bottom: 12px !important;
+  position: relative !important;
+}
+
+.clerk-container .cl-socialButtonsBlockButtonBadge,
+.clerk-container .cl-badge,
+.clerk-container [class*="socialButtonsBlockButtonBadge"],
+.clerk-container [class*="badge"] {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  display: inline-block !important;
+  margin: 0 auto 4px auto !important;
+  padding: 3px 12px !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: var(--ink-2, #475569) !important;
+  background: var(--bg, #f8fafc) !important;
+  border: 1px solid var(--indigo-soft, rgba(99, 102, 241, 0.3)) !important;
+  border-radius: 99px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  z-index: 10 !important;
+  line-height: 1.2 !important;
+}
+
 .clerk-container .cl-socialButtonsBlockButton {
   border-radius: 99px !important;
   background: var(--input-bg) !important;
   border: 1px solid var(--input-border) !important;
   color: var(--input-color) !important;
-  padding: 8px 16px !important;
+  padding: 10px 16px !important;
   transition: all 0.2s ease !important;
+  margin-top: 0 !important;
   margin-bottom: 8px !important;
+  position: relative !important;
 }
 
 .clerk-container .cl-socialButtonsBlockButton:hover {
