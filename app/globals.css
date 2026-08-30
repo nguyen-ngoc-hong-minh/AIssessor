@@ -4608,3 +4608,24 @@ fieldset {
 :root[data-theme="dark"] .trial-page {
   background-color: #051342 !important;
 }
+
+/* Fix spacing for the brutalist solid form layout */
+.trial-form fieldset {
+  padding: 0 0 24px 0 !important; /* Tighter vertical spacing between sections */
+}
+
+.trial-form legend {
+  margin-bottom: 8px !important; /* Bring label much closer to the input block */
+  font-weight: 700;
+  color: var(--ink) !important;
+}
+
+/* Tighten the gaps between choice buttons so they look connected */
+.trial-form .trial-choice-grid {
+  gap: 4px !important;
+}
+
+/* Tighten the budget row elements */
+.trial-form .trial-budget-row {
+  gap: 4px !important;
+}

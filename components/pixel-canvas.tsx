@@ -79,19 +79,18 @@ export function PixelCanvas() {
       if (idx >= 0 && idx < cells.length) {
          cells[idx] = 1.0;
          
-         // Random splatter around the cursor
-         for (let dy = -2; dy <= 2; dy++) {
-           for (let dx = -2; dx <= 2; dx++) {
-             if (dx === 0 && dy === 0) continue; // skip center
+         // Random splatter around the cursor (Tighter area)
+         for (let dy = -1; dy <= 1; dy++) {
+           for (let dx = -1; dx <= 1; dx++) {
+             if (dx === 0 && dy === 0) continue;
              
              const nx = c + dx;
              const ny = r + dy;
              if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
-               const dist = Math.sqrt(dx*dx + dy*dy);
-               // Higher probability of drawing pixel if it's closer to the center
-               if (Math.random() < 0.6 / dist) {
+               // Only draw immediately adjacent pixels occasionally
+               if (Math.random() > 0.6) {
                  const nidx = ny * cols + nx;
-                 cells[nidx] = Math.max(cells[nidx], 0.4 + Math.random() * 0.6);
+                 cells[nidx] = Math.max(cells[nidx], 0.3 + Math.random() * 0.5);
                }
              }
            }
