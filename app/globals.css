@@ -3696,6 +3696,39 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   background-color: var(--indigo) !important;
 }
 
+/* Re-apply solid background & margin for Clerk Last used badge so border line behind it does not cut through */
+.auth-widget-box .cl-socialButtonsBlockButtonBadge,
+.auth-widget-box .cl-badge,
+.auth-widget-box [class*="socialButtonsBlockButtonBadge"],
+.auth-widget-box [class*="badge"],
+.clerk-container .cl-socialButtonsBlockButtonBadge,
+.clerk-container .cl-badge,
+.clerk-container [class*="socialButtonsBlockButtonBadge"],
+.clerk-container [class*="badge"] {
+  background-color: var(--card-bg, #f0f6ff) !important;
+  color: var(--ink-2, #334155) !important;
+  border: 1px solid var(--indigo-soft, rgba(99, 102, 241, 0.35)) !important;
+  padding: 4px 14px !important;
+  border-radius: 99px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  display: inline-block !important;
+  margin: 12px auto 8px auto !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+  z-index: 20 !important;
+  line-height: 1.2 !important;
+}
+
+/* Hide Clerk's generic default header ('Sign in to My Application') */
+.clerk-container .cl-headerTitle,
+.clerk-container .cl-headerSubtitle {
+  display: none !important;
+}
+
 /* Admin analytics */
 .analytics-page { width: min(1500px, calc(100% - 48px)); margin: 0 auto; padding: 120px 0 100px; }
 .analytics-page .page-title { margin-bottom: 34px; max-width: 820px; }
