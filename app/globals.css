@@ -16,13 +16,7 @@
 }
 
 .trial-grid {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: .35;
-  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
+  display: none !important;
 }
 
 .trial-header {
@@ -704,17 +698,7 @@ html, body {
 }
 
 .deck-bg::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 85%);
-  z-index: 0;
-  opacity: 0.35;
+  display: none !important;
 }
 
 .deck {
