@@ -20,6 +20,27 @@ export const metadata: Metadata = {
   twitter: { card: "summary" },
 };
 
+const themeScript = `
+  (function() {
+    const savedTheme = localStorage.getItem('theme');
+    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    const activeTheme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : systemTheme;
+    document.documentElement.setAttribute('data-theme', activeTheme);
+  })()
+`;
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body className={`${spaceGrotesk.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}><Providers><AnalyticsTracker />{children}</Providers></body></html>;
+  return (
+    <html lang="en">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className={`${spaceGrotesk.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}>
+        <Providers>
+          <AnalyticsTracker />
+          {children}
+        </Providers>
+      </body>
+    </html>
+  );
 }

@@ -7,6 +7,7 @@ import { History, LogOut } from "lucide-react";
 import { Brand } from "./brand";
 import { DashboardDeckNav } from "./dashboard-deck-nav";
 import { PageTransition } from "./page-transition";
+import { VisualModeToggle } from "./visual-mode-toggle";
 
 export function AppShell({
   children,
@@ -48,6 +49,7 @@ export function AppShell({
 
       {/* Presentation Deck Persistent Top-Right Controls: Deck Nav Toggle */}
       <div className="dash-top-right-chrome">
+        <VisualModeToggle />
         <Link className="top-history-button" href="/dashboard#consultation-history" aria-label="View previous consultations">
           <History aria-hidden="true" />
           <span>Previous consultations</span>

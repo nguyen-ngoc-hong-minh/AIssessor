@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Brand } from "./brand";
 import { authConfigured } from "./providers";
+import { VisualModeToggle } from "./visual-mode-toggle";
 
 function AuthActions() {
   if (!authConfigured) {
@@ -59,6 +60,9 @@ export function SiteHeader() {
           </Link>
           <Link href="/pricing">Pricing</Link>
           <AuthActions />
+          <div className="flex items-center pl-2 border-l border-white/10">
+            <VisualModeToggle />
+          </div>
         </nav>
 
         <button

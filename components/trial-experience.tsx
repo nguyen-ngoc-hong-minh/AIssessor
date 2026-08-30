@@ -11,6 +11,7 @@ import { Brand } from "./brand";
 import { BriefSuggestions } from "./brief-suggestions";
 import { InfoTip } from "./info-tip";
 import { TrialResults } from "./trial-results";
+import { VisualModeToggle } from "./visual-mode-toggle";
 
 type Frequency = "once" | "occasionally" | "monthly" | "ongoing";
 type Currency = "USD" | "AUD" | "VND";
@@ -176,7 +177,7 @@ export function TrialExperience() {
   return (
     <main className="trial-page">
       <div className="trial-grid" aria-hidden="true" />
-      <header className="trial-header"><Brand /><nav>{isSignedIn ? <Link href="/dashboard">Consultation history</Link> : <Link href="/sign-in">Sign in</Link>}</nav></header>
+      <header className="trial-header"><Brand /><div className="flex items-center gap-4"><VisualModeToggle /><nav>{isSignedIn ? <Link href="/dashboard">Consultation history</Link> : <Link href="/sign-in">Sign in</Link>}</nav></div></header>
 
       {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker"><span /> YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
