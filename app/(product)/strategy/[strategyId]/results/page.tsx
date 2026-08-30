@@ -10,7 +10,7 @@ export default async function ResultPage({
 }) {
   const { strategyId } = await params;
   return (
-    <div className="editorial-page-container w-full max-w-6xl mx-auto my-auto space-y-8 py-4">
+    <div className="saved-result-route w-full">
       <ResultsView strategyId={strategyId} />
     </div>
   );

@@ -2,18 +2,33 @@
 
 import { AlertTriangle, ArrowUpRight, ChevronDown, CircleDollarSign, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { formatUsdInCurrency, type SupportedCurrency } from "@/lib/currency";
+import type { ReactNode } from "react";
+import { formatCurrency, formatUsdInCurrency, type SupportedCurrency } from "@/lib/currency";
 import type { CandidateScore, StepRecommendation, StrategyPlan, SubscriptionSummary } from "@/lib/recommendation/types";
 
 type TrialResult = { usageType: "one_off" | "monthly"; plans: StrategyPlan[] };
 type SelectedTool = CandidateScore["tools"][number];
+type TrialResultsProps = {
+  result: TrialResult;
+  saveControl?: ReactNode;
+  savedStrategyId?: string;
+  mode?: "trial" | "saved";
+  beforeFooter?: ReactNode;
+};
 
 function currency(plan: StrategyPlan): SupportedCurrency {
-  return plan.inputsUsed.budgetOriginalCurrency === "VND" || plan.inputsUsed.budgetOriginalCurrency === "AUD" ? plan.inputsUsed.budgetOriginalCurrency : "USD";
+  return plan.inputsUsed?.budgetOriginalCurrency === "VND" || plan.inputsUsed?.budgetOriginalCurrency === "AUD" ? plan.inputsUsed.budgetOriginalCurrency : "USD";
 }
 
 function money(value: number, plan: StrategyPlan) {
   return formatUsdInCurrency(value, currency(plan));
+}
+
+function budgetCap(plan: StrategyPlan) {
+  if (plan.inputsUsed?.budgetOriginalAmount !== null && plan.inputsUsed?.budgetOriginalAmount !== undefined) {
+    return formatCurrency(plan.inputsUsed.budgetOriginalAmount, currency(plan));
+  }
+  return plan.budgetUsd === null || plan.budgetUsd === undefined ? "No cap" : money(plan.budgetUsd, plan);
 }
 
 function roleFor(category: string) {
@@ -95,12 +110,10 @@ function NoAiStepCard({ step }: { step: StepRecommendation }) {
   return <article className="trial-tool-card trial-tool-card-no-ai"><div className="trial-tool-card-top"><span>NO AI REQUIRED</span><b data-action="KEEP">MANUAL</b></div><h3>{step.step.name}</h3><p className="trial-tool-reason">{step.step.noAIAlternative || "This step is better completed without adding another AI model."}</p></article>;
 }
 
-export function TrialResults({ result, saveControl, savedStrategyId }: { result: TrialResult; saveControl: React.ReactNode; savedStrategyId?: string }) {
+export function TrialResults({ result, saveControl, savedStrategyId, mode = "trial", beforeFooter }: TrialResultsProps) {
   const plan = result.plans[0];
   const monthly = result.usageType === "monthly";
   const complete = plan.completeStepCount === plan.steps.length;
-  const savings = plan.estimatedSavingsUsd;
-  const current = plan.totalCostUsd + savings;
   return (
     <div className="trial-results">
       <ResultSummary plan={plan} monthly={monthly} />
@@ -114,12 +127,14 @@ export function TrialResults({ result, saveControl, savedStrategyId }: { result:
       </section>
 
       <section className="trial-bottom-line"><div><p>THE BOTTOM LINE</p><h2>{complete ? "A clear stack with clear costs." : "Known costs for the matched jobs."}</h2></div><div className="trial-money-grid">
-        <div><span>Current paid setup</span><strong>{savings > 0 ? money(current, plan) : "Not provided"}</strong></div>
+        <div><span>Your budget cap</span><strong>{budgetCap(plan)}</strong></div>
         <div><span>{complete ? "Recommended AI cost" : "Matched AI cost"}</span><strong>{money(plan.totalCostUsd, plan)}{monthly ? " / month" : ""}</strong></div>
         <div className="highlight"><span>Budget remaining</span><strong>{plan.budgetRemainingUsd === null ? "No cap" : money(plan.budgetRemainingUsd, plan)}</strong></div>
-      </div><p className="trial-cost-note"><CircleDollarSign /> Shown in your selected currency. OpenRouter and other API marketplaces remain access routes—not owned subscriptions.</p></section>
+      </div><p className="trial-cost-note"><CircleDollarSign /> Shown in {currency(plan)}, your selected currency. OpenRouter and other API marketplaces remain access routes—not owned subscriptions.</p></section>
 
-      <section className="trial-save-panel"><Sparkles /><div><p>SAVE YOUR RESULT</p><h2>Keep this model-by-model plan.</h2><span>Sign in is only needed to add it to consultation history.</span></div>{savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}</section>
+      {beforeFooter}
+
+      <section className="trial-save-panel"><Sparkles /><div><p>{mode === "saved" ? "SAVED CONSULTATION" : "SAVE YOUR RESULT"}</p><h2>{mode === "saved" ? "This model-by-model plan is in your history." : "Keep this model-by-model plan."}</h2><span>{mode === "saved" ? "Return to it anytime, edit the workflow, or customize the selected models below." : "Sign in is only needed to add it to consultation history."}</span></div>{mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}</section>
 
       <section className="trial-optimise-tease"><div><p>OPTIONAL</p><h2>Check this stack again when models or prices change.</h2></div><Link href="/pricing">See Optimise <ArrowUpRight /></Link></section>
 
