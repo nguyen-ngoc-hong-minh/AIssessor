@@ -68,15 +68,20 @@ export function TrialExperience() {
     if (!cached) return;
     let frame = 0;
     try {
-      const saved = JSON.parse(cached) as { trialId: string; token: string; analysis: TaskAnalysis; steps: WorkflowStep[]; result?: Result };
+      const saved = JSON.parse(cached) as { trialId: string; token: string; analysis: TaskAnalysis; steps: WorkflowStep[]; result?: Result; pendingSave?: boolean };
       if (!saved.trialId || !saved.token || !saved.analysis) return;
       frame = window.requestAnimationFrame(() => {
         setTrialId(saved.trialId); setTrialToken(saved.token); setAnalysis(saved.analysis); setSteps(saved.steps);
-        if (saved.result) { setResult(saved.result); setPhase("results"); }
+        if (saved.result) { setResult(saved.result); setPendingSave(saved.pendingSave ?? false); setPhase("results"); }
       });
     } catch { sessionStorage.removeItem("aissessor:trial"); }
     return () => window.cancelAnimationFrame(frame);
   }, []);
+
+  useEffect(() => {
+    if (!trialId || !trialToken || !analysis || savedStrategyId) return;
+    sessionStorage.setItem("aissessor:trial", JSON.stringify({ trialId, token: trialToken, analysis, steps, result, pendingSave }));
+  }, [analysis, pendingSave, result, savedStrategyId, steps, trialId, trialToken]);
 
   useEffect(() => {
     if (phase !== "processing") return;
@@ -168,10 +173,21 @@ export function TrialExperience() {
     finally { setBusy(false); }
   }
 
+  function markTrialForSave() {
+    setPendingSave(true);
+    const cached = sessionStorage.getItem("aissessor:trial");
+    if (!cached) return;
+    try {
+      sessionStorage.setItem("aissessor:trial", JSON.stringify({ ...JSON.parse(cached), pendingSave: true }));
+    } catch {
+      // The state-backed persistence effect will retry with a valid payload.
+    }
+  }
+
   const saveControl = isSignedIn ? (
     <button type="button" className="trial-primary-button" onClick={() => void saveTrial()} disabled={busy}>{busy ? "Saving…" : "Save my AI stack"}</button>
   ) : (
-    <SignInButton mode="modal"><button type="button" className="trial-primary-button" onClick={() => setPendingSave(true)}>Save my AI stack</button></SignInButton>
+    <SignInButton mode="modal"><button type="button" className="trial-primary-button" onClick={markTrialForSave}>Save my AI stack</button></SignInButton>
   );
 
   return (

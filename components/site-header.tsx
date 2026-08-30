@@ -31,9 +31,9 @@ function AuthActions() {
         </Link>
       </Show>
       <Show when="signed-in">
-        <Link href="/dashboard" className="btn-primary text-xs px-4 py-2">
+        <Link href="/home" className="btn-primary text-xs px-4 py-2">
           <LayoutDashboard className="w-3.5 h-3.5 text-black mr-1" />
-          <span>Dashboard</span>
+          <span>Workspace</span>
         </Link>
         <UserButton userProfileMode="navigation" userProfileUrl="/settings" />
       </Show>

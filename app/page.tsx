@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export default async function LandingPage() {
   if (process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
     const { userId } = await auth();
-    if (userId) redirect("/dashboard");
+    if (userId) redirect("/home");
   }
   return <TrialExperience />;
 }

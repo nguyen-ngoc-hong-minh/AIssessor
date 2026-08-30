@@ -7,13 +7,16 @@ export function VisualModeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
-    // Check initial theme state on mount
     const savedTheme = localStorage.getItem("theme");
     const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     const activeTheme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : systemTheme;
-    
-    setTheme(activeTheme as "light" | "dark");
-    document.documentElement.setAttribute("data-theme", activeTheme);
+
+    const frame = window.requestAnimationFrame(() => {
+      setTheme(activeTheme);
+      document.documentElement.setAttribute("data-theme", activeTheme);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
   const toggleTheme = () => {

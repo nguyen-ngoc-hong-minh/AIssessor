@@ -102,7 +102,7 @@ export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
                   routing="path"
                   path="/sign-in"
                   signUpUrl="/sign-up"
-                  fallbackRedirectUrl="/dashboard"
+                  fallbackRedirectUrl="/home"
                   appearance={{
                     elements: {
                       rootBox: "w-full max-w-[360px] mx-auto px-4",
@@ -130,7 +130,7 @@ export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
                   routing="path"
                   path="/sign-up"
                   signInUrl="/sign-in"
-                  forceRedirectUrl="/dashboard"
+                  forceRedirectUrl="/home"
                   appearance={{
                     elements: {
                       rootBox: "w-full max-w-[360px] mx-auto px-4",

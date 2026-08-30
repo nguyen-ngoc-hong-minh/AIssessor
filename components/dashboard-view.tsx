@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpRight, Copy, History, Plus, Trash2, RefreshCw } from "lucide-react";
+import { ArrowUpRight, Copy, History, Plus, Trash2, RefreshCw, Repeat2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
@@ -58,7 +58,19 @@ export function DashboardView() {
   const savedPlans = strategies.filter((strategy) => strategy.status === "complete").length;
 
   return (
-    <div className="editorial-dashboard-wrap space-y-4 pt-3">
+    <div className="editorial-dashboard-wrap dashboard-page-stack">
+      <div className="dashboard-create-bar glass-card">
+        <div>
+          <p>START A NEW CONSULTATION</p>
+          <h1>What are you working on?</h1>
+          <span>Choose a one-off project or a monthly workflow.</span>
+        </div>
+        <div className="dashboard-create-actions">
+          <Link className="btn-primary" href="/strategy/new/one-off"><Plus aria-hidden="true" /> One-off project <ArrowUpRight aria-hidden="true" /></Link>
+          <Link className="btn-secondary" href="/strategy/new/monthly"><Repeat2 aria-hidden="true" /> Monthly workflow <ArrowUpRight aria-hidden="true" /></Link>
+        </div>
+      </div>
+
       {/* Metric Grid */}
       <div className="dash-metrics-grid grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
@@ -117,7 +129,7 @@ export function DashboardView() {
               </p>
             </div>
             <div className="flex justify-center w-full pt-4">
-              <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm rounded-full shadow-lg hover:scale-105 transition-transform" href="/choose-usage">
+              <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm rounded-full shadow-lg hover:scale-105 transition-transform" href="/home">
                 <Plus className="w-4 h-4" />
                 <span>Create Your First Strategy</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -125,7 +137,7 @@ export function DashboardView() {
             </div>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="dashboard-strategy-list">
             {strategies.map((strategy, idx) => (
               <div className="problem-card glass-card flex items-center justify-between p-6" key={strategy._id}>
                 <div className="flex items-center gap-6 flex-1 min-w-0">

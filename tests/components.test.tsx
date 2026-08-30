@@ -1,12 +1,12 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AuthScreen } from "@/components/auth-screen";
-import { AppShell } from "@/components/app-shell";
 import { IntegrationNotice } from "@/components/integration-notice";
 import { MonthlyTaskBuilder } from "@/components/monthly-task-builder";
 import { OneOffStrategyForm } from "@/components/one-off-strategy-form";
 import { OnboardingForm } from "@/components/onboarding-form";
 import { ResultsView } from "@/components/results-view";
+import { SignedInHome } from "@/components/signed-in-home";
 import { TrialResults } from "@/components/trial-results";
 import type { StrategyPlan } from "@/lib/recommendation/types";
 
@@ -18,6 +18,7 @@ vi.mock("@clerk/react", () => ({
   SignIn: (props: { fallbackRedirectUrl?: string }) => <div data-testid="clerk-sign-in" data-redirect={props.fallbackRedirectUrl} />,
   SignUp: (props: { forceRedirectUrl?: string }) => <div data-testid="clerk-sign-up" data-redirect={props.forceRedirectUrl} />,
   UserProfile: () => <div data-testid="clerk-user-profile" />,
+  UserButton: () => <button data-testid="clerk-user-button">Profile</button>,
   SignOutButton: ({ children }: { children: React.ReactNode }) => children,
   useUser: () => ({ user: null }),
 }));
@@ -33,14 +34,25 @@ describe("IntegrationNotice", () => {
 });
 
 describe("Clerk authentication", () => {
-  it("sends new accounts to dashboard", () => { render(<AuthScreen mode="sign-up" />); expect(screen.getByTestId("clerk-sign-up")).toHaveAttribute("data-redirect", "/dashboard"); expect(screen.getByText(/email or Google/i)).toBeInTheDocument(); });
-  it("sends returning users to the dashboard", () => { render(<AuthScreen mode="sign-in" />); expect(screen.getByTestId("clerk-sign-in")).toHaveAttribute("data-redirect", "/dashboard"); });
+  it("sends new accounts to the signed-in home", () => { render(<AuthScreen mode="sign-up" />); expect(screen.getByTestId("clerk-sign-up")).toHaveAttribute("data-redirect", "/home"); expect(screen.getByText(/email or Google/i)).toBeInTheDocument(); });
+  it("sends returning users to the signed-in home", () => { render(<AuthScreen mode="sign-in" />); expect(screen.getByTestId("clerk-sign-in")).toHaveAttribute("data-redirect", "/home"); });
 });
 
 describe("strategy inputs", () => {
-  it("routes New strategy to the usage chooser", () => {
-    render(<AppShell user={{ name: "Test User", email: "test@example.com" }}><div>Content</div></AppShell>);
-    expect(screen.getByText("New Strategy Builder")).toBeInTheDocument();
+  it("offers both strategy types and history from the signed-in home", () => {
+    render(<SignedInHome />);
+    expect(screen.getByRole("link", { name: /start one-off project/i })).toHaveAttribute("href", "/strategy/new/one-off");
+    expect(screen.getByRole("link", { name: /start monthly workflow/i })).toHaveAttribute("href", "/strategy/new/monthly");
+    expect(screen.getByRole("link", { name: /view previous consultations/i })).toHaveAttribute("href", "/dashboard");
+  });
+  it("claims a pending anonymous plan after sign-in", async () => {
+    sessionStorage.setItem("aissessor:trial", JSON.stringify({ trialId: "trial-id", token: "t".repeat(32), pendingSave: true }));
+    const request = vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify({ strategyId: "saved-id" }), { status: 200 }));
+    render(<SignedInHome />);
+    await vi.waitFor(() => expect(request).toHaveBeenCalledWith("/api/trial/trial-id/save", expect.objectContaining({ method: "POST" })));
+    expect(await screen.findByText(/now saved to this account/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /open saved plan/i })).toHaveAttribute("href", "/strategy/saved-id/results");
+    expect(sessionStorage.getItem("aissessor:trial")).toBeNull();
   });
   it("uses one project brief, an actual date input, and an exact budget control", () => {
     const { container } = render(<OneOffStrategyForm />);

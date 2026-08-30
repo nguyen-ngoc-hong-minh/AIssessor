@@ -4,5 +4,5 @@ import { redirect } from "next/navigation";
 export const metadata: Metadata = { title: "Onboarding" };
 
 export default function OnboardingPage() {
-  redirect("/dashboard");
+  redirect("/home");
 }

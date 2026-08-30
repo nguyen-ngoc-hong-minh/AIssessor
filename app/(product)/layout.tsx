@@ -9,9 +9,6 @@ export const dynamic = "force-dynamic";
 export default async function ProductLayout({ children }: { children: React.ReactNode }) {
   if (!integrationsConfigured) return <div className="page-wrap"><IntegrationNotice /></div>;
   const client = await authenticatedConvex();
-  const [current, admin] = await Promise.all([
-    client.query(anyApi.users.current, {}) as Promise<{ user: { name?: string; email: string; onboardingComplete: boolean } }>,
-    client.query(anyApi.modelSync.adminStatus, {}) as Promise<{ isAdmin: boolean }>,
-  ]);
-  return <AppShell user={{ name: current.user.name ?? current.user.email, email: current.user.email }} isAdmin={admin.isAdmin}>{children}</AppShell>;
+  const current = await client.query(anyApi.users.current, {}) as { user: { name?: string; email: string; onboardingComplete: boolean } };
+  return <AppShell user={{ name: current.user.name ?? current.user.email, email: current.user.email }}>{children}</AppShell>;
 }
