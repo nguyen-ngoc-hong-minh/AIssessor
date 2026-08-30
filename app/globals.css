@@ -4629,3 +4629,10 @@ fieldset {
 .trial-form .trial-budget-row {
   gap: 4px !important;
 }
+
+/* Force the visual mode toggle to blend perfectly into the swiss block */
+.swiss-nav-block > button.theme-toggle-btn {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
