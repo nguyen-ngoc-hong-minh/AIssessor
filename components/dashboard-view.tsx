@@ -80,7 +80,7 @@ export function DashboardView() {
         <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
           <div>
             <div className="font-mono text-xs text-cyan tracking-wider mb-2 font-medium">New better option</div>
-            <div className="metric-num text-5xl font-bold tracking-tight my-4" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>
+            <div className="metric-num text-5xl font-bold tracking-tight my-4 text-ink">
               &minus;32%
             </div>
             <p className="metric-lbl text-xs text-ink-2 leading-relaxed mt-2">Gemini Flash X benchmark for research workflow</p>

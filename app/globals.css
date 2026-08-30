@@ -590,6 +590,7 @@
   --indigo-soft: #152641;
   --pink: #C3F84A;
   --pink-soft: #C3F84A;
+  --cyan: #0284c7;
 
   --grad-a: linear-gradient(135deg, #152641 0%, #136CFC 50%, #C3F84A 100%);
   --grad-b: linear-gradient(135deg, #136CFC, #152641);
@@ -614,6 +615,29 @@
   --color-bg-2: var(--bg-2);
   --color-line: var(--line);
   --color-line-2: var(--line-2);
+}
+
+/* Theme Legibility Utility Overrides */
+.text-ink {
+  color: var(--ink) !important;
+}
+.text-ink-2 {
+  color: var(--ink-2) !important;
+}
+.text-ink-3 {
+  color: var(--ink-3) !important;
+}
+.text-ink-4 {
+  color: var(--ink-4) !important;
+}
+.text-indigo-soft {
+  color: var(--indigo-soft) !important;
+}
+.text-cyan {
+  color: var(--cyan) !important;
+}
+.border-line {
+  border-color: var(--line) !important;
 }
 
 .theme-toggle-btn {
@@ -1341,7 +1365,7 @@ html, body {
 
 .btn-primary, .minimal-btn-dark {
   background: #ffffff;
-  color: var(--bg) !important;
+  color: #152641 !important;
   padding: 13px 24px;
   border-radius: 100px;
   font-family: var(--font-body);
@@ -2266,10 +2290,10 @@ html, body {
 }
 
 .metric-num.grd {
-  background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--ink);
 }
 
 .metric-num .unit {
