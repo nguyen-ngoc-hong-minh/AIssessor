@@ -1,7 +1,7 @@
 "use client";
 
 import { SignInButton, useAuth } from "@clerk/nextjs";
-import { ArrowDown, ArrowLeft, ArrowRight, Check, ChevronDown, LoaderCircle, Plus, Sparkles, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowLeft, ArrowRight, Check, ChevronDown, LoaderCircle, Plus, Sparkles, Trash2, FolderPlus, CalendarRange, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { apiErrorMessage } from "@/lib/client/api-error";
@@ -17,7 +17,7 @@ import { VisualModeToggle } from "./visual-mode-toggle";
 
 type Frequency = "once" | "occasionally" | "monthly" | "ongoing";
 type Currency = "USD" | "AUD" | "VND";
-type Phase = "intro" | "parameters" | "workflow" | "processing" | "results";
+type Phase = "intro" | "type-selection" | "parameters" | "workflow" | "processing" | "results";
 type Result = { locked: boolean; usageType: "one_off" | "monthly"; plans: StrategyPlan[]; dataSnapshot: { fetchedAt: number } };
 type SignedInMode = "one_off" | "monthly";
 
@@ -53,12 +53,13 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   const { isSignedIn } = useAuth();
   const authenticatedBuilder = Boolean(signedInMode);
   const cacheKey = authenticatedBuilder ? `aissessor:builder:${signedInMode}` : "aissessor:trial";
-  const parameterRef = useRef<HTMLElement>(null);
+  const parameterRef = useRef<HTMLDivElement>(null);
+  const [activeMode, setActiveMode] = useState<SignedInMode | undefined>(signedInMode);
   const [phase, setPhase] = useState<Phase>(authenticatedBuilder ? "parameters" : "intro");
   const [brief, setBrief] = useState("");
   const [monthlyTaskDraft, setMonthlyTaskDraft] = useState("");
   const [monthlyTasks, setMonthlyTasks] = useState<MonthlyTask[]>([]);
-  const [frequency, setFrequency] = useState<Frequency>(signedInMode === "monthly" ? "monthly" : "once");
+  const [frequency, setFrequency] = useState<Frequency>(activeMode === "monthly" ? "monthly" : "once");
   const [currency, setCurrency] = useState<Currency>("USD");
   const [budgetChoice, setBudgetChoice] = useState("5");
   const [customBudget, setCustomBudget] = useState("");
@@ -117,8 +118,8 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   }, [isSignedIn, pendingSave]);
 
   function begin() {
-    setPhase("parameters");
-    window.requestAnimationFrame(() => parameterRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    setPhase("type-selection");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function toggleTool(tool: string) {
@@ -140,7 +141,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
     const amount = Number(budgetChoice === "custom" ? customBudget : budgetChoice);
     const existingTools = [...selectedTools, otherTool.trim()].filter(Boolean);
     const optionalContext = { informationSensitivity, commercialUse, providersToAvoid: [], preferredLanguage, expectedOutputs };
-    if (signedInMode === "monthly") {
+    if (activeMode === "monthly") {
       return {
         usageType: "monthly" as const, monthlyTasks, priorities: defaultPriorities, budgetAmount: amount, budgetCurrency: currency, existingTools, optionalContext,
       };
@@ -158,8 +159,8 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   async function analyse(event: React.FormEvent) {
     event.preventDefault(); setError("");
     const amount = Number(budgetChoice === "custom" ? customBudget : budgetChoice);
-    if (signedInMode === "monthly" && monthlyTasks.length === 0) return setError("Add at least one recurring task.");
-    if (signedInMode !== "monthly" && brief.trim().length < 20) return setError("Tell us a little more about what you want to finish.");
+    if (activeMode === "monthly" && monthlyTasks.length === 0) return setError("Add at least one recurring task.");
+    if (activeMode !== "monthly" && brief.trim().length < 20) return setError("Tell us a little more about what you want to finish.");
     if (!Number.isFinite(amount) || amount < 0) return setError("Enter a valid AI-only budget.");
     setBusy(true);
     try {
@@ -168,7 +169,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       if (!response.ok || !body.trialId || !body.token || !body.analysis) throw new Error(apiErrorMessage(body, "We couldn't understand this project right now."));
       setTrialId(body.trialId); setTrialToken(body.token); setAnalysis(body.analysis); setSteps(body.analysis.workflowSteps);
       sessionStorage.setItem(cacheKey, JSON.stringify({ trialId: body.trialId, token: body.token, analysis: body.analysis, steps: body.analysis.workflowSteps }));
-      if (signedInMode === "monthly") {
+      if (activeMode === "monthly") {
         await recommend(body.trialId, body.token, body.analysis.workflowSteps);
       } else {
         setPhase("workflow");
@@ -213,7 +214,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
           setError(saveError instanceof Error ? saveError.message : "We couldn't save your AI stack.");
         }
       }
-    } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't build your AI stack right now."); setPhase(signedInMode === "monthly" ? "parameters" : "workflow"); }
+    } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't build your AI stack right now."); setPhase(activeMode === "monthly" ? "parameters" : "workflow"); }
     finally { setBusy(false); }
   }
 
@@ -278,9 +279,54 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
       {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker"><span /> YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
-      {phase === "parameters" && <section className="trial-parameters trial-enter" ref={parameterRef}>{signedInMode === "monthly" ? <div className="trial-progress monthly-progress"><span className="active">1</span><i /><span>2</span><small>Set recurring tasks → See your AI stack</small></div> : <div className="trial-progress"><span className="active">1</span><i /><span>2</span><i /><span>3</span><small>Tell us → Review → Your AI stack</small></div>}<div className="trial-section-heading"><p>{signedInMode === "monthly" ? "NEW MONTHLY WORKFLOW" : authenticatedBuilder ? "NEW AI STRATEGY" : "FREE AI MATCH"}</p><h2>{signedInMode === "monthly" ? "What do you work on regularly?" : "Tell us what you need."}</h2><span>{signedInMode === "monthly" ? "Add each recurring task, then set how often you need it." : "We&apos;ll match a specific AI model to every job."}</span></div>
+      {phase === "type-selection" && (
+        <section className="signed-home trial-enter" style={{ minHeight: 'calc(100vh - 96px)', marginTop: '96px', placeContent: 'center', padding: '0 clamp(24px, 5vw, 72px)' }}>
+          <div className="signed-home-heading" style={{ marginBottom: '40px' }}>
+            <p>FREE AI MATCH</p>
+            <h1>What would you like to plan?</h1>
+            <span>Start with one project, or optimize work you repeat every month.</span>
+          </div>
+          <div className="signed-home-options">
+            <button
+              className="signed-home-option"
+              style={{ cursor: "pointer", textAlign: "left", width: "100%" }}
+              onClick={() => {
+                setActiveMode("one_off");
+                setFrequency("once");
+                setPhase("parameters");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              <span className="signed-home-option-icon"><FolderPlus aria-hidden="true" /></span>
+              <small>ONE-OFF PROJECT</small>
+              <h2>Build a stack for one goal.</h2>
+              <p>Plan a specific deliverable, deadline, and AI budget.</p>
+              <strong>Start one-off project <ArrowUpRight aria-hidden="true" /></strong>
+            </button>
+            <button
+              className="signed-home-option"
+              style={{ cursor: "pointer", textAlign: "left", width: "100%" }}
+              onClick={() => {
+                setActiveMode("monthly");
+                setFrequency("monthly");
+                setPhase("parameters");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+            >
+              <span className="signed-home-option-icon"><CalendarRange aria-hidden="true" /></span>
+              <small>MONTHLY WORKFLOW</small>
+              <h2>Optimize recurring work.</h2>
+              <p>Match an AI stack to tasks you complete throughout the month.</p>
+              <strong>Start monthly workflow <ArrowUpRight aria-hidden="true" /></strong>
+            </button>
+          </div>
+        </section>
+      )}
+
+
+      {phase === "parameters" && <section className="trial-parameters trial-enter" ref={parameterRef}>{activeMode === "monthly" ? <div className="trial-progress monthly-progress"><span className="active">1</span><i /><span>2</span><small>Set recurring tasks → See your AI stack</small></div> : <div className="trial-progress"><span className="active">1</span><i /><span>2</span><i /><span>3</span><small>Tell us → Review → Your AI stack</small></div>}<div className="trial-section-heading"><p>{activeMode === "monthly" ? "NEW MONTHLY WORKFLOW" : authenticatedBuilder ? "NEW AI STRATEGY" : "FREE AI MATCH"}</p><h2>{activeMode === "monthly" ? "What do you work on regularly?" : "Tell us what you need."}</h2><span>{activeMode === "monthly" ? "Add each recurring task, then set how often you need it." : "We&apos;ll match a specific AI model to every job."}</span></div>
           <form onSubmit={analyse} className="trial-form">
-            {signedInMode === "monthly" ? <>
+            {activeMode === "monthly" ? <>
               <fieldset className="trial-field-wide"><legend>Recurring AI tasks <InfoTip label="Recurring AI tasks">Add each kind of work you repeat during the month. We&apos;ll recommend the best AI stack across all of them.</InfoTip></legend><div className="monthly-task-add"><input aria-label="Recurring task" value={monthlyTaskDraft} onChange={(event) => setMonthlyTaskDraft(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); addMonthlyTask(); } }} placeholder="e.g. Write a weekly research summary" /><button type="button" className="trial-secondary-button" onClick={addMonthlyTask}><Plus /> Add task</button></div><p className="trial-field-help">Keep tasks separate so each one can have its own frequency and quality level.</p></fieldset>
               {monthlyTasks.length > 0 && <fieldset className="trial-field-wide"><legend>Your monthly tasks ({monthlyTasks.length})</legend><div className="monthly-task-list">{monthlyTasks.map((task, index) => <article className="monthly-task-card" key={task.id}><div className="monthly-task-card-heading"><span>{String(index + 1).padStart(2, "0")}</span><input aria-label={`Monthly task ${index + 1}`} value={task.task} onChange={(event) => updateMonthlyTask(task.id, { task: event.target.value })} /><button type="button" aria-label={`Remove ${task.task}`} onClick={() => setMonthlyTasks((current) => current.filter((item) => item.id !== task.id))}><Trash2 /></button></div><div className="monthly-task-controls"><label><span>How often?</span><select aria-label={`Frequency for ${task.task}`} value={task.frequency} onChange={(event) => { const frequency = event.target.value as MonthlyTask["frequency"]; updateMonthlyTask(task.id, { frequency, monthlyUses: frequencyToMonthlyUses(frequency) }); }}>{monthlyFrequencyValues.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}</select></label><label><span>Quality needed</span><select aria-label={`Quality for ${task.task}`} value={task.quality} onChange={(event) => updateMonthlyTask(task.id, { quality: event.target.value as MonthlyTask["quality"] })}>{monthlyQualityValues.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}</select></label></div></article>)}</div></fieldset>}
               <fieldset className="trial-field-wide"><legend>Monthly AI budget <InfoTip label="Monthly AI budget">The maximum amount you&apos;re comfortable spending each month on AI subscriptions and usage.</InfoTip></legend><div className="trial-budget-row"><select aria-label="Currency" value={currency} onChange={(event) => { const next = event.target.value as Currency; setCurrency(next); setBudgetChoice(String(suggestedBudgets(next)[2])); }}><option value="USD">USD $</option><option value="AUD">AUD A$</option><option value="VND">VND ₫</option></select>{budgets.map((amount) => <button type="button" aria-pressed={budgetChoice === String(amount)} onClick={() => setBudgetChoice(String(amount))} key={amount}>{budgetLabel(amount, currency)}</button>)}<button type="button" aria-pressed={budgetChoice === "custom"} onClick={() => setBudgetChoice("custom")}>Custom</button></div>{budgetChoice === "custom" && <label className="trial-custom-budget"><span>{currency === "VND" ? "₫" : currency === "AUD" ? "A$" : "$"}</span><input aria-label="Exact monthly AI budget" type="number" min="0" step="any" inputMode="decimal" value={customBudget} onChange={(event) => setCustomBudget(event.target.value)} placeholder="7.50" required /></label>}</fieldset>
@@ -309,7 +355,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
       {phase === "processing" && <section className="trial-processing" aria-live="polite"><div className="trial-processing-orbit"><Sparkles /><i /><i /></div><p>ANALYSING YOUR WORK</p><h1>{loadingMessages[loadingIndex]}</h1><div className="trial-loading-bar"><span key={loadingIndex} /></div><small>Using current tool, pricing, and evidence data. No artificial wait.</small></section>}
 
-      {phase === "results" && result && <><div className={`trial-progress result ${signedInMode === "monthly" ? "monthly-progress" : ""}`}>{signedInMode === "monthly" ? <><span className="done"><Check /></span><i className="done" /><span className="active">2</span><small>Set recurring tasks → See your AI stack</small></> : <><span className="done"><Check /></span><i className="done" /><span className="done"><Check /></span><i className="done" /><span className="active">3</span><small>Tell us → Review workflow → See your stack</small></>}</div><TrialResults result={result} mode={savedStrategyId ? "saved" : "trial"} saveControl={savedStrategyId ? <Link className="trial-primary-button" href="/dashboard">Consultation history</Link> : saveControl} savedStrategyId={savedStrategyId} />{error && <p className="trial-error floating" role="alert">{error}</p>}</>}
+      {phase === "results" && result && <><div className={`trial-progress result ${activeMode === "monthly" ? "monthly-progress" : ""}`}>{activeMode === "monthly" ? <><span className="done"><Check /></span><i className="done" /><span className="active">2</span><small>Set recurring tasks → See your AI stack</small></> : <><span className="done"><Check /></span><i className="done" /><span className="done"><Check /></span><i className="done" /><span className="active">3</span><small>Tell us → Review workflow → See your stack</small></>}</div><TrialResults result={result} mode={savedStrategyId ? "saved" : "trial"} saveControl={savedStrategyId ? <Link className="trial-primary-button" href="/dashboard">Consultation history</Link> : saveControl} savedStrategyId={savedStrategyId} />{error && <p className="trial-error floating" role="alert">{error}</p>}</>}
     </main>
   );
 }
