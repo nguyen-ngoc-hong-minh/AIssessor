@@ -96,7 +96,10 @@ export const recommend = action({
     const summary = [...snapshots].sort((a, b) => a.fetchedAt - b.fetchedAt).map((item) => ({ id: item._id, fetchedAt: item.fetchedAt, source: item.source, sourceUrl: item.sourceUrl, attribution: item.attribution, sourceVersion: item.sourceVersion }));
     const storedModels = await ctx.runQuery(anyApi.models.catalogInternal, {}) as StoredModel[];
     const existingTools = input.existingTools;
-    const models = storedModels.map(toModel).map((model) => ({ ...model, existingTool: existingTools.some((tool) => `${model.provider} ${model.name}`.toLowerCase().includes(tool.toLowerCase())) }));
+    const models = storedModels.map(toModel).map((model) => ({
+      ...model,
+      existingTool: Boolean(model.accessOptions?.some((access) => access.accessMethod === "product" && existingTools.some((tool) => `${access.productName ?? ""} ${access.planName ?? ""}`.toLowerCase().includes(tool.toLowerCase())))),
+    }));
     const plan = generateStrategyPlan(steps, models, recommendationContext(input), "recommended");
     const result = { locked: false, usageType: input.usageType, plans: [plan], dataSnapshot: { id: snapshot._id, fetchedAt: Math.min(...summary.map((item) => item.fetchedAt)), sources: summary } };
     await ctx.runMutation(anyApi.trials.saveResult, { trialId, tokenHash, workflowSteps: steps, result, dataSnapshotId: snapshot._id, dataSnapshotSummary: summary });

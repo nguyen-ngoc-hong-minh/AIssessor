@@ -44,7 +44,8 @@ function effectivePrivacyRequirement(step: WorkflowStep, context: Recommendation
 
 function modelIsAlreadyOwned(model: CanonicalModel, context: RecommendationContext) {
   const access = productAccess(model);
-  const haystack = `${model.provider} ${model.name} ${access?.productName ?? ""} ${access?.planName ?? ""}`.toLowerCase();
+  if (!access) return false;
+  const haystack = `${access.productName ?? ""} ${access.planName ?? ""}`.toLowerCase();
   return model.existingTool || (context.existingTools ?? []).some((tool) => haystack.includes(tool.toLowerCase()));
 }
 
@@ -85,7 +86,7 @@ function baseStepCost(step: WorkflowStep, model: CanonicalModel): number | null 
 
 export function estimateStepCost(step: WorkflowStep, model: CanonicalModel): number | null {
   const cost = baseStepCost(step, model);
-  return cost === null ? null : model.existingTool ? 0 : cost;
+  return cost === null ? null : productAccess(model) && model.existingTool ? 0 : cost;
 }
 
 export function taskCategory(step: WorkflowStep): TaskCategory {
@@ -456,8 +457,13 @@ function productIdentity(tool: CandidateScore["tools"][number]) {
 
 function owned(existingTools: string[], tool: CandidateScore["tools"][number]) {
   const identity = productIdentity(tool);
-  const haystack = `${identity.productName} ${identity.planName} ${tool.model.provider} ${tool.model.name}`.toLowerCase();
+  if (identity.accessMethod !== "product") return false;
+  const haystack = `${identity.productName} ${identity.planName}`.toLowerCase();
   return tool.model.existingTool || existingTools.some((item) => haystack.includes(item.toLowerCase()));
+}
+
+function isUsageBasedAccessName(value: string) {
+  return /\b(openrouter|api|vertex ai|azure ai|bedrock)\b/i.test(value);
 }
 
 function budgetFitUtility(candidate: CandidateScore, budgetUsd: number | null, incrementalCostUsd: number, variant: StrategyVariant) {
@@ -559,7 +565,7 @@ export function generateStrategyPlan(steps: WorkflowStep[], models: CanonicalMod
   const apiCostUsd = Number(recommendations.reduce((sum, item) => sum + (item.selected?.estimatedCostUsd ?? 0), 0).toFixed(2));
   const estimatedSavingsUsd = Number(recommendations.reduce((sum, item) => sum + (item.selected?.estimatedSavingsUsd ?? 0), 0).toFixed(2));
   const dates = recommendations.map((item) => item.dataUpdatedAt).filter((value): value is number => value !== null);
-  const kept = existingTools.filter((tool) => subscriptions.some((subscription) => `${subscription.productName} ${subscription.planName} ${subscription.modelNames.join(" ")}`.toLowerCase().includes(tool.toLowerCase())));
+  const kept = existingTools.filter((tool) => subscriptions.some((subscription) => subscription.alreadyOwned && `${subscription.productName} ${subscription.planName}`.toLowerCase().includes(tool.toLowerCase())));
   const totalCostUsd = Number((fixedCostUsd + apiCostUsd).toFixed(2));
   const overBudgetUsd = context.budgetUsd === null ? 0 : Number(Math.max(0, totalCostUsd - context.budgetUsd).toFixed(2));
   const hasUnknownSubscriptionPricing = subscriptions.some((subscription) => subscription.accessMethod === "product" && !subscription.alreadyOwned && subscription.priceUsd === null);
@@ -573,7 +579,7 @@ export function generateStrategyPlan(steps: WorkflowStep[], models: CanonicalMod
     apiCostUsd,
     totalCostUsd,
     estimatedSavingsUsd,
-    existingSubscriptions: { kept, couldCancel: existingTools.filter((tool) => !kept.includes(tool)) },
+    existingSubscriptions: { kept, couldCancel: existingTools.filter((tool) => !kept.includes(tool) && !isUsageBasedAccessName(tool)) },
     subscriptions,
     uniqueProductCount: subscriptions.length,
     completeStepCount,

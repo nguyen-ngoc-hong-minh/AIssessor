@@ -106,8 +106,11 @@ describe("anonymous trial results", () => {
     const plan = {
       variant: "recommended",
       steps: [
-        { stepId: "research", stepName: "Research", taskCategory: "research", selected: { explanation: ["It fits the research task."] } },
-        { stepId: "visuals", stepName: "Visuals", taskCategory: "image_generation", selected: null },
+        {
+          stepId: "research", taskCategory: "research", step: { name: "Research", plainLanguageDescription: "Find current sources", noAIEligible: false, noAIAlternative: "Research manually" }, partialOptions: [],
+          selected: { explanation: ["It fits the research task."], tools: [{ model: { id: "sonar", name: "Sonar", provider: "Perplexity" }, access: { productName: "OpenRouter", accessMethod: "marketplace", url: "https://example.com" }, coversCapabilities: ["web_research"], estimatedCostUsd: 0.54 }] },
+        },
+        { stepId: "visuals", taskCategory: "image_generation", step: { name: "Visuals", plainLanguageDescription: "Generate campaign images", noAIEligible: false, noAIAlternative: "Design manually" }, selected: null, partialOptions: [] },
       ],
       fixedCostUsd: 0,
       apiCostUsd: 0.54,
@@ -118,7 +121,7 @@ describe("anonymous trial results", () => {
       existingSubscriptions: { kept: [], couldCancel: ["ChatGPT"] },
       subscriptions: [{
         productId: "perplexity", productName: "Perplexity", planName: "API access", modelNames: ["Sonar"], stepIds: ["research"], stepNames: ["Research"],
-        alreadyOwned: false, accessMethod: "api", accessUrl: "https://example.com", priceUsd: null, apiUsageEstimateUsd: 0.54,
+        alreadyOwned: false, accessMethod: "marketplace", accessUrl: "https://example.com", priceUsd: null, apiUsageEstimateUsd: 0.54,
       }],
       inputsUsed: { budgetOriginalCurrency: "USD" },
       assumptions: [],
@@ -127,7 +130,11 @@ describe("anonymous trial results", () => {
 
     render(<TrialResults result={{ usageType: "one_off", plans: [plan] }} saveControl={<button>Save my AI stack</button>} />);
 
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(/1 of 2 steps.*covered confidently/i);
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(/1 of 2 jobs matched/i);
+    expect(screen.getByRole("heading", { name: "Sonar" })).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: "OpenRouter" })).not.toBeInTheDocument();
+    expect(screen.getByText("USE")).toBeInTheDocument();
+    expect(screen.queryByText("KEEP")).not.toBeInTheDocument();
     expect(screen.getByText("No cancellation advice yet.")).toBeInTheDocument();
     expect(screen.queryByText("CANCEL")).not.toBeInTheDocument();
     expect(screen.getByText("Not provided")).toBeInTheDocument();

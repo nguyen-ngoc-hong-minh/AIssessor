@@ -89,7 +89,10 @@ export const generate = action({ args: { strategyId: v.id("strategies"), region:
   const existingTools = owned.strategy.existingTools ?? [];
   const context = recommendationContext(owned.strategy, region);
   const variants: StrategyVariant[] = ["recommended", "lowest_cost", "highest_quality", "fastest", "privacy"];
-  const models = storedModels.map(toModel).map((model) => ({ ...model, existingTool: existingTools.some((tool: string) => `${model.provider} ${model.name}`.toLowerCase().includes(tool.toLowerCase())) }));
+  const models = storedModels.map(toModel).map((model) => ({
+    ...model,
+    existingTool: Boolean(model.accessOptions?.some((access) => access.accessMethod === "product" && existingTools.some((tool: string) => `${access.productName ?? ""} ${access.planName ?? ""}`.toLowerCase().includes(tool.toLowerCase())))),
+  }));
   const plans = variants.map((variant) => generateStrategyPlan(owned.steps.map(toStep), models, context, variant));
   await ctx.runMutation(anyApi.strategies.saveGeneratedPlans, { strategyId, dataSnapshotId: snapshot._id, dataSnapshotSummary: snapshotSummary, plans });
   const entitlement = await ctx.runQuery(anyApi.subscriptions.entitlement, {});

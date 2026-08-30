@@ -58,14 +58,30 @@ describe("deterministic recommendation engine", () => {
   });
   it("prefers task-specific evidence without averaging unrelated metrics", () => { const coding = { ...preferenceEvidence, metricName: "SWE-bench Verified", category: "coding", normalizedValue: 88 }; const codingStep = { ...step, name: "Debug software", plainLanguageDescription: "Fix code" }; expect(selectTaskEvidence(codingStep, { ...model, evidence: [preferenceEvidence, coding] })?.metricName).toBe("SWE-bench Verified"); });
   it("attributes sources and explains the cost calculation", () => { const scored = scoreCandidate(step, model, context); expect(scored.evidence.map((item) => item.sourceUrl)).toContain("https://lmarena.ai/leaderboard"); expect(scored.costBasis).toContain("input"); expect(scored.roundedScore % 5).toBe(0); });
-  it("uses an existing subscription at zero marginal cost", () => expect(estimateStepCost(step, { ...model, existingTool: true })).toBe(0));
+  it("uses an existing product subscription at zero marginal cost", () => {
+    const subscribed = { ...model, existingTool: true, accessOptions: [{ ...model.accessOptions![0], productId: "provider-suite", productName: "Provider Suite", accessMethod: "product" as const }] };
+    expect(estimateStepCost(step, subscribed)).toBe(0);
+  });
+  it("does not mistake OpenRouter marketplace access for an owned subscription", () => {
+    const routed = { ...model, existingTool: true, accessOptions: [{ ...model.accessOptions![0], productId: "openrouter", productName: "OpenRouter", accessMethod: "marketplace" as const }] };
+    const plan = generateStrategyPlan([step], [routed], { ...context, existingTools: ["OpenRouter"] }, "recommended");
+    expect(estimateStepCost(step, routed)).toBeGreaterThan(0);
+    expect(plan.subscriptions[0].alreadyOwned).toBe(false);
+    expect(plan.existingSubscriptions.kept).not.toContain("OpenRouter");
+    expect(plan.existingSubscriptions.couldCancel).not.toContain("OpenRouter");
+  });
   it("estimates image and video generation from published media units", () => {
     expect(estimateStepCost({ ...step, estimatedImageCount: 10, requiredCapabilities: ["image_generation"] }, { ...model, capabilities: ["image_generation"], imagePricePerThousand: 40 })).toBeCloseTo(.4);
     expect(estimateStepCost({ ...step, estimatedVideoMinutes: 1.5, requiredCapabilities: ["video_generation"] }, { ...model, capabilities: ["video_generation"], videoPricePerMinute: 6 })).toBeCloseTo(9);
     expect(estimateStepCost({ ...step, estimatedAudioMinutes: 3, requiredCapabilities: ["speech_to_text"] }, { ...model, capabilities: ["speech_to_text"], audioPricePerMinute: .01 })).toBeCloseTo(.03);
     expect(estimateStepCost({ ...step, estimatedInputTokensExpected: 1000, estimatedRequestCount: 2, requiredCapabilities: ["text_to_speech"] }, { ...model, capabilities: ["text_to_speech"], speechPricePerMillionCharacters: 15 })).toBeCloseTo(.12);
   });
-  it("keeps matching subscriptions and identifies cancellable ones", () => { const plan = generateStrategyPlan([step], [{ ...model, existingTool: true }], { ...context, existingTools: ["Provider", "Unused tool"] }, "recommended"); expect(plan.existingSubscriptions.kept).toContain("Provider"); expect(plan.existingSubscriptions.couldCancel).toContain("Unused tool"); });
+  it("keeps matching product subscriptions and identifies cancellable ones", () => {
+    const subscribed = { ...model, existingTool: true, accessOptions: [{ ...model.accessOptions![0], productId: "provider-suite", productName: "Provider Suite", accessMethod: "product" as const }] };
+    const plan = generateStrategyPlan([step], [subscribed], { ...context, existingTools: ["Provider Suite", "Unused tool"] }, "recommended");
+    expect(plan.existingSubscriptions.kept).toContain("Provider Suite");
+    expect(plan.existingSubscriptions.couldCancel).toContain("Unused tool");
+  });
   it("detects a genuinely better replacement", () => { const current = scoreCandidate(step, model, context); const candidate = { ...current, roundedScore: current.roundedScore + 10 }; expect(isMateriallyBetter(current, candidate)).toBe(true); });
   it("classifies regulated and specialist tasks deterministically", () => { expect(taskCategory({ ...step, name: "Review a commercial contract", plainLanguageDescription: "Legal compliance" })).toBe("legal"); expect(taskCategory({ ...step, name: "Analyse patient notes", plainLanguageDescription: "Clinical health summary" })).toBe("healthcare"); });
   it("does not mistake concept development for software development", () => expect(taskCategory({ ...step, name: "Concept Development and Scriptwriting", plainLanguageDescription: "Develop the core storyline and write a film script", outputDescription: "Final script" })).toBe("general_writing"));
