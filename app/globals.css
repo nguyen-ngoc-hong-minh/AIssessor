@@ -3833,6 +3833,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   .strategy-card-row:hover {
     border-color: rgba(19, 108, 252, 0.3) !important;
   }
+}
 
 /* ==========================================================================
    STRICT NO-GRADIENT & 4-COLOR PALETTE SYSTEM OVERRIDE
