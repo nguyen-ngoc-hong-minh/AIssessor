@@ -10,7 +10,6 @@ import type { StrategyPlan } from "@/lib/recommendation/types";
 import { Brand } from "./brand";
 import { BriefSuggestions } from "./brief-suggestions";
 import { CustomCursor } from "./custom-cursor";
-import { EditorialHero } from "./editorial-hero";
 import { InfoTip } from "./info-tip";
 import { InteractiveBackground } from "./interactive-background";
 import { IntroSplash } from "./intro-splash";
@@ -216,20 +215,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       {!authenticatedBuilder && <div className="trial-grid" aria-hidden="true" />}
       {!authenticatedBuilder && <header className="trial-header"><Brand /><div className="flex items-center gap-4"><VisualModeToggle /><nav>{isSignedIn ? <Link href="/dashboard">Consultation history</Link> : <Link href="/sign-in">Sign in</Link>}</nav></div></header>}
 
-      {phase === "intro" && (
-        <section className="trial-intro !p-0 !min-h-0 !block">
-          <EditorialHero
-            onBegin={begin}
-            onSelectBrief={(briefText, tools) => {
-              setBrief(briefText);
-              if (tools && tools.length > 0) {
-                setSelectedTools(tools);
-              }
-              begin();
-            }}
-          />
-        </section>
-      )}
+      {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker"><span /> YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
       {phase === "parameters" && <section className="trial-parameters trial-enter" ref={parameterRef}><div className="trial-progress"><span className="active">1</span><i /><span>2</span><i /><span>3</span><small>Tell us → Review → Your AI stack</small></div><div className="trial-section-heading"><p>{authenticatedBuilder ? "NEW AI STRATEGY" : "FREE AI MATCH"}</p><h2>Tell us what you need.</h2><span>We&apos;ll match a specific AI model to every job.</span></div>
           <form onSubmit={analyse} className="trial-form">

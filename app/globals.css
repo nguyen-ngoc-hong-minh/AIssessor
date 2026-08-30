@@ -4427,32 +4427,4 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   animation: letterRotate 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* ==========================================================================
-   EDITORIAL HERO ART DIRECTION STYLES
-   ========================================================================== */
-.trial-page {
-  background-color: #071A57;
-  background-image: radial-gradient(rgba(103, 186, 228, 0.15) 1px, transparent 1px) !important;
-  background-size: 24px 24px !important;
-}
-
-:root[data-theme="light"] .trial-page {
-  background-color: #0d287a;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.18) 1.2px, transparent 1.2px) !important;
-  background-size: 20px 20px !important;
-}
-
-.editorial-hero-container {
-  padding-top: 110px;
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.editorial-frame {
-  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.1);
-}
-
-
 
