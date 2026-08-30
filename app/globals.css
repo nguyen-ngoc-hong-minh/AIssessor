@@ -4477,42 +4477,58 @@ fieldset {
 }
 
 .trial-form fieldset {
-  background-color: #E2EFF9 !important;
-  border: 2px solid #103FD5 !important;
-  padding: 32px !important;
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 0 32px 0 !important;
 }
 
 :root[data-theme="dark"] .trial-form fieldset {
-  background-color: #051342 !important;
-  border-color: #67BAE4 !important;
+  background-color: transparent !important;
+  border: none !important;
 }
 
-/* Style inputs inside the blue fieldsets */
-.trial-form input, .trial-form select, .trial-form textarea, .trial-form .trial-choice-grid button, .trial-tool-picker button {
-  background-color: #FFFFFF !important;
-  border: 1px solid #103FD5 !important;
-  color: #071A57 !important;
+/* Style inputs inside the form to be solid Electric Blue */
+.trial-form input, 
+.trial-form select, 
+.trial-form textarea, 
+.trial-form .trial-choice-grid button, 
+.trial-tool-picker button,
+.trial-form .trial-budget-row button,
+.trial-form .trial-budget-row select {
+  background-color: #103FD5 !important;
+  border: none !important;
+  color: #FFFFFF !important;
+}
+
+/* For placeholder text to be readable */
+.trial-form input::placeholder, 
+.trial-form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 :root[data-theme="dark"] .trial-form input, 
 :root[data-theme="dark"] .trial-form select, 
 :root[data-theme="dark"] .trial-form textarea, 
 :root[data-theme="dark"] .trial-form .trial-choice-grid button, 
-:root[data-theme="dark"] .trial-tool-picker button {
+:root[data-theme="dark"] .trial-tool-picker button,
+:root[data-theme="dark"] .trial-form .trial-budget-row button,
+:root[data-theme="dark"] .trial-form .trial-budget-row select {
   background-color: #071A57 !important;
-  border-color: #67BAE4 !important;
+  border: none !important;
   color: #FFFFFF !important;
 }
 
 /* Fix active states for choice grid */
 .trial-form .trial-choice-grid button[aria-pressed="true"], 
-.trial-tool-picker button[aria-pressed="true"] {
-  background-color: #103FD5 !important;
-  color: #FFFFFF !important;
+.trial-tool-picker button[aria-pressed="true"],
+.trial-form .trial-budget-row button[aria-pressed="true"] {
+  background-color: #071A57 !important;
+  color: #C3F84A !important;
 }
 
 :root[data-theme="dark"] .trial-form .trial-choice-grid button[aria-pressed="true"], 
-:root[data-theme="dark"] .trial-tool-picker button[aria-pressed="true"] {
+:root[data-theme="dark"] .trial-tool-picker button[aria-pressed="true"],
+:root[data-theme="dark"] .trial-form .trial-budget-row button[aria-pressed="true"] {
   background-color: #67BAE4 !important;
   color: #071A57 !important;
 }
