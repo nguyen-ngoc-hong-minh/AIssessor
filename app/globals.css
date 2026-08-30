@@ -4349,3 +4349,152 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
     min-width: 0 !important;
   }
 }
+
+/* ==========================================================================
+   SWISS NEO-BRUTALIST ART DIRECTION (BOXES & PIXELS)
+   ========================================================================== */
+
+:root, :root[data-theme="light"] {
+  /* Enforce flat, sharp brutalist shapes */
+  --r-sm: 0px !important;
+  --r-md: 0px !important;
+  --r-lg: 0px !important;
+  --r-xl: 0px !important;
+  
+  /* Color palette from reference */
+  --bg: #103FD5 !important;
+  --bg-2: #071A57 !important;
+  --ink: #FAF9F6 !important;
+  --indigo: #071A57 !important;
+  --indigo-soft: #071A57 !important;
+  --cyan: #071A57 !important;
+  
+  /* Canvas inside */
+  --canvas-bg: #FAF9F6;
+  --canvas-ink: #071A57;
+}
+
+.trial-page {
+  background-color: var(--bg) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* Make sections act as the editorial frame */
+.trial-intro, .trial-parameters, .trial-workflow, .trial-processing, .trial-results {
+  background-color: var(--canvas-bg) !important;
+  color: var(--canvas-ink) !important;
+  box-shadow: inset 0 0 0 1px rgba(7, 26, 87, 0.15), 10px 10px 0px rgba(7,26,87,0.3);
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: calc(100vh - 80px) !important;
+  border-radius: 4px;
+  position: relative;
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* Fix text inside canvas */
+.trial-intro h1, .trial-intro p, .trial-intro-note, .trial-animated-title, .trial-animated-title em, .trial-kicker {
+  color: var(--canvas-ink) !important;
+}
+
+/* Sharp buttons */
+.trial-primary-button, .trial-secondary-button, button, input, select, textarea {
+  border-radius: 0px !important;
+}
+
+.trial-primary-button {
+  background-color: #103FD5 !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  font-family: var(--font-jetbrains-mono);
+  letter-spacing: 1px;
+  border: none !important;
+}
+
+.trial-primary-button:hover {
+  background-color: #071A57 !important;
+}
+
+/* The Swiss Blue Badge */
+.trial-intro::before {
+  content: "[ ◉ AISSESSOR / AI ADVISOR ]";
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  background-color: #103FD5;
+  color: white;
+  padding: 6px 12px;
+  font-family: var(--font-jetbrains-mono);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  z-index: 20;
+}
+
+/* The stepped pixel block */
+.trial-intro::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 180px;
+  height: 120px;
+  background-color: #103FD5;
+  clip-path: polygon(100% 0, 100% 100%, 50% 100%, 50% 66%, 25% 66%, 25% 33%, 0 33%, 0 0);
+  z-index: 20;
+}
+
+
+/* Update trial-header to sit inside the canvas or align with it */
+.trial-header {
+  top: 40px !important;
+  left: 40px !important;
+  right: 40px !important;
+  padding: 0 40px !important;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.trial-header .brand-text {
+  display: none !important; /* Hide original logo text since we use the blue badge */
+}
+
+/* Ensure the white box has the grid structure inside */
+.trial-intro {
+  background-image: 
+    linear-gradient(rgba(16, 63, 213, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 63, 213, 0.1) 1px, transparent 1px) !important;
+  background-size: 64px 64px !important;
+  background-position: center !important;
+  border: 1px solid rgba(16, 63, 213, 0.3) !important;
+}
+
+/* Hard corner inputs */
+.trial-page input, .trial-page select, .trial-page textarea, .trial-page button {
+  border-radius: 0 !important;
+  border-color: rgba(16, 63, 213, 0.3) !important;
+}
+.trial-page input:focus, .trial-page select:focus, .trial-page textarea:focus {
+  border-color: #103FD5 !important;
+  box-shadow: 4px 4px 0px rgba(16, 63, 213, 0.2) !important;
+}
+
+@media (max-width: 768px) {
+  .trial-page {
+    padding: 16px;
+  }
+  .trial-header {
+    top: 16px !important;
+    left: 16px !important;
+    right: 16px !important;
+    padding: 0 20px !important;
+  }
+  .trial-intro::after {
+    display: none; /* Hide step block on mobile intro to save space */
+  }
+}
