@@ -52,6 +52,7 @@ export const OneOffStrategyInputSchema = z.object({
 
 export const MonthlyStrategyInputSchema = z.object({
   usageType: z.literal("monthly"), monthlyTasks: z.array(MonthlyTaskSchema).min(1).max(20), priorities: z.array(PrioritySchema).min(1).max(6),
+  budgetAmount: z.number().nonnegative().nullable().optional(), budgetCurrency: z.enum(["USD", "AUD", "VND"]).optional(),
   existingTools: z.array(z.string()).max(30), optionalContext: OptionalContextSchema,
 });
 

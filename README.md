@@ -1,6 +1,8 @@
-# BENCHFLOW
+# AIssessor
 
-BENCHFLOW turns a project brief or recurring workload into an editable AI workflow, then applies hard eligibility filters, task-specific evidence selection, workload cost calculation, and deterministic scoring. An LLM decomposes the workflow; it does not choose models or manufacture evidence.
+AIssessor turns a project brief or recurring workload into an editable AI workflow, then applies hard eligibility filters, task-specific evidence selection, workload cost calculation, and deterministic scoring. An LLM decomposes the workflow; it does not choose models or manufacture evidence.
+
+The public homepage includes an anonymous trial. Visitors can describe a project, review and edit the generated workflow, and receive the real evidence-backed recommendation without creating an account. Authentication is requested only when the visitor chooses **Save My Recommendation**; the anonymous trial is then claimed into their strategy history.
 
 ## Architecture
 
@@ -11,6 +13,7 @@ BENCHFLOW turns a project brief or recurring workload into an editable AI workfl
 - Deterministic recommendation scoring configured in `lib/recommendation/config.ts`
 - Capability-first recommendations across writing, research, coding, analysis, regulated work, design, media, automation, and agentic workflows
 - AI-first procurement: only verified AI-native or AI-centric products can enter the primary recommendation stack
+- Anonymous trial records stored as expiring, hashed-token Convex documents and claimed by a Clerk user only on Save
 - Stripe Checkout, Customer Portal, and webhook-synchronized entitlements
 
 ## Local setup
@@ -102,6 +105,10 @@ npm run build
 ```
 
 Credentialed Clerk, Convex, source, and Stripe journeys are gated by environment variables and skip locally instead of impersonating a real user.
+
+## Anonymous trial flow
+
+`POST /api/trial` creates an expiring trial and runs the same structured workflow planner used for saved strategies. `POST /api/trial/:id/recommend` runs the same deterministic recommendation engine and current evidence catalog. The opaque browser token is stored only in session storage; Convex stores its SHA-256 hash. `POST /api/trial/:id/save` requires Clerk authentication and atomically creates the user-owned saved strategy.
 
 ## Deployment
 

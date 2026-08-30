@@ -7,6 +7,8 @@ import { MonthlyTaskBuilder } from "@/components/monthly-task-builder";
 import { OneOffStrategyForm } from "@/components/one-off-strategy-form";
 import { OnboardingForm } from "@/components/onboarding-form";
 import { ResultsView } from "@/components/results-view";
+import { TrialResults } from "@/components/trial-results";
+import type { StrategyPlan } from "@/lib/recommendation/types";
 
 const { routerPush } = vi.hoisted(() => ({ routerPush: vi.fn() }));
 
@@ -96,5 +98,39 @@ describe("strategy inputs", () => {
     expect(screen.queryByText("Profession")).not.toBeInTheDocument();
     expect(screen.getByText("Company size")).toBeInTheDocument();
     expect(screen.getByText("Departments using AI")).toBeInTheDocument();
+  });
+});
+
+describe("anonymous trial results", () => {
+  it("keeps a partial recommendation honest and withholds unsafe cancellation advice", () => {
+    const plan = {
+      variant: "recommended",
+      steps: [
+        { stepId: "research", stepName: "Research", taskCategory: "research", selected: { explanation: ["It fits the research task."] } },
+        { stepId: "visuals", stepName: "Visuals", taskCategory: "image_generation", selected: null },
+      ],
+      fixedCostUsd: 0,
+      apiCostUsd: 0.54,
+      totalCostUsd: 0.54,
+      estimatedSavingsUsd: 0,
+      budgetRemainingUsd: 4.46,
+      completeStepCount: 1,
+      existingSubscriptions: { kept: [], couldCancel: ["ChatGPT"] },
+      subscriptions: [{
+        productId: "perplexity", productName: "Perplexity", planName: "API access", modelNames: ["Sonar"], stepIds: ["research"], stepNames: ["Research"],
+        alreadyOwned: false, accessMethod: "api", accessUrl: "https://example.com", priceUsd: null, apiUsageEstimateUsd: 0.54,
+      }],
+      inputsUsed: { budgetOriginalCurrency: "USD" },
+      assumptions: [],
+      dataUpdatedAt: Date.now(),
+    } as unknown as StrategyPlan;
+
+    render(<TrialResults result={{ usageType: "one_off", plans: [plan] }} saveControl={<button>Save my AI stack</button>} />);
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(/1 of 2 steps.*covered confidently/i);
+    expect(screen.getByText("No cancellation advice yet.")).toBeInTheDocument();
+    expect(screen.queryByText("CANCEL")).not.toBeInTheDocument();
+    expect(screen.getByText("Not provided")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Save my AI stack" })).toBeInTheDocument();
   });
 });

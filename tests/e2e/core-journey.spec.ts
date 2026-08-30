@@ -1,11 +1,13 @@
 import { expect, test } from "@playwright/test";
 
-test("public journey reaches account creation before onboarding", async ({ page }) => {
+test("public journey starts an anonymous strategy without forcing account creation", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { name: /Find the right AI setup/ })).toBeVisible();
-  await expect(page.getByRole("main").getByRole("link", { name: /Build My AI Strategy/ })).toHaveAttribute("href", "/sign-up");
-  await page.getByRole("link", { name: "See How It Works" }).click();
-  await expect(page).toHaveURL(/how-it-works/);
+  await expect(page.getByRole("heading", { name: /Find the right AI tools for your work/i })).toBeVisible();
+  await expect(page.getByText(/No sign-up required/i)).toBeVisible();
+  await page.getByRole("button", { name: /Try it for free/i }).click();
+  await expect(page.getByPlaceholder(/Create a brand identity/i)).toBeVisible();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole("button", { name: /Show me the workflow/i })).toBeVisible();
 });
 
 test.describe("credentialed Clerk journeys", () => {

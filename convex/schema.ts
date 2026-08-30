@@ -23,6 +23,13 @@ export default defineSchema({
     status: v.union(v.literal("draft"), v.literal("planned"), v.literal("approved"), v.literal("complete")),
     createdAt: v.number(), updatedAt: v.number(),
   }).index("by_user", ["userId", "updatedAt"]).index("by_team", ["teamId", "updatedAt"]),
+  trials: defineTable({
+    tokenHash: v.string(), input: v.any(), analysis: v.optional(v.any()), workflowSteps: v.optional(v.array(v.any())),
+    result: v.optional(v.any()), dataSnapshotId: v.optional(v.id("dataSnapshots")), dataSnapshotSummary: v.optional(v.any()),
+    status: v.union(v.literal("created"), v.literal("analysed"), v.literal("complete"), v.literal("claimed")),
+    claimedUserId: v.optional(v.id("users")), claimedStrategyId: v.optional(v.id("strategies")),
+    createdAt: v.number(), updatedAt: v.number(), expiresAt: v.number(), claimedAt: v.optional(v.number()),
+  }).index("by_token", ["tokenHash"]).index("by_expiry", ["expiresAt"]),
   workflowSteps: defineTable({
     strategyId: v.id("strategies"), order: v.number(), name: v.string(), description: v.string(), requirements: v.any(), estimates: v.any(),
     approved: v.boolean(), createdAt: v.number(), updatedAt: v.number(),

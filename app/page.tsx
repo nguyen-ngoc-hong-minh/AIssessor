@@ -1,5 +1,5 @@
-import { LustroDeck } from "@/components/lustro-deck";
+import { TrialExperience } from "@/components/trial-experience";
 
 export default function LandingPage() {
-  return <LustroDeck />;
+  return <TrialExperience />;
 }

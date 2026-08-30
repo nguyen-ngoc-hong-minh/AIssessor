@@ -10,12 +10,12 @@ const dmSans = DM_Sans({ variable: "--font-dm-sans", subsets: ["latin"], display
 const jetBrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: "Aissessor — Build the right AI stack", template: "%s · Aissessor" },
-  description: "Compare AI products, plans, costs, and evidence for the work you need to do.",
+  title: { default: "AIssessor — Build the right AI stack", template: "%s · AIssessor" },
+  description: "Tell us what you’re working on. AIssessor finds the smallest AI stack that can do it within your budget.",
   icons: { icon: "/favicon.svg" },
   openGraph: {
     title: "Build the right AI stack for real work.",
-    description: "Clear tools, plans, costs, and reasons.",
+    description: "Try it free. No account needed until you save your recommendation.",
   },
   twitter: { card: "summary" },
 };

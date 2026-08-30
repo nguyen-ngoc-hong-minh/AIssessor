@@ -12,6 +12,7 @@ import type * as actions_billing from "../actions/billing.js";
 import type * as actions_planner from "../actions/planner.js";
 import type * as actions_recommend from "../actions/recommend.js";
 import type * as actions_syncModels from "../actions/syncModels.js";
+import type * as actions_trial from "../actions/trial.js";
 import type * as analytics from "../analytics.js";
 import type * as crons from "../crons.js";
 import type * as http from "../http.js";
@@ -23,6 +24,7 @@ import type * as profiles from "../profiles.js";
 import type * as strategies from "../strategies.js";
 import type * as subscriptions from "../subscriptions.js";
 import type * as teams from "../teams.js";
+import type * as trials from "../trials.js";
 import type * as users from "../users.js";
 
 import type {
@@ -36,6 +38,7 @@ declare const fullApi: ApiFromModules<{
   "actions/planner": typeof actions_planner;
   "actions/recommend": typeof actions_recommend;
   "actions/syncModels": typeof actions_syncModels;
+  "actions/trial": typeof actions_trial;
   analytics: typeof analytics;
   crons: typeof crons;
   http: typeof http;
@@ -47,6 +50,7 @@ declare const fullApi: ApiFromModules<{
   strategies: typeof strategies;
   subscriptions: typeof subscriptions;
   teams: typeof teams;
+  trials: typeof trials;
   users: typeof users;
 }>;
 

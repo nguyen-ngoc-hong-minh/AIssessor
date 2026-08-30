@@ -24,10 +24,12 @@ describe("input validation", () => {
     expect(usdToCurrency(0.54, "VND")).toBe(14_211);
     expect(29_999_971 - usdToCurrency(0.54, "VND")).toBe(29_985_760);
   });
-  it("validates monthly tasks without a project brief or deadline", () => {
-    const parsed = StrategyInputSchema.parse({ usageType: "monthly", monthlyTasks: [{ id: "task-1", task: "Research competitors", frequency: "daily", monthlyUses: frequencyToMonthlyUses("daily"), quality: "professional" }], priorities: ["balanced", "lowest_cost", "highest_quality", "fastest", "privacy", "existing_tools"], existingTools: ["ChatGPT"], optionalContext: { informationSensitivity: "standard", commercialUse: true, providersToAvoid: [], preferredLanguage: "English", expectedOutputs: "" } });
+  it("validates monthly tasks, budget, and currency without a project brief or deadline", () => {
+    const parsed = StrategyInputSchema.parse({ usageType: "monthly", monthlyTasks: [{ id: "task-1", task: "Research competitors", frequency: "daily", monthlyUses: frequencyToMonthlyUses("daily"), quality: "professional" }], budgetAmount: 100_000, budgetCurrency: "VND", priorities: ["balanced", "lowest_cost", "highest_quality", "fastest", "privacy", "existing_tools"], existingTools: ["ChatGPT"], optionalContext: { informationSensitivity: "standard", commercialUse: true, providersToAvoid: [], preferredLanguage: "English", expectedOutputs: "" } });
     expect(parsed.usageType).toBe("monthly");
     expect(parsed.usageType === "monthly" && parsed.monthlyTasks[0].monthlyUses).toBe(22);
+    expect(parsed.budgetAmount).toBe(100_000);
+    expect(parsed.budgetCurrency).toBe("VND");
     expect("deadline" in parsed).toBe(false);
   });
   it("rejects duplicate priorities", () => expect(() => validatePriorityRanking(["balanced", "balanced"])).toThrow("only once"));
