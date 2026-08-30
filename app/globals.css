@@ -588,8 +588,8 @@
 
   --indigo: #136CFC;
   --indigo-soft: #152641;
-  --pink: #15803d;
-  --pink-soft: #15803d;
+  --pink: #C3F84A;
+  --pink-soft: #C3F84A;
   --cyan: #0369a1;
 
   --grad-a: linear-gradient(135deg, #152641 0%, #136CFC 50%, #C3F84A 100%);
@@ -3853,7 +3853,7 @@ input::-moz-placeholder {
 
   /* --- High-contrast metric and label text colors for Light Mode --- */
   .text-pink-soft, .text-pink, .text-green {
-    color: #15803d !important; /* Dark Green - High contrast on white */
+    color: #C3F84A !important;
   }
   .text-cyan {
     color: #0369a1 !important; /* Dark Ocean Blue - High contrast on white */
