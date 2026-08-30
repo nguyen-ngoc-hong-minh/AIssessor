@@ -7,7 +7,7 @@ export default function NewMonthlyStrategyPage() {
   return (
     <div className="editorial-page-container max-w-4xl mx-auto my-auto space-y-8 py-4">
       <div className="editorial-page-header mb-8">
-        <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-semibold text-ink tracking-tight">
           Monthly Pipeline Workflow
         </h1>
       </div>

@@ -31,9 +31,9 @@ export function BillingView() {
           </div>
 
           <div>
-            <div className="plan-name mb-2 text-xl font-semibold text-white">STARTER</div>
+            <div className="plan-name mb-2 text-xl font-semibold text-ink">STARTER</div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
-              <span className="plan-price text-4xl font-bold text-white">$2.99</span>
+              <span className="plan-price text-4xl font-bold text-ink">$2.99</span>
               <span className="plan-period text-sm text-ink-2">/month</span>
             </div>
             <p className="plan-desc text-xs text-ink-2 leading-relaxed mb-6">
@@ -79,9 +79,9 @@ export function BillingView() {
           </div>
 
           <div>
-            <div className="plan-name mb-2 text-xl font-semibold text-white">OPTIMISE</div>
+            <div className="plan-name mb-2 text-xl font-semibold text-ink">OPTIMISE</div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
-              <span className="plan-price text-4xl font-bold text-white">$9.99</span>
+              <span className="plan-price text-4xl font-bold text-ink">$9.99</span>
               <span className="plan-period text-sm text-ink-2">/month</span>
             </div>
             <p className="plan-desc text-xs text-ink-2 leading-relaxed mb-6">
@@ -143,9 +143,9 @@ export function BillingView() {
         {/* Card 3: TEAM Plan */}
         <div className="feature glass-card pricing-deck-card flex flex-col justify-between p-8">
           <div>
-            <div className="plan-name text-xl font-semibold text-white mb-2">TEAM</div>
+            <div className="plan-name text-xl font-semibold text-ink mb-2">TEAM</div>
             <div className="plan-price-row flex items-baseline gap-1 my-4">
-              <span className="plan-price text-4xl font-bold text-white">Custom</span>
+              <span className="plan-price text-4xl font-bold text-ink">Custom</span>
             </div>
             <p className="plan-desc text-xs text-ink-2 leading-relaxed mb-6">
               Custom AI Task Assessments &middot; Best for Growing Businesses

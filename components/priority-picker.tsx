@@ -87,7 +87,7 @@ export function PriorityRanking({
           <div className="styled-input pill-input py-2.5 flex items-center justify-between flex-1 cursor-grab active:cursor-grabbing group-hover:border-indigo-400/40 group-hover:bg-white/[0.04]">
             <div className="flex items-center gap-2 min-w-0">
               <GripVertical className="w-4 h-4 text-ink-3 group-hover:text-indigo-300 transition-colors flex-none" aria-hidden="true" />
-              <span className="text-sm font-semibold text-white truncate">
+              <span className="text-sm font-semibold text-ink truncate">
                 {priorityLabels[priority]}
               </span>
             </div>

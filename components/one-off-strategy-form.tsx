@@ -71,7 +71,7 @@ export function OneOffStrategyForm() {
     <form className="space-y-8" onSubmit={submit}>
       {/* Section 1: Project Brief */}
       <section className="settings-faint-block">
-        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+        <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
           Project Brief
         </h2>
         <div>
@@ -94,7 +94,7 @@ export function OneOffStrategyForm() {
 
       {/* Section 2: Project Parameters */}
       <section className="settings-faint-block">
-        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+        <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
           Project Parameters
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
@@ -185,7 +185,7 @@ export function OneOffStrategyForm() {
 
       {/* Section 3: Priority Ranking */}
       <section className="settings-faint-block">
-        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+        <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
           Priority Ranking
         </h2>
         <PriorityRanking priorities={priorities} onChange={setPriorities} />
@@ -193,7 +193,7 @@ export function OneOffStrategyForm() {
 
       {/* Section 4: Project Parameters */}
       <section className="settings-faint-block">
-        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+        <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
           Project Parameters
         </h2>
         <OptionalDetails idPrefix="one-off" value={optionalDetails} onChange={setOptionalDetails} />

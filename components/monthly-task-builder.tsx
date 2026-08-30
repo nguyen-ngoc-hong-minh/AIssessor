@@ -92,7 +92,7 @@ export function MonthlyTaskBuilder() {
     <form className="space-y-8" onSubmit={submit}>
       {/* Section 1: Add Recurring Task */}
       <section className="settings-faint-block">
-        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+        <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
           Recurring AI Workload
         </h2>
         <div>
@@ -123,7 +123,7 @@ export function MonthlyTaskBuilder() {
       {/* Section 2: Added Task List (Rendered only when tasks.length > 0) */}
       {tasks.length > 0 && (
         <section className="settings-faint-block space-y-6">
-          <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
             Configured Tasks ({tasks.length})
           </h2>
           <div className="space-y-4">
@@ -223,7 +223,7 @@ export function MonthlyTaskBuilder() {
 
       {/* Section 3: Priority Ranking */}
       <section className="settings-faint-block">
-        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+        <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
           Rank your priorities
         </h2>
         <PriorityRanking priorities={priorities} onChange={setPriorities} />
@@ -231,7 +231,7 @@ export function MonthlyTaskBuilder() {
 
       {/* Section 4: Project Parameters */}
       <section className="settings-faint-block">
-        <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+        <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
           Project Parameters
         </h2>
         <OptionalDetails idPrefix="monthly" value={optionalDetails} onChange={setOptionalDetails} />

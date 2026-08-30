@@ -27,7 +27,7 @@ export function SettingsView({ profile }: { profile: OnboardingInitial }) {
     <div className="settings-editorial-wrap w-full max-w-4xl mx-auto space-y-8 py-4 my-auto">
       {/* Main Page Title */}
       <div className="editorial-page-header mb-8">
-        <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-semibold text-ink tracking-tight">
           Account &amp; Security
         </h1>
       </div>
@@ -35,7 +35,7 @@ export function SettingsView({ profile }: { profile: OnboardingInitial }) {
       <form onSubmit={handleSave} className="space-y-8">
         {/* Block 1: Profile Picture */}
         <section className="settings-faint-block">
-          <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
             Profile Picture
           </h2>
           <div className="flex flex-col sm:flex-row sm:items-center gap-6">
@@ -63,7 +63,7 @@ export function SettingsView({ profile }: { profile: OnboardingInitial }) {
 
         {/* Block 2: Personal Details */}
         <section className="settings-faint-block">
-          <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
             Personal Details
           </h2>
 
@@ -98,7 +98,7 @@ export function SettingsView({ profile }: { profile: OnboardingInitial }) {
 
         {/* Block 3: Email Address */}
         <section className="settings-faint-block">
-          <h2 className="settings-section-title text-xl font-semibold text-white font-sans">
+          <h2 className="settings-section-title text-xl font-semibold text-ink font-sans">
             Login Email
           </h2>
 
@@ -122,7 +122,7 @@ export function SettingsView({ profile }: { profile: OnboardingInitial }) {
         {/* Block 4: Password & Security */}
         <section className="settings-faint-block">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
-            <h2 className="settings-section-title text-xl font-semibold text-white font-sans !pb-0">
+            <h2 className="settings-section-title text-xl font-semibold text-ink font-sans !pb-0">
               Password &amp; Authentication
             </h2>
             <button

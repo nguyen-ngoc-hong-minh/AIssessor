@@ -3005,12 +3005,16 @@ html, body {
   width: 100%;
   padding: 14px 18px;
   border-radius: var(--r-sm);
-  border: 1px solid var(--glass-border);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
   font-family: var(--font-body);
   font-size: 14px;
-  color: #ffffff;
+  color: var(--input-color);
   transition: all 0.2s ease;
+}
+
+.styled-input::placeholder, .styled-select::placeholder, .styled-textarea::placeholder {
+  color: var(--input-placeholder);
 }
 
 .pill-input {
