@@ -77,21 +77,25 @@ export function PixelCanvas() {
       const r = Math.floor(mouse.y / cellSize);
       const idx = r * cols + c;
       if (idx >= 0 && idx < cells.length) {
-         // Instantly fill pixel under mouse
          cells[idx] = 1.0;
          
-         // Fill a few neighbors slightly
-         const neighbors = [
-           [0, 1], [1, 0], [0, -1], [-1, 0]
-         ];
-         neighbors.forEach(([dx, dy]) => {
-           const nx = c + dx;
-           const ny = r + dy;
-           if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
-             const nidx = ny * cols + nx;
-             if (cells[nidx] < 0.5) cells[nidx] = 0.5;
+         // Random splatter around the cursor
+         for (let dy = -2; dy <= 2; dy++) {
+           for (let dx = -2; dx <= 2; dx++) {
+             if (dx === 0 && dy === 0) continue; // skip center
+             
+             const nx = c + dx;
+             const ny = r + dy;
+             if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
+               const dist = Math.sqrt(dx*dx + dy*dy);
+               // Higher probability of drawing pixel if it's closer to the center
+               if (Math.random() < 0.6 / dist) {
+                 const nidx = ny * cols + nx;
+                 cells[nidx] = Math.max(cells[nidx], 0.4 + Math.random() * 0.6);
+               }
+             }
            }
-         });
+         }
       }
     };
     
@@ -109,17 +113,17 @@ export function PixelCanvas() {
         alpha: 1.0
       });
       
-      // Also instantly activate a cluster of pixels
+      // Instantly activate a random cluster of pixels on click
       const c = Math.floor(e.clientX / cellSize);
       const r = Math.floor(e.clientY / cellSize);
       
-      for(let dy=-2; dy<=2; dy++){
-        for(let dx=-2; dx<=2; dx++){
+      for(let dy=-3; dy<=3; dy++){
+        for(let dx=-3; dx<=3; dx++){
            const nx = c + dx;
            const ny = r + dy;
            if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
-             const dist = Math.abs(dx) + Math.abs(dy);
-             if (dist <= 2) {
+             const dist = Math.sqrt(dx*dx + dy*dy);
+             if (dist <= 3 && Math.random() > 0.3) {
                cells[ny * cols + nx] = 1.0;
              }
            }
@@ -142,15 +146,14 @@ export function PixelCanvas() {
           const idx = r * cols + c;
           if (cells[idx] > 0.01) {
              ctx.globalAlpha = cells[idx];
-             // Render the filled pixel, slightly smaller for a clean grid look
              ctx.fillRect(c * cellSize, r * cellSize, cellSize - 1, cellSize - 1);
              // Decay
-             cells[idx] *= 0.92; 
+             cells[idx] *= 0.90; // slightly faster fade out
           }
         }
       }
       
-      // Draw Ripples (Visual Click Effect)
+      // Draw Ripples
       ripples.forEach((rip, i) => {
         ctx.globalAlpha = rip.alpha;
         ctx.strokeStyle = "#103FD5";
@@ -159,19 +162,18 @@ export function PixelCanvas() {
         ctx.arc(rip.x, rip.y, rip.radius, 0, Math.PI * 2);
         ctx.stroke();
         
-        rip.radius += 15;
-        rip.alpha *= 0.9;
+        rip.radius += 18; // expand faster
+        rip.alpha *= 0.88; // fade faster
         
-        // Interaction with grid from ripple
+        // Interaction with grid from ripple (randomized)
         const rc = Math.floor(rip.x / cellSize);
         const rr = Math.floor(rip.y / cellSize);
         const waveRadiusCells = Math.floor(rip.radius / cellSize);
         
-        // Find cells roughly on the circle
         for (let dr = -waveRadiusCells; dr <= waveRadiusCells; dr++) {
           for (let dc = -waveRadiusCells; dc <= waveRadiusCells; dc++) {
             const dist = Math.sqrt(dr*dr + dc*dc);
-            if (Math.abs(dist - waveRadiusCells) < 1) {
+            if (Math.abs(dist - waveRadiusCells) < 1.5 && Math.random() > 0.5) {
               const nx = rc + dc;
               const ny = rr + dr;
               if (nx >= 0 && nx < cols && ny >= 0 && ny < rows) {
@@ -183,7 +185,6 @@ export function PixelCanvas() {
         }
       });
       
-      // Clean up dead ripples
       ripples = ripples.filter(r => r.alpha > 0.01);
       
       ctx.globalAlpha = 1.0;
@@ -204,7 +205,7 @@ export function PixelCanvas() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-[1]"
+      className="fixed inset-0 z-[1] pointer-events-none"
       aria-hidden="true"
     />
   );
