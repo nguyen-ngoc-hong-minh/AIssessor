@@ -511,6 +511,108 @@
   .trial-customize-actions > div, .trial-saved-actions { width: 100%; align-items: stretch; flex-direction: column; }
 }
 
+/* Monthly builders keep the trial shell while giving each recurring task its own controls. */
+.trial-progress.monthly-progress {
+  max-width: 360px;
+  grid-template-columns: 30px 1fr 30px;
+}
+
+.monthly-task-add {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.monthly-task-add .trial-secondary-button {
+  min-height: 48px;
+  padding-inline: 20px;
+  white-space: nowrap;
+}
+
+.monthly-task-add .trial-secondary-button svg,
+.monthly-task-card-heading button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.monthly-task-list {
+  display: grid;
+  gap: 12px;
+}
+
+.monthly-task-card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--input-bg);
+}
+
+.monthly-task-card-heading {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 36px;
+  gap: 10px;
+  align-items: center;
+}
+
+.monthly-task-card-heading > span {
+  color: var(--indigo-soft);
+  font: 600 11px var(--font-mono);
+  letter-spacing: .12em;
+}
+
+.monthly-task-card-heading input {
+  min-width: 0;
+  font-weight: 600;
+}
+
+.monthly-task-card-heading button {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-2);
+  cursor: pointer;
+}
+
+.monthly-task-card-heading button:hover {
+  color: #fca5a5;
+  border-color: rgba(248, 113, 113, .5);
+}
+
+.monthly-task-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+  padding-left: 46px;
+}
+
+.monthly-task-controls label > span {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--ink-3);
+  font: 11px var(--font-mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .monthly-task-add,
+  .monthly-task-controls {
+    grid-template-columns: 1fr;
+  }
+  .monthly-task-add .trial-secondary-button {
+    width: 100%;
+  }
+  .monthly-task-controls {
+    padding-left: 0;
+  }
+}
+
 /* ==========================================================================
    LUSTRO SLIDESHOW DESIGN SYSTEM (TemplateMo Premium Deck)
    ========================================================================== */

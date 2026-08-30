@@ -69,9 +69,20 @@ describe("strategy inputs", () => {
   });
   it("preselects recurring work for a signed-in monthly project", () => {
     render(<TrialExperience signedInMode="monthly" />);
-    expect(screen.getByRole("button", { name: "Monthly" })).toHaveAttribute("aria-pressed", "true");
-    expect(screen.getByText("Monthly AI budget")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "What do you work on regularly?" })).toBeInTheDocument();
+    expect(screen.getByLabelText("Recurring task")).toBeInTheDocument();
+    expect(screen.getByRole("group", { name: /Monthly AI budget/ })).toBeInTheDocument();
     expect(screen.queryByText("Deadline")).not.toBeInTheDocument();
+  });
+  it("lets monthly users add tasks and set frequency for each one", () => {
+    render(<TrialExperience signedInMode="monthly" />);
+    fireEvent.change(screen.getByLabelText("Recurring task"), { target: { value: "Write a weekly research summary" } });
+    fireEvent.click(screen.getByRole("button", { name: /Add task/i }));
+    expect(screen.getByDisplayValue("Write a weekly research summary")).toBeInTheDocument();
+    const frequency = screen.getByLabelText("Frequency for Write a weekly research summary");
+    fireEvent.change(frequency, { target: { value: "daily" } });
+    expect(frequency).toHaveValue("daily");
+    expect(screen.getByLabelText("Quality for Write a weekly research summary")).toHaveValue("professional");
   });
   it("automatically saves a completed signed-in builder result", async () => {
     const workflowStep = {
