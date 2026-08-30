@@ -4748,3 +4748,57 @@ html, body {
 :root[data-theme="dark"] html {
   background-color: #051342 !important;
 }
+
+/* ==========================================================================
+   STRICT SWISS ART DIRECTION FOR SIGNED-IN APP
+   ========================================================================== */
+
+/* Enforce zero border radius and no drop shadow for ALL elements in signed-in app */
+.editorial-app-shell * {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
+
+/* Update Signed-in Home Option Cards */
+.signed-home-option {
+  background-color: #1A24A9 !important;
+  border: none !important;
+  color: #FFFFFF !important;
+}
+
+/* Ensure text inside the card is white */
+.signed-home-option h2,
+.signed-home-option p,
+.signed-home-option small,
+.signed-home-option strong {
+  color: #FFFFFF !important;
+}
+
+/* Invert the icon square */
+.signed-home-option-icon {
+  background-color: #FFFFFF !important;
+  color: #1A24A9 !important;
+}
+
+/* Update History Button */
+.signed-home-history {
+  background-color: transparent !important;
+  border: 1px solid #1A24A9 !important;
+  color: #1A24A9 !important;
+}
+
+/* Dark Mode Overrides */
+:root[data-theme="dark"] .signed-home-option {
+  background-color: #071A57 !important;
+}
+
+:root[data-theme="dark"] .signed-home-history {
+  border-color: #FFFFFF !important;
+  color: #FFFFFF !important;
+}
+
+/* Also ensure user profile button and auth buttons lose their shadows */
+.cl-userButtonTrigger, .cl-userButtonAvatarBox, .cl-userButtonAvatarImage {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
