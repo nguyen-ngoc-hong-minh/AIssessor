@@ -1,7 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { AuthScreen } from "@/components/auth-screen";
-import { AppShell } from "@/components/app-shell";
 import { DashboardView } from "@/components/dashboard-view";
 import { IntegrationNotice } from "@/components/integration-notice";
 import { MonthlyTaskBuilder } from "@/components/monthly-task-builder";

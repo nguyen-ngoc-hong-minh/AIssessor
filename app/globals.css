@@ -3143,7 +3143,8 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
    DASHBOARD SPACING & UN-CRAMP TYPOGRAPHY REFINEMENT
    ========================================================================== */
 .editorial-dashboard-wrap {
-  max-width: 1100px;
+  width: min(1320px, calc(100vw - 64px));
+  max-width: 1320px;
   margin: 0 auto;
 }
 
@@ -3161,6 +3162,11 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .problem-card.glass-card {
   padding: 28px 32px;
 }
+
+.editorial-dashboard-wrap .dash-metrics-grid { gap: 18px; }
+.editorial-dashboard-wrap .dash-content-block { margin-top: 8px; padding: 36px 40px; }
+.editorial-dashboard-wrap .problem-card { gap: 28px; min-height: 116px; padding: 24px 28px; }
+.editorial-dashboard-wrap .problem-card > div:last-child { flex-shrink: 0; }
 
 .dashboard-create-bar {
   display: flex;
@@ -3224,7 +3230,36 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   height: 30px;
 }
 
+/* Clerk account settings need a real canvas for its sidebar and profile form. */
+.cl-modalContent,
+.cl-userProfile-root,
+.cl-userProfile-root .cl-cardBox,
+.cl-userProfile-root .cl-card {
+  width: min(920px, calc(100vw - 32px)) !important;
+  max-width: min(920px, calc(100vw - 32px)) !important;
+  min-width: min(680px, calc(100vw - 32px)) !important;
+  box-sizing: border-box !important;
+}
+
+.cl-userProfile-root,
+.cl-userProfile-root .cl-cardBox,
+.cl-userProfile-root .cl-card {
+  background: #0d1220 !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 22px !important;
+  overflow: hidden !important;
+}
+
+.cl-userProfile-root .cl-navbar,
+.cl-userProfile-root .cl-navbarMobile {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border-color: var(--glass-border) !important;
+}
+
 @media (max-width: 760px) {
+  .editorial-dashboard-wrap { width: min(100% - 32px, 680px); }
+
   .dashboard-create-bar {
     align-items: stretch;
     flex-direction: column;
@@ -3234,6 +3269,19 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   .dashboard-create-actions,
   .dashboard-empty-actions {
     justify-content: flex-start;
+  }
+
+  .editorial-dashboard-wrap .dash-content-block { padding: 24px 20px; }
+  .editorial-dashboard-wrap .problem-card { align-items: flex-start; flex-direction: column; gap: 18px; }
+  .editorial-dashboard-wrap .problem-card > div:last-child { width: 100%; margin-left: 0; justify-content: flex-start; }
+
+  .cl-modalContent,
+  .cl-userProfile-root,
+  .cl-userProfile-root .cl-cardBox,
+  .cl-userProfile-root .cl-card {
+    width: calc(100vw - 20px) !important;
+    max-width: calc(100vw - 20px) !important;
+    min-width: 0 !important;
   }
 }
 
@@ -3410,7 +3458,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   overflow: visible;
 }
 
-.cl-rootBox {
+.clerk-container .cl-rootBox {
   width: 100% !important;
   max-width: 360px !important;
   margin: 0 auto !important;
@@ -3418,7 +3466,9 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   box-sizing: border-box !important;
 }
 
-.cl-cardBox, .cl-card, .cl-main {
+.clerk-container .cl-cardBox,
+.clerk-container .cl-card,
+.clerk-container .cl-main {
   width: 100% !important;
   max-width: 100% !important;
   box-shadow: none !important;
