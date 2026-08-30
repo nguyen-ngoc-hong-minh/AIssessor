@@ -4516,3 +4516,61 @@ fieldset {
   background-color: #67BAE4 !important;
   color: #071A57 !important;
 }
+
+/* ==========================================================================
+   MOTION BLUR REVEAL ANIMATION (HOMEPAGE INTRO)
+   ========================================================================== */
+
+@keyframes motionBlurReveal {
+  0% {
+    opacity: 0;
+    filter: blur(20px);
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+}
+
+/* Ensure children are hidden initially before the animation starts */
+.trial-intro-copy > * {
+  opacity: 0;
+  animation: motionBlurReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+/* Staggered delays for each element */
+.trial-intro-copy .trial-kicker {
+  animation-delay: 0.1s;
+}
+
+.trial-intro-copy .trial-animated-title {
+  animation-delay: 0.3s;
+}
+
+.trial-intro-copy .trial-intro-body {
+  animation-delay: 0.5s;
+}
+
+.trial-intro-copy .trial-intro-cta {
+  animation-delay: 0.7s;
+}
+
+.trial-intro-copy .trial-intro-note {
+  animation-delay: 0.9s;
+}
+
+/* Also animate the header elements smoothly */
+.trial-header .swiss-badge,
+.trial-header .swiss-nav-block,
+.trial-header > .relative > div:first-child {
+  opacity: 0;
+  animation: motionBlurReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.trial-header .swiss-badge { animation-delay: 1.1s; }
+.trial-header > .relative > div:first-child { animation-delay: 1.2s; } /* stepped block */
+.trial-header .swiss-nav-block { animation-delay: 1.3s; }
+
