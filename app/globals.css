@@ -3717,10 +3717,10 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   left: auto !important;
   transform: none !important;
   display: inline-block !important;
-  margin: 12px auto 8px auto !important;
+  margin: 0 auto 14px auto !important;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
   z-index: 20 !important;
-  line-height: 1.2 !important;
+  line-height: 1.4 !important;
 }
 
 /* Hide Clerk's generic default header ('Sign in to My Application') */
