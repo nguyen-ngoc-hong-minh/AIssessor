@@ -13,7 +13,8 @@ export function AppShell({
   user: { name: string; email: string };
 }) {
   const pathname = usePathname();
-  const isLongPage = pathname.startsWith("/strategy/") || pathname.startsWith("/admin/");
+  const isDashboard = pathname === "/dashboard";
+  const isLongPage = isDashboard || pathname.startsWith("/strategy/") || pathname.startsWith("/admin/");
   const { user: clerkUser } = useUser();
   const rawName =
     clerkUser?.fullName ||
@@ -38,7 +39,7 @@ export function AppShell({
       <Brand />
 
       {/* Main Workspace Presentation Area */}
-      <main className={`editorial-app-main min-h-screen relative z-10 ${isLongPage ? "is-long-page" : ""}`}>
+      <main className={`editorial-app-main min-h-screen relative z-10 ${isLongPage ? "is-long-page" : ""} ${isDashboard ? "is-dashboard-page" : ""}`}>
         <PageTransition>{children}</PageTransition>
       </main>
 

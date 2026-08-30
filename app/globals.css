@@ -2762,6 +2762,12 @@ html, body {
   justify-content: flex-start !important;
 }
 
+.editorial-app-main.is-dashboard-page {
+  max-width: 1600px;
+  padding-top: 108px !important;
+  padding-bottom: 140px !important;
+}
+
 .settings-card-box {
   padding: 60px !important;
   border-radius: 28px;
@@ -3143,9 +3149,15 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
    DASHBOARD SPACING & UN-CRAMP TYPOGRAPHY REFINEMENT
    ========================================================================== */
 .editorial-dashboard-wrap {
-  width: min(1320px, calc(100vw - 64px));
-  max-width: 1320px;
+  width: min(1240px, calc(100vw - 80px));
+  max-width: 1240px;
   margin: 0 auto;
+}
+
+.dashboard-page-stack {
+  display: grid;
+  gap: 30px;
+  padding-bottom: 24px;
 }
 
 .editorial-dashboard-wrap h1,
@@ -3163,17 +3175,24 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   padding: 28px 32px;
 }
 
-.editorial-dashboard-wrap .dash-metrics-grid { gap: 18px; }
-.editorial-dashboard-wrap .dash-content-block { margin-top: 8px; padding: 36px 40px; }
-.editorial-dashboard-wrap .problem-card { gap: 28px; min-height: 116px; padding: 24px 28px; }
+.editorial-dashboard-wrap .dash-metrics-grid { gap: 22px; }
+.editorial-dashboard-wrap .dashboard-metric { min-height: 210px; padding: 30px 32px; }
+.editorial-dashboard-wrap .dash-content-block { margin-top: 4px; padding: 46px 48px; }
+.editorial-dashboard-wrap .problem-card { gap: 32px; min-height: 138px; padding: 30px 32px; }
 .editorial-dashboard-wrap .problem-card > div:last-child { flex-shrink: 0; }
+
+.dashboard-strategy-list {
+  display: grid;
+  gap: 18px;
+}
 
 .dashboard-create-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 28px;
-  padding: 24px 28px;
+  min-height: 154px;
+  padding: 32px 38px;
   border: 1px solid rgba(165, 180, 252, 0.22);
   background: linear-gradient(110deg, rgba(99, 102, 241, 0.16), rgba(236, 72, 153, 0.08));
 }
@@ -3260,6 +3279,13 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 @media (max-width: 760px) {
   .editorial-dashboard-wrap { width: min(100% - 32px, 680px); }
 
+  .editorial-app-main.is-dashboard-page {
+    padding-top: 92px !important;
+    padding-bottom: 120px !important;
+  }
+
+  .dashboard-page-stack { gap: 20px; }
+
   .dashboard-create-bar {
     align-items: stretch;
     flex-direction: column;
@@ -3271,7 +3297,8 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
     justify-content: flex-start;
   }
 
-  .editorial-dashboard-wrap .dash-content-block { padding: 24px 20px; }
+  .editorial-dashboard-wrap .dashboard-metric { min-height: 170px; padding: 24px; }
+  .editorial-dashboard-wrap .dash-content-block { padding: 28px 20px; }
   .editorial-dashboard-wrap .problem-card { align-items: flex-start; flex-direction: column; gap: 18px; }
   .editorial-dashboard-wrap .problem-card > div:last-child { width: 100%; margin-left: 0; justify-content: flex-start; }
 

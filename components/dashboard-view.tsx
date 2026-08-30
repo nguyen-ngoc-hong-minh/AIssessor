@@ -58,7 +58,7 @@ export function DashboardView() {
   const savedPlans = strategies.filter((strategy) => strategy.status === "complete").length;
 
   return (
-    <div className="editorial-dashboard-wrap space-y-4 pt-3">
+    <div className="editorial-dashboard-wrap dashboard-page-stack">
       <div className="dashboard-create-bar glass-card">
         <div>
           <p className="dashboard-create-kicker">START A NEW CONSULTATION</p>
@@ -73,7 +73,7 @@ export function DashboardView() {
 
       {/* Metric Grid */}
       <div className="dash-metrics-grid grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
+        <div className="metric dashboard-metric glass-card flex flex-col justify-between">
           <div>
             <div className="font-mono text-xs text-indigo-soft tracking-wider mb-2 font-medium">Active projects</div>
             <div className="metric-num grd text-5xl font-bold tracking-tight my-4">{strategies.length}</div>
@@ -81,7 +81,7 @@ export function DashboardView() {
           </div>
         </div>
 
-        <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
+        <div className="metric dashboard-metric glass-card flex flex-col justify-between">
           <div>
             <div className="font-mono text-xs text-pink-soft tracking-wider mb-2 font-medium">Optimized stack</div>
             <div className="metric-num grd text-5xl font-bold tracking-tight my-4">{savedPlans}</div>
@@ -89,7 +89,7 @@ export function DashboardView() {
           </div>
         </div>
 
-        <div className="metric glass-card p-6 pb-4 flex flex-col justify-between">
+        <div className="metric dashboard-metric glass-card flex flex-col justify-between">
           <div>
             <div className="font-mono text-xs text-cyan tracking-wider mb-2 font-medium">New better option</div>
             <div className="metric-num text-5xl font-bold tracking-tight my-4" style={{ background: "linear-gradient(135deg, #ffffff 0%, #a5b4fc 50%, #38bdf8 100%)", WebkitBackgroundClip: "text", color: "transparent" }}>
@@ -136,7 +136,7 @@ export function DashboardView() {
             </div>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="dashboard-strategy-list">
             {strategies.map((strategy, idx) => (
               <div className="problem-card glass-card flex items-center justify-between p-6" key={strategy._id}>
                 <div className="flex items-center gap-6 flex-1 min-w-0">
