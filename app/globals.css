@@ -4416,7 +4416,7 @@ fieldset {
 .swiss-nav-block {
   display: flex;
   align-items: center;
-  background-color: #FAF9F6;
+  background-color: #E7E6E1;
   border: 2px solid #103FD5;
   color: #103FD5;
   font-family: var(--font-jetbrains-mono);
@@ -4593,11 +4593,11 @@ fieldset {
 
 /* Ensure homepage has Cream/Off-white background */
 :root[data-theme="light"] {
-  --bg: #FAF9F6 !important;
+  --bg: #E7E6E1 !important;
 }
 
 .trial-page {
-  background-color: #FAF9F6 !important; /* override permanently for the flat look */
+  background-color: #E7E6E1 !important; /* override permanently for the flat look */
 }
 
 /* Remove static grid background from intro, we now use the interactive pixel canvas */
