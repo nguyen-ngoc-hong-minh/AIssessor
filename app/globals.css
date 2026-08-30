@@ -4390,3 +4390,41 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   z-index: 0;
 }
 
+@keyframes flipWord {
+  0% {
+    opacity: 0;
+    transform: rotateX(80deg) translateY(30px);
+    filter: blur(4px);
+  }
+  15%, 80% {
+    opacity: 1;
+    transform: rotateX(0deg) translateY(0);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: rotateX(-80deg) translateY(-30px);
+    filter: blur(4px);
+  }
+}
+
+@keyframes letterRotate {
+  0% {
+    opacity: 0;
+    transform: rotateY(90deg) scale(0.6);
+  }
+  60%, 100% {
+    opacity: 1;
+    transform: rotateY(0deg) scale(1);
+  }
+}
+
+.animate-flip-word {
+  animation: flipWord 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-letter-rotate {
+  animation: letterRotate 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+

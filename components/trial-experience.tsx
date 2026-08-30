@@ -9,6 +9,7 @@ import { frequencyToMonthlyUses, type Priority, type TaskAnalysis, type Workflow
 import type { StrategyPlan } from "@/lib/recommendation/types";
 import { Brand } from "./brand";
 import { BriefSuggestions } from "./brief-suggestions";
+import { CustomCursor } from "./custom-cursor";
 import { InfoTip } from "./info-tip";
 import { InteractiveBackground } from "./interactive-background";
 import { IntroSplash } from "./intro-splash";
@@ -208,6 +209,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
   return (
     <main className={`trial-page ${authenticatedBuilder ? "is-embedded" : ""}`}>
+      {!authenticatedBuilder && <CustomCursor />}
       {!authenticatedBuilder && <IntroSplash />}
       {!authenticatedBuilder && <InteractiveBackground />}
       {!authenticatedBuilder && <div className="trial-grid" aria-hidden="true" />}
