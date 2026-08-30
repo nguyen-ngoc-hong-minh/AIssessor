@@ -3350,9 +3350,9 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   border-radius: 28px;
   overflow: hidden;
   border: 1px solid var(--glass-border);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-  backdrop-filter: var(--glass-blur);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  background-color: var(--glass-bg) !important;
+  backdrop-filter: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .auth-editorial-left {
@@ -3415,7 +3415,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--glass-bg);
+  background-color: var(--bg) !important;
 }
 
 .auth-footer {
@@ -3461,11 +3461,23 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   box-sizing: border-box !important;
 }
 
-.clerk-container .cl-cardBox, .clerk-container .cl-card, .clerk-container .cl-main {
+.clerk-container .cl-cardBox,
+.clerk-container .cl-card,
+.clerk-container .cl-main,
+.clerk-container .cl-signIn-root,
+.clerk-container .cl-signUp-root,
+.clerk-container .cl-internal,
+.auth-widget-box .cl-cardBox,
+.auth-widget-box .cl-card,
+.auth-widget-box .cl-rootBox,
+.auth-widget-box .cl-signIn-root,
+.auth-widget-box .cl-signUp-root,
+.auth-widget-box [class^="cl-"] {
   width: 100% !important;
   max-width: 100% !important;
   box-shadow: none !important;
-  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
   overflow: visible !important;
   border: none !important;
   padding: 0 !important;
@@ -3610,6 +3622,43 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   background-color: var(--glass-bg) !important;
   border: 1px solid var(--glass-border) !important;
   border-radius: 16px !important;
+}
+
+/* === NUCLEAR: Kill every grey background Clerk renders internally === */
+.auth-widget-box,
+.auth-widget-box *,
+.auth-widget-box div,
+.auth-widget-box section,
+.auth-widget-box form,
+.auth-widget-box header,
+.auth-widget-box footer,
+.clerk-container,
+.clerk-container *,
+.clerk-container div,
+.clerk-container section,
+.clerk-container form,
+.clerk-container header {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Re-apply specific backgrounds only where needed */
+.auth-widget-box {
+  background-color: var(--bg) !important;
+}
+
+.cl-socialButtonsBlockButton {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+}
+
+.cl-formFieldInput {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--input-border) !important;
+}
+
+.cl-formButtonPrimary {
+  background-color: var(--indigo) !important;
 }
 
 /* Admin analytics */
