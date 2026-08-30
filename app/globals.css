@@ -3161,30 +3161,30 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 /* ==========================================================================
    CLERK AUTHENTICATION OVERRIDES (Lustro Dark Glassmorphism)
    ========================================================================== */
-.cl-rootBox {
+.clerk-container .cl-rootBox {
   width: 100%;
 }
-.cl-card {
+.clerk-container .cl-card {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
   padding: 0 !important;
 }
-.cl-headerTitle {
+.clerk-container .cl-headerTitle {
   color: #ffffff !important;
   font-family: var(--font-sans) !important;
   font-size: 24px !important;
   font-weight: 500 !important;
   letter-spacing: -0.02em !important;
 }
-.cl-headerSubtitle {
+.clerk-container .cl-headerSubtitle {
   color: var(--ink-2) !important;
   font-family: var(--font-body) !important;
   font-size: 14px !important;
   margin-top: 4px !important;
   line-height: 1.5 !important;
 }
-.cl-formButtonPrimary {
+.clerk-container .cl-formButtonPrimary {
   background: #ffffff !important;
   color: #0a0e1a !important;
   border-radius: 100px !important;
@@ -3194,12 +3194,12 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   height: 44px !important;
   transition: all 0.3s ease !important;
 }
-.cl-formButtonPrimary:hover {
+.clerk-container .cl-formButtonPrimary:hover {
   background: linear-gradient(135deg, var(--indigo-soft), #ffffff) !important;
   box-shadow: 0 10px 30px rgba(165, 180, 252, 0.25) !important;
   transform: translateY(-1px) !important;
 }
-.cl-formFieldInput {
+.clerk-container .cl-formFieldInput {
   background: rgba(255, 255, 255, 0.04) !important;
   border: 1px solid var(--glass-border) !important;
   color: #ffffff !important;
@@ -3209,34 +3209,34 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   font-family: var(--font-body) !important;
   font-size: 14px !important;
 }
-.cl-formFieldInput:focus {
+.clerk-container .cl-formFieldInput:focus {
   border-color: var(--indigo-soft) !important;
   box-shadow: 0 0 16px rgba(99, 102, 241, 0.25) !important;
 }
-.cl-formFieldLabel {
+.clerk-container .cl-formFieldLabel {
   color: var(--ink-2) !important;
   font-family: var(--font-body) !important;
   font-size: 13px !important;
   margin-bottom: 6px !important;
 }
-.cl-footerActionText, .cl-footerActionLink {
+.clerk-container .cl-footerActionText, .clerk-container .cl-footerActionLink {
   color: var(--ink-2) !important;
   font-family: var(--font-body) !important;
   font-size: 13px !important;
 }
-.cl-footerActionLink {
+.clerk-container .cl-footerActionLink {
   color: var(--indigo-soft) !important;
   font-weight: 500 !important;
 }
-.cl-dividerLine {
+.clerk-container .cl-dividerLine {
   background: var(--line-2) !important;
 }
-.cl-dividerText {
+.clerk-container .cl-dividerText {
   color: var(--ink-3) !important;
   font-family: var(--font-mono) !important;
   font-size: 11px !important;
 }
-.cl-socialButtonsBlockButton {
+.clerk-container .cl-socialButtonsBlockButton {
   background: rgba(255, 255, 255, 0.05) !important;
   border: 1px solid var(--glass-border) !important;
   color: #ffffff !important;
@@ -3246,7 +3246,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   font-size: 13.5px !important;
   transition: all 0.25s ease !important;
 }
-.cl-socialButtonsBlockButton:hover {
+.clerk-container .cl-socialButtonsBlockButton:hover {
   background: rgba(255, 255, 255, 0.1) !important;
   border-color: rgba(255, 255, 255, 0.2) !important;
 }
@@ -3472,21 +3472,21 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   box-sizing: border-box !important;
 }
 
-.cl-headerTitle {
+.clerk-container .cl-headerTitle {
   font-family: var(--font-sans) !important;
   font-size: 22px !important;
   font-weight: 600 !important;
   color: var(--ink) !important;
 }
 
-.cl-headerSubtitle {
+.clerk-container .cl-headerSubtitle {
   font-family: var(--font-body) !important;
   font-size: 12.5px !important;
   color: var(--ink-3) !important;
   margin-bottom: 8px !important;
 }
 
-.cl-socialButtonsBlockButton {
+.clerk-container .cl-socialButtonsBlockButton {
   border-radius: 99px !important;
   background: var(--input-bg) !important;
   border: 1px solid var(--input-border) !important;
@@ -3496,32 +3496,32 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   margin-bottom: 8px !important;
 }
 
-.cl-socialButtonsBlockButton:hover {
+.clerk-container .cl-socialButtonsBlockButton:hover {
   border-color: var(--indigo) !important;
 }
 
-.cl-socialButtonsBlockButtonText {
+.clerk-container .cl-socialButtonsBlockButtonText {
   color: var(--input-color) !important;
   font-family: var(--font-body) !important;
   font-size: 12.5px !important;
   font-weight: 500 !important;
 }
 
-.cl-dividerRow {
+.clerk-container .cl-dividerRow {
   margin: 8px 0 !important;
 }
 
-.cl-dividerLine {
+.clerk-container .cl-dividerLine {
   background: var(--line) !important;
 }
 
-.cl-dividerText {
+.clerk-container .cl-dividerText {
   color: var(--ink-3) !important;
   font-family: var(--font-mono) !important;
   font-size: 10px !important;
 }
 
-.cl-formFieldLabel {
+.clerk-container .cl-formFieldLabel {
   color: var(--ink) !important;
   font-family: var(--font-body) !important;
   font-size: 12px !important;
@@ -3529,7 +3529,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   margin-bottom: 3px !important;
 }
 
-.cl-formFieldInput {
+.clerk-container .cl-formFieldInput {
   border-radius: 99px !important;
   background: var(--input-bg) !important;
   border: 1px solid var(--input-border) !important;
@@ -3544,43 +3544,26 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .clerk-container input::placeholder,
 .clerk-container input::-webkit-input-placeholder,
 .clerk-container input::-moz-placeholder,
-.clerk-container input:-ms-input-placeholder,
-.cl-rootBox input::placeholder,
-.cl-rootBox input::-webkit-input-placeholder,
-.cl-rootBox input::-moz-placeholder,
-.cl-formFieldInput::placeholder,
-.cl-formFieldInput::-webkit-input-placeholder,
-.cl-formFieldInput::-moz-placeholder,
-.cl-formFieldInput:-ms-input-placeholder,
-.cl-formFieldInput__emailAddress::placeholder,
-.cl-formFieldInput__password::placeholder,
-.cl-input::placeholder,
-.cl-input::-webkit-input-placeholder,
-input[type="text"]::placeholder,
-input[type="email"]::placeholder,
-input[type="password"]::placeholder,
-input::placeholder,
-input::-webkit-input-placeholder,
-input::-moz-placeholder {
+.clerk-container input:-ms-input-placeholder {
   color: var(--input-placeholder) !important;
   -webkit-text-fill-color: var(--input-placeholder) !important;
   opacity: 0.9 !important;
 }
 
-.cl-formFieldInputShowPasswordButton,
-.cl-formFieldInputShowPasswordIcon {
+.clerk-container .cl-formFieldInputShowPasswordButton,
+.clerk-container .cl-formFieldInputShowPasswordIcon {
   color: var(--input-color) !important;
   opacity: 0.8 !important;
 }
 
-.cl-formFieldInput:focus {
+.clerk-container .cl-formFieldInput:focus {
   border-color: var(--indigo) !important;
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
   outline: none !important;
   background: rgba(255, 255, 255, 0.08) !important;
 }
 
-.cl-formButtonPrimary {
+.clerk-container .cl-formButtonPrimary {
   border-radius: 99px !important;
   background-color: var(--indigo) !important;
   color: #ffffff !important;
@@ -3594,18 +3577,18 @@ input::-moz-placeholder {
   box-shadow: none !important;
 }
 
-.cl-formButtonPrimary:hover {
+.clerk-container .cl-formButtonPrimary:hover {
   opacity: 0.9 !important;
 }
 
-.cl-footer,
-.cl-footer *,
-.cl-footerActionText,
-.cl-footerPagesLink {
+.clerk-container .cl-footer,
+.clerk-container .cl-footer *,
+.clerk-container .cl-footerActionText,
+.clerk-container .cl-footerPagesLink {
   color: var(--ink-3) !important;
 }
 
-.cl-footer {
+.clerk-container .cl-footer {
   background: transparent !important;
   border-top: 1px solid var(--line) !important;
   margin-top: 8px !important;
@@ -3613,13 +3596,13 @@ input::-moz-placeholder {
   background-image: none !important;
 }
 
-.cl-footerActionLink {
+.clerk-container .cl-footerActionLink {
   color: var(--indigo) !important;
   font-weight: 600 !important;
   font-size: 12.5px !important;
 }
 
-.cl-footerActionLink:hover {
+.clerk-container .cl-footerActionLink:hover {
   text-decoration: underline !important;
 }
 
@@ -3790,18 +3773,18 @@ input::-moz-placeholder {
   }
 
   /* --- Clerk auth overrides for light mode --- */
-  .cl-headerTitle {
+  .clerk-container .cl-headerTitle {
     color: var(--ink) !important;
   }
-  .cl-formFieldInput {
+  .clerk-container .cl-formFieldInput {
     background: rgba(21, 38, 65, 0.04) !important;
     color: var(--ink) !important;
   }
-  .cl-socialButtonsBlockButton {
+  .clerk-container .cl-socialButtonsBlockButton {
     background: rgba(21, 38, 65, 0.04) !important;
     color: var(--ink) !important;
   }
-  .cl-socialButtonsBlockButton:hover {
+  .clerk-container .cl-socialButtonsBlockButton:hover {
     background: rgba(21, 38, 65, 0.08) !important;
     border-color: rgba(21, 38, 65, 0.18) !important;
   }
@@ -4189,7 +4172,6 @@ input::-moz-placeholder {
   height: 30px;
 }
 
-.cl-modalContent,
 .cl-userProfile-root,
 .cl-userProfile-root .cl-cardBox,
 .cl-userProfile-root .cl-card {
@@ -4241,7 +4223,6 @@ input::-moz-placeholder {
     width: 100%;
   }
 
-  .cl-modalContent,
   .cl-userProfile-root,
   .cl-userProfile-root .cl-cardBox,
   .cl-userProfile-root .cl-card {
