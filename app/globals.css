@@ -3723,3 +3723,131 @@ input::-moz-placeholder {
   .analytics-activity article { grid-template-columns: 8px 1fr; padding-inline: 18px; }
   .analytics-activity time { grid-column: 2; }
 }
+
+/* ==========================================================================
+   LIGHT MODE — COMPREHENSIVE TEXT & GRADIENT OVERRIDES
+   Kill every gradient-text, hardcoded white, and low-contrast colour
+   so that all text is solid and legible against the light sky background.
+   ========================================================================== */
+:root[data-theme="light"] {
+
+  /* --- Nuke ALL gradient text globally --- */
+  .h-display .grd,
+  .metric-num.grd,
+  .brand-text,
+  .grd {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    color: var(--ink) !important;
+    -webkit-text-fill-color: var(--ink) !important;
+  }
+
+  /* --- Feature / Planning-mode cards --- */
+  .feature h3,
+  .feature .f-link:hover,
+  .deck-mode-card h3 {
+    color: var(--ink) !important;
+  }
+
+  /* --- Pricing cards --- */
+  .pricing-deck-card .plan-name,
+  .pricing-deck-card .plan-price,
+  .pricing-deck-card .plan-features-label {
+    color: var(--ink) !important;
+  }
+
+  /* --- Trial flow headings & buttons --- */
+  .trial-results-state h2,
+  .trial-customize-heading h2,
+  .trial-customize-job strong,
+  .trial-model-choice,
+  .trial-model-choice > strong,
+  .trial-tool-cost,
+  .trial-why details summary,
+  .trial-result-hero > a,
+  .trial-optimise-tease > a,
+  .trial-primary-button,
+  .trial-secondary-button,
+  .trial-step-actions button:hover,
+  .trial-money-grid .highlight {
+    color: var(--ink) !important;
+  }
+
+  .trial-primary-button {
+    background: var(--ink) !important;
+    color: #ffffff !important;
+  }
+
+  /* --- Trial progress active pill --- */
+  .trial-progress > span.active {
+    color: #ffffff !important;
+  }
+
+  /* --- Trial word loop (decorative) keep the stroke but darken --- */
+  .trial-word-loop span {
+    -webkit-text-stroke-color: var(--indigo) !important;
+  }
+
+  /* --- Clerk auth overrides for light mode --- */
+  .cl-headerTitle {
+    color: var(--ink) !important;
+  }
+  .cl-formFieldInput {
+    background: rgba(21, 38, 65, 0.04) !important;
+    color: var(--ink) !important;
+  }
+  .cl-socialButtonsBlockButton {
+    background: rgba(21, 38, 65, 0.04) !important;
+    color: var(--ink) !important;
+  }
+  .cl-socialButtonsBlockButton:hover {
+    background: rgba(21, 38, 65, 0.08) !important;
+    border-color: rgba(21, 38, 65, 0.18) !important;
+  }
+
+  /* --- Dashboard & app-shell elements --- */
+  .dash-hero-title,
+  .dash-section-title,
+  .strat-title,
+  .strategy-card-row .strat-name {
+    color: var(--ink) !important;
+  }
+
+  /* --- Info-tip popover --- */
+  .info-tip > div {
+    background: #ffffff !important;
+    color: var(--ink) !important;
+    border-color: rgba(21, 38, 65, 0.12) !important;
+    box-shadow: 0 18px 50px rgba(21, 38, 65, 0.14) !important;
+  }
+
+  /* --- Analytics --- */
+  .analytics-range button:hover,
+  .analytics-range button.active {
+    color: #ffffff !important;
+    background: rgba(19, 108, 252, 0.7) !important;
+  }
+  .analytics-rank-row span {
+    color: var(--ink) !important;
+  }
+  .analytics-error button {
+    color: var(--ink) !important;
+    background: rgba(21, 38, 65, 0.04) !important;
+  }
+
+  /* --- Catch-all: every remaining hard-coded "color: white" element --- */
+  .trial-header nav a:hover,
+  .trial-header nav a:focus-visible,
+  .trial-provider-link:hover {
+    color: var(--ink) !important;
+  }
+
+  /* -- Strategy card row backgrounds -- */
+  .strategy-card-row {
+    background: rgba(21, 38, 65, 0.03) !important;
+  }
+  .strategy-card-row:hover {
+    border-color: rgba(19, 108, 252, 0.3) !important;
+  }
+}
