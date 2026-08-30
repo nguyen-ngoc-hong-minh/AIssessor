@@ -4375,7 +4375,7 @@ fieldset {
   border-radius: 0px !important;
 }
 
-/* 3. The Swiss Art Direction Accents for the Intro Hero */
+/* The Swiss Art Direction Accents for the Intro Hero */
 /* Adding a subtle blueprint grid specifically to the intro section */
 .trial-intro {
   background-image: 
@@ -4385,12 +4385,13 @@ fieldset {
   background-position: center !important;
 }
 
-/* The Swiss Blue Badge */
-.trial-intro::before {
-  content: "[ ◉ AISSESSOR / AI ADVISOR ]";
-  position: absolute;
-  top: 32px;
-  left: 32px;
+/* Restyled Header Elements for Swiss Theme */
+.trial-header {
+  padding-top: 32px !important;
+  align-items: flex-start !important;
+}
+
+.swiss-badge {
   background-color: #103FD5;
   color: #FFFFFF;
   padding: 8px 16px;
@@ -4398,25 +4399,73 @@ fieldset {
   font-size: 12px;
   font-weight: bold;
   letter-spacing: 1px;
-  z-index: 20;
+  border-radius: 0px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* The stepped blue pixel block geometry */
-.trial-intro::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 220px;
-  height: 160px;
-  background-color: #103FD5;
-  clip-path: polygon(100% 0, 100% 100%, 50% 100%, 50% 66%, 25% 66%, 25% 33%, 0 33%, 0 0);
-  z-index: 20;
+.swiss-badge .dot {
+  width: 6px;
+  height: 6px;
+  background-color: #C3F84A;
+  border-radius: 0px; /* Square dot */
+  animation: pulse 2s infinite;
 }
 
-/* Hide these decorative accents on mobile to prevent clutter */
-@media (max-width: 768px) {
-  .trial-intro::before, .trial-intro::after {
-    display: none !important;
-  }
+.swiss-nav-block {
+  display: flex;
+  align-items: center;
+  background-color: #FAF9F6;
+  border: 2px solid #103FD5;
+  color: #103FD5;
+  font-family: var(--font-jetbrains-mono);
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 0px;
+}
+
+.swiss-nav-block > * {
+  padding: 8px 16px;
+}
+
+.swiss-nav-block > *:not(:last-child) {
+  border-right: 2px solid #103FD5;
+}
+
+:root[data-theme="dark"] .swiss-nav-block {
+  background-color: #071A57;
+  color: #FFFFFF;
+  border-color: #103FD5;
+}
+:root[data-theme="dark"] .swiss-nav-block > *:not(:last-child) {
+  border-right-color: #103FD5;
+}
+
+
+.swiss-nav-block nav a {
+  color: inherit !important;
+  text-decoration: none !important;
+  border-bottom: none !important;
+  text-transform: uppercase;
+}
+
+.swiss-nav-block nav a:hover {
+  background-color: #103FD5 !important;
+  color: #FFFFFF !important;
+}
+
+:root[data-theme="dark"] .swiss-nav-block nav a:hover {
+  background-color: #FFFFFF !important;
+  color: #071A57 !important;
+}
+
+/* Fix VisualModeToggle padding inside swiss nav block */
+.swiss-nav-block > button {
+  padding: 8px 12px !important;
+  border-radius: 0px !important;
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -208,7 +208,30 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   return (
     <main className={`trial-page ${authenticatedBuilder ? "is-embedded" : ""}`}>
       {!authenticatedBuilder && <InteractivePixelGrid />}
-      {!authenticatedBuilder && <header className="trial-header"><Brand /><div className="flex items-center gap-4"><VisualModeToggle /><nav>{isSignedIn ? <Link href="/dashboard">Consultation history</Link> : <Link href="/sign-in">Sign in</Link>}</nav></div></header>}
+      {!authenticatedBuilder && (
+        <header className="trial-header z-[100] relative w-full flex justify-between items-start">
+          <div className="swiss-badge shadow-md">
+            <span className="dot" />
+            [ AISSESSOR / AI ADVISOR ]
+          </div>
+          
+          <div className="relative">
+            {/* Safe stepped corner decoration that sits behind the nav block */}
+            <div className="hidden sm:flex flex-col items-end gap-0 absolute top-[-32px] right-[-32px] md:right-[-72px] pointer-events-none z-0">
+              <div className="bg-[#103FD5] w-48 h-8" />
+              <div className="bg-[#103FD5] w-32 h-8" />
+              <div className="bg-[#103FD5] w-20 h-8" />
+            </div>
+
+            <div className="swiss-nav-block shadow-md relative z-10">
+              <VisualModeToggle />
+              <nav>
+                {isSignedIn ? <Link href="/dashboard" className="block outline-none">HISTORY</Link> : <Link href="/sign-in" className="block outline-none">SIGN IN</Link>}
+              </nav>
+            </div>
+          </div>
+        </header>
+      )}
 
       {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker"><span /> YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
