@@ -157,7 +157,7 @@ export function DashboardView() {
 
                   <div className="flex items-center self-start">
                     <Link
-                      className="btn-primary text-[11px] font-bold px-6 py-3 flex items-center justify-center gap-2 mr-4"
+                      className="btn-primary text-[11px] font-bold px-6 py-3 flex items-center justify-center gap-2 mr-3"
                       href={`/strategy/${strategy._id}/${strategy.status === "complete" ? "results" : "workflow"}`}
                       title="Open strategy"
                     >
