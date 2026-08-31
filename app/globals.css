@@ -4495,89 +4495,85 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   background-position: center !important;
 }
 
-/* Restyled Header Elements for Swiss Theme */
+/* Restyled Header Elements */
 .trial-header {
-  padding-top: 32px !important;
-  align-items: flex-start !important;
+  padding: 32px clamp(24px, 5vw, 72px) 0 !important;
+  align-items: center !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 100 !important;
 }
 
-.swiss-badge {
-  background-color: #0213B0;
-  color: #FFFFF1;
-  padding: 8px 16px;
-  font-family: var(--font-jetbrains-mono);
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  border-radius: 0px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.trial-header .brand {
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 
-.swiss-badge .dot {
-  width: 6px;
-  height: 6px;
-  background-color: #FFFFF1;
-  border-radius: 0px; /* Square dot */
-  animation: pulse 2s infinite;
-}
-
-.swiss-nav-block {
-  display: flex;
-  align-items: center;
-  background-color: #FFFFF1;
-  border: 2px solid #0213B0;
-  color: #0213B0;
-  font-family: var(--font-jetbrains-mono);
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 0px;
-}
-
-.swiss-nav-block > * {
-  padding: 8px 16px;
-}
-
-.swiss-nav-block > *:not(:last-child) {
-  border-right: 2px solid #0213B0;
-}
-
-:root[data-theme="dark"] .swiss-nav-block {
-  background-color: #0213B0;
-  color: #FFFFF1;
-  border-color: #0213B0;
-}
-:root[data-theme="dark"] .swiss-nav-block > *:not(:last-child) {
-  border-right-color: #0213B0;
-}
-
-
-.swiss-nav-block nav a {
-  color: inherit !important;
+.trial-header-auth-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 36px !important;
+  padding: 0 16px !important;
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  background-color: transparent !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
   text-decoration: none !important;
-  border-bottom: none !important;
-  text-transform: uppercase;
+  cursor: pointer !important;
 }
 
-.swiss-nav-block nav a:hover {
+.trial-header-auth-btn:hover {
   background-color: #0213B0 !important;
   color: #FFFFF1 !important;
 }
 
-:root[data-theme="dark"] .swiss-nav-block nav a:hover {
+:root[data-theme="dark"] .trial-header-auth-btn {
+  color: #FFFFF1 !important;
+  border-color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-header-auth-btn:hover {
   background-color: #FFFFF1 !important;
   color: #0213B0 !important;
 }
 
-/* Fix VisualModeToggle padding inside swiss nav block */
-.swiss-nav-block > button {
-  padding: 8px 12px !important;
-  border-radius: 0px !important;
-  height: 100% !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.trial-header .theme-toggle-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 0.25rem !important;
+  border: 1.5px solid #0213B0 !important;
+  background-color: transparent !important;
+  color: #0213B0 !important;
+  cursor: pointer !important;
+}
+
+.trial-header .theme-toggle-btn svg {
+  width: 16px !important;
+  height: 16px !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-header .theme-toggle-btn {
+  border-color: #FFFFF1 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-header .theme-toggle-btn svg {
+  color: #FFFFF1 !important;
 }
 
 /* 4. Swiss Art Direction Form Styling */
@@ -4685,19 +4681,6 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   animation-delay: 0.9s;
 }
 
-/* Also animate the header elements smoothly */
-.trial-header .swiss-badge,
-.trial-header .swiss-nav-block,
-.trial-header > .relative > div:first-child {
-  opacity: 0;
-  animation: motionBlurReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.trial-header .swiss-badge { animation-delay: 1.1s; }
-.trial-header > .relative > div:first-child { animation-delay: 1.2s; } /* stepped block */
-.trial-header .swiss-nav-block { animation-delay: 1.3s; }
-
-
 /* Ensure homepage has Cream/Off-#FFFFF1 background */
 :root[data-theme="light"] {
   --bg: #FFFFF1 !important;
@@ -4735,13 +4718,6 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 /* Tighten the budget row elements */
 .trial-form .trial-budget-row {
   gap: 4px !important;
-}
-
-/* Force the visual mode toggle to blend perfectly into the swiss block */
-.swiss-nav-block > button.theme-toggle-btn {
-  background-color: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
 }
 
 /* Double enforce global background for the flat look */
@@ -6222,26 +6198,26 @@ input[type="checkbox"]:checked::after,
 }
 
 /* 5. Staggered Header Reveal (Landing Page Only) */
-.trial-page:has(.trial-intro) .trial-header .swiss-badge,
-.trial-page:has(.trial-intro) .trial-header .swiss-nav-block,
-.trial-page:has(.trial-intro) .trial-header > .relative > div:first-child,
-.trial-header:has(+ .trial-intro) .swiss-badge,
-.trial-header:has(+ .trial-intro) .swiss-nav-block,
-.trial-header:has(+ .trial-intro) > .relative > div:first-child {
+.trial-page:has(.trial-intro) .trial-header .brand,
+.trial-page:has(.trial-intro) .trial-header .theme-toggle-btn,
+.trial-page:has(.trial-intro) .trial-header .trial-header-auth-btn,
+.trial-header:has(+ .trial-intro) .brand,
+.trial-header:has(+ .trial-intro) .theme-toggle-btn,
+.trial-header:has(+ .trial-intro) .trial-header-auth-btn {
   animation: motionBlurReveal 1s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
-.trial-page:has(.trial-intro) .trial-header .swiss-badge,
-.trial-header:has(+ .trial-intro) .swiss-badge {
-  animation-delay: 1.0s !important;
+.trial-page:has(.trial-intro) .trial-header .brand,
+.trial-header:has(+ .trial-intro) .brand {
+  animation-delay: 0.9s !important;
 }
 
-.trial-page:has(.trial-intro) .trial-header > .relative > div:first-child,
-.trial-header:has(+ .trial-intro) > .relative > div:first-child {
+.trial-page:has(.trial-intro) .trial-header .theme-toggle-btn,
+.trial-header:has(+ .trial-intro) .theme-toggle-btn {
+  animation-delay: 1.05s !important;
+}
+
+.trial-page:has(.trial-intro) .trial-header .trial-header-auth-btn,
+.trial-header:has(+ .trial-intro) .trial-header-auth-btn {
   animation-delay: 1.15s !important;
-}
-
-.trial-page:has(.trial-intro) .trial-header .swiss-nav-block,
-.trial-header:has(+ .trial-intro) .swiss-nav-block {
-  animation-delay: 1.25s !important;
 }

@@ -12,22 +12,14 @@ export function PixelTransition() {
 
   if (!active) return null;
 
-  // 24 transition bars with distinctly uneven speeds and delays
-  const bars = Array.from({ length: 24 });
+  // 8 wide transition bars with distinctly uneven speeds and delays
+  const bars = Array.from({ length: 8 });
 
-  // Deterministic uneven delay pattern (0s to 0.42s)
-  const delays = [
-    0.08, 0.38, 0.02, 0.28, 0.15, 0.42, 0.05, 0.22,
-    0.35, 0.12, 0.45, 0.03, 0.25, 0.18, 0.40, 0.09,
-    0.32, 0.01, 0.27, 0.14, 0.36, 0.06, 0.20, 0.30
-  ];
+  // Deterministic uneven delay pattern (0s to 0.38s)
+  const delays = [0.08, 0.32, 0.02, 0.24, 0.14, 0.38, 0.06, 0.20];
   
-  // Distinctly varied speeds / durations (0.65s to 1.25s)
-  const durations = [
-    0.70, 1.15, 0.80, 1.25, 0.75, 0.95, 1.10, 0.65,
-    1.20, 0.85, 1.05, 0.70, 1.10, 0.90, 1.25, 0.80,
-    1.00, 0.65, 1.15, 0.75, 1.20, 0.85, 0.95, 1.05
-  ];
+  // Distinctly varied speeds / durations (0.7s to 1.25s)
+  const durations = [0.75, 1.20, 0.85, 1.25, 0.70, 1.05, 1.15, 0.80];
 
   return (
     <div 
