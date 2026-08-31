@@ -6171,6 +6171,17 @@ input[type="checkbox"]:checked::after,
   transform: none !important;
 }
 
+/* Intro body max-width and kicker square dot removal */
+.trial-intro-body {
+  max-width: 500px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.trial-kicker span {
+  display: none !important;
+}
+
 /* 4. Staggered Intro Copy Reveal (Landing Page Only) */
 .trial-intro .trial-intro-copy > * {
   animation: motionBlurReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) both !important;

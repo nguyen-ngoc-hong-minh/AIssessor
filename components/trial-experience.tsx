@@ -271,7 +271,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         </header>
       )}
 
-      {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker"><span /> YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
+      {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker">YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
       {phase === "type-selection" && (
         <section className="signed-home trial-enter" style={{ minHeight: 'calc(100vh - 96px)', marginTop: '96px', placeContent: 'center', padding: '0 clamp(24px, 5vw, 72px)' }}>
