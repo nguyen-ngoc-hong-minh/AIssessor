@@ -11,7 +11,7 @@ export default async function WorkflowPage({
   const { strategyId } = await params;
 
   return (
-    <div className="editorial-page-container w-full max-w-6xl mx-auto my-auto flex flex-col justify-center py-6">
+    <div className="w-full max-w-6xl mx-auto pt-[40px] pb-10 px-[20px]">
       <WorkflowEditor strategyId={strategyId} />
     </div>
   );
