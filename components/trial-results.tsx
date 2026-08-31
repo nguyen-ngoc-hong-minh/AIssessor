@@ -1,6 +1,6 @@
 "use client";
 
-import { AlertTriangle, ArrowUpRight, ChevronDown, CircleDollarSign, Sparkles } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { formatCurrency, formatUsdInCurrency, type SupportedCurrency } from "@/lib/currency";
@@ -64,11 +64,10 @@ function costFor(tool: SelectedTool, plan: StrategyPlan) {
 }
 
 function ResultSummary({ plan, monthly }: { plan: StrategyPlan; monthly: boolean }) {
-  const complete = plan.completeStepCount === plan.steps.length;
   const savings = plan.estimatedSavingsUsd;
   return (
     <section className="trial-result-hero" aria-labelledby="result-title">
-      <div><h1 id="result-title">{complete ? "Estimated cost" : `${plan.completeStepCount} of ${plan.steps.length} jobs matched.`}</h1></div>
+      <div><h1 id="result-title">Estimated cost</h1></div>
       <div className="trial-result-summary-cost"><strong>{money(plan.totalCostUsd, plan)}{monthly ? " / month" : ""}</strong>{savings > 0 && <span>{money(savings, plan)} potential saving</span>}</div>
     </section>
   );
@@ -98,9 +97,14 @@ function UnmatchedStepCard({ step, plan }: { step: StepRecommendation; plan: Str
       <div className="trial-tool-card-top"><span>{roleFor(step.taskCategory)}</span></div>
       <div className="trial-model-identity"><h3>{tool?.model.name ?? "No complete model match yet"}</h3>{tool && <p>by {tool.model.provider}{route && route.toLowerCase() !== tool.model.provider.toLowerCase() ? <> · access via <strong>{route}</strong></> : null}</p>}</div>
       <div className="trial-job-label"><small>JOB STILL TO COVER</small><strong>{step.step.name}</strong><span>{step.step.plainLanguageDescription}</span></div>
-      <p className="trial-tool-reason">{partial ? `Partial candidate only: ${partial.model.name} covers ${partial.coveredCapabilities.join(", ") || "part of the requirement"}, but cannot yet be presented as a complete answer.` : "No current model passed every evidence and access check."}</p>
       {tool && <div className="trial-tool-meta"><strong>{money(tool.estimatedCostUsd, plan)} estimated usage</strong><a href={tool.access.url} target="_blank" rel="noreferrer">Open {route} <ArrowUpRight /></a></div>}
-      <details className="trial-why"><summary>See what is missing <ChevronDown /></summary><div><p>{partial?.missingCapabilities.length ? partial.missingCapabilities.join(", ") : "A fully verified capability, price, privacy, or access path."}</p></div></details>
+      <details className="trial-why">
+        <summary>See what is missing <ChevronDown /></summary>
+        <div>
+          <p>{partial ? `Partial candidate only: ${partial.model.name} covers ${partial.coveredCapabilities.join(", ") || "part of the requirement"}, but cannot yet be presented as a complete answer.` : "No current model passed every evidence and access check."}</p>
+          <p>{partial?.missingCapabilities.length ? `Missing capabilities: ${partial.missingCapabilities.join(", ")}` : "A fully verified capability, price, privacy, or access path."}</p>
+        </div>
+      </details>
     </article>
   );
 }
@@ -122,15 +126,15 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
         <div className="trial-tools-grid">
           {plan.steps.flatMap((step) => step.selected?.tools.map((tool) => <StepToolCard key={`${step.stepId}:${tool.model.id}`} step={step} tool={tool} plan={plan} />) ?? (step.step.noAIEligible ? [<NoAiStepCard key={step.stepId} step={step} />] : [<UnmatchedStepCard key={step.stepId} step={step} plan={plan} />]))}
         </div>
-        {!complete && <div className="trial-partial-note"><AlertTriangle /><strong>No cancellation advice yet.</strong><span>{plan.steps.length - plan.completeStepCount} {plan.steps.length - plan.completeStepCount === 1 ? "job is" : "jobs are"} not fully covered, so we won&apos;t tell you to cancel anything prematurely.</span></div>}
         {complete && plan.existingSubscriptions.couldCancel.length > 0 && <div className="trial-cancel-list"><span>REVIEW POSSIBLE OVERLAP</span>{plan.existingSubscriptions.couldCancel.map((tool) => <strong key={tool}>{tool} <small>Check usage before cancelling</small></strong>)}</div>}
       </section>
 
-      <div className="trial-section-divider" />
-      {beforeFooter}
-
-      <div className="trial-section-divider" />
-      <section className="trial-optimise-tease"><div><h2>Check this stack again when models or prices change.</h2></div><Link href="/pricing">See Optimise <ArrowUpRight /></Link></section>
+      {beforeFooter && (
+        <>
+          <div className="trial-section-divider" />
+          {beforeFooter}
+        </>
+      )}
 
       <div className="trial-section-divider" />
       {mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}
