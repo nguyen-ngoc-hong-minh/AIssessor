@@ -5845,3 +5845,93 @@ input[type="checkbox"]:checked::after,
 .signed-home-option p {
   margin: 0 0 45px !important;
 }
+
+/* Pass 42: Upgraded Brutalist styling for Results Page */
+/* 1. Global text color for results page */
+.trial-result-hero h1,
+.trial-result-hero p,
+.trial-result-hero span,
+.trial-result-hero small,
+.trial-result-hero strong,
+.trial-result-summary-cost small,
+.trial-result-summary-cost strong,
+.trial-result-summary-cost span,
+.trial-tool-card h3,
+.trial-tool-card p,
+.trial-tool-card span,
+.trial-tool-card strong,
+.trial-tool-card small,
+.trial-model-identity > p,
+.trial-model-identity > p strong,
+.trial-bottom-line h2,
+.trial-bottom-line p,
+.trial-bottom-line span,
+.trial-bottom-line strong,
+.trial-save-panel h2,
+.trial-save-panel p,
+.trial-save-panel span,
+.trial-optimise-tease h2,
+.trial-optimise-tease p,
+.trial-technical summary,
+.trial-technical p,
+.trial-tool-card-top > span,
+.trial-cost-note {
+  color: #0213B0 !important;
+}
+
+/* 2. Tool Cards */
+.trial-tool-card, .trial-existing-card, .trial-tool-card-unmatched, .trial-tool-card-no-ai {
+  background-color: transparent !important;
+  border: none !important;
+  border-top: 1.5px solid #0213B0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 32px 0 !important;
+}
+
+/* 3. Hero Box */
+.trial-result-hero {
+  background-color: transparent !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+}
+
+/* 4. Cost Box in Hero */
+.trial-result-summary-cost {
+  background-color: transparent !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0 !important;
+}
+
+/* 5. All other inner boxes / panels must be 1.5px */
+.trial-job-label, 
+.trial-tool-reason, 
+.trial-tool-cost, 
+.trial-save-panel, 
+.trial-optimise-tease,
+.trial-bottom-line,
+.trial-technical,
+.trial-cancel-list,
+.trial-partial-note,
+.trial-customize-panel,
+.trial-money-grid,
+.trial-money-grid > div {
+  background-color: transparent !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+/* 6. Action badges inside cards */
+.trial-tool-card-top b {
+  background-color: transparent !important;
+  border: 1.5px solid #0213B0 !important;
+  color: #0213B0 !important;
+  border-radius: 0.25rem !important;
+}
+
+/* Reset gradients */
+.trial-tool-card-cancel {
+  background: transparent !important;
+  border-top: 1.5px solid #0213B0 !important;
+}
