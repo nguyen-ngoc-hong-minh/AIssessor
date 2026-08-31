@@ -6028,3 +6028,18 @@ input[type="checkbox"]:checked::after,
   background-color: rgba(2, 19, 176, 0.08) !important;
   border: 1.5px solid #0213B0 !important;
 }
+
+
+/* Pass 56: Fix text color inside blue boxes */
+.trial-job-label, 
+.trial-job-label *,
+.trial-job-label small, 
+.trial-job-label strong, 
+.trial-job-label span,
+.trial-customize-job, 
+.trial-customize-job *,
+.trial-customize-job small, 
+.trial-customize-job strong, 
+.trial-customize-job span {
+  color: #FFFFF1 !important;
+}
