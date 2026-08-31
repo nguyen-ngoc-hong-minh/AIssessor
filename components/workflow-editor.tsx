@@ -132,10 +132,8 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
     <div className="s-compare w-full max-w-6xl mx-auto pb-6">
       {/* Header */}
       <div className="s-compare-head flex flex-col items-center justify-center">
-
-
         <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight text-center max-w-[700px] mx-auto leading-tight">
-          {projectTitle}
+          Here&apos;s how we understand your workflow.
         </h1>
       </div>
 
