@@ -484,7 +484,7 @@
 .trial-model-choice > small { margin-top: 3px; overflow: hidden; color: var(--ink-3); font: 10px var(--font-body); text-overflow: ellipsis; white-space: nowrap; }
 .trial-model-choice > b { margin-top: 9px; color: #5eead4; font: 600 11px var(--font-sans); }
 .trial-model-choice > b svg { display: inline; width: 12px; height: 12px; vertical-align: -2px; }
-.trial-customize-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; }
+.trial-customize-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 45px !important; }
 .trial-customize-actions > p { color: var(--ink-3); font: 12px var(--font-body); }
 .trial-customize-actions > div, .trial-saved-actions { display: flex; align-items: center; gap: 8px; }
 .trial-customize-actions .trial-primary-button, .trial-customize-actions .trial-secondary-button, .trial-saved-actions .trial-primary-button, .trial-saved-actions .trial-secondary-button { white-space: nowrap; }

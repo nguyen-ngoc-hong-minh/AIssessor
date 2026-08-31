@@ -132,6 +132,7 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
       <div className="trial-section-divider" />
       <section className="trial-optimise-tease"><div><h2>Check this stack again when models or prices change.</h2></div><Link href="/pricing">See Optimise <ArrowUpRight /></Link></section>
 
+      <div className="trial-section-divider" />
       {mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}
     </div>
   );
