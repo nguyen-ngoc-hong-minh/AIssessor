@@ -61,13 +61,13 @@ export function DashboardView() {
     <div className="editorial-dashboard-wrap dashboard-page-stack">
       <div className="dashboard-create-bar glass-card">
         <div>
-          <p>START A NEW CONSULTATION</p>
+          
           <h1>What are you working on?</h1>
           
         </div>
-        <div className="dashboard-create-actions">
+        <div className="dashboard-create-actions flex-col !items-start">
           <Link className="btn-primary" href="/strategy/new/one-off"><Plus aria-hidden="true" /> One-off project <ArrowUpRight aria-hidden="true" /></Link>
-          <Link className="btn-secondary" href="/strategy/new/monthly"><Repeat2 aria-hidden="true" /> Monthly workflow <ArrowUpRight aria-hidden="true" /></Link>
+          <Link className="btn-primary" href="/strategy/new/monthly"><Repeat2 aria-hidden="true" /> Monthly workflow <ArrowUpRight aria-hidden="true" /></Link>
         </div>
       </div>
 
@@ -103,19 +103,13 @@ export function DashboardView() {
       {/* Main Strategy List Section */}
       <div id="consultation-history" className="dash-content-block glass-card p-8 md:p-10 min-h-[485px] flex flex-col justify-between scroll-mt-24">
         <div>
-          <div className="eyebrow mb-6">
-            <span className="dt" />
-            Consultation history
-          </div>
+          
 
           <div className="flex items-end justify-between gap-4 pb-6 mb-6">
             <h2 className="h-display text-3xl md:text-4xl font-semibold text-ink">
               Previous Consultations
             </h2>
-            <div className="flex items-center gap-2 text-ink-3 mb-1">
-              <History className="w-4 h-4" aria-hidden="true" />
-              <span className="font-mono text-xs">{strategies.length} saved</span>
-            </div>
+            
           </div>
 
           {error && <p className="text-red-400 text-sm mb-6">{error}</p>}
@@ -129,7 +123,7 @@ export function DashboardView() {
               </p>
             </div>
             <div className="flex justify-center w-full pt-4">
-              <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm rounded-full shadow-lg hover:scale-105 transition-transform" href="/home">
+              <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm rounded-full shadow-lg " href="/home">
                 <Plus className="w-4 h-4" />
                 <span>Create Your First Strategy</span>
                 <ArrowUpRight className="w-4 h-4" />
