@@ -6114,13 +6114,11 @@ input[type="checkbox"]:checked::after,
   gap: 12px !important;
 }
 
-/* Hover/selected fill */
-.trial-model-choice:hover .trial-model-choice-inner,
-.trial-model-choice[data-selected="true"] .trial-model-choice-inner {
-  background-color: #FFFFF1 !important;
-}
+/* Hover: fill the whole box with #FFFFF1 and remove border */
+.trial-model-choice:hover,
 .trial-model-choice[data-selected="true"] {
-  background-color: transparent !important;
+  background-color: #FFFFF1 !important;
+  border-color: transparent !important;
 }
 
 /* Responsive: single column */
