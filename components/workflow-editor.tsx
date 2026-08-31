@@ -191,7 +191,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
               </div>
 
               {editing ? (
-                <div className="space-y-3 mt-1">
+                <div className="space-y-6 mt-4">
                   <input
                     aria-label="Step name"
                     value={step.name}
@@ -203,7 +203,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
                     aria-label="Step description"
                     value={step.description}
                     onChange={(event) => change(index, { description: event.target.value })}
-                    className="bg-transparent border-none outline-none p-0 text-xs text-ink-2 leading-relaxed w-full min-h-[70px] resize-none focus:ring-0 focus:outline-none"
+                    className="bg-transparent border-none outline-none p-0 text-xs text-ink-2 leading-relaxed w-full min-h-[100px] resize-none focus:ring-0 focus:outline-none"
                     placeholder="Step description"
                   />
                 </div>

@@ -5815,3 +5815,11 @@ input[type="checkbox"]:checked::after,
   border-width: 0 2px 2px 0 !important;
   transform: translate(-50%, -50%) rotate(45deg) !important;
 }
+
+/* Override global input padding for workflow editor cards */
+.feature input,
+.feature textarea {
+  padding: 8px 0 !important;
+  background-color: transparent !important;
+  border-bottom: 1.5px solid #0213B0 !important;
+}
