@@ -5894,6 +5894,8 @@ input[type="checkbox"]:checked::after,
   background-color: transparent !important;
   border: 1.5px solid #0213B0 !important;
   border-radius: 0.25rem !important;
+  grid-template-columns: 1fr auto !important;
+  align-items: center !important;
 }
 
 /* 4. Cost Box in Hero */
@@ -5902,6 +5904,7 @@ input[type="checkbox"]:checked::after,
   border: none !important;
   border-left: 1.5px solid #0213B0 !important;
   border-radius: 0 !important;
+  padding: 0 0 0 16px !important;
 }
 
 /* 5. All other inner boxes / panels must be 1.5px */
