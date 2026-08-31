@@ -4495,13 +4495,15 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   background-position: center !important;
 }
 
-/* Restyled Header Elements (Fixed at Top) */
+/* Restyled Header Elements (Fixed at Top, Perfectly Aligned with Footer) */
 .trial-header {
   position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  padding: 28px clamp(24px, 5vw, 72px) 0 !important;
+  top: 28px !important;
+  left: 28px !important;
+  right: 28px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: 36px !important;
   align-items: center !important;
   display: flex !important;
   justify-content: space-between !important;
@@ -4517,6 +4519,22 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   position: static !important;
   display: inline-flex !important;
   align-items: center !important;
+  height: 36px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+.trial-header .brand-text {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.02em !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-header .brand-text {
+  color: #FFFFF1 !important;
 }
 
 .trial-header-auth-btn {
@@ -6482,6 +6500,11 @@ div.trial-results,
 }
 
 @media (max-width: 768px) {
+  .trial-header {
+    top: 16px !important;
+    left: 16px !important;
+    right: 16px !important;
+  }
   .trial-footer-nav {
     bottom: 16px !important;
     right: 16px !important;
