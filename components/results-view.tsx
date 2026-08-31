@@ -89,7 +89,7 @@ function ModelCustomizer({
               <div className="trial-customize-job"><small>JOB</small><strong>{step.step.name}</strong></div>
               <div className="trial-choice-grid">
                 {choices.map(({ label, candidate }) => {
-                  const selected = Boolean(step.selected && candidateId(step.selected) === candidateId(candidate));
+                  const selected = Boolean(selections[step.stepId] === candidateId(candidate));
                   const route = accessRoute(candidate);
                   return (
                     <button type="button" className="trial-model-choice" data-selected={selected} onClick={() => onSelect(step.stepId, candidate)} key={candidateId(candidate)}>
