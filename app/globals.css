@@ -5723,3 +5723,10 @@ select:not(.trial-budget-row select), .cl-select {
   background-size: 12px auto !important;
   padding-right: 40px !important;
 }
+
+/* DASHBOARD STRATEGY CARD OVERRIDE */
+.problem-card {
+  background-color: #F4F7F5 !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
+}

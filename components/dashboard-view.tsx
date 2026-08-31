@@ -139,24 +139,22 @@ export function DashboardView() {
                     {String(idx + 1).padStart(2, "0")}
                   </span>
 
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-3 mb-1">
-                      <span className="font-mono text-xs text-indigo-soft uppercase tracking-wider">
-                        [{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]
-                      </span>
-                      {strategy.refreshAvailable && (
-                        <span className="inline-flex items-center gap-1 text-[10px] font-mono text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
-                          <RefreshCw className="w-3 h-3" />
-                          <span>UPDATE AVAILABLE</span>
+                  <div className="min-w-0 flex-1 flex flex-col">
+                    <h3 className="font-sans text-2xl font-medium text-ink truncate mb-8">{strategy.title}</h3>
+
+                    <div className="flex flex-col gap-3 font-mono text-sm text-ink-3">
+                      <div className="flex items-center gap-3">
+                        <span className="uppercase tracking-wider">
+                          [{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]
                         </span>
-                      )}
-                    </div>
-
-                    <h3 className="font-sans text-lg font-medium text-ink truncate">{strategy.title}</h3>
-
-                    <div className="flex items-center gap-3 text-xs text-ink-3 mt-1 font-body">
+                        {strategy.refreshAvailable && (
+                          <span className="inline-flex items-center gap-1 text-[10px] text-amber-500">
+                            <RefreshCw className="w-3 h-3" />
+                            <span>UPDATE AVAILABLE</span>
+                          </span>
+                        )}
+                      </div>
                       <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
-                      <span>&bull;</span>
                       <span>
                         {strategy.usageType === "one_off"
                           ? strategy.budgetAmount === undefined && strategy.budget === undefined
@@ -179,19 +177,21 @@ export function DashboardView() {
                   </Link>
 
                   <button
-                    className="btn-secondary text-xs p-2.5"
+                    className="text-[#0213B0] flex items-center justify-center w-12 h-12 flex-none"
+                    style={{ borderRadius: "0.25rem", background: "transparent" }}
                     onClick={() => duplicate(strategy._id)}
                     title="Duplicate strategy"
                   >
-                    <Copy className="w-3.5 h-3.5" />
+                    <Copy className="w-5 h-5" />
                   </button>
 
                   <button
-                    className="btn-secondary text-xs p-2.5 hover:text-red-400 hover:border-red-400/40"
+                    className="text-[#0213B0] flex items-center justify-center w-12 h-12 flex-none"
+                    style={{ borderRadius: "0.25rem", background: "transparent" }}
                     onClick={() => remove(strategy._id)}
                     title="Delete strategy"
                   >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="w-5 h-5" />
                   </button>
                 </div>
               </div>
