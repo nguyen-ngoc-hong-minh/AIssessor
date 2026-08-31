@@ -5752,7 +5752,8 @@ select:not(.trial-budget-row select), .cl-select {
 
 /* Metric boxes style */
 .metric {
-  background-color: #CBF7EC !important;
+  background-color: transparent !important;
+  border: 1.5px solid #0213B0 !important;
   border-radius: 0.25rem !important;
 }
 
