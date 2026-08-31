@@ -140,18 +140,9 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
       </div>
 
       {/* Feature Cards Grid */}
-      <div
-        className="feature-grid justify-center w-full"
-        style={{
-          gridTemplateColumns:
-            steps.length <= 4
-              ? `repeat(${steps.length}, minmax(260px, 320px))`
-              : "repeat(auto-fit, minmax(260px, 320px))",
-          gap: "24px",
-        }}
-      >
+      <div className="flex flex-wrap justify-center gap-6 w-full">
         {steps.map((step, index) => (
-          <div className="feature glass-card pricing-deck-card flex flex-col justify-between p-8" key={step._id}>
+          <div className="feature glass-card pricing-deck-card flex flex-col justify-between p-8 w-full max-w-[320px]" key={step._id}>
             <div>
               <div className="flex items-center justify-between gap-2 mb-4">
                 <div className="f-num font-mono text-xs text-indigo-soft tracking-widest">
