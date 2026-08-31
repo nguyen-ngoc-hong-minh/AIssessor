@@ -19,7 +19,10 @@
   background: transparent;
 }
 
-.trial-page.is-embedded .trial-parameters,
+.trial-page.is-embedded .trial-parameters {
+  padding: 0 14px;
+}
+
 .trial-page.is-embedded .trial-workflow,
 .trial-page.is-embedded .trial-results {
   padding-top: 70px;
