@@ -6156,3 +6156,17 @@ input[type="checkbox"]:checked::after,
 .trial-why {
   border-top: 1.5px solid #0213B0 !important;
 }
+
+/* Pass 79: Style "Previous consultations" (trial-saved-actions .trial-secondary-button) like the home page buttons */
+.trial-saved-actions .trial-secondary-button {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+}
+.trial-saved-actions .trial-secondary-button * {
+  color: #FFFFF1 !important;
+}
+.trial-saved-actions .trial-secondary-button:hover {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
