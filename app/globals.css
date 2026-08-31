@@ -5893,7 +5893,7 @@ input[type="checkbox"]:checked::after,
   padding: 32px !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
+  gap: 24px !important;
 }
 
 .trial-tool-card > *, .trial-existing-card > *, .trial-tool-card-unmatched > *, .trial-tool-card-no-ai > * {
@@ -6001,7 +6001,7 @@ input[type="checkbox"]:checked::after,
   margin: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
+  gap: 24px !important;
 }
 
 /* trial-customize-job blue box removed */
