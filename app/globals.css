@@ -6089,7 +6089,7 @@ input[type="checkbox"]:checked::after,
   
 }
 
-/* 7. Redesign the grid with internal lines ONLY */
+/* 7. Redesign the grid — horizontal lines only, no vertical lines */
 .trial-choice-grid {
   gap: 0 !important;
 }
@@ -6097,12 +6097,21 @@ input[type="checkbox"]:checked::after,
 .trial-model-choice {
   background-color: transparent !important;
   border: none !important;
-  border-right: 1.5px solid #0213B0 !important;
   border-bottom: 1.5px solid #0213B0 !important;
   border-radius: 0 !important;
-  padding: 8px !important; /* Spacing between grid lines and the inner box */
+  padding: 8px !important;
   display: flex !important;
   flex-direction: column !important;
+}
+
+/* Remove bottom border from the last row of items */
+.trial-choice-grid:not(.four) .trial-model-choice:nth-last-child(-n+3):nth-child(3n+1),
+.trial-choice-grid:not(.four) .trial-model-choice:nth-last-child(-n+3):nth-child(3n+1) ~ .trial-model-choice {
+  border-bottom: none !important;
+}
+.trial-choice-grid.four .trial-model-choice:nth-last-child(-n+2):nth-child(2n+1),
+.trial-choice-grid.four .trial-model-choice:nth-last-child(-n+2):nth-child(2n+1) ~ .trial-model-choice {
+  border-bottom: none !important;
 }
 
 /* Inner box that gets the background on hover/select */
@@ -6116,31 +6125,28 @@ input[type="checkbox"]:checked::after,
   gap: 12px !important;
 }
 
-/* 8. Add a subtle hover effect since borders are fixed */
+/* Hover/selected fill */
 .trial-model-choice:hover .trial-model-choice-inner,
 .trial-model-choice[data-selected="true"] .trial-model-choice-inner {
   background-color: #FFFFF1 !important;
 }
 .trial-model-choice[data-selected="true"] {
-  background-color: transparent !important; /* Keep it transparent, or maybe a light blue tint? User said "no fill". */
+  background-color: transparent !important;
 }
 
-/* Remove right borders for the last items in rows */
-.trial-choice-grid:not(.four) .trial-model-choice:nth-child(3n) {
-  border-right: none !important;
-}
-.trial-choice-grid.four .trial-model-choice:nth-child(2n) {
-  border-right: none !important;
-}
-
-/* Remove bottom borders for the last row */
-.trial-choice-grid:not(.four) .trial-model-choice:nth-last-child(-n+3):nth-child(3n+1),
-.trial-choice-grid:not(.four) .trial-model-choice:nth-last-child(-n+3):nth-child(3n+1) ~ .trial-model-choice {
-  border-bottom: none !important;
-}
-.trial-choice-grid.four .trial-model-choice:nth-last-child(-n+2):nth-child(2n+1),
-.trial-choice-grid.four .trial-model-choice:nth-last-child(-n+2):nth-child(2n+1) ~ .trial-model-choice {
-  border-bottom: none !important;
+/* Responsive: single column, every item gets a bottom line except the last */
+@media (max-width: 760px) {
+  .trial-choice-grid {
+    grid-template-columns: 1fr !important;
+  }
+  /* Reset all nth-child rules — every item gets a bottom border */
+  .trial-model-choice {
+    border-bottom: 1.5px solid #0213B0 !important;
+  }
+  /* Only the very last item loses its bottom border */
+  .trial-choice-grid .trial-model-choice:last-child {
+    border-bottom: none !important;
+  }
 }
 
 /* 7b. Style the money/checkmark */
