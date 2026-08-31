@@ -129,7 +129,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
   const projectTitle = data.strategy.originalInput || data.strategy.title || "Workflow Review";
 
   return (
-    <div className="s-compare w-full max-w-6xl mx-auto my-auto py-6">
+    <div className="s-compare w-full max-w-6xl mx-auto my-auto pt-16 md:pt-24 pb-6">
       {/* Header */}
       <div className="s-compare-head flex flex-col items-center justify-center">
 
