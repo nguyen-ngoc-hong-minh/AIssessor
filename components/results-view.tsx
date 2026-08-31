@@ -184,10 +184,11 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
       onSave={saveCustomization}
     />
   );
+  const isMonthly = result.usageType === "monthly";
   const savedActions = (
     <div className="trial-saved-actions">
       <Link className="trial-secondary-button" href="/dashboard#consultation-history">Previous consultations</Link>
-      <Link className="trial-primary-button" href={`/strategy/${strategyId}/workflow`}>Edit workflow <PencilLine /></Link>
+      {!isMonthly && <Link className="trial-primary-button" href={`/strategy/${strategyId}/workflow`}>Edit workflow <PencilLine /></Link>}
     </div>
   );
 
