@@ -5968,9 +5968,23 @@ input[type="checkbox"]:checked::after,
 }
 
 /* Section Spacing Resets for Brutalist Layout */
+.trial-parameters,
+.trial-workflow,
 .trial-results {
+  padding: 108px 28px 58px !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+}
+
+.trial-progress,
+.trial-progress.result {
+  max-width: 480px !important;
+  width: 100% !important;
+  margin: 0 auto 46px !important;
+  padding: 0 !important;
   padding-top: 0 !important;
 }
+
 .trial-results-section {
   padding-top: 0 !important;
   padding-bottom: 0 !important;

@@ -416,12 +416,27 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         </section>}
 
       {phase === "workflow" && (
-        <section className="s-compare trial-workflow trial-enter w-full max-w-6xl mx-auto pb-12 pt-6">
-          {/* Header with Title */}
-          <div className="s-compare-head flex flex-col items-center justify-center mb-10 text-center">
-            <h1 className="text-4xl md:text-5xl font-semibold text-[#0213B0] tracking-tight max-w-[760px] mx-auto leading-tight">
-              {brief.trim() || analysis?.interpretedGoal || analysis?.title || "Here's how we understood your work."}
-            </h1>
+        <section className="trial-workflow trial-enter">
+          {/* Progress bar */}
+          {activeMode === "monthly" ? (
+            <div className="trial-progress monthly-progress">
+              <span className="done"><Check className="w-3.5 h-3.5" /></span>
+              <i className="done" />
+              <span className="active">2</span>
+            </div>
+          ) : (
+            <div className="trial-progress">
+              <span className="done"><Check className="w-3.5 h-3.5" /></span>
+              <i className="done" />
+              <span className="active">2</span>
+              <i />
+              <span>3</span>
+            </div>
+          )}
+
+          {/* Heading */}
+          <div className="trial-section-heading">
+            <h2>Here&apos;s how we understand your workflow</h2>
           </div>
 
           {/* Feature Cards Grid */}
@@ -566,7 +581,27 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
       {phase === "processing" && <section className="trial-processing" aria-live="polite"><div className="trial-processing-orbit"><Sparkles /><i /><i /></div><p>ANALYSING YOUR WORK</p><h1>{loadingMessages[loadingIndex]}</h1><div className="trial-loading-bar"><span key={loadingIndex} /></div><small>Using current tool, pricing, and evidence data. No artificial wait.</small></section>}
 
-      {phase === "results" && result && <><div className={`trial-progress result ${activeMode === "monthly" ? "monthly-progress" : ""}`}>{activeMode === "monthly" ? <><span className="done"><Check /></span><i className="done" /><span className="active">2</span></> : <><span className="done"><Check /></span><i className="done" /><span className="done"><Check /></span><i className="done" /><span className="active">3</span></>}</div><TrialResults result={result} mode={savedStrategyId ? "saved" : "trial"} saveControl={savedStrategyId ? <Link className="trial-primary-button" href="/dashboard">Consultation history</Link> : saveControl} savedStrategyId={savedStrategyId} />{error && <p className="trial-error floating" role="alert">{error}</p>}</>}
+      {phase === "results" && result && (
+        <section className="trial-results trial-enter">
+          {activeMode === "monthly" ? (
+            <div className="trial-progress monthly-progress">
+              <span className="done"><Check className="w-3.5 h-3.5" /></span>
+              <i className="done" />
+              <span className="active">2</span>
+            </div>
+          ) : (
+            <div className="trial-progress">
+              <span className="done"><Check className="w-3.5 h-3.5" /></span>
+              <i className="done" />
+              <span className="done"><Check className="w-3.5 h-3.5" /></span>
+              <i className="done" />
+              <span className="active">3</span>
+            </div>
+          )}
+          <TrialResults result={result} mode={savedStrategyId ? "saved" : "trial"} saveControl={savedStrategyId ? <Link className="trial-primary-button" href="/dashboard">Consultation history</Link> : saveControl} savedStrategyId={savedStrategyId} />
+          {error && <p className="trial-error floating" role="alert">{error}</p>}
+        </section>
+      )}
 
       <footer className="trial-footer-nav" aria-label="Trial page navigation">
         <div className="trial-footer-nav-inner">
