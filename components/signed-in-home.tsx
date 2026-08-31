@@ -86,9 +86,11 @@ export function SignedInHome() {
         </Link>
       </div>
 
-      <Link className="signed-home-history" href="/dashboard">
-        <History aria-hidden="true" /> View previous consultations <ArrowUpRight aria-hidden="true" />
-      </Link>
+      <div className="signed-home-history-wrap">
+        <Link className="signed-home-history" href="/dashboard">
+          View previous consultations <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+        </Link>
+      </div>
     </section>
   );
 }

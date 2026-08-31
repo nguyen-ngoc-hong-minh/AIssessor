@@ -5222,7 +5222,8 @@ input::placeholder {
   }
 }
 
-/* Center type-selection choose usage view */
+/* Center type-selection choose usage view and signed-in home view */
+.signed-home,
 .trial-page .signed-home {
   min-height: 100svh !important;
   display: flex !important;
@@ -5231,8 +5232,10 @@ input::placeholder {
   align-items: center !important;
   padding: 80px clamp(24px, 5vw, 72px) !important;
   margin: 0 auto !important;
+  box-sizing: border-box !important;
 }
 
+.signed-home .signed-home-heading,
 .trial-page .signed-home .signed-home-heading {
   width: 100% !important;
   max-width: 960px !important;
@@ -5240,10 +5243,87 @@ input::placeholder {
   text-align: left !important;
 }
 
+.signed-home .signed-home-options,
 .trial-page .signed-home .signed-home-options {
   width: 100% !important;
   max-width: 960px !important;
   margin: 0 auto !important;
+}
+
+.signed-home .signed-home-history-wrap {
+  width: 100% !important;
+  max-width: 960px !important;
+  margin: 28px auto 0 !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+/* Unified Action Button Format (Matching Sign In / Trial Header Auth Button) */
+.trial-header-auth-btn,
+.signed-home-history,
+.action-btn,
+a.action-btn,
+button.action-btn,
+a.trial-header-auth-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 36px !important;
+  padding: 0 16px !important;
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.trial-header-auth-btn:hover,
+.signed-home-history:hover,
+.action-btn:hover,
+a.action-btn:hover,
+button.action-btn:hover,
+a.trial-header-auth-btn:hover {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+.trial-header-auth-btn svg,
+.signed-home-history svg,
+.action-btn svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+:root[data-theme="dark"] .trial-header-auth-btn,
+:root[data-theme="dark"] .signed-home-history,
+:root[data-theme="dark"] .action-btn,
+:root[data-theme="dark"] a.action-btn,
+:root[data-theme="dark"] button.action-btn,
+:root[data-theme="dark"] a.trial-header-auth-btn {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border-color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-header-auth-btn:hover,
+:root[data-theme="dark"] .signed-home-history:hover,
+:root[data-theme="dark"] .action-btn:hover,
+:root[data-theme="dark"] a.action-btn:hover,
+:root[data-theme="dark"] button.action-btn:hover,
+:root[data-theme="dark"] a.trial-header-auth-btn:hover {
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
 }
 
 
