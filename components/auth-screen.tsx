@@ -1,15 +1,16 @@
 "use client";
 
 import { SignIn, SignUp } from "@clerk/react";
-import { KeyRound, ArrowLeft, ShieldCheck, Sparkles, Zap } from "lucide-react";
+import { KeyRound } from "lucide-react";
 import Link from "next/link";
 import { Brand } from "./brand";
 import { authConfigured } from "./providers";
+import { VisualModeToggle } from "./visual-mode-toggle";
 
 function AuthConfigurationNotice() {
   return (
     <div className="minimal-notice">
-      <KeyRound className="w-6 h-6 text-indigo-400 flex-none" />
+      <KeyRound className="w-6 h-6 text-[#0213B0] flex-none" />
       <div>
         <strong className="notice-title">Authentication Key Required</strong>
         <p className="notice-desc">
@@ -23,147 +24,99 @@ function AuthConfigurationNotice() {
 export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
   const isSignIn = mode === "sign-in";
   return (
-    <div className="auth-page-container">
-      {/* Lustro Ambient Radial Background */}
-      <div className="deck-bg" />
-
-      {/* Top Header */}
-      <header className="auth-header">
+    <div className="auth-page-clean">
+      {/* Top Fixed Header with Brand, Theme Toggle and Back to Home */}
+      <header className="trial-header">
         <Brand />
-        <Link href="/" className="auth-back-link">
-          <ArrowLeft className="w-4 h-4" />
-          <span>Back to home</span>
-        </Link>
+        <div className="flex items-center gap-3">
+          <VisualModeToggle />
+          <Link href="/" className="trial-header-auth-btn">
+            Back to home
+          </Link>
+        </div>
       </header>
 
-      {/* Main Glass Card Auth Portal */}
-      <main className="auth-main-wrap">
-        <div className="auth-editorial-card glass-card">
-          {/* Left Hero Panel */}
-          <div className="auth-editorial-left">
-            <div>
-              <div className="eyebrow mb-4">
-                <span className="dt" />
-                AUTHENTICATION
-              </div>
-              <h1 className="h-display auth-title">
-                {isSignIn ? (
-                  <>
-                    Welcome <span className="grd">Back</span>.
-                  </>
-                ) : (
-                  <>
-                    Get Started with <span className="grd">Aissessor</span>.
-                  </>
-                )}
-              </h1>
-              <p className="body-md auth-desc">
-                {isSignIn
-                  ? "Sign in securely with email or Google to access your saved AI strategies, real-time benchmark evaluations, and consolidated subscription dashboard."
-                  : "Sign up securely with email or Google to build your first optimal AI stack with verified evidence, transparent costs, and automated workflows."}
-              </p>
-            </div>
-
-            {/* Feature List */}
-            <div className="auth-editorial-features">
-              <div className="feature-pill">
-                <ShieldCheck className="w-4 h-4 text-indigo-400" />
-                <div>
-                  <strong>Zero Credentials Stored</strong>
-                  <small>Enterprise-grade encrypted auth</small>
-                </div>
-              </div>
-
-              <div className="feature-pill">
-                <Sparkles className="w-4 h-4 text-pink-400" />
-                <div>
-                  <strong>1,200+ Verified AI Models</strong>
-                  <small>Real-time cost &amp; benchmark engine</small>
-                </div>
-              </div>
-
-              <div className="feature-pill">
-                <Zap className="w-4 h-4 text-cyan" />
-                <div>
-                  <strong>Consolidated Subscriptions</strong>
-                  <small>Eliminate software waste instantly</small>
-                </div>
-              </div>
-            </div>
+      {/* Main Clean Centered Auth Container */}
+      <main className="auth-clean-container">
+        <div className="auth-clean-card">
+          <div className="auth-clean-header">
+            <h1 className="auth-clean-title">{isSignIn ? "Sign in" : "Sign up"}</h1>
+            <p className="auth-clean-subtitle">
+              {isSignIn ? "Sign in to access your saved AI strategy and dashboard" : "Create your account to get started"}
+            </p>
           </div>
 
-          {/* Right Clerk Form Area */}
-          <div className="auth-widget-box">
-            {!authConfigured ? (
-              <AuthConfigurationNotice />
-            ) : isSignIn ? (
-              <div className="clerk-container">
-                <SignIn
-                  routing="path"
-                  path="/sign-in"
-                  signUpUrl="/sign-up"
-                  fallbackRedirectUrl="/home"
-                  appearance={{
-                    elements: {
-                      rootBox: "w-full max-w-[360px] mx-auto px-4",
-                      cardBox: "w-full shadow-none bg-transparent overflow-visible",
-                      card: "bg-transparent shadow-none p-0 w-full border-none overflow-visible",
-                      headerTitle: "text-ink text-2xl font-bold font-sans text-center mb-1",
-                      headerSubtitle: "text-ink-3 text-xs text-center mb-3",
-                      socialButtonsBlockButtonContainer: "flex flex-col items-center gap-1.5 w-full my-2 relative",
-                      socialButtonsBlockButtonBadge: "relative top-0 left-0 transform-none inline-block mx-auto mb-4 px-3 py-1 text-[11px] font-medium text-ink-2 bg-slate-100 dark:bg-slate-800 border border-indigo-400/30 rounded-full shadow-sm",
-                      socialButtonsBlockButton: "rounded-full bg-input-bg border border-input-border text-ink hover:opacity-90 text-xs py-2.5 px-4 font-medium transition-all w-full styled-input relative",
-                      socialButtonsBlockButtonText: "text-ink text-xs font-medium",
-                      dividerLine: "bg-line",
-                      dividerText: "text-ink-3 text-[10px] font-mono uppercase px-2",
-                      formFieldLabel: "text-ink text-xs font-medium mb-1 block px-2",
-                      formFieldInput: "rounded-full bg-input-bg border border-input-border text-ink text-xs px-4 py-2.5 focus:border-indigo transition-all w-full mb-2.5 styled-input",
-                      formButtonPrimary: "rounded-full btn-primary text-xs font-semibold py-3 transition-all w-full mt-2 mb-2 shadow-none",
-                      footer: "bg-transparent border-t border-line pt-3 mt-3 text-xs text-ink-3 text-center",
-                      footerActionText: "text-ink-3 text-xs",
-                      footerActionLink: "text-indigo hover:underline font-medium text-xs ml-1",
-                    },
-                  }}
-                />
-              </div>
-            ) : (
-              <div className="clerk-container">
-                <SignUp
-                  routing="path"
-                  path="/sign-up"
-                  signInUrl="/sign-in"
-                  forceRedirectUrl="/home"
-                  appearance={{
-                    elements: {
-                      rootBox: "w-full max-w-[360px] mx-auto px-4",
-                      cardBox: "w-full shadow-none bg-transparent overflow-visible",
-                      card: "bg-transparent shadow-none p-0 w-full border-none overflow-visible",
-                      headerTitle: "text-ink text-2xl font-bold font-sans text-center mb-1",
-                      headerSubtitle: "text-ink-3 text-xs text-center mb-3",
-                      socialButtonsBlockButtonContainer: "flex flex-col items-center gap-1.5 w-full my-2 relative",
-                      socialButtonsBlockButtonBadge: "relative top-0 left-0 transform-none inline-block mx-auto mb-4 px-3 py-1 text-[11px] font-medium text-ink-2 bg-slate-100 dark:bg-slate-800 border border-indigo-400/30 rounded-full shadow-sm",
-                      socialButtonsBlockButton: "rounded-full bg-input-bg border border-input-border text-ink hover:opacity-90 text-xs py-2.5 px-4 font-medium transition-all w-full styled-input relative",
-                      socialButtonsBlockButtonText: "text-ink text-xs font-medium",
-                      dividerLine: "bg-line",
-                      dividerText: "text-ink-3 text-[10px] font-mono uppercase px-2",
-                      formFieldLabel: "text-ink text-xs font-medium mb-1 block px-2",
-                      formFieldInput: "rounded-full bg-input-bg border border-input-border text-ink text-xs px-4 py-2.5 focus:border-indigo transition-all w-full mb-2.5 styled-input",
-                      formButtonPrimary: "rounded-full btn-primary text-xs font-semibold py-3 transition-all w-full mt-2 mb-2 shadow-none",
-                      footer: "bg-transparent border-t border-line pt-3 mt-3 text-xs text-ink-3 text-center",
-                      footerActionText: "text-ink-3 text-xs",
-                      footerActionLink: "text-indigo hover:underline font-medium text-xs ml-1",
-                    },
-                  }}
-                />
-              </div>
-            )}
-          </div>
+          {!authConfigured ? (
+            <AuthConfigurationNotice />
+          ) : isSignIn ? (
+            <div className="clerk-container">
+              <SignIn
+                routing="path"
+                path="/sign-in"
+                signUpUrl="/sign-up"
+                fallbackRedirectUrl="/home"
+                appearance={{
+                  elements: {
+                    rootBox: "w-full",
+                    cardBox: "w-full shadow-none bg-transparent overflow-visible",
+                    card: "bg-transparent shadow-none p-0 w-full border-none overflow-visible",
+                    header: "hidden",
+                    headerTitle: "hidden",
+                    headerSubtitle: "hidden",
+                    socialButtonsBlockButtonContainer: "flex flex-col gap-2.5 w-full mb-4",
+                    socialButtonsBlockButton: "rounded bg-[#F4F7F5] dark:bg-[#0213B0]/20 border border-[#0213B0] dark:border-[#FFFFF1] text-[#0213B0] dark:text-[#FFFFF1] hover:opacity-80 text-xs py-3 px-4 font-bold uppercase transition-all w-full flex items-center justify-center gap-2",
+                    socialButtonsBlockButtonText: "text-[#0213B0] dark:text-[#FFFFF1] text-xs font-bold font-mono tracking-wider",
+                    dividerLine: "bg-[#0213B0]/20 dark:bg-[#FFFFF1]/20",
+                    dividerText: "text-[#0213B0] dark:text-[#FFFFF1] text-[11px] font-mono uppercase px-2",
+                    formFieldLabel: "text-[#0213B0] dark:text-[#FFFFF1] text-xs font-mono font-bold uppercase mb-1.5 block",
+                    formFieldInput: "bg-[#F4F7F5] dark:bg-[#0213B0]/10 border-b-2 border-[#0213B0] dark:border-[#FFFFF1] text-[#0213B0] dark:text-[#FFFFF1] text-sm px-3.5 py-3 outline-none transition-all w-full mb-4 rounded-none",
+                    formButtonPrimary: "bg-[#0213B0] text-[#FFFFF1] dark:bg-[#FFFFF1] dark:text-[#0213B0] hover:opacity-90 text-xs font-bold uppercase tracking-wider py-3.5 transition-all w-full mt-2 mb-4 rounded shadow-none border border-[#0213B0] dark:border-[#FFFFF1]",
+                    footer: "bg-transparent border-t border-[#0213B0]/15 dark:border-[#FFFFF1]/15 pt-4 mt-2 text-xs text-[#0213B0] dark:text-[#FFFFF1] text-center",
+                    footerActionText: "text-[#0213B0] dark:text-[#FFFFF1] text-xs opacity-80",
+                    footerActionLink: "text-[#0213B0] dark:text-[#FFFFF1] hover:underline font-bold text-xs ml-1 underline",
+                    identityPreviewText: "text-[#0213B0] dark:text-[#FFFFF1] font-mono text-xs",
+                    identityPreviewEditButton: "text-[#0213B0] dark:text-[#FFFFF1] font-bold text-xs underline ml-2",
+                    formResendCodeLink: "text-[#0213B0] dark:text-[#FFFFF1] underline text-xs font-bold",
+                  },
+                }}
+              />
+            </div>
+          ) : (
+            <div className="clerk-container">
+              <SignUp
+                routing="path"
+                path="/sign-up"
+                signInUrl="/sign-in"
+                forceRedirectUrl="/home"
+                appearance={{
+                  elements: {
+                    rootBox: "w-full",
+                    cardBox: "w-full shadow-none bg-transparent overflow-visible",
+                    card: "bg-transparent shadow-none p-0 w-full border-none overflow-visible",
+                    header: "hidden",
+                    headerTitle: "hidden",
+                    headerSubtitle: "hidden",
+                    socialButtonsBlockButtonContainer: "flex flex-col gap-2.5 w-full mb-4",
+                    socialButtonsBlockButton: "rounded bg-[#F4F7F5] dark:bg-[#0213B0]/20 border border-[#0213B0] dark:border-[#FFFFF1] text-[#0213B0] dark:text-[#FFFFF1] hover:opacity-80 text-xs py-3 px-4 font-bold uppercase transition-all w-full flex items-center justify-center gap-2",
+                    socialButtonsBlockButtonText: "text-[#0213B0] dark:text-[#FFFFF1] text-xs font-bold font-mono tracking-wider",
+                    dividerLine: "bg-[#0213B0]/20 dark:bg-[#FFFFF1]/20",
+                    dividerText: "text-[#0213B0] dark:text-[#FFFFF1] text-[11px] font-mono uppercase px-2",
+                    formFieldLabel: "text-[#0213B0] dark:text-[#FFFFF1] text-xs font-mono font-bold uppercase mb-1.5 block",
+                    formFieldInput: "bg-[#F4F7F5] dark:bg-[#0213B0]/10 border-b-2 border-[#0213B0] dark:border-[#FFFFF1] text-[#0213B0] dark:text-[#FFFFF1] text-sm px-3.5 py-3 outline-none transition-all w-full mb-4 rounded-none",
+                    formButtonPrimary: "bg-[#0213B0] text-[#FFFFF1] dark:bg-[#FFFFF1] dark:text-[#0213B0] hover:opacity-90 text-xs font-bold uppercase tracking-wider py-3.5 transition-all w-full mt-2 mb-4 rounded shadow-none border border-[#0213B0] dark:border-[#FFFFF1]",
+                    footer: "bg-transparent border-t border-[#0213B0]/15 dark:border-[#FFFFF1]/15 pt-4 mt-2 text-xs text-[#0213B0] dark:text-[#FFFFF1] text-center",
+                    footerActionText: "text-[#0213B0] dark:text-[#FFFFF1] text-xs opacity-80",
+                    footerActionLink: "text-[#0213B0] dark:text-[#FFFFF1] hover:underline font-bold text-xs ml-1 underline",
+                    identityPreviewText: "text-[#0213B0] dark:text-[#FFFFF1] font-mono text-xs",
+                    identityPreviewEditButton: "text-[#0213B0] dark:text-[#FFFFF1] font-bold text-xs underline ml-2",
+                    formResendCodeLink: "text-[#0213B0] dark:text-[#FFFFF1] underline text-xs font-bold",
+                  },
+                }}
+              />
+            </div>
+          )}
         </div>
       </main>
-
-      <footer className="auth-footer">
-        Aissessor &bull; AI Stack Procurement Advisor &bull; 2026
-      </footer>
     </div>
   );
 }

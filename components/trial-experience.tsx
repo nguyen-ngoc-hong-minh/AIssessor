@@ -3,6 +3,7 @@
 import { SignInButton, useAuth } from "@clerk/nextjs";
 import { ArrowLeft, ArrowRight, Check, ChevronDown, LoaderCircle, Plus, Sparkles, Trash2, FolderPlus, CalendarRange, ArrowUpRight, Pencil } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { apiErrorMessage } from "@/lib/client/api-error";
 import { frequencyToMonthlyUses, type MonthlyTask, type Priority, type TaskAnalysis, type WorkflowStep } from "@/lib/planner/schema";
@@ -299,6 +300,8 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
     finally { setBusy(false); }
   }
 
+  const router = useRouter();
+
   function markTrialForSave() {
     setPendingSave(true);
     const cached = sessionStorage.getItem(cacheKey);
@@ -310,10 +313,15 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
     }
   }
 
+  function handleSaveAndNavigateToSignIn() {
+    markTrialForSave();
+    router.push("/sign-in");
+  }
+
   const saveControl = isSignedIn ? (
     <button type="button" className="trial-primary-button" onClick={() => void saveTrial()} disabled={busy}>{busy ? "Saving…" : "Save my AI stack"}</button>
   ) : (
-    <SignInButton mode="modal"><button type="button" className="trial-primary-button" onClick={markTrialForSave}>Save my AI stack</button></SignInButton>
+    <button type="button" className="trial-primary-button" onClick={handleSaveAndNavigateToSignIn}>Save my AI stack</button>
   );
 
   return (
