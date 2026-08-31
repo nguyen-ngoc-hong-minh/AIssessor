@@ -5755,3 +5755,18 @@ select:not(.trial-budget-row select), .cl-select {
   background-color: #CBF7EC !important;
   border-radius: 0.25rem !important;
 }
+
+/* ==========================================================================
+   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 22 (Total Animation Kill)
+   ========================================================================== */
+
+/* Nuke all transitions and animations everywhere except the spinner */
+*:not(.spin) {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Ensure no transforms on hover anywhere except pseudo-elements (checkbox ticks) */
+*:not(::after):not(::before):hover {
+  transform: none !important;
+}

@@ -101,7 +101,7 @@ export function DashboardView() {
       </div>
 
       {/* Main Strategy List Section */}
-      <div id="consultation-history" className="dash-content-block glass-card p-8 md:p-10 min-h-[485px] flex flex-col justify-between scroll-mt-24">
+      <div id="consultation-history" className="dash-content-block min-h-[485px] flex flex-col justify-between scroll-mt-24">
         <div>
           
 
@@ -131,49 +131,37 @@ export function DashboardView() {
             </div>
           </div>
         ) : (
-          <div className="dashboard-strategy-list">
+          <div className="dashboard-strategy-list flex flex-col gap-6">
             {strategies.map((strategy, idx) => (
-              <div className="problem-card glass-card flex items-center justify-between p-6" key={strategy._id}>
-                <div className="flex items-center gap-6 flex-1 min-w-0">
-                  <span className="pc-num font-mono text-xs text-indigo-soft">
-                    {String(idx + 1).padStart(2, "0")}
+              <div className="problem-card flex flex-col p-6 md:p-8 relative" key={strategy._id}>
+                <div className="font-mono text-xs text-indigo-soft mb-2">
+                  {String(idx + 1).padStart(2, "0")}
+                </div>
+                
+                <h3 className="font-sans text-base font-bold text-ink mb-10">
+                  {strategy.title}
+                </h3>
+
+                <div className="flex flex-col gap-3 font-mono text-[11px] uppercase tracking-[0.08em] text-ink-3">
+                  <span>[{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]</span>
+                  <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
+                  <span>
+                    {strategy.usageType === "one_off"
+                      ? strategy.budgetAmount === undefined && strategy.budget === undefined
+                        ? "Budget not set"
+                        : `Budget: ${strategy.budgetAmount !== undefined && strategy.budgetCurrency ? formatCurrency(strategy.budgetAmount, strategy.budgetCurrency) : formatCurrency(strategy.budget ?? 0, "USD")}`
+                      : "Recurring Workload"}
                   </span>
-
-                  <div className="min-w-0 flex-1 flex flex-col">
-                    <h3 className="font-sans text-2xl font-medium text-ink truncate mb-8">{strategy.title}</h3>
-
-                    <div className="flex flex-col gap-3 font-mono text-sm text-ink-3">
-                      <div className="flex items-center gap-3">
-                        <span className="uppercase tracking-wider">
-                          [{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]
-                        </span>
-                        {strategy.refreshAvailable && (
-                          <span className="inline-flex items-center gap-1 text-[10px] text-amber-500">
-                            <RefreshCw className="w-3 h-3" />
-                            <span>UPDATE AVAILABLE</span>
-                          </span>
-                        )}
-                      </div>
-                      <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
-                      <span>
-                        {strategy.usageType === "one_off"
-                          ? strategy.budgetAmount === undefined && strategy.budget === undefined
-                            ? "Budget not set"
-                            : `Budget: ${strategy.budgetAmount !== undefined && strategy.budgetCurrency ? formatCurrency(strategy.budgetAmount, strategy.budgetCurrency) : formatCurrency(strategy.budget ?? 0, "USD")}`
-                          : "Recurring Workload"}
-                      </span>
-                    </div>
-                  </div>
                 </div>
 
-                <div className="flex items-center gap-3 ml-4">
+                <div className="flex items-center gap-3 self-end mt-8">
                   <Link
-                    className="btn-primary text-xs px-4 py-2"
+                    className="btn-primary text-[11px] uppercase tracking-[0.08em] font-bold px-6 py-3 flex items-center justify-center gap-2"
                     href={`/strategy/${strategy._id}/${strategy.status === "complete" ? "results" : "workflow"}`}
                     title="Open strategy"
                   >
                     <span>View Plan</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
+                    <ArrowUpRight className="w-3.5 h-3.5" />
                   </Link>
 
                   <button
