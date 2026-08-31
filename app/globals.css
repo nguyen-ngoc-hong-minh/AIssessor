@@ -3296,7 +3296,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   color: var(--ink-2) !important;
   font-family: var(--font-body) !important;
   font-size: 14px !important;
-  margin-top: 4px !important;
+  
   line-height: 1.5 !important;
 }
 .clerk-container .cl-formButtonPrimary {
@@ -6039,8 +6039,10 @@ input[type="checkbox"]:checked::after,
 .trial-customize-job {
   background-color: transparent !important;
   padding: 0 !important;
-  margin-bottom: 24px !important;
-  display: block !important; /* Stack them instead of flex */
+  margin-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
 }
 .trial-customize-job small, .trial-customize-job strong {
   color: #0213B0 !important;
@@ -6052,7 +6054,7 @@ input[type="checkbox"]:checked::after,
   font: 600 11px var(--font-mono) !important;
   letter-spacing: .12em !important;
   text-transform: uppercase !important;
-  margin-bottom: 8px !important;
+  margin-bottom: 0 !important;
 }
 
 /* 3. Generate Daily Exercise Plans same as Z.ai (Tool Card Title) */
@@ -6067,7 +6069,6 @@ input[type="checkbox"]:checked::after,
   letter-spacing: .12em !important;
   text-transform: uppercase !important;
   display: block !important;
-  margin-bottom: 8px !important;
   color: #0213B0 !important;
 }
 
@@ -6083,7 +6084,7 @@ input[type="checkbox"]:checked::after,
   font: 12px/1.45 var(--font-body) !important;
   display: block !important;
   color: #0213B0 !important;
-  margin-top: 4px !important;
+  
 }
 
 /* 7. Redesign the grid with internal lines ONLY */
@@ -6104,10 +6105,13 @@ input[type="checkbox"]:checked::after,
 
 /* Inner box that gets the background on hover/select */
 .trial-model-choice-inner {
-  padding: 16px !important;
+  padding: 24px !important;
   border-radius: 0.25rem !important;
-  flex: 1 !important; /* Fill the button's height completely */
+  flex: 1 !important;
   transition: background-color 0.2s ease;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
 }
 
 /* 8. Add a subtle hover effect since borders are fixed */
@@ -6141,7 +6145,7 @@ input[type="checkbox"]:checked::after,
 .trial-model-choice-inner > b {
   color: #0213B0 !important;
   font: 600 13px var(--font-sans) !important;
-  margin-top: 12px !important;
+  
   display: flex !important;
   align-items: center !important;
   gap: 4px !important;
@@ -6152,3 +6156,11 @@ input[type="checkbox"]:checked::after,
   stroke-width: 3 !important;
 }
 
+
+/* Remove any default margins on these inner items since flex gap handles spacing */
+.trial-model-choice-inner > span,
+.trial-model-choice-inner > strong,
+.trial-model-choice-inner > small,
+.trial-model-choice-inner > b {
+  margin: 0 !important;
+}
