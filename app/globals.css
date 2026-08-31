@@ -5063,3 +5063,59 @@ select,
 .trial-form .trial-choice-grid button {
   margin: 0 !important;
 }
+
+/* ==========================================================================
+   STRICT CHECKBOX OVERRIDES
+   ========================================================================== */
+
+/* Hide Clerk's internal SVG checkmark completely */
+.cl-checkbox__input ~ svg,
+.cl-checkbox__mark,
+.cl-internal-1lg1hqm, /* Clerk SVG wrapper */
+.cl-internal-102mxs9 {
+  display: none !important;
+  opacity: 0 !important;
+}
+
+/* Force standard and Clerk checkboxes to look exactly like the design */
+input[type="checkbox"], 
+.cl-checkbox__input,
+.cl-formFieldInput[type="checkbox"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-color: transparent !important;
+  border: 2px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+  cursor: pointer !important;
+  position: relative !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin: 0 !important;
+  opacity: 1 !important; /* Ensure it is visible even if Clerk hides the input */
+}
+
+/* Checked state: Solid blue fill */
+input[type="checkbox"]:checked, 
+.cl-checkbox__input:checked,
+.cl-formFieldInput[type="checkbox"]:checked {
+  background-color: #0213B0 !important;
+  border-color: #0213B0 !important;
+}
+
+/* Custom Checkmark using CSS borders */
+input[type="checkbox"]:checked::after, 
+.cl-checkbox__input:checked::after,
+.cl-formFieldInput[type="checkbox"]:checked::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 40% !important;
+  left: 50% !important;
+  width: 6px !important;
+  height: 11px !important;
+  border: solid #FFFFF1 !important;
+  border-width: 0 2px 2px 0 !important;
+  transform: translate(-50%, -50%) rotate(45deg) !important;
+  color: transparent !important; /* Override the tick character if any */
+}
