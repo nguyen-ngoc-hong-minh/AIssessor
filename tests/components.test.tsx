@@ -61,7 +61,7 @@ describe("strategy inputs", () => {
   });
   it("uses the trial feature set for a signed-in one-off project", () => {
     render(<TrialExperience signedInMode="one_off" />);
-    expect(screen.getByRole("heading", { name: "Tell us what you need." })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "One-off Project" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Once" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByText("AI products you already use")).toBeInTheDocument();
     expect(screen.getByText("Optional details")).toBeInTheDocument();
@@ -69,7 +69,7 @@ describe("strategy inputs", () => {
   });
   it("preselects recurring work for a signed-in monthly project", () => {
     render(<TrialExperience signedInMode="monthly" />);
-    expect(screen.getByRole("heading", { name: "What do you work on regularly?" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Monthly Workflow" })).toBeInTheDocument();
     expect(screen.getByLabelText("Recurring task")).toBeInTheDocument();
     expect(screen.getByRole("group", { name: /Monthly AI budget/ })).toBeInTheDocument();
     expect(screen.getByDisplayValue("English")).toBeInTheDocument();
