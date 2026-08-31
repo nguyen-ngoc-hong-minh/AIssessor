@@ -75,10 +75,9 @@ function ModelCustomizer({
   const changed = Object.keys(selections).length > 0;
 
   return (
-    <section className="trial-customize-panel" aria-labelledby="customize-models-title">
-      <div className="trial-customize-heading">
-        <div><h2 id="customize-models-title">Alternative Options</h2></div>
-        <SlidersHorizontal aria-hidden="true" />
+    <section className="trial-results-section" aria-labelledby="customize-models-title">
+      <div className="trial-section-heading">
+        <h2 id="customize-models-title">Alternative Options</h2>
       </div>
 
       <div className="trial-customize-steps">

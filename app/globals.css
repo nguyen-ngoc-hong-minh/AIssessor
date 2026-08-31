@@ -3620,7 +3620,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   align-items: center !important;
   gap: 6px !important;
   margin-top: 8px !important;
-  margin-bottom: 12px !important;
+  margin: 0 !important;
   position: relative !important;
 }
 
@@ -5984,4 +5984,47 @@ input[type="checkbox"]:checked::after,
 /* Remove bottom margin for results section heading */
 .trial-results-section .trial-section-heading {
   margin-bottom: 0 !important;
+}
+
+/* Alternative Options section styling to match Recommended Workflow */
+.trial-customize-step {
+  background-color: #F4F7F5 !important;
+  border: none !important;
+  border-radius: 24px !important;
+  padding: 32px !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.trial-customize-job {
+  background-color: #0213B0 !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
+  padding: 14px !important;
+  margin: 0 !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 4px !important;
+}
+
+.trial-customize-job small, .trial-customize-job strong, .trial-customize-job span {
+  color: #FFFFF1 !important;
+}
+
+.trial-model-choice {
+  background-color: transparent !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  padding: 16px !important;
+}
+
+.trial-model-choice * {
+  color: #0213B0 !important;
+}
+
+.trial-model-choice[data-selected="true"] {
+  background-color: rgba(2, 19, 176, 0.08) !important;
+  border: 1.5px solid #0213B0 !important;
 }
