@@ -243,7 +243,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
           <>
             <button
               type="button"
-              className="btn-secondary text-xs px-6 py-3 rounded-full"
+              className="trial-secondary-button"
               onClick={() => {
                 if (data) setSteps([...data.steps].sort((a, b) => a.order - b.order));
                 setEditing(false);
@@ -254,7 +254,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
             </button>
             <button
               type="button"
-              className="btn-primary text-xs px-8 py-3 rounded-full shadow-lg shadow-indigo-600/30"
+              className="trial-primary-button"
               onClick={handleSaveAndExit}
               disabled={busy}
             >
@@ -265,7 +265,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
           <>
             <button
               type="button"
-              className="btn-secondary text-xs px-6 py-3 rounded-full inline-flex items-center gap-2"
+              className="trial-secondary-button"
               onClick={() => setEditing(true)}
               disabled={busy}
             >
@@ -274,7 +274,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
             </button>
             <button
               type="button"
-              className="btn-primary text-xs px-8 py-3 rounded-full shadow-lg shadow-indigo-600/30"
+              className="trial-primary-button"
               onClick={approve}
               disabled={busy}
             >

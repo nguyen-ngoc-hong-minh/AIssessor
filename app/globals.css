@@ -81,26 +81,33 @@
 .trial-intro h1 em, .trial-workflow h1 em, .trial-result-hero h1 em, .trial-animated-title em { font-style: normal; color: #FFFFF1 !important; }
 .trial-intro-body { max-width: 680px; margin: 34px 0; color: var(--ink-2); font: 400 clamp(17px, 1.5vw, 21px)/1.6 var(--font-body); }
 .trial-primary-button, .trial-secondary-button {
-  min-height: 54px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  padding: 0 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font: 650 15px/1 var(--font-sans);
-  cursor: pointer;
-  text-decoration: none;
-  transition: transform .25s var(--ee), box-shadow .25s ease, background .25s ease, border-color .25s ease;
+  min-height: 36px !important;
+  height: 36px !important;
+  border-radius: 0.25rem !important;
+  padding: 0 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
 }
-.trial-primary-button { color: #FFFFF1; background: var(--indigo); box-shadow: none; }
-.trial-primary-button:hover { transform: none; box-shadow: 0 20px 54px rgba(99,102,241,.44); }
-.trial-primary-button:disabled { opacity: .55; cursor: wait; transform: none; }
-.trial-primary-button svg, .trial-secondary-button svg { width: 17px; height: 17px; }
-.trial-secondary-button { color: #FFFFF1; background: rgba(255,255,255,.04); border-color: var(--line); }
-.trial-secondary-button:hover { background: rgba(255,255,255,.09); border-color: rgba(165,180,252,.45); }
-.trial-primary-button:focus-visible, .trial-secondary-button:focus-visible, .trial-form button:focus-visible, .trial-form input:focus-visible, .trial-form textarea:focus-visible, .trial-form select:focus-visible, .info-tip summary:focus-visible { outline: 3px solid rgba(165,180,252,.72); outline-offset: 3px; }
+.trial-primary-button { color: #FFFFF1 !important; background-color: #0213B0 !important; border: none !important; }
+.trial-primary-button:hover { background-color: #0213B0 !important; color: #FFFFF1 !important; transform: none !important; box-shadow: none !important; }
+.trial-primary-button:disabled { opacity: .55; cursor: wait; transform: none !important; }
+.trial-primary-button svg, .trial-secondary-button svg { width: 14px !important; height: 14px !important; }
+.trial-secondary-button { color: #0213B0 !important; background-color: #FFFFF1 !important; border: 1.5px solid #0213B0 !important; }
+.trial-secondary-button:hover { background-color: #0213B0 !important; color: #FFFFF1 !important; }
+.trial-secondary-button:hover svg { color: #FFFFF1 !important; stroke: #FFFFF1 !important; }
+.trial-primary-button:focus-visible, .trial-secondary-button:focus-visible, .trial-form button:focus-visible, .trial-form input:focus-visible, .trial-form textarea:focus-visible, .trial-form select:focus-visible, .info-tip summary:focus-visible { outline: 2px solid #0213B0; outline-offset: 2px; }
 .trial-intro-copy > small { display: block; width: max-content; margin: 13px 0 0 25px; color: var(--ink-3); font: 12px var(--font-body); }
 
 .trial-word-loop { height: 94px; overflow: hidden; border-block: 1px solid var(--line); position: relative; }
@@ -5327,17 +5334,107 @@ input::placeholder {
   margin: 0 auto !important;
 }
 
-/* Unified Action Button Format (Matching Sign In / Trial Header Auth Button) */
-.trial-header-auth-btn,
-.signed-home-history,
-.action-btn,
-a.action-btn,
-button.action-btn,
-a.trial-header-auth-btn {
+/* ==========================================================================
+   UNIFIED BUTTON FORMAT SYSTEM (JetBrains Mono 12px 700 Uppercase)
+   ========================================================================== */
+
+/* 1. SOLID PRIMARY BUTTONS (Fill Navy #0213B0, No Border, White Text) */
+.trial-primary-button,
+.plan-cta-btn,
+.btn-primary,
+button.trial-primary-button,
+a.trial-primary-button,
+.trial-form-footer .trial-primary-button,
+.trial-workflow-actions .trial-primary-button {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 16px !important;
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  background-color: #0213B0 !important;
+  background-image: none !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+.trial-primary-button *,
+.plan-cta-btn *,
+.btn-primary * {
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: #FFFFF1 !important;
+}
+
+.trial-primary-button svg,
+.plan-cta-btn svg,
+.btn-primary svg {
+  width: 14px !important;
+  height: 14px !important;
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+  fill: none !important;
+}
+
+.trial-primary-button:hover,
+.plan-cta-btn:hover,
+.btn-primary:hover {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button,
+:root[data-theme="dark"] .plan-cta-btn,
+:root[data-theme="dark"] .btn-primary {
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: none !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button *,
+:root[data-theme="dark"] .plan-cta-btn *,
+:root[data-theme="dark"] .btn-primary * {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button svg,
+:root[data-theme="dark"] .plan-cta-btn svg,
+:root[data-theme="dark"] .btn-primary svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+/* 2. OUTLINE / SECONDARY BUTTONS (Cream #FFFFF1 Background, 1.5px Navy Border, Navy Text) */
+.trial-secondary-button,
+.trial-header-auth-btn,
+.signed-home-history,
+.btn-secondary,
+.action-btn,
+a.action-btn,
+button.action-btn,
+a.trial-header-auth-btn,
+.monthly-task-add button,
+.trial-workflow-actions .trial-secondary-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 36px !important;
+  min-height: 36px !important;
   padding: 0 16px !important;
   font-family: var(--font-jetbrains-mono), monospace !important;
   font-size: 12px !important;
@@ -5345,6 +5442,7 @@ a.trial-header-auth-btn {
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   background-color: #FFFFF1 !important;
+  background-image: none !important;
   color: #0213B0 !important;
   border: 1.5px solid #0213B0 !important;
   border-radius: 0.25rem !important;
@@ -5352,47 +5450,107 @@ a.trial-header-auth-btn {
   cursor: pointer !important;
   gap: 8px !important;
   box-shadow: none !important;
+  transform: none !important;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
 }
 
+.trial-secondary-button *,
+.trial-header-auth-btn *,
+.signed-home-history *,
+.action-btn * {
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  color: inherit !important;
+}
+
+.trial-secondary-button svg,
+.trial-header-auth-btn svg,
+.signed-home-history svg,
+.action-btn svg,
+.monthly-task-add button svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+  fill: none !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.trial-secondary-button:hover,
 .trial-header-auth-btn:hover,
 .signed-home-history:hover,
 .action-btn:hover,
 a.action-btn:hover,
 button.action-btn:hover,
-a.trial-header-auth-btn:hover {
+.monthly-task-add button:hover {
   background-color: #0213B0 !important;
   color: #FFFFF1 !important;
 }
 
-.trial-header-auth-btn svg,
-.signed-home-history svg,
-.action-btn svg {
-  color: inherit !important;
-  stroke: currentColor !important;
-  width: 14px !important;
-  height: 14px !important;
+.trial-secondary-button:hover *,
+.trial-header-auth-btn:hover *,
+.signed-home-history:hover *,
+.action-btn:hover * {
+  color: #FFFFF1 !important;
 }
 
+.trial-secondary-button:hover svg,
+.trial-header-auth-btn:hover svg,
+.signed-home-history:hover svg,
+.action-btn:hover svg,
+.monthly-task-add button:hover svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button,
 :root[data-theme="dark"] .trial-header-auth-btn,
 :root[data-theme="dark"] .signed-home-history,
 :root[data-theme="dark"] .action-btn,
 :root[data-theme="dark"] a.action-btn,
 :root[data-theme="dark"] button.action-btn,
-:root[data-theme="dark"] a.trial-header-auth-btn {
+:root[data-theme="dark"] .monthly-task-add button {
   background-color: #0213B0 !important;
   color: #FFFFF1 !important;
   border-color: #FFFFF1 !important;
 }
 
+:root[data-theme="dark"] .trial-secondary-button svg,
+:root[data-theme="dark"] .trial-header-auth-btn svg,
+:root[data-theme="dark"] .signed-home-history svg,
+:root[data-theme="dark"] .action-btn svg,
+:root[data-theme="dark"] .monthly-task-add button svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button:hover,
 :root[data-theme="dark"] .trial-header-auth-btn:hover,
 :root[data-theme="dark"] .signed-home-history:hover,
 :root[data-theme="dark"] .action-btn:hover,
 :root[data-theme="dark"] a.action-btn:hover,
 :root[data-theme="dark"] button.action-btn:hover,
-:root[data-theme="dark"] a.trial-header-auth-btn:hover {
+:root[data-theme="dark"] .monthly-task-add button:hover {
   background-color: #FFFFF1 !important;
   color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button:hover *,
+:root[data-theme="dark"] .trial-header-auth-btn:hover *,
+:root[data-theme="dark"] .signed-home-history:hover *,
+:root[data-theme="dark"] .action-btn:hover * {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button:hover svg,
+:root[data-theme="dark"] .trial-header-auth-btn:hover svg,
+:root[data-theme="dark"] .signed-home-history:hover svg,
+:root[data-theme="dark"] .action-btn:hover svg,
+:root[data-theme="dark"] .monthly-task-add button:hover svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 

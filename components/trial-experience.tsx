@@ -527,7 +527,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
             <div className="trial-workflow-add-btn-wrap">
               <button
                 type="button"
-                className="trial-secondary-button text-xs px-6 py-2.5 inline-flex items-center gap-2"
+                className="trial-secondary-button"
                 onClick={addStep}
               >
                 <Plus className="w-4 h-4" />
@@ -562,7 +562,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
               <>
                 <button
                   type="button"
-                  className="trial-secondary-button inline-flex items-center gap-2"
+                  className="trial-secondary-button"
                   onClick={() => setEditingWorkflow(true)}
                 >
                   <Pencil className="w-4 h-4" />
