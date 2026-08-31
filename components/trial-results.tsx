@@ -114,7 +114,7 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
   const monthly = result.usageType === "monthly";
   const complete = plan.completeStepCount === plan.steps.length;
   return (
-    <div className="trial-results">
+    <div className="trial-results-content">
       <ResultSummary plan={plan} monthly={monthly} />
 
       <div className="trial-section-divider" />

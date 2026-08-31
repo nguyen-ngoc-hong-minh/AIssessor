@@ -5970,10 +5970,17 @@ input[type="checkbox"]:checked::after,
 /* Section Spacing Resets for Brutalist Layout */
 .trial-parameters,
 .trial-workflow,
-.trial-results {
+section.trial-results {
   padding: 108px 28px 58px !important;
   max-width: 1080px !important;
   margin: 0 auto !important;
+}
+
+div.trial-results,
+.trial-results-content {
+  padding: 0 !important;
+  max-width: 100% !important;
+  margin: 0 !important;
 }
 
 .trial-progress,
