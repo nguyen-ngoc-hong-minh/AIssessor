@@ -3276,98 +3276,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   .dash-metrics-grid { grid-template-columns: 1fr; }
 }
 
-/* ==========================================================================
-   CLERK AUTHENTICATION OVERRIDES (Lustro Dark Glassmorphism)
-   ========================================================================== */
-.clerk-container .cl-rootBox {
-  width: 100%;
-}
-.clerk-container .cl-card {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  padding: 0 !important;
-}
-.clerk-container .cl-headerTitle {
-  color: #FFFFF1 !important;
-  font-family: var(--font-sans) !important;
-  font-size: 24px !important;
-  font-weight: 500 !important;
-  letter-spacing: -0.02em !important;
-}
-.clerk-container .cl-headerSubtitle {
-  color: var(--ink-2) !important;
-  font-family: var(--font-body) !important;
-  font-size: 14px !important;
-  
-  line-height: 1.5 !important;
-}
-.clerk-container .cl-formButtonPrimary {
-  background: #FFFFF1 !important;
-  color: #0a0e1a !important;
-  border-radius: 100px !important;
-  font-family: var(--font-body) !important;
-  font-size: 14px !important;
-  font-weight: 600 !important;
-  height: 44px !important;
-  transition: all 0.3s ease !important;
-}
-.clerk-container .cl-formButtonPrimary:hover {
-  background: linear-gradient(135deg, var(--indigo-soft), #FFFFF1) !important;
-  box-shadow: 0 10px 30px rgba(165, 180, 252, 0.25) !important;
-  transform: none !important;
-}
-.clerk-container .cl-formFieldInput {
-  background: rgba(255, 255, 255, 0.04) !important;
-  border: 1px solid var(--glass-border) !important;
-  color: #FFFFF1 !important;
-  border-radius: 12px !important;
-  height: 44px !important;
-  padding: 0 16px !important;
-  font-family: var(--font-body) !important;
-  font-size: 14px !important;
-}
-.clerk-container .cl-formFieldInput:focus {
-  border-color: var(--indigo-soft) !important;
-  box-shadow: 0 0 16px rgba(99, 102, 241, 0.25) !important;
-}
-.clerk-container .cl-formFieldLabel {
-  color: var(--ink-2) !important;
-  font-family: var(--font-body) !important;
-  font-size: 13px !important;
-  margin-bottom: 6px !important;
-}
-.clerk-container .cl-footerActionText, .clerk-container .cl-footerActionLink {
-  color: var(--ink-2) !important;
-  font-family: var(--font-body) !important;
-  font-size: 13px !important;
-}
-.clerk-container .cl-footerActionLink {
-  color: var(--indigo-soft) !important;
-  font-weight: 500 !important;
-}
-.clerk-container .cl-dividerLine {
-  background: var(--line-2) !important;
-}
-.clerk-container .cl-dividerText {
-  color: var(--ink-3) !important;
-  font-family: var(--font-mono) !important;
-  font-size: 11px !important;
-}
-.clerk-container .cl-socialButtonsBlockButton {
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid var(--glass-border) !important;
-  color: #FFFFF1 !important;
-  border-radius: 12px !important;
-  height: 44px !important;
-  font-family: var(--font-body) !important;
-  font-size: 13.5px !important;
-  transition: all 0.25s ease !important;
-}
-.clerk-container .cl-socialButtonsBlockButton:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
+
 .cl-userButtonPopoverCard {
   background: #0d1220 !important;
   border: 1px solid var(--glass-border) !important;
@@ -4668,8 +4577,7 @@ textarea,
 select,
 .trial-form input,
 .trial-form textarea,
-.trial-form select,
-.cl-formFieldInput {
+.trial-form select {
   background-color: #F4F7F5 !important;
   border: none !important;
   border-bottom: 1px solid #0213B0 !important;
@@ -4687,7 +4595,6 @@ select:focus {
 /* 4. Type 1 Box (Solid Buttons) */
 
 .trial-primary-button,
-.cl-formButtonPrimary,
 .signed-home-option {
   background-color: #0213B0 !important;
   border: none !important;
@@ -4698,7 +4605,6 @@ select:focus {
 /* 5. Type 2 Box (Outline Buttons / Secondary) */
 .trial-secondary-button,
 .signed-home-history,
-.cl-socialButtonsBlockButton,
 .trial-form .trial-choice-grid button:not([aria-pressed="true"]) {
   background-color: transparent !important;
   border: 1px solid #0213B0 !important;
@@ -4715,7 +4621,7 @@ select:focus {
 }
 
 /* 6. Checkboxes (Type 2 variant) */
-input[type="checkbox"], .cl-checkbox__input {
+.trial-page input[type="checkbox"] {
   appearance: none;
   background-color: transparent !important;
   border: 1px solid #0213B0 !important;
@@ -4725,7 +4631,7 @@ input[type="checkbox"], .cl-checkbox__input {
   cursor: pointer;
   position: relative;
 }
-input[type="checkbox"]:checked::after, .cl-checkbox__input:checked::after {
+.trial-page input[type="checkbox"]:checked::after {
   content: "✔";
   position: absolute;
   top: 50%;
@@ -4737,14 +4643,13 @@ input[type="checkbox"]:checked::after, .cl-checkbox__input:checked::after {
 
 /* 7. Spacing */
 .trial-form fieldset,
-.cl-form,
 .trial-enter > div,
 .signed-home-options {
   gap: 1.125rem !important;
 }
 
 /* Typography Colors */
-h1, h2, h3, h4, p, span, small, strong, label, .trial-kicker, .trial-intro-body, .signed-home-heading > p, .signed-home-heading > span {
+.trial-page h1, .trial-page h2, .trial-page h3, .trial-page h4, .trial-page p, .trial-page span, .trial-page small, .trial-page strong, .trial-page label, .trial-kicker, .trial-intro-body, .signed-home-heading > p, .signed-home-heading > span {
   color: #0213B0 !important;
 }
 .trial-animated-title em {
@@ -4762,26 +4667,6 @@ h1, h2, h3, h4, p, span, small, strong, label, .trial-kicker, .trial-intro-body,
   background-color: #FFFFF1 !important;
   color: #0213B0 !important;
   border-radius: 0.25rem !important;
-}
-
-/* Clerk Auth specific resets */
-.cl-card, .cl-headerTitle, .cl-headerSubtitle, .cl-socialButtonsBlockButtonText, .cl-dividerText, .cl-formFieldLabel, .cl-footerActionText {
-  background: transparent !important;
-  color: #0213B0 !important;
-}
-.cl-internal-b3al4t, .cl-dividerLine {
-  background-color: #0213B0 !important;
-}
-
-/* Fix Clerk Form gaps to exactly 1.125rem */
-.cl-form, .cl-cardBox {
-  gap: 1.125rem !important;
-}
-.cl-header {
-  margin-bottom: 1.125rem !important;
-}
-.cl-formFieldRow {
-  margin-bottom: 1.125rem !important;
 }
 
 /* ==========================================================================
@@ -5443,12 +5328,6 @@ button[variant="ghost"],
 
 /* 5. TYPE 3 BOXES (Inputs / Forms) */
 /* Fill #F4F7F5, border bottom ONLY, sharp corners */
-input:not([type="checkbox"]):not([type="radio"]), 
-select, 
-textarea,
-.cl-input, 
-.cl-select, 
-.cl-textarea,
 .trial-form input,
 .trial-form select,
 .trial-form textarea,
@@ -6350,197 +6229,4 @@ div.trial-results,
   box-sizing: border-box !important;
 }
 
-.auth-clean-card {
-  width: 100% !important;
-  max-width: 440px !important;
-  margin: 0 auto !important;
-}
 
-.auth-clean-header {
-  margin-bottom: 24px !important;
-  text-align: left !important;
-}
-
-.auth-clean-title {
-  font-family: var(--font-sans) !important;
-  font-size: clamp(36px, 5vw, 48px) !important;
-  font-weight: 700 !important;
-  color: #0213B0 !important;
-  letter-spacing: -0.04em !important;
-  line-height: 1.05 !important;
-  margin: 0 !important;
-}
-
-:root[data-theme="dark"] .auth-clean-title {
-  color: #FFFFF1 !important;
-}
-
-/* Force Brutalist Clerk styling inside auth-clean-card */
-.auth-clean-card .clerk-container {
-  padding: 0 !important;
-  width: 100% !important;
-}
-
-.auth-clean-card .cl-rootBox,
-.auth-clean-card .cl-cardBox,
-.auth-clean-card .cl-card,
-.auth-clean-card .cl-signIn-root,
-.auth-clean-card .cl-signUp-root {
-  max-width: 100% !important;
-  width: 100% !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  border: none !important;
-}
-
-/* Input Fields (Matching Image 1) */
-.auth-clean-card .cl-formFieldInput {
-  background-color: #F4F7F5 !important;
-  border: none !important;
-  border-bottom: 1.5px solid #0213B0 !important;
-  border-radius: 0 !important;
-  color: #0213B0 !important;
-  font-family: var(--font-body) !important;
-  font-size: 15px !important;
-  line-height: 1.5 !important;
-  padding: 16px 20px !important;
-  box-shadow: none !important;
-  box-sizing: border-box !important;
-  margin-bottom: 16px !important;
-  transition: none !important;
-}
-
-.auth-clean-card .cl-formFieldInput::placeholder {
-  color: rgba(2, 19, 176, 0.6) !important;
-}
-
-.auth-clean-card .cl-formFieldLabel {
-  color: #0213B0 !important;
-  font-family: var(--font-sans) !important;
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  margin-bottom: 8px !important;
-  text-transform: none !important;
-}
-
-:root[data-theme="dark"] .auth-clean-card .cl-formFieldInput {
-  background-color: rgba(255, 255, 241, 0.1) !important;
-  border-bottom-color: #FFFFF1 !important;
-  color: #FFFFF1 !important;
-}
-
-:root[data-theme="dark"] .auth-clean-card .cl-formFieldLabel {
-  color: #FFFFF1 !important;
-}
-
-/* Continue / Primary Button (No hover animation, solid) */
-.auth-clean-card .cl-formButtonPrimary {
-  background-color: #0213B0 !important;
-  background-image: none !important;
-  color: #FFFFF1 !important;
-  border: 1.5px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  font-family: var(--font-jetbrains-mono), monospace !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-  height: 48px !important;
-  box-shadow: none !important;
-  margin-top: 16px !important;
-  margin-bottom: 16px !important;
-  cursor: pointer !important;
-  transition: none !important;
-  animation: none !important;
-}
-
-.auth-clean-card .cl-formButtonPrimary:hover,
-.auth-clean-card .cl-formButtonPrimary:active,
-.auth-clean-card .cl-formButtonPrimary:focus {
-  background-color: #0213B0 !important;
-  background-image: none !important;
-  color: #FFFFF1 !important;
-  opacity: 1 !important;
-  transform: none !important;
-  box-shadow: none !important;
-  animation: none !important;
-  transition: none !important;
-}
-
-:root[data-theme="dark"] .auth-clean-card .cl-formButtonPrimary {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
-  border-color: #FFFFF1 !important;
-}
-
-/* Default Google OAuth Button & "Last used" Badge (Image 3) */
-.auth-clean-card .cl-socialButtonsBlockButton {
-  background-color: #FFFFFF !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 0.375rem !important;
-  color: #1E293B !important;
-  font-family: var(--font-sans) !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  text-transform: none !important;
-  letter-spacing: normal !important;
-  height: 44px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-  position: relative !important;
-  margin-top: 8px !important;
-  margin-bottom: 16px !important;
-}
-
-.auth-clean-card .cl-socialButtonsBlockButton:hover {
-  background-color: #F8FAFC !important;
-}
-
-.auth-clean-card .cl-socialButtonsBlockButtonText {
-  color: #1E293B !important;
-  font-family: var(--font-sans) !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  text-transform: none !important;
-}
-
-.auth-clean-card .cl-socialButtonsBlockButtonBadge,
-.auth-clean-card .cl-badge,
-.auth-clean-card [class*="socialButtonsBlockButtonBadge"],
-.auth-clean-card [class*="badge"] {
-  position: absolute !important;
-  top: -10px !important;
-  right: 8px !important;
-  background: #F1F5F9 !important;
-  border: 1px solid #CBD5E1 !important;
-  border-radius: 9999px !important;
-  color: #475569 !important;
-  font-size: 11px !important;
-  font-weight: 500 !important;
-  font-family: var(--font-sans) !important;
-  padding: 2px 8px !important;
-  line-height: 1.2 !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
-  z-index: 10 !important;
-}
-
-.auth-clean-card .cl-footerActionLink,
-.auth-clean-card .cl-formResendCodeLink,
-.auth-clean-card a {
-  color: #0213B0 !important;
-  text-decoration: underline !important;
-  font-weight: 700 !important;
-}
-
-:root[data-theme="dark"] .auth-clean-card .cl-footerActionLink,
-:root[data-theme="dark"] .auth-clean-card .cl-formResendCodeLink,
-:root[data-theme="dark"] .auth-clean-card a {
-  color: #FFFFF1 !important;
-}
-:root[data-theme="dark"] .auth-clean-card a {
-  color: #FFFFF1 !important;
-}
