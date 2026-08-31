@@ -346,14 +346,14 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker">YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
       {phase === "type-selection" && (
-        <section className="signed-home trial-enter" style={{ minHeight: 'calc(100vh - 96px)', marginTop: '96px', placeContent: 'center', padding: '0 clamp(24px, 5vw, 72px)' }}>
-          <div className="signed-home-heading" style={{ marginBottom: '40px' }}>
-            <p>FREE AI MATCH</p>
-            <h1>What would you like to plan?</h1>
-            <span>Start with one project, or optimize work you repeat every month.</span>
+        <section className="signed-home trial-enter">
+          <div className="signed-home-heading">
+            <h1 id="signed-home-title">What would you like to plan?</h1>
+            <div className="h-[30px]" />
           </div>
           <div className="signed-home-options">
             <button
+              type="button"
               className="signed-home-option"
               style={{ cursor: "pointer", textAlign: "left", width: "100%" }}
               onClick={() => {
@@ -364,12 +364,13 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
               }}
             >
               <span className="signed-home-option-icon"><FolderPlus aria-hidden="true" /></span>
-              <small>ONE-OFF PROJECT</small>
-              <h2>Build a stack for one goal.</h2>
+              <h2>One-off Project</h2>
               <p>Plan a specific deliverable, deadline, and AI budget.</p>
               <strong>Start one-off project <ArrowUpRight aria-hidden="true" /></strong>
             </button>
+
             <button
+              type="button"
               className="signed-home-option"
               style={{ cursor: "pointer", textAlign: "left", width: "100%" }}
               onClick={() => {
@@ -380,8 +381,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
               }}
             >
               <span className="signed-home-option-icon"><CalendarRange aria-hidden="true" /></span>
-              <small>MONTHLY WORKFLOW</small>
-              <h2>Optimize recurring work.</h2>
+              <h2>Monthly Workflow</h2>
               <p>Match an AI stack to tasks you complete throughout the month.</p>
               <strong>Start monthly workflow <ArrowUpRight aria-hidden="true" /></strong>
             </button>

@@ -5502,14 +5502,38 @@ input::placeholder {
    STRICT DESIGN SYSTEM ENFORCEMENT - PASS 14 (Spacing)
    ========================================================================== */
 
-/* Increase space below main title */
+/* Set 45px space below all trial section headings */
 .trial-section-heading {
-  margin-bottom: 90px !important;
+  margin-bottom: 45px !important;
 }
 @media (max-width: 768px) {
   .trial-section-heading {
-    margin-bottom: 60px !important;
+    margin-bottom: 45px !important;
   }
+}
+
+/* Center type-selection choose usage view */
+.trial-page .signed-home {
+  min-height: 100svh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 80px clamp(24px, 5vw, 72px) !important;
+  margin: 0 auto !important;
+}
+
+.trial-page .signed-home .signed-home-heading {
+  width: 100% !important;
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  text-align: left !important;
+}
+
+.trial-page .signed-home .signed-home-options {
+  width: 100% !important;
+  max-width: 960px !important;
+  margin: 0 auto !important;
 }
 
 
