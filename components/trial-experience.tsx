@@ -54,6 +54,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   const authenticatedBuilder = Boolean(signedInMode);
   const cacheKey = authenticatedBuilder ? `aissessor:builder:${signedInMode}` : "aissessor:trial";
   const parameterRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const [activeMode, setActiveMode] = useState<SignedInMode | undefined>(signedInMode);
   const [phase, setPhase] = useState<Phase>(authenticatedBuilder ? "parameters" : "intro");
   const [brief, setBrief] = useState("");
@@ -121,6 +122,39 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
     setPhase("type-selection");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  function handleBack() {
+    if (phase === "type-selection") {
+      setPhase("intro");
+    } else if (phase === "parameters") {
+      setPhase("type-selection");
+    } else if (phase === "workflow") {
+      setPhase("parameters");
+    } else if (phase === "results") {
+      setPhase(activeMode === "monthly" ? "parameters" : "workflow");
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function handleNext() {
+    if (phase === "intro") {
+      begin();
+    } else if (phase === "type-selection") {
+      if (!activeMode) {
+        setActiveMode("one_off");
+        setFrequency("once");
+      }
+      setPhase("parameters");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else if (phase === "parameters") {
+      formRef.current?.requestSubmit();
+    } else if (phase === "workflow") {
+      void recommend();
+    }
+  }
+
+  const canGoBack = phase !== "intro" && phase !== "processing";
+  const canGoNext = phase !== "results" && phase !== "processing";
 
   function toggleTool(tool: string) {
     setSelectedTools((current) => current.includes(tool) ? current.filter((item) => item !== tool) : [...current, tool]);
@@ -319,7 +353,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
 
       {phase === "parameters" && <section className="trial-parameters trial-enter" ref={parameterRef}>{activeMode === "monthly" ? <div className="trial-progress monthly-progress"><span className="active">1</span><i /><span>2</span></div> : <div className="trial-progress"><span className="active">1</span><i /><span>2</span><i /><span>3</span></div>}<div className="trial-section-heading"><h2>{activeMode === "monthly" ? "Monthly Workflow" : "One-off Project"}</h2></div>
-          <form onSubmit={analyse} className="trial-form">
+          <form ref={formRef} onSubmit={analyse} className="trial-form">
             {activeMode === "monthly" ? <>
               <fieldset className="trial-field-wide"><legend>Recurring AI tasks <InfoTip label="Recurring AI tasks">Add each kind of work you repeat during the month. We&apos;ll recommend the best AI stack across all of them.</InfoTip></legend><div className="monthly-task-add"><input aria-label="Recurring task" value={monthlyTaskDraft} onChange={(event) => setMonthlyTaskDraft(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); addMonthlyTask(); } }} placeholder="e.g. Write a weekly research summary" /><button type="button" className="trial-secondary-button" onClick={addMonthlyTask}><Plus /> Add task</button></div></fieldset>
               {monthlyTasks.length > 0 && <fieldset className="trial-field-wide"><legend>Your monthly tasks ({monthlyTasks.length})</legend><div className="monthly-task-list">{monthlyTasks.map((task, index) => <article className="monthly-task-card" key={task.id}><div className="monthly-task-card-heading"><span>{String(index + 1).padStart(2, "0")}</span><input aria-label={`Monthly task ${index + 1}`} value={task.task} onChange={(event) => updateMonthlyTask(task.id, { task: event.target.value })} /><button type="button" aria-label={`Remove ${task.task}`} onClick={() => setMonthlyTasks((current) => current.filter((item) => item.id !== task.id))}><Trash2 /></button></div><div className="monthly-task-controls"><label><span>How often?</span><select aria-label={`Frequency for ${task.task}`} value={task.frequency} onChange={(event) => { const frequency = event.target.value as MonthlyTask["frequency"]; updateMonthlyTask(task.id, { frequency, monthlyUses: frequencyToMonthlyUses(frequency) }); }}>{monthlyFrequencyValues.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}</select></label><label><span>Quality needed</span><select aria-label={`Quality for ${task.task}`} value={task.quality} onChange={(event) => updateMonthlyTask(task.id, { quality: event.target.value as MonthlyTask["quality"] })}>{monthlyQualityValues.map((option) => <option value={option.value} key={option.value}>{option.label}</option>)}</select></label></div></article>)}</div></fieldset>}
@@ -348,6 +382,41 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       {phase === "processing" && <section className="trial-processing" aria-live="polite"><div className="trial-processing-orbit"><Sparkles /><i /><i /></div><p>ANALYSING YOUR WORK</p><h1>{loadingMessages[loadingIndex]}</h1><div className="trial-loading-bar"><span key={loadingIndex} /></div><small>Using current tool, pricing, and evidence data. No artificial wait.</small></section>}
 
       {phase === "results" && result && <><div className={`trial-progress result ${activeMode === "monthly" ? "monthly-progress" : ""}`}>{activeMode === "monthly" ? <><span className="done"><Check /></span><i className="done" /><span className="active">2</span></> : <><span className="done"><Check /></span><i className="done" /><span className="done"><Check /></span><i className="done" /><span className="active">3</span></>}</div><TrialResults result={result} mode={savedStrategyId ? "saved" : "trial"} saveControl={savedStrategyId ? <Link className="trial-primary-button" href="/dashboard">Consultation history</Link> : saveControl} savedStrategyId={savedStrategyId} />{error && <p className="trial-error floating" role="alert">{error}</p>}</>}
+
+      <footer className="trial-footer-nav" aria-label="Trial page navigation">
+        <div className="trial-footer-nav-inner">
+          <button
+            type="button"
+            className="trial-footer-arrow-btn"
+            onClick={handleBack}
+            disabled={!canGoBack}
+            aria-label="Previous step"
+            title="Previous step"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+
+          <span className="trial-footer-step-counter">
+            {phase === "intro" && "01 / 04"}
+            {phase === "type-selection" && "02 / 04"}
+            {phase === "parameters" && "03 / 04"}
+            {phase === "workflow" && "03 / 04"}
+            {phase === "results" && "04 / 04"}
+            {phase === "processing" && "..."}
+          </span>
+
+          <button
+            type="button"
+            className="trial-footer-arrow-btn"
+            onClick={handleNext}
+            disabled={!canGoNext}
+            aria-label="Next step"
+            title="Next step"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      </footer>
     </main>
   );
 }
