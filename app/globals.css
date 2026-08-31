@@ -6017,6 +6017,18 @@ div.trial-results,
   box-sizing: border-box !important;
 }
 
+.trial-workflow-card-body {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 24px !important;
+  width: 100% !important;
+}
+
+.trial-workflow-card-body h3,
+.trial-workflow-card-body p {
+  margin: 0 !important;
+}
+
 .trial-workflow-add-btn-wrap {
   display: flex !important;
   justify-content: center !important;

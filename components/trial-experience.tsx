@@ -446,8 +446,8 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
                 className="trial-workflow-card"
                 key={step.id}
               >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-4">
+                <div className="trial-workflow-card-body">
+                  <div className="flex items-center justify-between gap-2">
                     <div className="font-mono text-xs text-[#0213B0] tracking-widest font-bold">
                       {String(index + 1).padStart(2, "0")}
                     </div>
@@ -488,7 +488,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
                   </div>
 
                   {editingWorkflow ? (
-                    <div className="space-y-4 mt-2">
+                    <div className="space-y-4">
                       <input
                         aria-label="Step name"
                         value={step.name}
@@ -506,7 +506,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
                     </div>
                   ) : (
                     <>
-                      <h3 className="text-xl font-bold text-[#0213B0] mb-3 leading-snug">{step.name}</h3>
+                      <h3 className="text-xl font-bold text-[#0213B0] leading-snug">{step.name}</h3>
                       <p className="text-xs text-[#0213B0] leading-relaxed opacity-90">{step.plainLanguageDescription || step.outputDescription}</p>
                     </>
                   )}
