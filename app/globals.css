@@ -5591,7 +5591,20 @@ input[type="checkbox"]:checked::after,
   border-bottom: 1.5px solid #0213B0 !important;
 }
 
-/* Pass 39: Refine dashboard empty state styling */
+/* Choose usage option cards SVG icons (White in light mode, Blue in dark mode) */
+.signed-home-option svg,
+.signed-home-option .signed-home-option-icon,
+.signed-home-option .signed-home-option-icon svg,
+.signed-home-option strong svg,
+.trial-page .signed-home-option svg,
+.trial-page .signed-home-option span,
+.trial-page .signed-home-option span svg,
+.trial-page .signed-home-option strong svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+  fill: none !important;
+}
+
 .signed-home-option-icon {
   width: auto !important;
   height: auto !important;
@@ -5599,18 +5612,31 @@ input[type="checkbox"]:checked::after,
   background-color: transparent !important;
   border: none !important;
   border-radius: 0 !important;
-  color: #FFFFF1 !important;
   margin-bottom: 36px !important;
 }
 
 .signed-home-option-icon svg {
-  width: 24px !important;
-  height: 24px !important;
+  width: 28px !important;
+  height: 28px !important;
   margin: 0 !important;
+  display: block !important;
 }
 
 .signed-home-option p {
   margin: 0 0 45px !important;
+}
+
+:root[data-theme="dark"] .signed-home-option svg,
+:root[data-theme="dark"] .signed-home-option .signed-home-option-icon,
+:root[data-theme="dark"] .signed-home-option .signed-home-option-icon svg,
+:root[data-theme="dark"] .signed-home-option strong svg,
+:root[data-theme="dark"] .trial-page .signed-home-option svg,
+:root[data-theme="dark"] .trial-page .signed-home-option span,
+:root[data-theme="dark"] .trial-page .signed-home-option span svg,
+:root[data-theme="dark"] .trial-page .signed-home-option strong svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+  fill: none !important;
 }
 
 /* Pass 42: Upgraded Brutalist styling for Results Page */

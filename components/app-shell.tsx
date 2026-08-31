@@ -37,13 +37,13 @@ export function AppShell({
       {/* Background Deck Glow */}
       <div className="deck-bg" />
 
-      {/* Presentation Deck Persistent Top-Left Brand Logo */}
-      <Brand />
-
-      {/* Theme is the only persistent top-level control. */}
-      <div className="dash-top-right-chrome">
-        <VisualModeToggle />
-      </div>
+      {/* Top Header matching Trial Header without Sign In */}
+      <header className="trial-header">
+        <Brand />
+        <div className="flex items-center gap-3">
+          <VisualModeToggle />
+        </div>
+      </header>
 
       {/* Main Workspace Presentation Area */}
       <main
