@@ -68,7 +68,7 @@ function ResultSummary({ plan, monthly }: { plan: StrategyPlan; monthly: boolean
   const savings = plan.estimatedSavingsUsd;
   return (
     <section className="trial-result-hero" aria-labelledby="result-title">
-      <div><p>{complete ? "YOUR AI MATCH IS READY" : "HONEST PARTIAL MATCH"}</p><h1 id="result-title">{complete ? "Specific AI. Specific jobs." : `${plan.completeStepCount} of ${plan.steps.length} jobs matched.`}</h1><span>{complete ? "Each model below has one clear role in your workflow." : "We only show a model when current evidence supports the whole job."}</span></div>
+      <div><h1 id="result-title">{complete ? "Specific AI. Specific jobs." : `${plan.completeStepCount} of ${plan.steps.length} jobs matched.`}</h1></div>
       <div className="trial-result-summary-cost"><small>KNOWN AI COST</small><strong>{money(plan.totalCostUsd, plan)}{monthly ? " / month" : ""}</strong>{savings > 0 && <span>{money(savings, plan)} potential saving</span>}</div>
     </section>
   );
@@ -126,7 +126,7 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
         {complete && plan.existingSubscriptions.couldCancel.length > 0 && <div className="trial-cancel-list"><span>REVIEW POSSIBLE OVERLAP</span>{plan.existingSubscriptions.couldCancel.map((tool) => <strong key={tool}>{tool} <small>Check usage before cancelling</small></strong>)}</div>}
       </section>
 
-      <section className="trial-bottom-line"><div><p>THE BOTTOM LINE</p><h2>{complete ? "A clear stack with clear costs." : "Known costs for the matched jobs."}</h2></div><div className="trial-money-grid">
+      <section className="trial-bottom-line"><div><h2>{complete ? "A clear stack with clear costs." : "Known costs for the matched jobs."}</h2></div><div className="trial-money-grid">
         <div><span>Your budget cap</span><strong>{budgetCap(plan)}</strong></div>
         <div><span>{complete ? "Recommended AI cost" : "Matched AI cost"}</span><strong>{money(plan.totalCostUsd, plan)}{monthly ? " / month" : ""}</strong></div>
         <div className="highlight"><span>Budget remaining</span><strong>{plan.budgetRemainingUsd === null ? "No cap" : money(plan.budgetRemainingUsd, plan)}</strong></div>
@@ -134,9 +134,9 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
 
       {beforeFooter}
 
-      <section className="trial-save-panel"><Sparkles /><div><p>{mode === "saved" ? "SAVED CONSULTATION" : "SAVE YOUR RESULT"}</p><h2>{mode === "saved" ? "This model-by-model plan is in your history." : "Keep this model-by-model plan."}</h2><span>{mode === "saved" ? "Return to it anytime, edit the workflow, or customize the selected models below." : "Sign in is only needed to add it to consultation history."}</span></div>{mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}</section>
+      <section className="trial-save-panel"><Sparkles /><div><h2>{mode === "saved" ? "This model-by-model plan is in your history." : "Keep this model-by-model plan."}</h2></div>{mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}</section>
 
-      <section className="trial-optimise-tease"><div><p>OPTIONAL</p><h2>Check this stack again when models or prices change.</h2></div><Link href="/pricing">See Optimise <ArrowUpRight /></Link></section>
+      <section className="trial-optimise-tease"><div><h2>Check this stack again when models or prices change.</h2></div><Link href="/pricing">See Optimise <ArrowUpRight /></Link></section>
 
       <details className="trial-technical"><summary>Technical recommendation details <ChevronDown /></summary><div><p>Workflow coverage: {plan.completeStepCount}/{plan.steps.length} jobs</p><p>Evidence last updated: {plan.dataUpdatedAt ? new Date(plan.dataUpdatedAt).toLocaleDateString() : "Mixed source dates"}</p><p>Assumptions: {plan.assumptions.join(" ") || "No additional assumptions."}</p></div></details>
     </div>
