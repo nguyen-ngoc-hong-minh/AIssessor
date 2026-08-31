@@ -5597,7 +5597,12 @@ select,
 textarea,
 .cl-input, 
 .cl-select, 
-.cl-textarea {
+.cl-textarea,
+.trial-form input,
+.trial-form select,
+.trial-form textarea,
+.trial-advanced-grid select,
+.trial-advanced-grid input {
   background-color: #FFFFF1 !important;
   border: none !important;
   border-bottom: 1.5px solid #0213B0 !important;
