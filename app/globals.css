@@ -5095,7 +5095,7 @@ input[type="checkbox"]:checked::after,
   width: 6px !important;
   height: 11px !important;
   border: solid #FFFFF1 !important;
-  border-width: 0 2px 2px 0 !important;
+  border-width: 0 1.5px 1.5px 0 !important;
   transform: translate(-50%, -50%) rotate(45deg) !important;
   color: transparent !important; /* Override the tick character if any */
 }
@@ -5798,5 +5798,20 @@ html body *[id]:hover {
 input[type="checkbox"]:checked::after,
 .cl-checkboxInput:checked::after,
 .cl-checkbox__input:checked::after {
+  transform: translate(-50%, -50%) rotate(45deg) !important;
+}
+
+/* Fix Checkbox checkmark position */
+input[type="checkbox"]:checked::after,
+.cl-checkboxInput:checked::after,
+.cl-checkbox__input:checked::after {
+  content: "" !important;
+  position: absolute !important;
+  top: 45% !important;
+  left: 50% !important;
+  width: 6px !important;
+  height: 11px !important;
+  border: solid #FFFFF1 !important;
+  border-width: 0 2px 2px 0 !important;
   transform: translate(-50%, -50%) rotate(45deg) !important;
 }

@@ -132,13 +132,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
     <div className="s-compare w-full max-w-6xl mx-auto my-auto py-6">
       {/* Header */}
       <div className="s-compare-head flex flex-col items-center justify-center">
-        <div className="eyebrow justify-center">
-          <span className="dt" />
-          Project Workflow
-        </div>
-        
-        {/* Div 30px bên dưới eyebrow */}
-        <div className="h-[30px]" />
+
 
         <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight text-center max-w-[700px] mx-auto leading-tight">
           {projectTitle}
