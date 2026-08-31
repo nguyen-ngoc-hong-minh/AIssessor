@@ -235,12 +235,31 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         order: current.length,
         name: "New step",
         plainLanguageDescription: "Describe what should happen in this step.",
-        technicalDescription: "",
-        category: "planning",
-        estimatedWorkload: "medium",
-        requiredCapabilities: ["text"],
-        canUseFreeTier: false,
-        recommendedTool: "",
+        inputDescription: "Required project context and requirements",
+        outputDescription: "Generated deliverable or assets for this step",
+        dependencies: [],
+        canRunInParallel: false,
+        estimatedInputTokensLow: 500,
+        estimatedInputTokensExpected: 1500,
+        estimatedInputTokensHigh: 3000,
+        estimatedOutputTokensLow: 300,
+        estimatedOutputTokensExpected: 800,
+        estimatedOutputTokensHigh: 1500,
+        estimatedRequestCount: 1,
+        estimatedImageCount: 0,
+        estimatedAudioMinutes: 0,
+        estimatedVideoMinutes: 0,
+        requiredModalities: ["text"],
+        requiredCapabilities: ["text_generation"],
+        requiresCurrentInformation: false,
+        privacyRequirement: "standard",
+        commercialUseRequired: false,
+        minimumQuality: "good",
+        importance: "medium",
+        noAIEligible: false,
+        noAIAlternative: "Manual execution by human",
+        humanReviewRecommended: true,
+        assumptions: [],
       },
     ]);
   }
@@ -401,7 +420,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
           {/* Header with Title */}
           <div className="s-compare-head flex flex-col items-center justify-center mb-10 text-center">
             <h1 className="text-4xl md:text-5xl font-semibold text-[#0213B0] tracking-tight max-w-[760px] mx-auto leading-tight">
-              {brief.trim() || analysis?.intent || "Here's how we understood your work."}
+              {brief.trim() || analysis?.interpretedGoal || analysis?.title || "Here's how we understood your work."}
             </h1>
           </div>
 
@@ -478,7 +497,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
                   ) : (
                     <>
                       <h3 className="text-xl font-bold text-[#0213B0] mb-3 leading-snug">{step.name}</h3>
-                      <p className="text-xs text-[#0213B0] leading-relaxed opacity-90">{step.plainLanguageDescription || step.technicalDescription}</p>
+                      <p className="text-xs text-[#0213B0] leading-relaxed opacity-90">{step.plainLanguageDescription || step.outputDescription}</p>
                     </>
                   )}
                 </div>
