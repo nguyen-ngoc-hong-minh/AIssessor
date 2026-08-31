@@ -6009,6 +6009,10 @@ div.trial-results,
 /* ==========================================================================
    TRIAL WORKFLOW CARDS GRID & ACTION BUTTONS SPACING
    ========================================================================== */
+.trial-workflow .trial-section-heading {
+  margin-bottom: 45px !important;
+}
+
 .trial-workflow-cards-grid {
   display: flex !important;
   flex-wrap: wrap !important;
