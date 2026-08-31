@@ -604,38 +604,27 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       )}
 
       <footer className="trial-footer-nav" aria-label="Trial page navigation">
-        <div className="trial-footer-nav-inner">
-          <button
-            type="button"
-            className="trial-footer-arrow-btn"
-            onClick={handleBack}
-            disabled={!canGoBack}
-            aria-label="Previous step"
-            title="Previous step"
-          >
-            <ArrowLeft className="w-4 h-4" />
-          </button>
+        <button
+          type="button"
+          className="trial-footer-arrow-btn"
+          onClick={handleBack}
+          disabled={!canGoBack}
+          aria-label="Previous step"
+          title="Previous step"
+        >
+          <ArrowLeft className="w-4 h-4" />
+        </button>
 
-          <span className="trial-footer-step-counter">
-            {phase === "intro" && "01 / 04"}
-            {phase === "type-selection" && "02 / 04"}
-            {phase === "parameters" && "03 / 04"}
-            {phase === "workflow" && "03 / 04"}
-            {phase === "results" && "04 / 04"}
-            {phase === "processing" && "..."}
-          </span>
-
-          <button
-            type="button"
-            className="trial-footer-arrow-btn"
-            onClick={handleNext}
-            disabled={!canGoNext}
-            aria-label="Next step"
-            title="Next step"
-          >
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </div>
+        <button
+          type="button"
+          className="trial-footer-arrow-btn"
+          onClick={handleNext}
+          disabled={!canGoNext}
+          aria-label="Next step"
+          title="Next step"
+        >
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </footer>
     </main>
   );
