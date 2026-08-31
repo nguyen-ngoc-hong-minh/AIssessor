@@ -5535,15 +5535,15 @@ h1, h2, h3, h4, h5, h6, p, span, li, a, label, legend, div,
 }
 
 /* EXCEPTIONS: Text inside solid (active/primary) buttons */
-button.trial-primary-button, 
-button.bg-blue-600,
+.trial-primary-button, 
+.bg-blue-600,
 .cl-formButtonPrimary,
 button[aria-pressed="true"],
 .plan-cta-btn {
   color: #FFFFF1 !important;
 }
-button.trial-primary-button *, 
-button.bg-blue-600 *,
+.trial-primary-button *, 
+.bg-blue-600 *,
 .cl-formButtonPrimary *,
 button[aria-pressed="true"] * {
   color: #FFFFF1 !important;
@@ -5554,7 +5554,7 @@ button[aria-pressed="true"] * {
 .card, .glass-card, .ui-card, .pricing-deck-card,
 .cl-card, .cl-socialButtonsBlockButton, .cl-alert,
 [class*="border-slate"], [class*="border-gray"], [class*="border-input"], [class*="border-border"],
-button.trial-secondary-button,
+.trial-secondary-button,
 button[variant="outline"],
 button[variant="ghost"],
 .trial-workflow-list article,
@@ -5576,8 +5576,8 @@ button[variant="ghost"],
 }
 
 /* 4. TYPE 1 BOXES (Solid Primary Buttons) */
-button.trial-primary-button, 
-button.bg-blue-600,
+.trial-primary-button, 
+.bg-blue-600,
 .cl-formButtonPrimary,
 .plan-cta-btn {
   background-color: #0213B0 !important;
@@ -5653,4 +5653,15 @@ hr, .cl-dividerLine {
 /* KILL TRANSITIONS (INSTANT SNAP) */
 * {
   transition: none !important;
+}
+
+/* ==========================================================================
+   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 17 (Clean up large box borders)
+   ========================================================================== */
+
+/* Remove border on large layout boxes */
+.dashboard-create-bar, 
+.dash-content-block, 
+.metric {
+  border: none !important;
 }

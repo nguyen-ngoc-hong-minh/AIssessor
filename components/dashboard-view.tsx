@@ -63,7 +63,7 @@ export function DashboardView() {
         <div>
           <p>START A NEW CONSULTATION</p>
           <h1>What are you working on?</h1>
-          <span>Choose a one-off project or a monthly workflow.</span>
+          
         </div>
         <div className="dashboard-create-actions">
           <Link className="btn-primary" href="/strategy/new/one-off"><Plus aria-hidden="true" /> One-off project <ArrowUpRight aria-hidden="true" /></Link>
@@ -108,7 +108,7 @@ export function DashboardView() {
             Consultation history
           </div>
 
-          <div className="flex items-end justify-between gap-4 pb-6 mb-6 border-b border-line">
+          <div className="flex items-end justify-between gap-4 pb-6 mb-6">
             <h2 className="h-display text-3xl md:text-4xl font-semibold text-ink">
               Previous Consultations
             </h2>
