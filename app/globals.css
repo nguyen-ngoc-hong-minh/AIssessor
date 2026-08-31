@@ -6173,3 +6173,16 @@ input[type="checkbox"]:checked::after,
   background-color: #0213B0 !important;
   color: #FFFFF1 !important;
 }
+
+/* Keep the public homepage visible when the global motion override disables reveals. */
+.trial-intro-copy > *,
+.trial-animated-title span,
+.trial-animated-title em,
+.trial-header .swiss-badge,
+.trial-header .swiss-nav-block,
+.trial-header > .relative > div:first-child {
+  opacity: 1 !important;
+  visibility: visible !important;
+  filter: none !important;
+  transform: none !important;
+}
