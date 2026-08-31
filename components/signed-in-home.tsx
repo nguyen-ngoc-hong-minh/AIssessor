@@ -46,10 +46,7 @@ export function SignedInHome() {
   return (
     <section className="signed-home" aria-labelledby="signed-home-title">
       <div className="signed-home-heading">
-        
         <h1 id="signed-home-title">What would you like to plan?</h1>
-        <div className="h-[30px]" />
-        
       </div>
 
       {saveState.status === "saving" && (

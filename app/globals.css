@@ -5222,8 +5222,87 @@ input::placeholder {
   }
 }
 
-/* Center type-selection choose usage view and signed-in home view */
-.signed-home,
+/* Signed-in Workspace Home Layout (starts immediately at top with page padding) */
+.editorial-app-main,
+.editorial-app-main.is-workspace-page,
+.editorial-app-main.is-long-page {
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  padding: 88px 28px 48px !important;
+  width: 100% !important;
+  max-width: 1440px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+  .editorial-app-main,
+  .editorial-app-main.is-workspace-page,
+  .editorial-app-main.is-long-page {
+    padding: 72px 16px 32px !important;
+  }
+}
+
+.signed-home {
+  min-height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 960px !important;
+  gap: 36px !important;
+}
+
+.signed-home .signed-home-heading {
+  width: 100% !important;
+  max-width: 960px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  text-align: left !important;
+}
+
+.signed-home .signed-home-heading h1 {
+  font-family: var(--font-sans) !important;
+  font-size: clamp(36px, 5.5vw, 64px) !important;
+  font-weight: 700 !important;
+  color: #0213B0 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.05 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+:root[data-theme="dark"] .signed-home .signed-home-heading h1 {
+  color: #FFFFF1 !important;
+}
+
+.signed-home .signed-home-options {
+  width: 100% !important;
+  max-width: 960px !important;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 24px !important;
+}
+
+.signed-home .signed-home-history-wrap {
+  width: 100% !important;
+  max-width: 960px !important;
+  margin: 0 !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+/* Center choose usage view specifically in trial flow */
 .trial-page .signed-home {
   min-height: 100svh !important;
   display: flex !important;
@@ -5235,7 +5314,6 @@ input::placeholder {
   box-sizing: border-box !important;
 }
 
-.signed-home .signed-home-heading,
 .trial-page .signed-home .signed-home-heading {
   width: 100% !important;
   max-width: 960px !important;
@@ -5243,19 +5321,10 @@ input::placeholder {
   text-align: left !important;
 }
 
-.signed-home .signed-home-options,
 .trial-page .signed-home .signed-home-options {
   width: 100% !important;
   max-width: 960px !important;
   margin: 0 auto !important;
-}
-
-.signed-home .signed-home-history-wrap {
-  width: 100% !important;
-  max-width: 960px !important;
-  margin: 28px auto 0 !important;
-  display: flex !important;
-  justify-content: flex-start !important;
 }
 
 /* Unified Action Button Format (Matching Sign In / Trial Header Auth Button) */
