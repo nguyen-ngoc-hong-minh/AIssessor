@@ -46,9 +46,9 @@ export function SignedInHome() {
   return (
     <section className="signed-home" aria-labelledby="signed-home-title">
       <div className="signed-home-heading">
-        <p>YOUR AI WORKSPACE</p>
+        
         <h1 id="signed-home-title">What would you like to plan?</h1>
-        <span>Start with one project, or optimize work you repeat every month.</span>
+        
       </div>
 
       {saveState.status === "saving" && (
@@ -70,16 +70,16 @@ export function SignedInHome() {
       <div className="signed-home-options">
         <Link className="signed-home-option" href="/strategy/new/one-off">
           <span className="signed-home-option-icon"><FolderPlus aria-hidden="true" /></span>
-          <small>ONE-OFF PROJECT</small>
-          <h2>Build a stack for one goal.</h2>
+          
+          <h2>One-off Project</h2>
           <p>Plan a specific deliverable, deadline, and AI budget.</p>
           <strong>Start one-off project <ArrowUpRight aria-hidden="true" /></strong>
         </Link>
 
         <Link className="signed-home-option" href="/strategy/new/monthly">
           <span className="signed-home-option-icon"><CalendarRange aria-hidden="true" /></span>
-          <small>MONTHLY WORKFLOW</small>
-          <h2>Optimize recurring work.</h2>
+          
+          <h2>Monthly Workflow</h2>
           <p>Match an AI stack to tasks you complete throughout the month.</p>
           <strong>Start monthly workflow <ArrowUpRight aria-hidden="true" /></strong>
         </Link>
