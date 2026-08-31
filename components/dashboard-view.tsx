@@ -101,11 +101,11 @@ export function DashboardView() {
       </div>
 
       {/* Main Strategy List Section */}
-      <div id="consultation-history" className="dash-content-block min-h-[485px] flex flex-col justify-between scroll-mt-24">
+      <div id="consultation-history" className="dash-content-block min-h-[485px] flex flex-col gap-6 scroll-mt-24">
         <div>
           
 
-          <div className="flex items-end justify-between gap-4 pb-6 mb-6">
+          <div className="flex items-end justify-between gap-4">
             <h2 className="h-display text-3xl md:text-4xl font-semibold text-ink">
               Previous Consultations
             </h2>
