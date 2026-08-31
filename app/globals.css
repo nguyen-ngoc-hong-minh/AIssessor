@@ -10,14 +10,6 @@
   overflow-x: hidden;
   background: var(--bg);
   color: var(--ink);
-  padding: 92px 28px 110px !important;
-  box-sizing: border-box !important;
-}
-
-@media (max-width: 768px) {
-  .trial-page {
-    padding: 92px 14px 110px !important;
-  }
 }
 
 .trial-page.is-embedded {
