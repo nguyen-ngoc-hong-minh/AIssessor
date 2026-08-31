@@ -5416,8 +5416,8 @@ input::placeholder {
 
 /* 1. Optional details outer box (Hình 1) */
 .trial-advanced {
-  background: #F8F6E7 !important;
-  background-color: #F8F6E7 !important;
+  background: #F4F7F5 !important;
+  background-color: #F4F7F5 !important;
   border: none !important;
   border-radius: 0.25rem !important;
   box-shadow: none !important;
@@ -5462,8 +5462,8 @@ input::placeholder {
 
 /* 1. Optional details outer box - New Color */
 .trial-advanced {
-  background: #CBF7EC !important;
-  background-color: #CBF7EC !important;
+  background: #F4F7F5 !important;
+  background-color: #F4F7F5 !important;
 }
 
 /* 2. Remove divider line */
