@@ -5769,9 +5769,9 @@ select:not(.trial-budget-row select), .cl-select {
 
 
 
-/* Fix dashboard left alignment */
+/* Fix dashboard left alignment and padding */
 .dashboard-create-bar {
-  padding-left: 0 !important;
+  padding: 0 0 28px 0 !important;
 }
 
 /* Fix dash-content-block padding */
