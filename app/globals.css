@@ -5775,3 +5775,9 @@ select:not(.trial-budget-row select), .cl-select {
 .dashboard-create-bar {
   padding-left: 0 !important;
 }
+
+/* Fix dash-content-block padding */
+.dash-content-block {
+  padding: 0 !important;
+  background: transparent !important;
+}

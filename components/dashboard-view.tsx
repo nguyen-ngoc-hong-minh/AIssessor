@@ -138,8 +138,8 @@ export function DashboardView() {
                   {String(idx + 1).padStart(2, "0")}
                 </div>
                 
-                <div className="flex-1 flex flex-col min-w-0">
-                  <h3 className="font-sans text-base font-bold text-ink mb-10">
+                <div className="flex-1 flex flex-col gap-6 min-w-0">
+                  <h3 className="font-sans text-base font-bold text-ink">
                     {strategy.title}
                   </h3>
 
@@ -155,7 +155,7 @@ export function DashboardView() {
                     </span>
                   </div>
 
-                  <div className="flex items-center self-start mt-8">
+                  <div className="flex items-center self-start">
                     <Link
                       className="btn-primary text-[11px] font-bold px-6 py-3 flex items-center justify-center gap-2 mr-4"
                       href={`/strategy/${strategy._id}/${strategy.status === "complete" ? "results" : "workflow"}`}
