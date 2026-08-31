@@ -5964,11 +5964,12 @@ input[type="checkbox"]:checked::after,
   margin-bottom: 0 !important;
 }
 
-/* Section Divider */
+/* Section Divider (now just a 55px spacer) */
 .trial-section-divider {
   width: 100%;
-  border-top: 1.5px solid #0213B0 !important;
-  margin: 45px 0 !important;
+  height: 55px !important;
+  border: none !important;
+  margin: 0 !important;
 }
 
 /* Job Label Box in Cards */
