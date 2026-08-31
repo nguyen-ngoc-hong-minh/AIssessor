@@ -93,10 +93,12 @@ function ModelCustomizer({
                   const route = accessRoute(candidate);
                   return (
                     <button type="button" className="trial-model-choice" data-selected={selected} onClick={() => onSelect(step.stepId, candidate)} key={candidateId(candidate)}>
-                      <span>{label}</span>
-                      <strong>{candidate.model.name}</strong>
-                      <small>by {candidate.model.provider}{route.toLowerCase() !== candidate.model.provider.toLowerCase() ? ` · via ${route}` : ""}</small>
-                      <b>{money(candidate.estimatedCostUsd, plan)} {selected && <Check aria-hidden="true" />}</b>
+                      <div className="trial-model-choice-inner">
+                        <span>{label}</span>
+                        <strong>{candidate.model.name}</strong>
+                        <small>by {candidate.model.provider}{route.toLowerCase() !== candidate.model.provider.toLowerCase() ? ` · via ${route}` : ""}</small>
+                        <b>{money(candidate.estimatedCostUsd, plan)} {selected && <Check aria-hidden="true" />}</b>
+                      </div>
                     </button>
                   );
                 })}

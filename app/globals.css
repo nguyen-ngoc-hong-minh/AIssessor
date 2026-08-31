@@ -478,12 +478,12 @@
 .trial-model-choice { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.025); color: #FFFFF1; text-align: left; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
 .trial-model-choice:hover { transform: none; border-color: rgba(165,180,252,.42); }
 .trial-model-choice[data-selected="true"] { border-color: rgba(45,212,191,.55); background: rgba(45,212,191,.07); }
-.trial-model-choice > span, .trial-model-choice > strong, .trial-model-choice > small, .trial-model-choice > b { display: block; }
-.trial-model-choice > span { color: var(--indigo-soft); font: 600 8px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
-.trial-model-choice > strong { margin-top: 6px; overflow: hidden; color: #FFFFF1; font: 600 15px var(--font-sans); text-overflow: ellipsis; white-space: nowrap; }
-.trial-model-choice > small { margin-top: 3px; overflow: hidden; color: var(--ink-3); font: 10px var(--font-body); text-overflow: ellipsis; white-space: nowrap; }
-.trial-model-choice > b { margin-top: 9px; color: #5eead4; font: 600 11px var(--font-sans); }
-.trial-model-choice > b svg { display: inline; width: 12px; height: 12px; vertical-align: -2px; }
+.trial-model-choice-inner > span, .trial-model-choice-inner > strong, .trial-model-choice-inner > small, .trial-model-choice-inner > b { display: block; }
+.trial-model-choice-inner > span { color: var(--indigo-soft); font: 600 8px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+.trial-model-choice-inner > strong { margin-top: 6px; overflow: hidden; color: #FFFFF1; font: 600 15px var(--font-sans); text-overflow: ellipsis; white-space: nowrap; }
+.trial-model-choice-inner > small { margin-top: 3px; overflow: hidden; color: var(--ink-3); font: 10px var(--font-body); text-overflow: ellipsis; white-space: nowrap; }
+.trial-model-choice-inner > b { margin-top: 9px; color: #5eead4; font: 600 11px var(--font-sans); }
+.trial-model-choice-inner > b svg { display: inline; width: 12px; height: 12px; vertical-align: -2px; }
 .trial-customize-actions { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 45px !important; }
 .trial-customize-actions > p { color: var(--ink-3); font: 12px var(--font-body); }
 .trial-customize-actions > div, .trial-saved-actions { display: flex; align-items: center; gap: 8px; }
@@ -3977,7 +3977,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   .trial-customize-heading h2,
   .trial-customize-job strong,
   .trial-model-choice,
-  .trial-model-choice > strong,
+  .trial-model-choice-inner > strong,
   .trial-tool-cost,
   .trial-why details summary,
   .trial-result-hero > a,
@@ -6062,7 +6062,7 @@ input[type="checkbox"]:checked::after,
 }
 
 /* 4. BEST FIT same as USE THIS AI FOR */
-.trial-model-choice > span {
+.trial-model-choice-inner > span {
   font: 600 9px var(--font-mono) !important;
   letter-spacing: .12em !important;
   text-transform: uppercase !important;
@@ -6072,14 +6072,14 @@ input[type="checkbox"]:checked::after,
 }
 
 /* 5. Z.ai (bottom) same as Generate Daily Exercise Plans (in blue box) */
-.trial-model-choice > strong {
+.trial-model-choice-inner > strong {
   font: 600 15px var(--font-sans) !important;
   display: block !important;
   color: #0213B0 !important;
 }
 
 /* 6. by z-ai... same as Receive user fitness parameters... */
-.trial-model-choice > small {
+.trial-model-choice-inner > small {
   font: 12px/1.45 var(--font-body) !important;
   display: block !important;
   color: #0213B0 !important;
@@ -6097,7 +6097,23 @@ input[type="checkbox"]:checked::after,
   border-right: 1.5px solid #0213B0 !important;
   border-bottom: 1.5px solid #0213B0 !important;
   border-radius: 0 !important;
-  padding: 24px !important;
+  padding: 8px !important; /* Spacing between grid lines and the inner box */
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Inner box that gets the background on hover/select */
+.trial-model-choice-inner {
+  padding: 16px !important;
+  border-radius: 0.25rem !important;
+  flex: 1 !important; /* Fill the button's height completely */
+  transition: background-color 0.2s ease;
+}
+
+/* 8. Add a subtle hover effect since borders are fixed */
+.trial-model-choice:hover .trial-model-choice-inner,
+.trial-model-choice[data-selected="true"] .trial-model-choice-inner {
+  background-color: #FFFFF1 !important;
 }
 .trial-model-choice[data-selected="true"] {
   background-color: transparent !important; /* Keep it transparent, or maybe a light blue tint? User said "no fill". */
@@ -6122,7 +6138,7 @@ input[type="checkbox"]:checked::after,
 }
 
 /* 7b. Style the money/checkmark */
-.trial-model-choice > b {
+.trial-model-choice-inner > b {
   color: #0213B0 !important;
   font: 600 13px var(--font-sans) !important;
   margin-top: 12px !important;
@@ -6130,13 +6146,9 @@ input[type="checkbox"]:checked::after,
   align-items: center !important;
   gap: 4px !important;
 }
-.trial-model-choice > b svg {
+.trial-model-choice-inner > b svg {
   width: 14px !important;
   height: 14px !important;
   stroke-width: 3 !important;
 }
 
-/* 8. Add a subtle hover effect since borders are fixed */
-.trial-model-choice:hover {
-  background-color: rgba(2, 19, 176, 0.04) !important;
-}
