@@ -5494,3 +5494,18 @@ input::placeholder {
 .trial-advanced-grid label > span {
   font-weight: 400 !important;
 }
+
+
+/* ==========================================================================
+   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 14 (Spacing)
+   ========================================================================== */
+
+/* Increase space below main title */
+.trial-section-heading {
+  margin-bottom: 90px !important;
+}
+@media (max-width: 768px) {
+  .trial-section-heading {
+    margin-bottom: 60px !important;
+  }
+}
