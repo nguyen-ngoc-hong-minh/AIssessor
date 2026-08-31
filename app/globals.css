@@ -6042,6 +6042,8 @@ input[type="checkbox"]:checked::after,
   margin-bottom: 0 !important;
   display: flex !important;
   flex-direction: column !important;
+  align-items: flex-start !important; /* Fix center alignment */
+  text-align: left !important;
   gap: 24px !important;
 }
 .trial-customize-job small, .trial-customize-job strong {
