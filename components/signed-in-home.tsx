@@ -48,7 +48,7 @@ export function SignedInHome() {
       <div className="signed-home-heading">
         
         <h1 id="signed-home-title">What would you like to plan?</h1>
-        <div className="h-[60px]" />
+        <div className="h-[30px]" />
         
       </div>
 
