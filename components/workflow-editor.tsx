@@ -222,7 +222,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
                     type="checkbox"
                     checked={Boolean(step.requirements.noAIEligible)}
                     onChange={(e) => change(index, { requirements: { ...step.requirements, noAIEligible: e.target.checked } })}
-                    className="w-5 h-5 rounded-full appearance-none border-2 border-indigo-500/40 checked:bg-indigo-500 checked:border-indigo-500 cursor-pointer transition-all flex-none relative after:content-['✓'] after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2 after:text-white after:text-[10px] after:font-bold after:opacity-0 checked:after:opacity-100"
+                    className="cursor-pointer flex-none"
                   />
                   <span className="text-[11px] font-mono text-ink-3">Manual / No AI</span>
                 </label>
