@@ -5912,7 +5912,6 @@ input[type="checkbox"]:checked::after,
 }
 
 /* 5. All other inner boxes / panels must be 1.5px */
-.trial-job-label, 
 .trial-tool-reason, 
 .trial-tool-cost, 
 .trial-save-panel, 
@@ -5962,4 +5961,14 @@ input[type="checkbox"]:checked::after,
   width: 100%;
   border-top: 1.5px solid #0213B0 !important;
   margin: 45px 0 !important;
+}
+
+/* Job Label Box in Cards */
+.trial-job-label {
+  background-color: #0213B0 !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
+}
+.trial-job-label, .trial-job-label * {
+  color: #FFFFF1 !important;
 }
