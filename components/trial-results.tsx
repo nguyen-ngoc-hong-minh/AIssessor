@@ -118,7 +118,8 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
     <div className="trial-results">
       <ResultSummary plan={plan} monthly={monthly} />
 
-      <section id="ai-team" className="trial-results-section"><div className="trial-section-heading"><p>WHICH AI FOR WHAT</p><h2>Your workflow, model by model.</h2><span>Model name first. Its exact job second. Access provider stays secondary.</span></div>
+      <div className="w-full border-t-[1.5px] border-[#0213B0] my-[45px]" />
+      <section id="ai-team" className="trial-results-section"><div className="trial-section-heading"><h2>Recommended AI Workflow</h2></div>
         <div className="trial-tools-grid">
           {plan.steps.flatMap((step) => step.selected?.tools.map((tool) => <StepToolCard key={`${step.stepId}:${tool.model.id}`} step={step} tool={tool} plan={plan} />) ?? (step.step.noAIEligible ? [<NoAiStepCard key={step.stepId} step={step} />] : [<UnmatchedStepCard key={step.stepId} step={step} plan={plan} />]))}
         </div>
@@ -126,19 +127,13 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
         {complete && plan.existingSubscriptions.couldCancel.length > 0 && <div className="trial-cancel-list"><span>REVIEW POSSIBLE OVERLAP</span>{plan.existingSubscriptions.couldCancel.map((tool) => <strong key={tool}>{tool} <small>Check usage before cancelling</small></strong>)}</div>}
       </section>
 
-      <section className="trial-bottom-line"><div><h2>{complete ? "A clear stack with clear costs." : "Known costs for the matched jobs."}</h2></div><div className="trial-money-grid">
-        <div><span>Your budget cap</span><strong>{budgetCap(plan)}</strong></div>
-        <div><span>{complete ? "Recommended AI cost" : "Matched AI cost"}</span><strong>{money(plan.totalCostUsd, plan)}{monthly ? " / month" : ""}</strong></div>
-        <div className="highlight"><span>Budget remaining</span><strong>{plan.budgetRemainingUsd === null ? "No cap" : money(plan.budgetRemainingUsd, plan)}</strong></div>
-      </div><p className="trial-cost-note"><CircleDollarSign /> Shown in {currency(plan)}, your selected currency. OpenRouter and other API marketplaces remain access routes—not owned subscriptions.</p></section>
-
+      <div className="w-full border-t-[1.5px] border-[#0213B0] my-[45px]" />
       {beforeFooter}
 
-      <section className="trial-save-panel"><Sparkles /><div><h2>{mode === "saved" ? "This model-by-model plan is in your history." : "Keep this model-by-model plan."}</h2></div>{mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}</section>
-
+      <div className="w-full border-t-[1.5px] border-[#0213B0] my-[45px]" />
       <section className="trial-optimise-tease"><div><h2>Check this stack again when models or prices change.</h2></div><Link href="/pricing">See Optimise <ArrowUpRight /></Link></section>
 
-      <details className="trial-technical"><summary>Technical recommendation details <ChevronDown /></summary><div><p>Workflow coverage: {plan.completeStepCount}/{plan.steps.length} jobs</p><p>Evidence last updated: {plan.dataUpdatedAt ? new Date(plan.dataUpdatedAt).toLocaleDateString() : "Mixed source dates"}</p><p>Assumptions: {plan.assumptions.join(" ") || "No additional assumptions."}</p></div></details>
+      {mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}
     </div>
   );
 }

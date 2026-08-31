@@ -51,7 +51,7 @@
 
 .trial-header .brand { position: static; }
 .trial-header nav a { color: var(--ink-2); font-size: 14px; text-decoration: none; border-bottom: 1px solid transparent; transition: .2s ease; }
-.trial-header nav a:hover, .trial-header nav a:focus-visible { color: #FFFFF1; border-color: var(--indigo-soft); outline: none; }
+.trial-header nav a:hover, .trial-header nav a:focus-visible { color: #F9F6EE; border-color: var(--indigo-soft); outline: none; }
 
 .trial-intro {
   position: relative;
@@ -75,7 +75,7 @@
   font: 600 clamp(52px, 7vw, 110px)/.98 var(--font-sans);
   letter-spacing: -.055em;
 }
-.trial-intro h1 em, .trial-workflow h1 em, .trial-result-hero h1 em, .trial-animated-title em { font-style: normal; color: #FFFFF1 !important; }
+.trial-intro h1 em, .trial-workflow h1 em, .trial-result-hero h1 em, .trial-animated-title em { font-style: normal; color: #F9F6EE !important; }
 .trial-intro-body { max-width: 680px; margin: 34px 0; color: var(--ink-2); font: 400 clamp(17px, 1.5vw, 21px)/1.6 var(--font-body); }
 .trial-primary-button, .trial-secondary-button {
   min-height: 54px;
@@ -91,24 +91,24 @@
   text-decoration: none;
   transition: transform .25s var(--ee), box-shadow .25s ease, background .25s ease, border-color .25s ease;
 }
-.trial-primary-button { color: #FFFFF1; background: var(--indigo); box-shadow: none; }
-.trial-primary-button:hover { transform: none; box-shadow: 0 20px 54px rgba(99,102,241,.44); }
+.trial-primary-button { color: #F9F6EE; background: var(--indigo); box-shadow: none; }
+.trial-primary-button:hover { transform: translateY(-2px); box-shadow: 0 20px 54px rgba(99,102,241,.44); }
 .trial-primary-button:disabled { opacity: .55; cursor: wait; transform: none; }
 .trial-primary-button svg, .trial-secondary-button svg { width: 17px; height: 17px; }
-.trial-secondary-button { color: #FFFFF1; background: rgba(255,255,255,.04); border-color: var(--line); }
+.trial-secondary-button { color: #F9F6EE; background: rgba(255,255,255,.04); border-color: var(--line); }
 .trial-secondary-button:hover { background: rgba(255,255,255,.09); border-color: rgba(165,180,252,.45); }
 .trial-primary-button:focus-visible, .trial-secondary-button:focus-visible, .trial-form button:focus-visible, .trial-form input:focus-visible, .trial-form textarea:focus-visible, .trial-form select:focus-visible, .info-tip summary:focus-visible { outline: 3px solid rgba(165,180,252,.72); outline-offset: 3px; }
 .trial-intro-copy > small { display: block; width: max-content; margin: 13px 0 0 25px; color: var(--ink-3); font: 12px var(--font-body); }
 
 .trial-word-loop { height: 94px; overflow: hidden; border-block: 1px solid var(--line); position: relative; }
 .trial-word-loop span { height: 94px; display: grid; place-items: center; color: transparent; -webkit-text-stroke: 1px rgba(249,168,212,.72); font: 700 clamp(34px, 4vw, 66px)/1 var(--font-mono); letter-spacing: .04em; animation: trialWords 10s steps(5) infinite; }
-@keyframes trialWords { to { transform: none; } }
+@keyframes trialWords { to { transform: translateY(-470px); } }
 
 .trial-parameters, .trial-workflow, .trial-results { position: relative; max-width: 1180px; margin: 0 auto; padding: 120px clamp(20px, 4vw, 52px); }
 .trial-progress { position: relative; max-width: 620px; margin: 0 auto 92px; display: grid; grid-template-columns: 38px 1fr 38px 1fr 38px; align-items: center; gap: 12px; }
 .trial-progress > span { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: #121726; color: var(--ink-3); display: grid; place-items: center; font: 600 12px var(--font-mono); }
 .trial-progress > span svg { width: 15px; }
-.trial-progress > span.active { color: #FFFFF1; border-color: var(--indigo-soft); background: var(--indigo); box-shadow: 0 0 25px rgba(99,102,241,.45); }
+.trial-progress > span.active { color: #F9F6EE; border-color: var(--indigo-soft); background: var(--indigo); box-shadow: 0 0 25px rgba(99,102,241,.45); }
 .trial-progress > span.done { color: #09111a; background: #5eead4; border-color: #5eead4; }
 .trial-progress > i { height: 1px; background: var(--line); }
 .trial-progress > i.done { background: #5eead4; }
@@ -193,7 +193,7 @@
 .info-tip summary { list-style: none; width: 21px; height: 21px; border: 1px solid rgba(165,180,252,.55); border-radius: 50%; display: grid; place-items: center; color: var(--indigo-soft); cursor: help; }
 .info-tip summary::-webkit-details-marker { display: none; }
 .info-tip summary svg { width: 12px; height: 12px; }
-.info-tip > div { position: absolute; z-index: 40; left: 50%; bottom: calc(100% + 12px); width: min(310px, 78vw); padding: 16px; border: 1px solid rgba(165,180,252,.34); border-radius: 14px; background: #171b2c; box-shadow: 0 18px 50px rgba(0,0,0,.46); opacity: 0; visibility: hidden; transform: translate(-50%, 6px); transition: .18s ease; color: #FFFFF1; text-align: left; }
+.info-tip > div { position: absolute; z-index: 40; left: 50%; bottom: calc(100% + 12px); width: min(310px, 78vw); padding: 16px; border: 1px solid rgba(165,180,252,.34); border-radius: 14px; background: #171b2c; box-shadow: 0 18px 50px rgba(0,0,0,.46); opacity: 0; visibility: hidden; transform: translate(-50%, 6px); transition: .18s ease; color: #F9F6EE; text-align: left; }
 .info-tip > div strong { display: block; margin-bottom: 6px; font: 600 13px var(--font-sans); }
 .info-tip > div p { color: var(--ink-2); font: 12px/1.5 var(--font-body); }
 .info-tip[open] > div, .info-tip:hover > div, .info-tip:focus-within > div { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
@@ -206,7 +206,7 @@
 .trial-workflow-list textarea { min-height: 68px; margin-top: 8px; resize: vertical; }
 .trial-step-actions { display: flex; gap: 5px; }
 .trial-step-actions button { width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; background: rgba(255,255,255,.03); color: var(--ink-2); cursor: pointer; display: grid; place-items: center; }
-.trial-step-actions button:hover { color: #FFFFF1; border-color: var(--indigo-soft); }
+.trial-step-actions button:hover { color: #F9F6EE; border-color: var(--indigo-soft); }
 .trial-step-actions button:disabled { opacity: .25; cursor: not-allowed; }
 .trial-step-actions svg { width: 15px; }
 .trial-step-arrow { position: absolute; left: 42px; bottom: -28px; width: 16px; color: var(--indigo-soft); z-index: 2; }
@@ -232,7 +232,7 @@
 .trial-cost-shift svg { width: 20px; transform: rotate(-90deg); }
 .trial-cost-shift strong { color: #5eead4; }
 .trial-result-subcopy { color: var(--ink-2); font: 18px/1.5 var(--font-body) !important; letter-spacing: 0 !important; }
-.trial-result-hero > a { margin-top: 38px; color: #FFFFF1; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font: 600 14px var(--font-sans); }
+.trial-result-hero > a { margin-top: 38px; color: #F9F6EE; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font: 600 14px var(--font-sans); }
 .trial-result-hero > a svg { width: 16px; }
 .trial-results-section { scroll-margin-top: 40px; padding: 80px 0; }
 .trial-results-section .trial-section-heading { text-align: left; margin-left: 0; }
@@ -250,15 +250,15 @@
 .trial-job-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
 .trial-job-chips span { padding: 7px 10px; border-radius: 999px; background: rgba(255,255,255,.06); color: var(--ink-2); font: 12px var(--font-body); }
 .trial-tool-reason { color: var(--ink-2); font: 15px/1.6 var(--font-body); }
-.trial-tool-cost { display: block; margin-top: 24px; color: #FFFFF1; font: 600 17px var(--font-sans); }
+.trial-tool-cost { display: block; margin-top: 24px; color: #F9F6EE; font: 600 17px var(--font-sans); }
 .trial-why { border-top: 1px solid var(--line); margin-top: 24px; padding-top: 18px; }
 .trial-why > summary { color: var(--indigo-soft); font: 600 13px var(--font-sans); }
 .trial-why > div { padding: 16px 0 4px; color: var(--ink-2); font: 13px/1.6 var(--font-body); }
 .trial-why details { margin-top: 12px; }
-.trial-why details summary { cursor: pointer; color: #FFFFF1; }
+.trial-why details summary { cursor: pointer; color: #F9F6EE; }
 .trial-why ul { padding: 10px 0 0 18px; color: var(--ink-3); }
 .trial-provider-link { display: inline-flex; align-items: center; gap: 6px; color: var(--ink-3); text-decoration: none; margin-top: 18px; font: 12px var(--font-body); }
-.trial-provider-link:hover { color: #FFFFF1; }
+.trial-provider-link:hover { color: #F9F6EE; }
 .trial-provider-link svg { width: 13px; }
 .trial-empty-result { grid-column: 1 / -1; text-align: center; padding: 70px 24px; border: 1px solid var(--line); border-radius: 26px; background: rgba(255,255,255,.03); }
 .trial-empty-result svg { color: #5eead4; margin-bottom: 16px; }
@@ -275,7 +275,7 @@
 .trial-money-grid span, .trial-money-grid strong { display: block; }
 .trial-money-grid span { color: #64748b; font: 13px var(--font-body); }
 .trial-money-grid strong { margin-top: 6px; font: 650 clamp(22px, 3vw, 34px) var(--font-sans); }
-.trial-money-grid .highlight { background: #111827; color: #FFFFF1; }
+.trial-money-grid .highlight { background: #111827; color: #F9F6EE; }
 .trial-money-grid .highlight span { color: #a5b4fc; }
 .trial-cost-note { margin-top: 22px; display: flex; align-items: center; gap: 8px; color: #475569; font: 13px/1.5 var(--font-body); }
 .trial-cost-note svg { width: 17px; flex: none; }
@@ -285,7 +285,7 @@
 .trial-save-panel h2, .trial-optimise-tease h2 { margin: 8px 0; font: 600 clamp(24px, 3vw, 36px) var(--font-sans); }
 .trial-save-panel span, .trial-optimise-tease span { color: var(--ink-2); font: 14px/1.55 var(--font-body); }
 .trial-optimise-tease { grid-template-columns: 1fr auto; margin-top: 22px; }
-.trial-optimise-tease > a { color: #FFFFF1; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
+.trial-optimise-tease > a { color: #F9F6EE; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; font-weight: 600; }
 .trial-optimise-tease > a svg { width: 16px; }
 .trial-technical { border: 1px solid var(--line); border-radius: 20px; margin-top: 22px; }
 .trial-technical > summary { padding: 20px 24px; color: var(--ink-2); font: 600 14px var(--font-sans); }
@@ -324,8 +324,8 @@
   .trial-budget-row select, .trial-budget-row button { flex: 1 1 calc(50% - 8px); }
   .trial-advanced-grid { grid-template-columns: 1fr; padding: 22px 18px; }
   .trial-advanced-grid .wide { grid-column: auto; }
-  .info-tip > div { position: fixed; left: 16px; right: 16px; bottom: 24px; width: auto; transform: none; }
-  .info-tip[open] > div, .info-tip:hover > div, .info-tip:focus-within > div { transform: none; }
+  .info-tip > div { position: fixed; left: 16px; right: 16px; bottom: 24px; width: auto; transform: translateY(8px); }
+  .info-tip[open] > div, .info-tip:hover > div, .info-tip:focus-within > div { transform: translateY(0); }
   .trial-workflow-list article { padding: 18px 14px; gap: 10px; }
   .trial-step-actions { flex-wrap: wrap; }
   .trial-workflow-actions { flex-direction: column-reverse; }
@@ -354,15 +354,15 @@
 .trial-intro-copy { width: min(820px, 100%); max-width: none; }
 .trial-kicker { justify-content: center; margin-bottom: 20px; animation: trialHeroIn .55s var(--ee) both; }
 .trial-animated-title { font-size: clamp(54px, 8vw, 102px) !important; }
-.trial-animated-title span, .trial-animated-title em { display: block; opacity: 0; transform: none; }
+.trial-animated-title span, .trial-animated-title em { display: block; opacity: 0; transform: translateY(30px); }
 .trial-animated-title span { animation: trialHeroIn .8s .15s var(--ee) forwards; }
 .trial-animated-title em { animation: trialHeroIn .8s .58s var(--ee) forwards; }
 .trial-intro-body { max-width: 650px; margin: 24px auto; font-size: clamp(15px, 1.4vw, 18px); opacity: 0; animation: trialHeroIn .7s .95s var(--ee) forwards; }
 .trial-intro-cta, .trial-intro-note { opacity: 0; animation: trialHeroIn .65s 1.25s var(--ee) forwards; }
 .trial-intro-copy > small { margin: 11px auto 0; }
 .trial-word-loop { display: none; }
-@keyframes trialHeroIn { to { opacity: 1; transform: none; } }
-@keyframes trialPanelIn { from { opacity: 0; transform: none; } to { opacity: 1; transform: none; } }
+@keyframes trialHeroIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes trialPanelIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .trial-enter { animation: trialPanelIn .55s var(--ee) both; }
 
 .trial-parameters, .trial-workflow, .trial-results { max-width: 1080px; padding: 108px 28px 58px; }
@@ -461,26 +461,26 @@
 .trial-results-state { width: min(680px, 100%); margin: 18vh auto; padding: 34px; border: 1px solid var(--line); border-radius: 22px; background: var(--glass-bg); text-align: center; }
 .trial-results-state > svg { width: 28px; margin: 0 auto 12px; color: var(--indigo-soft); }
 .trial-results-state > span { display: block; width: 12px; height: 12px; margin: 0 auto 16px; border-radius: 50%; background: var(--indigo-soft); animation: pulse 1.3s ease-in-out infinite; }
-.trial-results-state h2 { color: #FFFFF1; font: 650 26px var(--font-sans); }
+.trial-results-state h2 { color: #F9F6EE; font: 650 26px var(--font-sans); }
 .trial-results-state p { margin-top: 8px; color: var(--ink-2); font: 14px var(--font-body); }
 .trial-customize-panel { margin: 12px 0; padding: 24px; border: 1px solid var(--line); border-radius: 20px; background: var(--glass-bg); }
 .trial-customize-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 22px; }
 .trial-customize-heading p { color: var(--indigo-soft); font: 600 10px var(--font-mono); letter-spacing: .15em; }
-.trial-customize-heading h2 { margin: 7px 0 5px; color: #FFFFF1; font: 650 clamp(22px, 3vw, 32px)/1.12 var(--font-sans); letter-spacing: -.03em; }
+.trial-customize-heading h2 { margin: 7px 0 5px; color: #F9F6EE; font: 650 clamp(22px, 3vw, 32px)/1.12 var(--font-sans); letter-spacing: -.03em; }
 .trial-customize-heading span { color: var(--ink-2); font: 13px/1.5 var(--font-body); }
 .trial-customize-heading > svg { width: 25px; height: 25px; color: var(--pink-soft); flex: none; }
 .trial-customize-steps { display: grid; gap: 12px; margin-top: 22px; }
 .trial-customize-step { padding: 15px; border: 1px solid var(--line-2); border-radius: 15px; background: rgba(7,10,20,.34); }
 .trial-customize-job { display: flex; align-items: center; gap: 9px; margin-bottom: 11px; }
 .trial-customize-job small { color: var(--indigo-soft); font: 600 9px var(--font-mono); letter-spacing: .13em; }
-.trial-customize-job strong { color: #FFFFF1; font: 600 14px var(--font-sans); }
+.trial-customize-job strong { color: #F9F6EE; font: 600 14px var(--font-sans); }
 .trial-choice-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-.trial-model-choice { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.025); color: #FFFFF1; text-align: left; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
-.trial-model-choice:hover { transform: none; border-color: rgba(165,180,252,.42); }
+.trial-model-choice { min-width: 0; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: rgba(255,255,255,.025); color: #F9F6EE; text-align: left; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+.trial-model-choice:hover { transform: translateY(-1px); border-color: rgba(165,180,252,.42); }
 .trial-model-choice[data-selected="true"] { border-color: rgba(45,212,191,.55); background: rgba(45,212,191,.07); }
 .trial-model-choice > span, .trial-model-choice > strong, .trial-model-choice > small, .trial-model-choice > b { display: block; }
 .trial-model-choice > span { color: var(--indigo-soft); font: 600 8px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
-.trial-model-choice > strong { margin-top: 6px; overflow: hidden; color: #FFFFF1; font: 600 15px var(--font-sans); text-overflow: ellipsis; white-space: nowrap; }
+.trial-model-choice > strong { margin-top: 6px; overflow: hidden; color: #F9F6EE; font: 600 15px var(--font-sans); text-overflow: ellipsis; white-space: nowrap; }
 .trial-model-choice > small { margin-top: 3px; overflow: hidden; color: var(--ink-3); font: 10px var(--font-body); text-overflow: ellipsis; white-space: nowrap; }
 .trial-model-choice > b { margin-top: 9px; color: #5eead4; font: 600 11px var(--font-sans); }
 .trial-model-choice > b svg { display: inline; width: 12px; height: 12px; vertical-align: -2px; }
@@ -636,7 +636,7 @@
   --ambient-glow-2: transparent;
   
   --input-bg: rgba(13, 27, 62, 0.8);
-  --input-color: #FFFFF1;
+  --input-color: #F9F6EE;
   --input-border: rgba(255, 255, 255, 0.12);
   --input-placeholder: rgba(255, 255, 255, 0.4);
   
@@ -650,7 +650,7 @@
 
   --bg: #152641;
   --bg-2: #0d1b3e;
-  --ink: #FFFFF1;
+  --ink: #F9F6EE;
   --ink-2: rgba(255, 255, 255, 0.82);
   --ink-3: rgba(255, 255, 255, 0.60);
   --ink-4: rgba(255, 255, 255, 0.38);
@@ -664,10 +664,10 @@
 
   --indigo: #136CFC;
   --indigo-soft: #60a5fa;
-  --pink: #FFFFF1;
-  --pink-soft: #FFFFF1;
+  --pink: #F9F6EE;
+  --pink-soft: #F9F6EE;
   --cyan: #38bdf8;
-  --green: #FFFFF1;
+  --green: #F9F6EE;
   --amber: #fbbf24;
 
   --grad-a: var(--indigo);
@@ -689,13 +689,13 @@
   --ambient-glow-1: transparent;
   --ambient-glow-2: transparent;
 
-  --input-bg: #FFFFF1;
+  --input-bg: #F9F6EE;
   --input-color: #136CFC;
   --input-border: rgba(19, 108, 252, 0.18);
   --input-placeholder: rgba(19, 108, 252, 0.45);
 
   --button-choice-bg: rgba(19, 108, 252, 0.04);
-  --fieldset-bg: #FFFFF1;
+  --fieldset-bg: #F9F6EE;
   --glass-shadow: none;
 
   --bg: #F4F6FB;
@@ -708,7 +708,7 @@
   --line: rgba(19, 108, 252, 0.14);
   --line-2: rgba(19, 108, 252, 0.06);
 
-  --glass-bg: #FFFFF1;
+  --glass-bg: #F9F6EE;
   --glass-border: rgba(19, 108, 252, 0.15);
   --glass-blur: blur(0px);
 
@@ -913,7 +913,7 @@ html, body {
 .scroll-down-circle:hover {
   background: rgba(255, 255, 255, 0.18);
   border-color: rgba(165, 180, 252, 0.5);
-  color: #FFFFF1;
+  color: #F9F6EE;
   transform: translate(-50%, -3px) scale(1.05);
   box-shadow: 0 12px 30px rgba(165, 180, 252, 0.25);
 }
@@ -991,7 +991,7 @@ html, body {
 
 .dash-user-pill .user-avatar-fallback {
   background: linear-gradient(135deg, #6366f1, #ec4899);
-  color: #FFFFF1;
+  color: #F9F6EE;
   font-weight: 700;
   font-size: 12px;
   display: grid;
@@ -1015,7 +1015,7 @@ html, body {
 
 .dash-user-pill .sign-out-btn:hover {
   background: transparent !important;
-  color: #FFFFF1;
+  color: #F9F6EE;
   transform: translateX(2px);
 }
 
@@ -1336,13 +1336,13 @@ html, body {
 /* Shared Utilities */
 .reveal {
   opacity: 0;
-  transform: none;
+  transform: translateY(30px);
   transition: opacity 1s var(--ee), transform 1s var(--ee);
 }
 
 .slide.active .reveal {
   opacity: 1;
-  transform: none;
+  transform: translateY(0);
 }
 
 /* Dashboard Page Route Transition Animation (Line-by-Line Slide Down Style) */
@@ -1373,22 +1373,22 @@ html, body {
 @keyframes deckSlideEnter {
   0% {
     opacity: 0;
-    transform: none;
+    transform: translateY(-28px);
   }
   100% {
     opacity: 1;
-    transform: none;
+    transform: translateY(0);
   }
 }
 
 @keyframes deckRevealItem {
   0% {
     opacity: 0;
-    transform: none;
+    transform: translateY(-20px);
   }
   100% {
     opacity: 1;
-    transform: none;
+    transform: translateY(0);
   }
 }
 
@@ -1408,12 +1408,12 @@ html, body {
 
 .mw > span {
   display: inline-block;
-  transform: none;
+  transform: translateY(110%);
   transition: transform 1.2s var(--ee);
 }
 
 .slide.active .mw > span {
-  transform: none;
+  transform: translateY(0);
 }
 
 .eyebrow {
@@ -1477,7 +1477,7 @@ html, body {
 }
 
 .btn-primary, .minimal-btn-dark {
-  background: #FFFFF1;
+  background: #F9F6EE;
   color: #152641 !important;
   padding: 13px 24px;
   border-radius: 100px;
@@ -1494,8 +1494,8 @@ html, body {
 }
 
 .btn-primary:hover, .minimal-btn-dark:hover {
-  background: linear-gradient(135deg, var(--indigo-soft), #FFFFF1);
-  transform: none;
+  background: linear-gradient(135deg, var(--indigo-soft), #F9F6EE);
+  transform: translateY(-2px);
   box-shadow: 0 10px 30px rgba(165, 180, 252, 0.25);
 }
 
@@ -1595,12 +1595,12 @@ html, body {
 
 .s-cover h1 .line > span {
   display: inline-block;
-  transform: none;
+  transform: translateY(110%);
   transition: transform 1.4s var(--ee);
 }
 
 .slide.active .s-cover h1 .line > span {
-  transform: none;
+  transform: translateY(0);
 }
 
 .s-cover h1 .line:nth-child(1) > span { transition-delay: 0.5s; }
@@ -2031,7 +2031,7 @@ html, body {
 
 .feature:hover {
   border-color: rgba(165, 180, 252, 0.4);
-  transform: none;
+  transform: translateY(-4px);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
 }
 
@@ -2049,7 +2049,7 @@ html, body {
   font-size: 20px;
   letter-spacing: -0.01em;
   line-height: 1.35;
-  color: #FFFFF1;
+  color: #F9F6EE;
   margin-bottom: 14px;
 }
 
@@ -2076,7 +2076,7 @@ html, body {
 }
 
 .feature .f-link:hover {
-  color: #FFFFF1;
+  color: #F9F6EE;
 }
 
 /* Deck 5 & Deck 6 Planning & Pricing Mode Cards */
@@ -2094,7 +2094,7 @@ html, body {
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 600;
-  color: #FFFFF1;
+  color: #F9F6EE;
   margin-bottom: 14px;
 }
 
@@ -2109,7 +2109,7 @@ html, body {
   font-family: var(--font-sans);
   font-size: 36px;
   font-weight: 700;
-  color: #FFFFF1;
+  color: #F9F6EE;
   line-height: 1;
 }
 
@@ -2131,7 +2131,7 @@ html, body {
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 600;
-  color: #FFFFF1;
+  color: #F9F6EE;
   margin-bottom: 14px;
 }
 
@@ -2309,7 +2309,7 @@ html, body {
 }
 
 .tl-card:hover {
-  transform: none;
+  transform: translateY(-4px);
   border-color: rgba(255, 255, 255, 0.22);
 }
 
@@ -2604,7 +2604,7 @@ html, body {
   bottom: 8px;
   right: 10px;
   background: var(--grad-b);
-  color: #FFFFF1;
+  color: #F9F6EE;
   font-family: var(--font-body);
   font-size: 9.5px;
   letter-spacing: 0.18em;
@@ -2723,7 +2723,7 @@ html, body {
 }
 
 .more-card:hover {
-  transform: none;
+  transform: translateY(-6px);
   border-color: rgba(165, 180, 252, 0.4);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(99, 102, 241, 0.12);
 }
@@ -2933,7 +2933,7 @@ html, body {
 .top-history-button:hover {
   border-color: rgba(165, 180, 252, 0.8);
   background: rgba(99, 102, 241, 0.18);
-  transform: none;
+  transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
@@ -3059,7 +3059,7 @@ html, body {
   border-radius: 9999px !important;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--line);
-  color: #FFFFF1;
+  color: #F9F6EE;
   font-family: var(--font-body);
   font-size: 14px;
   transition: all 0.25s ease;
@@ -3125,7 +3125,7 @@ html, body {
 
 .strategy-card-row:hover {
   border-color: rgba(165, 180, 252, 0.3);
-  transform: none;
+  transform: translateY(-2px);
 }
 
 .editorial-card-block {
@@ -3193,7 +3193,7 @@ input[type="range"].custom-range-slider::-webkit-slider-thumb {
   width: 20px !important;
   height: 20px !important;
   border-radius: 50% !important;
-  background: #FFFFF1 !important;
+  background: #F9F6EE !important;
   box-shadow: 0 0 12px rgba(99, 102, 241, 0.8) !important;
   cursor: pointer;
   margin-top: -5px !important;
@@ -3212,7 +3212,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   width: 20px !important;
   height: 20px !important;
   border-radius: 50% !important;
-  background: #FFFFF1 !important;
+  background: #F9F6EE !important;
   box-shadow: 0 0 12px rgba(99, 102, 241, 0.8) !important;
   cursor: pointer;
   border: none !important;
@@ -3234,7 +3234,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 .budget-pill:hover, .selected-pill {
   background: var(--grad-b);
-  color: #FFFFF1;
+  color: #F9F6EE;
   border-color: transparent;
 }
 
@@ -3286,7 +3286,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   padding: 0 !important;
 }
 .clerk-container .cl-headerTitle {
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
   font-family: var(--font-sans) !important;
   font-size: 24px !important;
   font-weight: 500 !important;
@@ -3300,7 +3300,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   line-height: 1.5 !important;
 }
 .clerk-container .cl-formButtonPrimary {
-  background: #FFFFF1 !important;
+  background: #F9F6EE !important;
   color: #0a0e1a !important;
   border-radius: 100px !important;
   font-family: var(--font-body) !important;
@@ -3310,14 +3310,14 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   transition: all 0.3s ease !important;
 }
 .clerk-container .cl-formButtonPrimary:hover {
-  background: linear-gradient(135deg, var(--indigo-soft), #FFFFF1) !important;
+  background: linear-gradient(135deg, var(--indigo-soft), #F9F6EE) !important;
   box-shadow: 0 10px 30px rgba(165, 180, 252, 0.25) !important;
-  transform: none !important;
+  transform: translateY(-1px) !important;
 }
 .clerk-container .cl-formFieldInput {
   background: rgba(255, 255, 255, 0.04) !important;
   border: 1px solid var(--glass-border) !important;
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
   border-radius: 12px !important;
   height: 44px !important;
   padding: 0 16px !important;
@@ -3354,7 +3354,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .clerk-container .cl-socialButtonsBlockButton {
   background: rgba(255, 255, 255, 0.05) !important;
   border: 1px solid var(--glass-border) !important;
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
   border-radius: 12px !important;
   height: 44px !important;
   font-family: var(--font-body) !important;
@@ -3443,7 +3443,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 .auth-back-link:hover {
   background: rgba(255, 255, 255, 0.12);
-  color: #FFFFF1;
+  color: #F9F6EE;
 }
 
 .auth-main-wrap {
@@ -3728,7 +3728,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .clerk-container .cl-formButtonPrimary {
   border-radius: 99px !important;
   background-color: var(--indigo) !important;
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
   font-family: var(--font-body) !important;
   font-size: 13px !important;
   font-weight: 600 !important;
@@ -3853,7 +3853,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .analytics-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .analytics-range, .analytics-refresh { display: flex; align-items: center; gap: 6px; padding: 5px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.035); backdrop-filter: blur(24px); }
 .analytics-range button, .analytics-refresh { appearance: none; border: 0; color: var(--ink-2); background: transparent; border-radius: 999px; padding: 9px 15px; font: 600 12px var(--font-body); cursor: pointer; transition: .2s ease; }
-.analytics-range button:hover, .analytics-range button.active { color: #FFFFF1; background: rgba(99,102,241,.28); box-shadow: inset 0 0 0 1px rgba(165,180,252,.24); }
+.analytics-range button:hover, .analytics-range button.active { color: #F9F6EE; background: rgba(99,102,241,.28); box-shadow: inset 0 0 0 1px rgba(165,180,252,.24); }
 .analytics-refresh { gap: 8px; padding: 10px 15px; border: 1px solid var(--line); }
 .analytics-refresh svg, .analytics-loading svg { width: 15px; height: 15px; }
 .analytics-refresh:disabled { opacity: .55; cursor: wait; }
@@ -3891,7 +3891,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .analytics-rank-row:last-child { border-bottom: 0; }
 .analytics-rank-row > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .analytics-rank-row strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink-2); font: 500 12px var(--font-body); }
-.analytics-rank-row span { color: #FFFFF1; font: 11px var(--font-mono); }
+.analytics-rank-row span { color: #F9F6EE; font: 11px var(--font-mono); }
 .analytics-rank-row i { display: block; height: 3px; margin-top: 8px; border-radius: 99px; background: linear-gradient(90deg, var(--indigo), var(--cyan)); }
 .analytics-table { overflow-x: auto; }
 .analytics-table > div { min-width: 700px; display: grid; grid-template-columns: minmax(260px, 2.4fr) repeat(4, minmax(80px, .65fr)); align-items: center; gap: 12px; min-height: 52px; padding: 0 26px; border-bottom: 1px solid var(--line-2); }
@@ -3912,7 +3912,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .analytics-empty { padding: 24px; color: var(--ink-3); font: 13px var(--font-body); }
 .analytics-loading { min-height: 240px; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--ink-2); font: 14px var(--font-body); }
 .analytics-error { flex-direction: column; color: #fca5a5; }
-.analytics-error button { border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; background: rgba(255,255,255,.05); color: #FFFFF1; cursor: pointer; }
+.analytics-error button { border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; background: rgba(255,255,255,.05); color: #F9F6EE; cursor: pointer; }
 .analytics-warning { border: 1px solid rgba(251,191,36,.3); border-radius: 14px; padding: 12px 16px; background: rgba(251,191,36,.08); color: #fde68a; font: 12px var(--font-body); }
 
 @media (max-width: 1180px) {
@@ -3941,7 +3941,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 /* ==========================================================================
    LIGHT MODE — COMPREHENSIVE TEXT & GRADIENT OVERRIDES
-   Kill every gradient-text, hardcoded #FFFFF1, and low-contrast colour
+   Kill every gradient-text, hardcoded #F9F6EE, and low-contrast colour
    so that all text is solid and legible against the light sky background.
    ========================================================================== */
 :root[data-theme="light"] {
@@ -3991,12 +3991,12 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
   .trial-primary-button {
     background: var(--ink) !important;
-    color: #FFFFF1 !important;
+    color: #F9F6EE !important;
   }
 
   /* --- Trial progress active pill --- */
   .trial-progress > span.active {
-    color: #FFFFF1 !important;
+    color: #F9F6EE !important;
   }
 
   /* --- Trial word loop (decorative) keep the stroke but darken --- */
@@ -4031,7 +4031,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
   /* --- Info-tip popover --- */
   .info-tip > div {
-    background: #FFFFF1 !important;
+    background: #F9F6EE !important;
     color: var(--ink) !important;
     border-color: rgba(21, 38, 65, 0.12) !important;
     box-shadow: 0 18px 50px rgba(21, 38, 65, 0.14) !important;
@@ -4040,7 +4040,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   /* --- Analytics --- */
   .analytics-range button:hover,
   .analytics-range button.active {
-    color: #FFFFF1 !important;
+    color: #F9F6EE !important;
     background: rgba(19, 108, 252, 0.7) !important;
   }
   .analytics-rank-row span {
@@ -4051,7 +4051,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
     background: rgba(21, 38, 65, 0.04) !important;
   }
 
-  /* --- Catch-all: every remaining hard-coded "color: #FFFFF1" element --- */
+  /* --- Catch-all: every remaining hard-coded "color: #F9F6EE" element --- */
   .trial-header nav a:hover,
   .trial-header nav a:focus-visible,
   .trial-provider-link:hover {
@@ -4069,61 +4069,61 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 /* ==========================================================================
    STRICT NO-GRADIENT & 4-COLOR PALETTE SYSTEM OVERRIDE
-   Palette Hexes: #0213B0 (Electric Blue), #FFFFF1 (#FFFFF1), #0213B0 (Deep Navy), #FFFFF1 (Sky Blue)
+   Palette Hexes: #1A24A9 (Electric Blue), #F9F6EE (#F9F6EE), #1A24A9 (Deep Navy), #F9F6EE (Sky Blue)
    ========================================================================== */
 *, *::before, *::after {
   background-image: none !important;
 }
 
 :root {
-  --bg: #0213B0 !important;
-  --bg-2: #0213B0 !important;
-  --ink: #FFFFF1 !important;
-  --ink-2: #FFFFF1 !important;
-  --ink-3: #FFFFF1 !important;
+  --bg: #1A24A9 !important;
+  --bg-2: #1A24A9 !important;
+  --ink: #F9F6EE !important;
+  --ink-2: #F9F6EE !important;
+  --ink-3: #F9F6EE !important;
   --glass-bg: #0B2067 !important;
   --glass-border: rgba(103, 186, 228, 0.25) !important;
-  --input-bg: #0213B0 !important;
-  --input-color: #FFFFF1 !important;
+  --input-bg: #1A24A9 !important;
+  --input-color: #F9F6EE !important;
   --input-border: rgba(103, 186, 228, 0.3) !important;
   --input-placeholder: rgba(103, 186, 228, 0.5) !important;
-  --indigo: #0213B0 !important;
-  --indigo-soft: #FFFFF1 !important;
-  --cyan: #FFFFF1 !important;
-  --pink: #FFFFF1 !important;
+  --indigo: #1A24A9 !important;
+  --indigo-soft: #F9F6EE !important;
+  --cyan: #F9F6EE !important;
+  --pink: #F9F6EE !important;
 }
 
 :root[data-theme="light"] {
-  --bg: #FFFFF1 !important;
-  --bg-2: #FFFFF1 !important;
-  --ink: #0213B0 !important;
-  --ink-2: #0213B0 !important;
-  --ink-3: #0213B0 !important;
-  --glass-bg: #FFFFF1 !important;
+  --bg: #F9F6EE !important;
+  --bg-2: #F9F6EE !important;
+  --ink: #1A24A9 !important;
+  --ink-2: #1A24A9 !important;
+  --ink-3: #1A24A9 !important;
+  --glass-bg: #F9F6EE !important;
   --glass-border: rgba(16, 63, 213, 0.15) !important;
-  --input-bg: #FFFFF1 !important;
-  --input-color: #0213B0 !important;
+  --input-bg: #F9F6EE !important;
+  --input-color: #1A24A9 !important;
   --input-border: rgba(16, 63, 213, 0.25) !important;
   --input-placeholder: rgba(7, 26, 87, 0.45) !important;
-  --indigo: #0213B0 !important;
-  --indigo-soft: #0213B0 !important;
-  --cyan: #FFFFF1 !important;
-  --pink: #0213B0 !important;
+  --indigo: #1A24A9 !important;
+  --indigo-soft: #1A24A9 !important;
+  --cyan: #F9F6EE !important;
+  --pink: #1A24A9 !important;
 
   .trial-intro h1 em, .trial-workflow h1 em, .trial-result-hero h1 em, .trial-animated-title em {
-    color: #0213B0 !important;
+    color: #1A24A9 !important;
   }
   .text-pink-soft, .text-pink, .text-green, .text-cyan, .text-indigo-soft, .text-indigo {
-    color: #0213B0 !important;
+    color: #1A24A9 !important;
   }
   .text-indigo-300, .text-indigo-400 {
-    color: #0213B0 !important;
+    color: #1A24A9 !important;
   }
 }
 
 .trial-primary-button, .btn-primary {
-  background-color: #0213B0 !important;
-  color: #FFFFF1 !important;
+  background-color: #1A24A9 !important;
+  color: #F9F6EE !important;
   box-shadow: none !important;
 }
 
@@ -4267,7 +4267,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 .signed-home-option:hover {
-  transform: none;
+  transform: translateY(-8px);
   border-color: rgba(165, 180, 252, 0.42);
   box-shadow: 0 38px 90px rgba(0, 0, 0, 0.25);
 }
@@ -4480,7 +4480,15 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 /* 2. Ensure inputs and form elements are sharp and have proper contrast */
 .trial-page input, 
-
+.trial-page select, 
+.trial-page textarea, 
+.trial-page button,
+.trial-field-wide,
+.trial-field-half,
+.trial-choice-grid button,
+fieldset {
+  border-radius: 0px !important;
+}
 
 /* The Swiss Art Direction Accents for the Intro Hero */
 /* Adding a subtle blueprint grid specifically to the intro section */
@@ -4499,8 +4507,8 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 .swiss-badge {
-  background-color: #0213B0;
-  color: #FFFFF1;
+  background-color: #1A24A9;
+  color: #F9F6EE;
   padding: 8px 16px;
   font-family: var(--font-jetbrains-mono);
   font-size: 12px;
@@ -4515,7 +4523,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .swiss-badge .dot {
   width: 6px;
   height: 6px;
-  background-color: #FFFFF1;
+  background-color: #F9F6EE;
   border-radius: 0px; /* Square dot */
   animation: pulse 2s infinite;
 }
@@ -4523,9 +4531,9 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .swiss-nav-block {
   display: flex;
   align-items: center;
-  background-color: #FFFFF1;
-  border: 2px solid #0213B0;
-  color: #0213B0;
+  background-color: #F9F6EE;
+  border: 2px solid #1A24A9;
+  color: #1A24A9;
   font-family: var(--font-jetbrains-mono);
   font-size: 12px;
   font-weight: bold;
@@ -4537,16 +4545,16 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 .swiss-nav-block > *:not(:last-child) {
-  border-right: 2px solid #0213B0;
+  border-right: 2px solid #1A24A9;
 }
 
 :root[data-theme="dark"] .swiss-nav-block {
-  background-color: #0213B0;
-  color: #FFFFF1;
-  border-color: #0213B0;
+  background-color: #1A24A9;
+  color: #F9F6EE;
+  border-color: #1A24A9;
 }
 :root[data-theme="dark"] .swiss-nav-block > *:not(:last-child) {
-  border-right-color: #0213B0;
+  border-right-color: #1A24A9;
 }
 
 
@@ -4558,13 +4566,13 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 .swiss-nav-block nav a:hover {
-  background-color: #0213B0 !important;
-  color: #FFFFF1 !important;
+  background-color: #1A24A9 !important;
+  color: #F9F6EE !important;
 }
 
 :root[data-theme="dark"] .swiss-nav-block nav a:hover {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
+  background-color: #F9F6EE !important;
+  color: #1A24A9 !important;
 }
 
 /* Fix VisualModeToggle padding inside swiss nav block */
@@ -4578,7 +4586,10 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 /* 4. Swiss Art Direction Form Styling */
-
+.trial-page * {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
 
 .trial-form fieldset {
   background-color: transparent !important;
@@ -4599,9 +4610,9 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .trial-tool-picker button,
 .trial-form .trial-budget-row button,
 .trial-form .trial-budget-row select {
-  background-color: #0213B0 !important;
+  background-color: #1A24A9 !important;
   border: none !important;
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
 }
 
 /* For placeholder text to be readable */
@@ -4617,24 +4628,24 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 :root[data-theme="dark"] .trial-tool-picker button,
 :root[data-theme="dark"] .trial-form .trial-budget-row button,
 :root[data-theme="dark"] .trial-form .trial-budget-row select {
-  background-color: #0213B0 !important;
+  background-color: #1A24A9 !important;
   border: none !important;
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
 }
 
 /* Fix active states for choice grid */
 .trial-form .trial-choice-grid button[aria-pressed="true"], 
 .trial-tool-picker button[aria-pressed="true"],
 .trial-form .trial-budget-row button[aria-pressed="true"] {
-  background-color: #0213B0 !important;
-  color: #FFFFF1 !important;
+  background-color: #1A24A9 !important;
+  color: #F9F6EE !important;
 }
 
 :root[data-theme="dark"] .trial-form .trial-choice-grid button[aria-pressed="true"], 
 :root[data-theme="dark"] .trial-tool-picker button[aria-pressed="true"],
 :root[data-theme="dark"] .trial-form .trial-budget-row button[aria-pressed="true"] {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
+  background-color: #F9F6EE !important;
+  color: #1A24A9 !important;
 }
 
 /* ==========================================================================
@@ -4645,12 +4656,12 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   0% {
     opacity: 0;
     filter: blur(20px);
-    transform: none;
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
     filter: blur(0px);
-    transform: none;
+    transform: translateY(0);
   }
 }
 
@@ -4695,13 +4706,13 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .trial-header .swiss-nav-block { animation-delay: 1.3s; }
 
 
-/* Ensure homepage has Cream/Off-#FFFFF1 background */
+/* Ensure homepage has Cream/Off-#F9F6EE background */
 :root[data-theme="light"] {
-  --bg: #FFFFF1 !important;
+  --bg: #F9F6EE !important;
 }
 
 .trial-page {
-  background-color: #FFFFF1 !important; /* override permanently for the flat look */
+  background-color: #F9F6EE !important; /* override permanently for the flat look */
 }
 
 /* Remove static grid background from intro, we now use the interactive pixel canvas */
@@ -4710,7 +4721,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 :root[data-theme="dark"] .trial-page {
-  background-color: #0213B0 !important;
+  background-color: #1A24A9 !important;
 }
 
 /* Fix spacing for the brutalist solid form layout */
@@ -4743,12 +4754,12 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 /* Double enforce global background for the flat look */
 html, body {
-  background-color: #FFFFF1 !important;
+  background-color: #F9F6EE !important;
 }
 
 :root[data-theme="dark"] body,
 :root[data-theme="dark"] html {
-  background-color: #0213B0 !important;
+  background-color: #1A24A9 !important;
 }
 
 /* ==========================================================================
@@ -4756,1208 +4767,73 @@ html, body {
    ========================================================================== */
 
 /* Enforce zero border radius and no drop shadow for ALL elements in signed-in app */
-
+.editorial-app-shell * {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
 
 /* Update Signed-in Home Option Cards */
 .signed-home-option {
-  background-color: #0213B0 !important;
+  background-color: #1A24A9 !important;
   border: none !important;
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
 }
 
-/* Ensure text inside the card is #FFFFF1 */
+/* Ensure text inside the card is #F9F6EE */
 .signed-home-option h2,
 .signed-home-option p,
 .signed-home-option small,
 .signed-home-option strong {
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
 }
 
 /* Invert the icon square */
 .signed-home-option-icon {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
+  background-color: #F9F6EE !important;
+  color: #1A24A9 !important;
 }
 
 /* Update History Button */
 .signed-home-history {
   background-color: transparent !important;
-  border: 1px solid #0213B0 !important;
-  color: #0213B0 !important;
+  border: 1px solid #1A24A9 !important;
+  color: #1A24A9 !important;
 }
 
 /* Dark Mode Overrides */
 :root[data-theme="dark"] .signed-home-option {
-  background-color: #0213B0 !important;
+  background-color: #1A24A9 !important;
 }
 
 :root[data-theme="dark"] .signed-home-history {
-  border-color: #FFFFF1 !important;
-  color: #FFFFF1 !important;
+  border-color: #F9F6EE !important;
+  color: #F9F6EE !important;
 }
 
 /* Also ensure user profile button and auth buttons lose their shadows */
-
+.cl-userButtonTrigger, .cl-userButtonAvatarBox, .cl-userButtonAvatarImage {
+  border-radius: 0px !important;
+  box-shadow: none !important;
+}
 
 /* DUO-TONE ALL NOTIFICATIONS AND SAVE STATES */
 .signed-home-save-state, .signed-home-save-state.is-success, .signed-home-save-state.is-error {
-  background-color: #0213B0 !important;
+  background-color: #1A24A9 !important;
   border: none !important;
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
 }
 .signed-home-save-state a, .signed-home-save-state button, .signed-home-save-state span {
-  color: #FFFFF1 !important;
+  color: #F9F6EE !important;
 }
 
 :root[data-theme="dark"] .signed-home-save-state,
 :root[data-theme="dark"] .signed-home-save-state.is-success,
 :root[data-theme="dark"] .signed-home-save-state.is-error {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
+  background-color: #F9F6EE !important;
+  color: #1A24A9 !important;
 }
 :root[data-theme="dark"] .signed-home-save-state a, 
 :root[data-theme="dark"] .signed-home-save-state button, 
 :root[data-theme="dark"] .signed-home-save-state span {
-  color: #0213B0 !important;
-}
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM RULES (USER ENFORCED)
-   3 Colors: #0213B0 (Blue), #F4F7F5 (Input BG), #FFFFF1 (Main BG)
-   ========================================================================== */
-
-/* 1. Global Background */
-html, body, .trial-page, .editorial-app-shell, .editorial-app-main, :root[data-theme="dark"] body, :root[data-theme="dark"] html, :root[data-theme="dark"] .trial-page {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
-}
-
-/* 2. Reset everything to square by default */
-
-
-/* 3. Type 3 Box (Input Fields) */
-input:not([type="checkbox"]):not([type="radio"]), 
-textarea, 
-select,
-.trial-form input,
-.trial-form textarea,
-.trial-form select,
-.cl-formFieldInput {
-  background-color: #F4F7F5 !important;
-  border: none !important;
-  border-bottom: 1px solid #0213B0 !important;
-  border-radius: 0px !important;
-  color: #0213B0 !important;
-  padding: 12px 16px !important;
-  outline: none !important;
-}
-input:not([type="checkbox"]):not([type="radio"]):focus, 
-textarea:focus, 
-select:focus {
-  border-bottom: 2px solid #0213B0 !important;
-}
-
-/* 4. Type 1 Box (Solid Buttons) */
-
-.trial-primary-button,
-.cl-formButtonPrimary,
-.signed-home-option {
-  background-color: #0213B0 !important;
-  border: none !important;
-  border-radius: 0.25rem !important;
-  color: #FFFFF1 !important;
-}
-
-/* 5. Type 2 Box (Outline Buttons / Secondary) */
-.trial-secondary-button,
-.signed-home-history,
-.cl-socialButtonsBlockButton,
-.trial-form .trial-choice-grid button:not([aria-pressed="true"]) {
-  background-color: transparent !important;
-  border: 1px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  color: #0213B0 !important;
-}
-
-/* Active states for choice grids to be Type 1 */
-.trial-form .trial-choice-grid button[aria-pressed="true"] {
-  background-color: #0213B0 !important;
-  border: none !important;
-  border-radius: 0.25rem !important;
-  color: #FFFFF1 !important;
-}
-
-/* 6. Checkboxes (Type 2 variant) */
-input[type="checkbox"], .cl-checkbox__input {
-  appearance: none;
-  background-color: transparent !important;
-  border: 1px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  width: 1.125rem !important;
-  height: 1.125rem !important;
-  cursor: pointer;
-  position: relative;
-}
-input[type="checkbox"]:checked::after, .cl-checkbox__input:checked::after {
-  content: "✔";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #0213B0;
-  font-size: 14px;
-}
-
-/* 7. Spacing */
-.trial-form fieldset,
-.cl-form,
-.trial-enter > div,
-.signed-home-options {
-  gap: 1.125rem !important;
-}
-
-/* Typography Colors */
-h1, h2, h3, h4, p, span, small, strong, label, .trial-kicker, .trial-intro-body, .signed-home-heading > p, .signed-home-heading > span {
-  color: #0213B0 !important;
-}
-.trial-animated-title em {
-  color: #0213B0 !important;
-}
-
-/* Option cards inner text (Since cards are Type 1, text must be white) */
-.signed-home-option h2,
-.signed-home-option p,
-.signed-home-option small,
-.signed-home-option strong {
-  color: #FFFFF1 !important;
-}
-.signed-home-option-icon {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
-  border-radius: 0.25rem !important;
-}
-
-/* Clerk Auth specific resets */
-.cl-card, .cl-headerTitle, .cl-headerSubtitle, .cl-socialButtonsBlockButtonText, .cl-dividerText, .cl-formFieldLabel, .cl-footerActionText {
-  background: transparent !important;
-  color: #0213B0 !important;
-}
-.cl-internal-b3al4t, .cl-dividerLine {
-  background-color: #0213B0 !important;
-}
-
-/* Fix Clerk Form gaps to exactly 1.125rem */
-.cl-form, .cl-cardBox {
-  gap: 1.125rem !important;
-}
-.cl-header {
-  margin-bottom: 1.125rem !important;
-}
-.cl-formFieldRow {
-  margin-bottom: 1.125rem !important;
-}
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 2
-   ========================================================================== */
-
-/* Absolute Global Resets */
-*, *::before, *::after {
-  box-shadow: none !important;
-  transition: none !important;
-}
-
-/* Let's specifically kill known hover transforms by overriding them */
-.trial-primary-button:hover,
-.signed-home-option:hover,
-.trial-model-choice:hover,
-.menu-btn:hover,
-.trial-secondary-button:hover,
-.signed-home-history:hover,
-.theme-toggle-btn:hover,
-.cl-socialButtonsBlockButton:hover {
-  transform: none !important;
-}
-
-/* Default Box Roundness: The user wants almost everything to be 0.25rem except input fields */
-/* Let's apply it broadly to structural UI elements */
-div, section, article, nav, header, footer, dialog, aside, main, button, fieldset, .info-tip > div, .trial-progress span, .trial-progress i, .trial-progress.result span, .trial-progress.result i, .monthly-task-card, .trial-model-choice, .signed-home-option, .trial-choice-grid, .cl-card, .cl-header, .cl-socialButtonsBlockButton {
-  border-radius: 0.25rem !important;
-}
-
-/* Enforce Type 3 for input fields (Round = 0) */
-input:not([type="checkbox"]):not([type="radio"]), 
-textarea, 
-select,
-.trial-form input,
-.trial-form textarea,
-.trial-form select,
-.cl-formFieldInput {
-  background-color: #F4F7F5 !important;
-  border: none !important;
-  border-bottom: 1px solid #0213B0 !important;
-  border-radius: 0px !important;
-  color: #0213B0 !important;
-  padding: 12px 16px !important;
-  outline: none !important;
-}
-
-/* Ensure Tooltips are Type 2 (No shadow, Border, 0.25rem) */
-.info-tip > div {
-  background-color: #FFFFF1 !important;
-  border: 1px solid #0213B0 !important;
-  color: #0213B0 !important;
-  box-shadow: none !important;
-  border-radius: 0.25rem !important;
-}
-
-/* Fix Progress Steps (Image 2) */
-.trial-progress span {
-  background-color: transparent !important;
-  border: 1px solid #0213B0 !important;
-  color: #0213B0 !important;
-  border-radius: 0.25rem !important;
-  width: 32px !important;
-  height: 32px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-.trial-progress span.active, .trial-progress span.done {
-  background-color: #0213B0 !important;
-  border: none !important;
-  color: #FFFFF1 !important;
-}
-.trial-progress i {
-  background-color: #0213B0 !important;
-  height: 1px !important; /* Make it a thin line instead of a box */
-}
-
-/* Fix Tab Switcher / Choice Grid (Image 3) */
-.trial-form .trial-choice-grid {
-  border: none !important;
-  background: transparent !important;
-  padding: 0 !important;
-  gap: 1.125rem !important;
-}
-.trial-form .trial-choice-grid button {
-  margin: 0 !important;
-}
-
-/* ==========================================================================
-   STRICT CHECKBOX OVERRIDES
-   ========================================================================== */
-
-/* Hide Clerk's internal SVG checkmark completely */
-.cl-checkbox__input ~ svg,
-.cl-checkbox__mark,
-.cl-internal-1lg1hqm, /* Clerk SVG wrapper */
-.cl-internal-102mxs9 {
-  display: none !important;
-  opacity: 0 !important;
-}
-
-/* Force standard and Clerk checkboxes to look exactly like the design */
-input[type="checkbox"], 
-.cl-checkbox__input,
-.cl-formFieldInput[type="checkbox"] {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  background-color: transparent !important;
-  border: 2px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  width: 1.25rem !important;
-  height: 1.25rem !important;
-  cursor: pointer !important;
-  position: relative !important;
-  display: inline-block !important;
-  vertical-align: middle !important;
-  margin: 0 !important;
-  opacity: 1 !important; /* Ensure it is visible even if Clerk hides the input */
-}
-
-/* Checked state: Solid blue fill */
-input[type="checkbox"]:checked, 
-.cl-checkbox__input:checked,
-.cl-formFieldInput[type="checkbox"]:checked {
-  background-color: #0213B0 !important;
-  border-color: #0213B0 !important;
-}
-
-/* Custom Checkmark using CSS borders */
-input[type="checkbox"]:checked::after, 
-.cl-checkbox__input:checked::after,
-.cl-formFieldInput[type="checkbox"]:checked::after {
-  content: "" !important;
-  position: absolute !important;
-  top: 40% !important;
-  left: 50% !important;
-  width: 6px !important;
-  height: 11px !important;
-  border: solid #FFFFF1 !important;
-  border-width: 0 1.5px 1.5px 0 !important;
-  transform: translate(-50%, -50%) rotate(45deg) !important;
-  color: transparent !important; /* Override the tick character if any */
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 3 (FINAL)
-   ========================================================================== */
-
-/* Update all 1px and 2px borders to 1.5px */
-.trial-secondary-button,
-.signed-home-history,
-.cl-socialButtonsBlockButton,
-.info-tip > div,
-.trial-progress span {
-  border: 1.5px solid #0213B0 !important;
-}
-
-/* 6. Option Pickers (Segmented Control Style for Budget, Tools, Frequency) */
-/* The outer container gets the border and padding */
-.trial-form .trial-choice-grid,
-.trial-form .trial-budget-row,
-.trial-form .trial-tool-picker,
-.trial-form .trial-choice-grid.four {
-  border: 1.5px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  padding: 4px !important;
-  background-color: transparent !important;
-  gap: 4px !important;
-  display: flex !important;
-  flex-wrap: wrap !important;
-}
-
-/* The buttons inside act as pills (no border) */
-.trial-form .trial-choice-grid button,
-.trial-form .trial-budget-row button,
-.trial-form .trial-tool-picker button,
-.trial-form .trial-choice-grid.four button {
-  border: none !important;
-  background-color: transparent !important;
-  color: #0213B0 !important;
-  border-radius: 0.25rem !important;
-  flex: 1 1 auto;
-}
-
-/* Selected pill is solid blue */
-.trial-form .trial-choice-grid button[aria-pressed="true"],
-.trial-form .trial-budget-row button[aria-pressed="true"],
-.trial-form .trial-tool-picker button[aria-pressed="true"],
-.trial-form .trial-choice-grid.four button[aria-pressed="true"] {
-  background-color: #0213B0 !important;
-  color: #FFFFF1 !important;
-}
-
-/* Checkboxes - EXACTLY SQUARE */
-input[type="checkbox"], 
-.cl-checkbox__input,
-.cl-formFieldInput[type="checkbox"] {
-  border: 1.5px solid #0213B0 !important;
-  width: 20px !important; 
-  height: 20px !important; 
-  box-sizing: border-box !important;
-}
-
-/* Checked state CSS checkmark thickness 1.5px */
-input[type="checkbox"]:checked::after, 
-.cl-checkbox__input:checked::after,
-.cl-formFieldInput[type="checkbox"]:checked::after {
-  border-width: 0 1.5px 1.5px 0 !important;
-}
-
-/* Input Fields - Border bottom 1.5px */
-input:not([type="checkbox"]):not([type="radio"]), 
-textarea, 
-select,
-.trial-form input,
-.trial-form textarea,
-.trial-form select,
-.cl-formFieldInput {
-  border-bottom: 1.5px solid #0213B0 !important;
-}
-input:not([type="checkbox"]):not([type="radio"]):focus, 
-textarea:focus, 
-select:focus {
-  border-bottom: 1.5px solid #0213B0 !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 4 (POLISH)
-   ========================================================================== */
-
-/* 1. Tooltip Fixes */
-/* No fill, no shadow, 0.25rem */
-.info-tip > div {
-  background: #FFFFF1 !important;
-  background-color: #FFFFF1 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  border-radius: 0.25rem !important;
-}
-/* Remove border around the 'i' icon trigger */
-.info-tip > summary, .info-tip > button, .info-tip {
-  border: none !important;
-  background: transparent !important;
-  box-shadow: none !important;
-}
-
-/* 2. Currency Select Fix */
-/* The select inside budget row should be rounded 0.25rem and look like a solid blue pill (or outline if they want) */
-.trial-form .trial-budget-row select {
-  border-radius: 0.25rem !important;
-  background-color: #0213B0 !important;
-  color: #FFFFF1 !important;
-  border: none !important;
-  background-image: none !important; /* Remove any default dropdown arrows if they interfere, or keep them but ensure no stripes */
-}
-
-/* 3. Placeholder Color */
-input::placeholder, 
-textarea::placeholder,
-.cl-formFieldInput::placeholder {
-  color: #0213B0 !important;
-  opacity: 0.5 !important;
-}
-
-/* 4. Remove Stripes/Background Images from Inputs */
-input:not([type="checkbox"]):not([type="radio"]), 
-textarea, 
-select,
-.trial-form input,
-.trial-form textarea,
-.trial-form select,
-.cl-formFieldInput {
-  background-image: none !important;
-}
-
-/* 5. Force Checkbox to be ABSOLUTELY SQUARE */
-input[type="checkbox"], 
-.cl-checkbox__input,
-.cl-formFieldInput[type="checkbox"] {
-  width: 20px !important;
-  height: 20px !important;
-  min-width: 20px !important;
-  min-height: 20px !important;
-  max-width: 20px !important;
-  max-height: 20px !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  line-height: 20px !important;
-  aspect-ratio: 1 / 1 !important;
-  box-sizing: border-box !important;
-  border: 1.5px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-}
-
-/* Attempt to style native dropdown options */
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230213B0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 12px center !important;
-  background-size: 10px auto !important;
-}
-select option {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
-  border-bottom: 1.5px solid #0213B0 !important;
-  padding: 12px !important;
-}
-
-/* Ensure text in all option picker buttons is perfectly centered */
-.trial-form .trial-choice-grid button,
-.trial-form .trial-budget-row button,
-.trial-form .trial-tool-picker button,
-.trial-form .trial-choice-grid.four button {
-  justify-content: center !important;
-  text-align: center !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 6 (Custom Budget + Select Chevron)
-   ========================================================================== */
-
-/* 1. Custom Budget Box (Hình 2) */
-.trial-custom-budget {
-  border: none !important;
-  border: none !important;
-  border-radius: 0.25rem !important;
-  background-color: #F4F7F5 !important;
-  background: #F4F7F5 !important;
-  padding: 0 16px !important;
-}
-.trial-custom-budget > span {
-  color: #0213B0 !important; /* Currency symbol color */
-}
-.trial-custom-budget input {
-  background-color: transparent !important;
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding-left: 8px !important;
-}
-.trial-custom-budget input:focus {
-  border: none !important;
-}
-
-/* 2. Select Chevron for USD $ in Segmented Control (Hình 3) */
-/* The select is solid blue, so it needs a WHITE chevron SVG */
-.trial-form .trial-budget-row select {
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFF1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 16px center !important; /* Not too close to the edge */
-  background-size: 12px auto !important;
-  padding-right: 40px !important; /* Leave space for the arrow */
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 7 (Monthly Task Cards & Icons)
-   ========================================================================== */
-
-/* 1. Monthly Task Card Outer Border */
-.monthly-task-card {
-  border: 1.5px solid #0213B0 !important;
-  background: transparent !important;
-  background-color: transparent !important;
-}
-
-/* 2. Monthly Task Icon Buttons (e.g. Trash) */
-.monthly-task-card-heading button,
-.monthly-task-card-heading button:hover,
-.monthly-task-card-heading button:focus,
-.monthly-task-card-heading button:active {
-  border: none !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  color: #0213B0 !important;
-  box-shadow: none !important;
-  transform: none !important;
-  outline: none !important;
-}
-
-/* 3. Global Icon Hover Kill */
-/* Ensure NO icon buttons anywhere have rogue borders or color changes on hover */
-button svg, button:hover svg {
-  color: inherit !important;
-  transition: none !important;
-  transform: none !important;
-}
-
-/* 4. Trial Step Actions (Arrow / Trash buttons in Workflow review) */
-.trial-step-actions button,
-.trial-step-actions button:hover,
-.trial-step-actions button:focus,
-.trial-step-actions button:active {
-  border: none !important;
-  background: transparent !important;
-  background-color: transparent !important;
-  color: #0213B0 !important;
-  box-shadow: none !important;
-  transform: none !important;
-  outline: none !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 8 (Typography & Fine-tuning)
-   ========================================================================== */
-
-/* 1. Fix Double Border Bottom on Custom Budget */
-.trial-form .trial-custom-budget input,
-.trial-form .trial-custom-budget input:focus,
-.trial-form .trial-custom-budget input:active {
-  border-bottom: none !important;
-  background-color: transparent !important;
-}
-
-/* 2. Fix Placeholder Text Color */
-/* Override any rogue !important rules from old themes */
-.trial-form input::placeholder, 
-.trial-form textarea::placeholder,
-.cl-formFieldInput::placeholder,
-.monthly-task-card input::placeholder,
-.monthly-task-add input::placeholder,
-input::placeholder {
-  color: #0213B0 !important;
-  opacity: 0.6 !important;
-}
-
-/* 3. Normalize Font Weights and Sizes for Sibling Elements */
-/* Ensures inputs, selects, and buttons at the same level share identical typography */
-.trial-form input,
-.trial-form select,
-.trial-form textarea,
-.trial-form button,
-.monthly-task-card input,
-.monthly-task-card select,
-.monthly-task-card button,
-.monthly-task-add input,
-.monthly-task-add button {
-  font-size: 14px !important;
-  font-weight: 500 !important;
-  font-family: inherit !important;
-}
-
-/* Let the main hero headings and labels keep their intended larger/bolder sizes */
-.trial-section-heading h1 {
-  font-weight: 700 !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 10 (Optional Details Styling)
-   ========================================================================== */
-
-/* 1. Optional details outer box (Hình 1) */
-.trial-advanced {
-  background: #F4F7F5 !important;
-  background-color: #F4F7F5 !important;
-  border: none !important;
-  border-radius: 0.25rem !important;
-  box-shadow: none !important;
-}
-
-/* 2. Divider line 1.5px */
-.trial-advanced-grid {
-  border-top: 1.5px solid #0213B0 !important;
-}
-
-/* 3. Optional details title size and weight */
-.trial-advanced > summary {
-  font-size: clamp(21px, 2vw, 28px) !important;
-  font-weight: 700 !important;
-  color: #0213B0 !important;
-}
-@media (max-width: 768px) {
-  .trial-advanced > summary {
-    font-size: 17px !important;
-  }
-}
-
-/* 4. Question lines & Commercial use checkbox text (match Hình 2) */
-.trial-advanced-grid label > span {
-  font-family: var(--font-mono) !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.08em !important;
-  text-transform: uppercase !important;
-  color: #0213B0 !important;
-}
-
-/* Force ALL legends to be #0213B0 just to be safe */
-.trial-form legend {
-  color: #0213B0 !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 11 (Fine-tuning Optional Details)
-   ========================================================================== */
-
-/* 1. Optional details outer box - New Color */
-.trial-advanced {
-  background: #F4F7F5 !important;
-  background-color: #F4F7F5 !important;
-}
-
-/* 2. Remove divider line */
-.trial-advanced-grid {
-  border-top: none !important;
-}
-
-/* 3. Match Optional Details title strictly with Legend size */
-.trial-advanced > summary,
-.trial-form legend {
-  font-size: 16px !important;
-  font-weight: 700 !important;
-  color: #0213B0 !important;
-}
-@media (max-width: 768px) {
-  .trial-advanced > summary,
-  .trial-form legend {
-    font-size: 15px !important;
-  }
-}
-
-/* 4. Match Question lines weight to HOW OFTEN (normal weight) */
-.trial-advanced-grid label > span {
-  font-weight: 500 !important; /* or normal, whichever matches var(--font-mono) default */
-}
-
-/* Force normal weight for questions to match exactly */
-.trial-advanced-grid label > span {
-  font-weight: 400 !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 14 (Spacing)
-   ========================================================================== */
-
-/* Increase space below main title */
-.trial-section-heading {
-  margin-bottom: 90px !important;
-}
-@media (max-width: 768px) {
-  .trial-section-heading {
-    margin-bottom: 60px !important;
-  }
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 16 (GLOBAL APPLICATION)
-   ========================================================================== */
-
-/* 1. MAIN BACKGROUND & TEXT COLOR */
-body, main, .app-shell, .dashboard-layout, #root, #__next, .cl-rootBox, .cl-card {
-  background-color: #FFFFF1 !important;
-}
-
-/* Force all typical background classes to transparent so body shows through */
-.bg-white, .bg-slate-50, .bg-slate-100, .bg-transparent, .glass-card, .bg-background, .bg-card, .bg-muted, .bg-accent {
-  background-color: transparent !important;
-}
-
-/* 2. ALL TEXT TO NAVY BLUE */
-/* Use a very broad selector to catch Tailwind text classes and Clerk classes */
-h1, h2, h3, h4, h5, h6, p, span, li, a, label, legend, div,
-[class*="text-slate"], [class*="text-ink"], [class*="text-gray"], [class*="text-muted"], [class*="text-primary"], [class*="text-accent"], [class*="text-destructive"],
-.cl-headerTitle, .cl-headerSubtitle, .cl-dividerText, .cl-formFieldLabel,
-.cl-socialButtonsBlockButtonText, .cl-internal-180wb59, .cl-internal-1f2h3nt {
-  color: #0213B0 !important;
-}
-
-/* EXCEPTIONS: Text inside solid (active/primary) buttons */
-.trial-primary-button, 
-.bg-blue-600,
-.btn-primary,
-.cl-formButtonPrimary,
-button[aria-pressed="true"],
-.plan-cta-btn {
-  color: #FFFFF1 !important;
-}
-.trial-primary-button *, 
-.bg-blue-600 *,
-.cl-formButtonPrimary *,
-.btn-primary *,
-button[aria-pressed="true"] * {
-  color: #FFFFF1 !important;
-}
-
-/* 3. TYPE 2 BOXES (Outline / Cards / Secondary Buttons) */
-/* Apply 1.5px border, 0.25rem radius, no shadow */
-.card, .glass-card, .ui-card, .pricing-deck-card,
-.cl-card, .cl-socialButtonsBlockButton, .cl-alert,
-[class*="border-slate"], [class*="border-gray"], [class*="border-input"], [class*="border-border"],
-.trial-secondary-button,
-.btn-secondary,
-button[variant="outline"],
-button[variant="ghost"],
-.trial-workflow-list article,
-.trial-tool-card,
-.trial-task-card,
-.border,
-.rounded-xl {
-  border: 1.5px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  box-shadow: none !important;
-}
-
-/* Protect Optional Details box (User explicitly requested #F4F7F5, no border) */
-.trial-advanced {
-  background-color: #F4F7F5 !important;
-  border: none !important;
-  border-radius: 0.25rem !important;
-  box-shadow: none !important;
-}
-
-/* 4. TYPE 1 BOXES (Solid Primary Buttons) */
-.trial-primary-button, 
-.bg-blue-600,
-.cl-formButtonPrimary,
-.btn-primary,
-.plan-cta-btn {
-  background-color: #0213B0 !important;
-  border: none !important;
-  border-radius: 0.25rem !important;
-  box-shadow: none !important;
-}
-
-/* 5. TYPE 3 BOXES (Inputs / Forms) */
-/* Fill #F4F7F5, border bottom ONLY, sharp corners */
-input:not([type="checkbox"]):not([type="radio"]), 
-select, 
-textarea,
-.cl-input, 
-.cl-select, 
-.cl-textarea {
-  background-color: #F4F7F5 !important;
-  border: none !important;
-  border-bottom: 1.5px solid #0213B0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  color: #0213B0 !important;
-  padding: 12px 16px !important;
-  font-family: var(--font-sans) !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
-}
-
-/* Placeholders */
-input::placeholder, textarea::placeholder, .cl-input::placeholder {
-  color: #0213B0 !important;
-  opacity: 0.6 !important;
-}
-
-/* 6. CHECKBOXES (Strict Square) */
-input[type="checkbox"], .cl-checkboxInput {
-  background-color: transparent !important;
-  border: 1.5px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  appearance: none !important;
-  width: 20px !important;
-  height: 20px !important;
-  position: relative;
-  cursor: pointer;
-  margin: 0 !important;
-}
-input[type="checkbox"]:checked, .cl-checkboxInput:checked {
-  background-color: #0213B0 !important;
-}
-input[type="checkbox"]:checked::after, .cl-checkboxInput:checked::after {
-  content: "";
-  position: absolute;
-  left: 6px;
-  top: 2px;
-  width: 6px;
-  height: 12px;
-  border: solid #FFFFF1;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-/* 7. DIVIDERS & SEPARATORS */
-hr, .cl-dividerLine {
-  background-color: #0213B0 !important;
-  height: 1.5px !important;
-  border: none !important;
-}
-
-/* 8. NO BOX SHADOWS GLOBALLY */
-* {
-  box-shadow: none !important;
-}
-/* KILL TRANSITIONS (INSTANT SNAP) */
-* {
-  transition: none !important;
-}
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 17 (Clean up large box borders)
-   ========================================================================== */
-
-/* Remove border on large layout boxes */
-.dashboard-create-bar, 
-.dash-content-block, 
-.metric {
-  border: none !important;
-}
-
-/* KILL HOVER TRANSFORMS */
-*:not(input[type="checkbox"]):not(.cl-checkboxInput):not(::after):not(::before):hover {
-  transform: none !important;
-}
-
-/* FREEZE BUTTONS ON HOVER */
-.trial-primary-button:hover, 
-.bg-blue-600:hover,
-.cl-formButtonPrimary:hover,
-.plan-cta-btn:hover,
-.btn-primary:hover {
-  background-color: #0213B0 !important;
-  color: #FFFFF1 !important;
-}
-
-.trial-secondary-button:hover,
-button[variant="outline"]:hover,
-button[variant="ghost"]:hover,
-.btn-secondary:hover {
-  background-color: transparent !important;
-  color: #0213B0 !important;
-}
-
-a:hover, button:hover {
-  text-decoration: none !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 19 (Select Arrows)
-   ========================================================================== */
-
-/* NATIVE DROPDOWNS: ADD BLUE ARROW */
-select:not(.trial-budget-row select), .cl-select {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230213B0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 16px center !important;
-  background-size: 12px auto !important;
-  padding-right: 40px !important;
-}
-
-/* NATIVE DROPDOWNS: WHITE ARROW FOR PRIMARY SELECTS */
-.trial-budget-row select {
-  appearance: none !important;
-  -webkit-appearance: none !important;
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFF1%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: right 16px center !important;
-  background-size: 12px auto !important;
-  padding-right: 40px !important;
-}
-
-/* DASHBOARD STRATEGY CARD OVERRIDE */
-.problem-card {
-  background-color: #F4F7F5 !important;
-  border: none !important;
-  border-radius: 0.25rem !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 21 (Dashboard Layout tweaks)
-   ========================================================================== */
-
-/* Stack the title and the buttons vertically */
-.dashboard-create-bar {
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 24px !important;
-}
-
-/* Ensure buttons sit on the same row */
-.dashboard-create-actions {
-  flex-direction: row !important;
-  justify-content: flex-start !important;
-  gap: 16px !important;
-}
-
-/* Metric boxes style */
-.metric {
-  background-color: transparent !important;
-  border: 1.5px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-}
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 22 (Total Animation Kill)
-   ========================================================================== */
-
-/* Nuke all transitions and animations everywhere except the spinner */
-*:not(.spin) {
-  transition: none !important;
-  animation: none !important;
-}
-
-
-
-/* Fix dashboard left alignment */
-.dashboard-create-bar {
-  padding-left: 0 !important;
-}
-
-/* Fix dash-content-block padding */
-.dash-content-block {
-  padding: 0 !important;
-  background: transparent !important;
-}
-
-
-/* ==========================================================================
-   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 27 (Ultimate Hover Kill)
-   ========================================================================== */
-
-/* Nuke ALL transforms on hover with overwhelming specificity */
-html body *:hover,
-html body *[class]:hover,
-html body *[class][class]:hover,
-html body *[id]:hover {
-  transform: none !important;
-}
-
-/* Ensure checkbox ticks survive by specifically restoring their transform 
-   (Even though pseudo elements shouldn't be affected by *:hover, just to be safe) */
-input[type="checkbox"]:checked::after,
-.cl-checkboxInput:checked::after,
-.cl-checkbox__input:checked::after {
-  transform: translate(-50%, -50%) rotate(45deg) !important;
-}
-
-/* Fix Checkbox checkmark position */
-input[type="checkbox"]:checked::after,
-.cl-checkboxInput:checked::after,
-.cl-checkbox__input:checked::after {
-  content: "" !important;
-  position: absolute !important;
-  top: 45% !important;
-  left: 50% !important;
-  width: 6px !important;
-  height: 11px !important;
-  border: solid #FFFFF1 !important;
-  border-width: 0 2px 2px 0 !important;
-  transform: translate(-50%, -50%) rotate(45deg) !important;
-}
-
-/* Override global input padding for workflow editor cards */
-.feature input,
-.feature textarea {
-  padding: 8px 0 !important;
-  background-color: transparent !important;
-  border-bottom: 1.5px solid #0213B0 !important;
-}
-
-/* Pass 39: Refine dashboard empty state styling */
-.signed-home-option-icon {
-  width: auto !important;
-  height: auto !important;
-  display: flex !important;
-  background-color: transparent !important;
-  border: none !important;
-  border-radius: 0 !important;
-  color: #FFFFF1 !important;
-  margin-bottom: 36px !important;
-}
-
-.signed-home-option-icon svg {
-  width: 24px !important;
-  height: 24px !important;
-  margin: 0 !important;
-}
-
-.signed-home-option p {
-  margin: 0 0 45px !important;
-}
-
-/* Pass 42: Upgraded Brutalist styling for Results Page */
-/* 1. Global text color for results page */
-.trial-result-hero h1,
-.trial-result-hero p,
-.trial-result-hero span,
-.trial-result-hero small,
-.trial-result-hero strong,
-.trial-result-summary-cost small,
-.trial-result-summary-cost strong,
-.trial-result-summary-cost span,
-.trial-tool-card h3,
-.trial-tool-card p,
-.trial-tool-card span,
-.trial-tool-card strong,
-.trial-tool-card small,
-.trial-model-identity > p,
-.trial-model-identity > p strong,
-.trial-bottom-line h2,
-.trial-bottom-line p,
-.trial-bottom-line span,
-.trial-bottom-line strong,
-.trial-save-panel h2,
-.trial-save-panel p,
-.trial-save-panel span,
-.trial-optimise-tease h2,
-.trial-optimise-tease p,
-.trial-technical summary,
-.trial-technical p,
-.trial-tool-card-top > span,
-.trial-cost-note {
-  color: #0213B0 !important;
-}
-
-/* 2. Tool Cards */
-.trial-tool-card, .trial-existing-card, .trial-tool-card-unmatched, .trial-tool-card-no-ai {
-  background-color: transparent !important;
-  border: none !important;
-  border-top: 1.5px solid #0213B0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  padding: 32px 0 !important;
-}
-
-/* 3. Hero Box */
-.trial-result-hero {
-  background-color: transparent !important;
-  border: 1.5px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  grid-template-columns: 1fr auto !important;
-  align-items: stretch !important;
-  padding: 0 !important;
-  gap: 0 !important;
-}
-
-.trial-result-hero > div:first-child {
-  padding: 24px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-}
-
-/* 4. Cost Box in Hero */
-.trial-result-summary-cost {
-  background-color: transparent !important;
-  border: none !important;
-  border-left: 1.5px solid #0213B0 !important;
-  border-radius: 0 !important;
-  padding: 24px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-}
-
-/* 5. All other inner boxes / panels must be 1.5px */
-.trial-job-label, 
-.trial-tool-reason, 
-.trial-tool-cost, 
-.trial-save-panel, 
-.trial-optimise-tease,
-.trial-bottom-line,
-.trial-technical,
-.trial-cancel-list,
-.trial-partial-note,
-.trial-customize-panel,
-.trial-money-grid,
-.trial-money-grid > div {
-  background-color: transparent !important;
-  border: 1.5px solid #0213B0 !important;
-  border-radius: 0.25rem !important;
-  box-shadow: none !important;
-}
-
-/* 6. Action badges inside cards */
-.trial-tool-card-top b {
-  background-color: transparent !important;
-  border: 1.5px solid #0213B0 !important;
-  color: #0213B0 !important;
-  border-radius: 0.25rem !important;
-}
-
-/* Reset gradients */
-.trial-tool-card-cancel {
-  background: transparent !important;
-  border-top: 1.5px solid #0213B0 !important;
-}
-
-/* Section Spacing Resets for Brutalist Layout */
-.trial-results-section {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-}
-.trial-customize-panel, .trial-optimise-tease {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
+  color: #1A24A9 !important;
 }

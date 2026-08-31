@@ -77,7 +77,7 @@ function ModelCustomizer({
   return (
     <section className="trial-customize-panel" aria-labelledby="customize-models-title">
       <div className="trial-customize-heading">
-        <div><p>OPTIONAL CUSTOMISATION</p><h2 id="customize-models-title">Change any model in your saved stack.</h2><span>Costs, workflow coverage, and your remaining budget update immediately.</span></div>
+        <div><h2 id="customize-models-title">Alternative Options</h2></div>
         <SlidersHorizontal aria-hidden="true" />
       </div>
 

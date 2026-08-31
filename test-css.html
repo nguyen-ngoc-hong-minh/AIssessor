@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  .btn:hover { transform: translateY(-10px) !important; }
+  .btn.primary:hover { transform: translateY(-20px) !important; }
+  
+  html body *[class][class]:hover,
+  html body *[class]:hover,
+  html body *:hover {
+    transform: none !important;
+  }
+</style>
+</head>
+<body>
+  <button class="btn primary">Hover me</button>
+</body>
+</html>
