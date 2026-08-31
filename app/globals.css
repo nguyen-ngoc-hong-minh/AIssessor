@@ -5945,6 +5945,9 @@ input[type="checkbox"]:checked::after,
 }
 
 /* Section Spacing Resets for Brutalist Layout */
+.trial-results {
+  padding-top: 0 !important;
+}
 .trial-results-section {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
