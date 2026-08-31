@@ -114,7 +114,7 @@
 .trial-word-loop span { height: 94px; display: grid; place-items: center; color: transparent; -webkit-text-stroke: 1px rgba(249,168,212,.72); font: 700 clamp(34px, 4vw, 66px)/1 var(--font-mono); letter-spacing: .04em; animation: trialWords 10s steps(5) infinite; }
 @keyframes trialWords { to { transform: none; } }
 
-.trial-parameters, .trial-workflow, .trial-results { position: relative; max-width: 1180px; margin: 0 auto; padding: 120px clamp(20px, 4vw, 52px); }
+.trial-parameters, .trial-workflow, .trial-results { position: relative; max-width: 1180px; margin: 0 auto; padding: 0 !important; }
 .trial-progress { position: relative; max-width: 620px; margin: 0 auto 92px; display: grid; grid-template-columns: 38px 1fr 38px 1fr 38px; align-items: center; gap: 12px; }
 .trial-progress > span { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: #121726; color: var(--ink-3); display: grid; place-items: center; font: 600 12px var(--font-mono); }
 .trial-progress > span svg { width: 15px; }
@@ -502,7 +502,7 @@
 @media (max-width: 760px) {
   .trial-intro { min-height: 100svh; padding: 98px 18px 48px; }
   .trial-animated-title { font-size: clamp(48px, 15vw, 70px) !important; }
-  .trial-parameters, .trial-workflow, .trial-results { padding: 92px 14px 42px; }
+  .trial-parameters, .trial-workflow, .trial-results { padding: 0 !important; }
   .trial-form { grid-template-columns: 1fr; }
   .trial-field-wide, .trial-advanced, .trial-form-footer, .trial-form > .trial-error { grid-column: auto; }
   .trial-result-hero { grid-template-columns: 1fr; padding: 20px; }
@@ -5234,9 +5234,25 @@ input::placeholder {
 }
 
 /* Signed-in Workspace Home Layout (starts immediately at top with page padding) */
+/* ==========================================================================
+   GLOBAL STANDARDIZED PAGE PADDING (ALL PAGES & TRIAL)
+   Desktop (> 768px): padding: 92px 28px 110px !important;
+   Mobile (<= 768px): padding: 92px 14px 110px !important;
+   ========================================================================== */
+
 .editorial-app-main,
 .editorial-app-main.is-workspace-page,
-.editorial-app-main.is-long-page {
+.editorial-app-main.is-long-page,
+.trial-page,
+.trial-page:not(.is-embedded),
+.auth-page-clean,
+.pricing-main,
+.public-content,
+main.public-content,
+main.section,
+.onboarding-main,
+.how-it-works-main,
+.terms-main {
   height: auto !important;
   min-height: 100vh !important;
   max-height: none !important;
@@ -5254,9 +5270,34 @@ input::placeholder {
 @media (max-width: 768px) {
   .editorial-app-main,
   .editorial-app-main.is-workspace-page,
-  .editorial-app-main.is-long-page {
+  .editorial-app-main.is-long-page,
+  .trial-page,
+  .trial-page:not(.is-embedded),
+  .auth-page-clean,
+  .pricing-main,
+  .public-content,
+  main.public-content,
+  main.section,
+  .onboarding-main,
+  .how-it-works-main,
+  .terms-main {
     padding: 92px 14px 110px !important;
   }
+}
+
+/* Zero out child section paddings to prevent overlap with standardized page container padding */
+.trial-parameters,
+.trial-workflow,
+.trial-results,
+.trial-page .trial-parameters,
+.trial-page .trial-workflow,
+.trial-page .trial-results,
+.editorial-app-main .trial-parameters,
+.editorial-app-main .trial-workflow,
+.editorial-app-main .trial-results,
+.signed-home {
+  padding: 0 !important;
+  margin-top: 0 !important;
 }
 
 .signed-home {
