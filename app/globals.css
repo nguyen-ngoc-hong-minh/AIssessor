@@ -6153,3 +6153,8 @@ input[type="checkbox"]:checked::after,
 .trial-model-choice-inner > b {
   margin: 0 !important;
 }
+
+/* Pass 77: Make the line above "Why this model?" 1.5px solid #0213B0 */
+.trial-why {
+  border-top: 1.5px solid #0213B0 !important;
+}
