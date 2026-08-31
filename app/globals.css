@@ -5883,7 +5883,7 @@ input[type="checkbox"]:checked::after,
 .trial-tool-card, .trial-existing-card, .trial-tool-card-unmatched, .trial-tool-card-no-ai {
   background-color: #F4F7F5 !important;
   border: none !important;
-  border-radius: 24px !important;
+  border-radius: 0.25rem !important;
   box-shadow: none !important;
   padding: 32px !important;
   display: flex !important;
@@ -5990,7 +5990,7 @@ input[type="checkbox"]:checked::after,
 .trial-customize-step {
   background-color: #F4F7F5 !important;
   border: none !important;
-  border-radius: 24px !important;
+  border-radius: 0.25rem !important;
   padding: 32px !important;
   margin: 0 !important;
   display: flex !important;
