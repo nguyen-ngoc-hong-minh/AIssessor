@@ -130,6 +130,9 @@ describe("strategy inputs", () => {
     const result = { locked: false, usageType: "one_off", plans: [{ variant: "recommended", steps: [], fixedCostUsd: 0, apiCostUsd: 0, totalCostUsd: 0, estimatedSavingsUsd: 0, existingSubscriptions: { kept: [], couldCancel: [] }, subscriptions: [], uniqueProductCount: 0, completeStepCount: 0, budgetUsd: null, budgetRemainingUsd: null, inputsUsed: { budgetOriginalCurrency: "USD", budgetOriginalAmount: null }, assumptions: [], dataUpdatedAt: Date.now() }], dataSnapshot: { fetchedAt: Date.now(), sources: [] } };
     vi.spyOn(globalThis, "fetch").mockResolvedValue(new Response(JSON.stringify(result), { status: 200 }));
     render(<ResultsView strategyId="saved-strategy" />);
+    const historyLink = await screen.findByRole("link", { name: "View previous consultations" });
+    expect(historyLink).toHaveClass("signed-home-history");
+    expect(historyLink).toHaveAttribute("href", "/dashboard#consultation-history");
     // expect(await screen.findByText("This model-by-model plan is in your history.")).toBeInTheDocument();
     // expect(screen.getByRole("heading", { name: "Your workflow, model by model." })).toBeInTheDocument();
     // expect(screen.getByRole("link", { name: "Edit workflow" })).toHaveAttribute("href", "/strategy/saved-strategy/workflow");

@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, DatabaseZap, PencilLine, RotateCcw, Save, SlidersHorizontal } from "lucide-react";
+import { ArrowUpRight, Check, DatabaseZap, History, PencilLine, RotateCcw, Save, SlidersHorizontal } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { apiErrorMessage } from "@/lib/client/api-error";
@@ -187,7 +187,9 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
   const isMonthly = result.usageType === "monthly";
   const savedActions = (
     <div className="trial-saved-actions">
-      <Link className="trial-secondary-button" href="/dashboard#consultation-history">Previous consultations</Link>
+      <Link className="signed-home-history" href="/dashboard#consultation-history">
+        <History aria-hidden="true" /> View previous consultations <ArrowUpRight aria-hidden="true" />
+      </Link>
       {!isMonthly && <Link className="trial-primary-button" href={`/strategy/${strategyId}/workflow`}>Edit workflow <PencilLine /></Link>}
     </div>
   );
