@@ -574,7 +574,11 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         </section>
       )}
 
-      {phase === "processing" && <section className="trial-processing" aria-live="polite"><div className="trial-processing-orbit"><Sparkles /><i /><i /></div><p>ANALYSING YOUR WORK</p><h1>{loadingMessages[loadingIndex]}</h1><div className="trial-loading-bar"><span key={loadingIndex} /></div><small>Using current tool, pricing, and evidence data. No artificial wait.</small></section>}
+      {phase === "processing" && (
+        <section className="trial-processing" aria-live="polite">
+          <h1>{loadingMessages[loadingIndex]}</h1>
+        </section>
+      )}
 
       {phase === "results" && result && (
         <section className="trial-results trial-enter">
