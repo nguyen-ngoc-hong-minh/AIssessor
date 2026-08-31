@@ -14,7 +14,7 @@ export function AppShell({
   user: { name: string; email: string };
 }) {
   const pathname = usePathname();
-  const isWorkspaceStart = pathname === "/home" || pathname === "/dashboard";
+  const isWorkspaceStart = pathname === "/home" || pathname === "/dashboard" || pathname.includes("/workflow") || pathname.includes("/strategy/");
   const isLongPage = isWorkspaceStart || pathname.startsWith("/strategy/") || pathname.startsWith("/admin/");
   const { user: clerkUser } = useUser();
 
