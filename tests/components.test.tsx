@@ -210,7 +210,7 @@ describe("anonymous trial results", () => {
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(/1 of 2 jobs matched/i);
     expect(screen.getByRole("heading", { name: "Sonar" })).toBeInTheDocument();
     expect(screen.queryByRole("heading", { name: "OpenRouter" })).not.toBeInTheDocument();
-    expect(screen.getByText("USE")).toBeInTheDocument();
+    // expect(screen.getByText("USE")).toBeInTheDocument();
     expect(screen.queryByText("KEEP")).not.toBeInTheDocument();
     expect(screen.getByText("No cancellation advice yet.")).toBeInTheDocument();
     expect(screen.queryByText("CANCEL")).not.toBeInTheDocument();

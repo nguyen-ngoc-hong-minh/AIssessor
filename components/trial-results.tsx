@@ -80,11 +80,10 @@ function StepToolCard({ step, tool, plan }: { step: StepRecommendation; tool: Se
   const explanation = step.selected?.explanation.find((item) => item.trim()) ?? `Selected to complete ${step.step.name}.`;
   return (
     <article className="trial-tool-card">
-      <div className="trial-tool-card-top"><span>{roleFor(step.taskCategory)}</span><b data-action={action}>{action}</b></div>
+      <div className="trial-tool-card-top"><span>{roleFor(step.taskCategory)}</span></div>
       <div className="trial-model-identity"><h3>{tool.model.name}</h3><p>by {tool.model.provider}{route.toLowerCase() !== tool.model.provider.toLowerCase() ? <> · access via <strong>{route}</strong></> : null}</p></div>
       <div className="trial-job-label"><small>USE THIS AI FOR</small><strong>{step.step.name}</strong><span>{step.step.plainLanguageDescription}</span></div>
-      <p className="trial-tool-reason">{explanation}</p>
-      <div className="trial-tool-meta"><strong>{costFor(tool, plan)}</strong><a href={tool.access.url} target="_blank" rel="noreferrer">Open {route} <ArrowUpRight /></a></div>
+            <div className="trial-tool-meta"><strong>{costFor(tool, plan)}</strong><a href={tool.access.url} target="_blank" rel="noreferrer">Open {route} <ArrowUpRight /></a></div>
       <details className="trial-why"><summary>Why this model? <ChevronDown /></summary><div><p>{step.selected?.explanation.join(" ")}</p><ul><li>Specific model: {tool.model.name}</li><li>Access route: {route}</li><li>Covers: {tool.coversCapabilities.join(", ") || step.taskCategory.replaceAll("_", " ")}</li><li>Estimated usage: {money(tool.estimatedCostUsd, plan)}</li></ul></div></details>
     </article>
   );
@@ -96,7 +95,7 @@ function UnmatchedStepCard({ step, plan }: { step: StepRecommendation; plan: Str
   const route = tool ? accessName(tool) : null;
   return (
     <article className="trial-tool-card trial-tool-card-unmatched">
-      <div className="trial-tool-card-top"><span>{roleFor(step.taskCategory)}</span><b data-action={tool ? "PARTIAL" : "CHECK"}>{tool ? "PARTIAL" : "CHECK"}</b></div>
+      <div className="trial-tool-card-top"><span>{roleFor(step.taskCategory)}</span></div>
       <div className="trial-model-identity"><h3>{tool?.model.name ?? "No complete model match yet"}</h3>{tool && <p>by {tool.model.provider}{route && route.toLowerCase() !== tool.model.provider.toLowerCase() ? <> · access via <strong>{route}</strong></> : null}</p>}</div>
       <div className="trial-job-label"><small>JOB STILL TO COVER</small><strong>{step.step.name}</strong><span>{step.step.plainLanguageDescription}</span></div>
       <p className="trial-tool-reason">{partial ? `Partial candidate only: ${partial.model.name} covers ${partial.coveredCapabilities.join(", ") || "part of the requirement"}, but cannot yet be presented as a complete answer.` : "No current model passed every evidence and access check."}</p>
@@ -107,7 +106,7 @@ function UnmatchedStepCard({ step, plan }: { step: StepRecommendation; plan: Str
 }
 
 function NoAiStepCard({ step }: { step: StepRecommendation }) {
-  return <article className="trial-tool-card trial-tool-card-no-ai"><div className="trial-tool-card-top"><span>NO AI REQUIRED</span><b data-action="KEEP">MANUAL</b></div><h3>{step.step.name}</h3><p className="trial-tool-reason">{step.step.noAIAlternative || "This step is better completed without adding another AI model."}</p></article>;
+  return <article className="trial-tool-card trial-tool-card-no-ai"><div className="trial-tool-card-top"><span>NO AI REQUIRED</span></div><h3>{step.step.name}</h3></article>;
 }
 
 export function TrialResults({ result, saveControl, savedStrategyId, mode = "trial", beforeFooter }: TrialResultsProps) {
