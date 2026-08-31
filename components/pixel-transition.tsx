@@ -12,29 +12,41 @@ export function PixelTransition() {
 
   if (!active) return null;
 
-  // Reverted to 12 big bars as requested, keeping the smooth hardware acceleration
-  const bars = Array.from({ length: 12 });
+  // 24 transition bars with distinctly uneven speeds and delays
+  const bars = Array.from({ length: 24 });
 
-  // Deterministic delay pattern for 12 bars (0.0s to 0.4s) to avoid hydration glitch
+  // Deterministic uneven delay pattern (0s to 0.42s)
   const delays = [
-    0.15, 0.38, 0.05, 0.22, 
-    0.41, 0.12, 0.32, 0.02, 
-    0.28, 0.45, 0.18, 0.09
+    0.08, 0.38, 0.02, 0.28, 0.15, 0.42, 0.05, 0.22,
+    0.35, 0.12, 0.45, 0.03, 0.25, 0.18, 0.40, 0.09,
+    0.32, 0.01, 0.27, 0.14, 0.36, 0.06, 0.20, 0.30
+  ];
+  
+  // Distinctly varied speeds / durations (0.65s to 1.25s)
+  const durations = [
+    0.70, 1.15, 0.80, 1.25, 0.75, 0.95, 1.10, 0.65,
+    1.20, 0.85, 1.05, 0.70, 1.10, 0.90, 1.25, 0.80,
+    1.00, 0.65, 1.15, 0.75, 1.20, 0.85, 0.95, 1.05
   ];
 
   return (
-    <div className="fixed inset-0 z-[999] pointer-events-none flex w-full h-full overflow-hidden">
+    <div 
+      className="fixed inset-0 z-[999] pointer-events-none flex w-full h-full overflow-hidden"
+      style={{ borderRadius: 0, border: "none" }}
+    >
       {bars.map((_, i) => (
         <div
           key={i}
           className="h-full bg-[#0213B0] pixel-transition-bar"
           style={{
             flex: 1,
-            animation: `pixelSlideUp 0.85s cubic-bezier(0.85, 0, 0.15, 1) forwards`,
-            animationDelay: `${delays[i]}s`,
+            borderRadius: 0,
+            border: "none",
+            '--delay': `${delays[i]}s`,
+            '--duration': `${durations[i]}s`,
             willChange: "transform",
             transformOrigin: "bottom"
-          }}
+          } as React.CSSProperties}
         />
       ))}
       <style dangerouslySetInnerHTML={{__html: `

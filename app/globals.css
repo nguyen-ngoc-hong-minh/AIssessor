@@ -6161,15 +6161,15 @@ input[type="checkbox"]:checked::after,
 }
 
 /* ==========================================================================
-   PASS 80: RESTORE ANIMATIONS EXCLUSIVELY FOR PRE-SIGNIN LANDING PAGE
+   PASS 80 & 81: RESTORE ANIMATIONS EXCLUSIVELY FOR PRE-SIGNIN LANDING PAGE
    ========================================================================== */
 
-/* 1. Motion Blur Reveal Keyframes (restored with translateY) */
+/* 1. Motion Blur Reveal Keyframes */
 @keyframes motionBlurReveal {
   0% {
     opacity: 0;
-    filter: blur(20px);
-    transform: translateY(20px);
+    filter: blur(14px);
+    transform: translateY(18px);
   }
   100% {
     opacity: 1;
@@ -6179,16 +6179,25 @@ input[type="checkbox"]:checked::after,
 }
 
 /* 2. Pixel Transition Bars (Curtain reveal on landing page) */
-.pixel-transition-bar,
-.trial-page .pixel-transition-bar,
-[style*="pixelSlideUp"] {
-  animation: pixelSlideUp 0.85s cubic-bezier(0.85, 0, 0.15, 1) forwards !important;
+.pixel-transition-bar {
+  animation: pixelSlideUp var(--duration, 0.85s) cubic-bezier(0.85, 0, 0.15, 1) forwards !important;
+  animation-delay: var(--delay, 0s) !important;
+  border-radius: 0 !important;
+  border: none !important;
+  outline: none !important;
 }
 
-/* 3. Staggered Intro Copy Reveal (Landing Page Only) */
+/* 3. Title text child spans should be visible inside the animated title */
+.trial-animated-title span,
+.trial-animated-title em {
+  display: block !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* 4. Staggered Intro Copy Reveal (Landing Page Only) */
 .trial-intro .trial-intro-copy > * {
-  opacity: 0 !important;
-  animation: motionBlurReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  animation: motionBlurReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) both !important;
   will-change: transform, opacity, filter !important;
 }
 
@@ -6212,41 +6221,27 @@ input[type="checkbox"]:checked::after,
   animation-delay: 0.9s !important;
 }
 
-/* 4. Staggered Header Reveal (Landing Page Only) */
+/* 5. Staggered Header Reveal (Landing Page Only) */
 .trial-page:has(.trial-intro) .trial-header .swiss-badge,
 .trial-page:has(.trial-intro) .trial-header .swiss-nav-block,
 .trial-page:has(.trial-intro) .trial-header > .relative > div:first-child,
 .trial-header:has(+ .trial-intro) .swiss-badge,
 .trial-header:has(+ .trial-intro) .swiss-nav-block,
 .trial-header:has(+ .trial-intro) > .relative > div:first-child {
-  opacity: 0 !important;
-  animation: motionBlurReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  animation: motionBlurReveal 1s cubic-bezier(0.16, 1, 0.3, 1) both !important;
 }
 
 .trial-page:has(.trial-intro) .trial-header .swiss-badge,
 .trial-header:has(+ .trial-intro) .swiss-badge {
-  animation-delay: 1.1s !important;
+  animation-delay: 1.0s !important;
 }
 
 .trial-page:has(.trial-intro) .trial-header > .relative > div:first-child,
 .trial-header:has(+ .trial-intro) > .relative > div:first-child {
-  animation-delay: 1.2s !important;
+  animation-delay: 1.15s !important;
 }
 
 .trial-page:has(.trial-intro) .trial-header .swiss-nav-block,
 .trial-header:has(+ .trial-intro) .swiss-nav-block {
-  animation-delay: 1.3s !important;
-}
-
-/* Keep the public homepage visible when the global motion override disables reveals. */
-.trial-intro-copy > *,
-.trial-animated-title span,
-.trial-animated-title em,
-.trial-header .swiss-badge,
-.trial-header .swiss-nav-block,
-.trial-header > .relative > div:first-child {
-  opacity: 1 !important;
-  visibility: visible !important;
-  filter: none !important;
-  transform: none !important;
+  animation-delay: 1.25s !important;
 }
