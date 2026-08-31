@@ -5384,13 +5384,13 @@ main.section,
   justify-content: flex-start !important;
 }
 
-/* Center choose usage view specifically in trial flow */
+/* Choose usage view in trial flow (starts naturally from top with page padding) */
 .trial-page .signed-home {
-  min-height: 100svh !important;
+  min-height: auto !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: center !important;
-  align-items: center !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
   padding: 0 !important;
   margin: 0 auto !important;
   box-sizing: border-box !important;
