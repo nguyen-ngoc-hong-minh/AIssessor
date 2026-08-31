@@ -131,19 +131,22 @@ export function DashboardView() {
             </div>
           </div>
         ) : (
-          <div className="dashboard-strategy-list flex flex-col gap-6">
+          <div className="dashboard-strategy-list flex flex-col">
             {strategies.map((strategy, idx) => (
-              <div className="problem-card flex items-start gap-6 p-6 md:p-8" key={strategy._id}>
-                <div className="font-mono text-xs text-indigo-soft mt-1">
+              <div 
+                className="problem-card flex flex-row py-8 border-t border-[#0213B0] bg-transparent w-full" 
+                key={strategy._id}
+              >
+                <div className="font-mono text-sm text-[#0213B0] w-16 flex-none mt-0.5">
                   {String(idx + 1).padStart(2, "0")}
                 </div>
                 
-                <div className="flex-1 flex flex-col gap-6 min-w-0">
-                  <h3 className="font-sans text-base font-bold text-ink">
+                <div className="flex-1 flex flex-col min-w-0">
+                  <h3 className="font-sans text-base font-bold text-[#0213B0] mb-4">
                     {strategy.title}
                   </h3>
 
-                  <div className="flex flex-col gap-3 font-mono text-[11px] text-ink-3">
+                  <div className="flex flex-col gap-3 font-mono text-[11px] text-[#0213B0] opacity-80 mb-8">
                     <span>[{strategy.usageType === "one_off" ? "ONE-OFF PROJECT" : "MONTHLY WORKFLOW"}]</span>
                     <span>Created: {new Date(strategy.createdAt).toLocaleDateString()}</span>
                     <span>
@@ -157,7 +160,7 @@ export function DashboardView() {
 
                   <div className="flex items-center self-start">
                     <Link
-                      className="btn-primary text-[11px] font-bold px-6 py-3 flex items-center justify-center gap-2 mr-3"
+                      className="btn-primary text-[11px] font-bold px-6 py-3 flex items-center justify-center gap-3 mr-3"
                       href={`/strategy/${strategy._id}/${strategy.status === "complete" ? "results" : "workflow"}`}
                       title="Open strategy"
                     >
