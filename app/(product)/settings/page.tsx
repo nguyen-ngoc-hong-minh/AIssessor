@@ -3,7 +3,7 @@ import { anyApi } from "convex/server";
 import { SettingsView } from "@/components/settings-view";
 import { authenticatedConvex } from "@/lib/server/convex";
 
-export const metadata: Metadata = { title: "Settings · Aissessor" };
+export const metadata: Metadata = { title: "Settings" };
 
 export default async function SettingsPage() {
   const client = await authenticatedConvex();

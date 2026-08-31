@@ -3,7 +3,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { ArrowUpRight } from "lucide-react";
 
-export const metadata: Metadata = { title: "How It Works · Aissessor" };
+export const metadata: Metadata = { title: "How It Works" };
 
 const steps = [
   ["01.", "Describe Objectives", "Tell Aissessor what you need in everyday language, along with budget, timing, and priorities."],

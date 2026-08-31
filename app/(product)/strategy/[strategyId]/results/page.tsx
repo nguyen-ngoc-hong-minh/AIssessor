@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ResultsView } from "@/components/results-view";
 
-export const metadata: Metadata = { title: "Strategy Results · Aissessor" };
+export const metadata: Metadata = { title: "Strategy Results" };
 
 export default async function ResultPage({
   params,
