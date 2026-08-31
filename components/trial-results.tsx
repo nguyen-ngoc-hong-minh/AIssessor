@@ -118,7 +118,7 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
     <div className="trial-results">
       <ResultSummary plan={plan} monthly={monthly} />
 
-      <div className="w-full border-t-[1.5px] border-[#0213B0] my-[45px]" />
+      <div className="trial-section-divider" />
       <section id="ai-team" className="trial-results-section"><div className="trial-section-heading"><h2>Recommended AI Workflow</h2></div>
         <div className="trial-tools-grid">
           {plan.steps.flatMap((step) => step.selected?.tools.map((tool) => <StepToolCard key={`${step.stepId}:${tool.model.id}`} step={step} tool={tool} plan={plan} />) ?? (step.step.noAIEligible ? [<NoAiStepCard key={step.stepId} step={step} />] : [<UnmatchedStepCard key={step.stepId} step={step} plan={plan} />]))}
@@ -127,10 +127,10 @@ export function TrialResults({ result, saveControl, savedStrategyId, mode = "tri
         {complete && plan.existingSubscriptions.couldCancel.length > 0 && <div className="trial-cancel-list"><span>REVIEW POSSIBLE OVERLAP</span>{plan.existingSubscriptions.couldCancel.map((tool) => <strong key={tool}>{tool} <small>Check usage before cancelling</small></strong>)}</div>}
       </section>
 
-      <div className="w-full border-t-[1.5px] border-[#0213B0] my-[45px]" />
+      <div className="trial-section-divider" />
       {beforeFooter}
 
-      <div className="w-full border-t-[1.5px] border-[#0213B0] my-[45px]" />
+      <div className="trial-section-divider" />
       <section className="trial-optimise-tease"><div><h2>Check this stack again when models or prices change.</h2></div><Link href="/pricing">See Optimise <ArrowUpRight /></Link></section>
 
       {mode === "saved" ? saveControl : savedStrategyId ? <Link className="trial-primary-button" href={`/strategy/${savedStrategyId}/results`}>View saved strategy</Link> : saveControl}

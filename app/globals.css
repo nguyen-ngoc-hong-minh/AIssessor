@@ -5949,3 +5949,10 @@ input[type="checkbox"]:checked::after,
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
+
+/* Section Divider */
+.trial-section-divider {
+  width: 100%;
+  border-top: 1.5px solid #0213B0 !important;
+  margin: 45px 0 !important;
+}
