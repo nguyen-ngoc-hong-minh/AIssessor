@@ -5570,7 +5570,7 @@ button[variant="ghost"],
 }
 
 /* 5. TYPE 3 BOXES (Inputs / Forms) */
-/* Fill #FFFFF1, border bottom ONLY, sharp corners */
+/* Fill #F4F7F5, border bottom ONLY, sharp corners */
 input:not([type="checkbox"]):not([type="radio"]), 
 select, 
 textarea,
@@ -5580,9 +5580,10 @@ textarea,
 .trial-form input,
 .trial-form select,
 .trial-form textarea,
-.trial-advanced-grid select,
-.trial-advanced-grid input {
-  background-color: #FFFFF1 !important;
+.monthly-task-card input,
+.monthly-task-card select,
+.monthly-task-add input {
+  background-color: #F4F7F5 !important;
   border: none !important;
   border-bottom: 1.5px solid #0213B0 !important;
   border-radius: 0 !important;
@@ -5592,6 +5593,21 @@ textarea,
   font-family: var(--font-sans) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
+}
+
+/* Optional details input fields ONLY - Fill #FFFFF1 (Cream White) */
+.trial-advanced input,
+.trial-advanced select,
+.trial-advanced textarea,
+.trial-advanced-grid input,
+.trial-advanced-grid select,
+.trial-advanced-grid textarea {
+  background-color: #FFFFF1 !important;
+  border: none !important;
+  border-bottom: 1.5px solid #0213B0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  color: #0213B0 !important;
 }
 
 /* Placeholders */

@@ -1,7 +1,7 @@
 "use client";
 
 import { SignInButton, useAuth } from "@clerk/nextjs";
-import { ArrowDown, ArrowLeft, ArrowRight, Check, ChevronDown, LoaderCircle, Plus, Sparkles, Trash2, FolderPlus, CalendarRange, ArrowUpRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronDown, LoaderCircle, Plus, Sparkles, Trash2, FolderPlus, CalendarRange, ArrowUpRight, Pencil } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { apiErrorMessage } from "@/lib/client/api-error";
@@ -57,6 +57,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   const formRef = useRef<HTMLFormElement>(null);
   const [activeMode, setActiveMode] = useState<SignedInMode | undefined>(signedInMode);
   const [phase, setPhase] = useState<Phase>(authenticatedBuilder ? "parameters" : "intro");
+  const [editingWorkflow, setEditingWorkflow] = useState(false);
   const [brief, setBrief] = useState("");
   const [monthlyTaskDraft, setMonthlyTaskDraft] = useState("");
   const [monthlyTasks, setMonthlyTasks] = useState<MonthlyTask[]>([]);
@@ -226,6 +227,24 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
   function removeStep(index: number) { setSteps((current) => current.filter((_, stepIndex) => stepIndex !== index).map((step, order) => ({ ...step, order }))); }
 
+  function addStep() {
+    setSteps((current) => [
+      ...current,
+      {
+        id: crypto.randomUUID(),
+        order: current.length,
+        name: "New step",
+        plainLanguageDescription: "Describe what should happen in this step.",
+        technicalDescription: "",
+        category: "planning",
+        estimatedWorkload: "medium",
+        requiredCapabilities: ["text"],
+        canUseFreeTier: false,
+        recommendedTool: "",
+      },
+    ]);
+  }
+
   async function claimTrial(id = trialId, token = trialToken) {
     const response = await fetch(`/api/trial/${id}/save`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token }) });
     const body = await response.json() as { strategyId?: string; code?: string; userMessage?: string; error?: string };
@@ -377,7 +396,154 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
           </form>
         </section>}
 
-      {phase === "workflow" && <section className="trial-workflow"><div className="trial-progress"><span className="done"><Check /></span><i className="done" /><span className="active">2</span><i /><span>3</span></div><div className="trial-section-heading"><p>YOUR WORKFLOW</p><h1>Here&apos;s how we understood<br />your work.</h1></div><div className="trial-workflow-list">{steps.map((step, index) => <article key={step.id}><div className="trial-step-number">{String(index + 1).padStart(2,"0")}</div><div><input aria-label={`Step ${index + 1} name`} value={step.name} onChange={(event) => changeStep(index,{name:event.target.value})} /><textarea aria-label={`Step ${index + 1} description`} value={step.plainLanguageDescription} onChange={(event) => changeStep(index,{plainLanguageDescription:event.target.value})} /></div><div className="trial-step-actions"><button type="button" onClick={() => moveStep(index,-1)} disabled={index===0} aria-label="Move step earlier"><ArrowLeft /></button><button type="button" onClick={() => moveStep(index,1)} disabled={index===steps.length-1} aria-label="Move step later"><ArrowRight /></button><button type="button" onClick={() => removeStep(index)} disabled={steps.length===1} aria-label="Remove step"><Trash2 /></button></div>{index < steps.length-1 && <ArrowDown className="trial-step-arrow" />}</article>)}</div>{error && <p className="trial-error" role="alert">{error}</p>}<div className="trial-workflow-actions"><button type="button" className="trial-secondary-button" onClick={() => { setPhase("parameters"); window.scrollTo({top:0,behavior:"smooth"}); }}><ArrowLeft /> Change answers</button><button type="button" className="trial-primary-button" onClick={() => void recommend()} disabled={busy || !steps.length}>Looks right — build my stack <Sparkles /></button></div></section>}
+      {phase === "workflow" && (
+        <section className="s-compare trial-workflow trial-enter w-full max-w-6xl mx-auto pb-12 pt-6">
+          {/* Header with Title */}
+          <div className="s-compare-head flex flex-col items-center justify-center mb-10 text-center">
+            <h1 className="text-4xl md:text-5xl font-semibold text-[#0213B0] tracking-tight max-w-[760px] mx-auto leading-tight">
+              {brief.trim() || analysis?.intent || "Here's how we understood your work."}
+            </h1>
+          </div>
+
+          {/* Feature Cards Grid */}
+          <div className="flex flex-wrap justify-center gap-6 w-full max-w-5xl mx-auto">
+            {steps.map((step, index) => (
+              <div
+                className="feature glass-card pricing-deck-card flex flex-col justify-between p-8 w-full md:max-w-[320px] flex-1 min-w-[280px]"
+                key={step.id}
+                style={{
+                  border: "1.5px solid #0213B0",
+                  borderRadius: "0.25rem",
+                  backgroundColor: "transparent",
+                }}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="f-num font-mono text-xs text-[#0213B0] tracking-widest font-bold">
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
+                    {editingWorkflow && (
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={() => moveStep(index, -1)}
+                          disabled={index === 0}
+                          aria-label="Move left"
+                          title="Move left"
+                          className="p-1 rounded hover:bg-[#0213B0]/10 text-[#0213B0] disabled:opacity-30 cursor-pointer"
+                        >
+                          <ArrowLeft className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => moveStep(index, 1)}
+                          disabled={index === steps.length - 1}
+                          aria-label="Move right"
+                          title="Move right"
+                          className="p-1 rounded hover:bg-[#0213B0]/10 text-[#0213B0] disabled:opacity-30 cursor-pointer"
+                        >
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => removeStep(index)}
+                          disabled={steps.length <= 1}
+                          aria-label="Delete step"
+                          title="Delete step"
+                          className="p-1 rounded hover:bg-red-500/10 text-red-600 disabled:opacity-30 cursor-pointer"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {editingWorkflow ? (
+                    <div className="space-y-4 mt-2">
+                      <input
+                        aria-label="Step name"
+                        value={step.name}
+                        onChange={(e) => changeStep(index, { name: e.target.value })}
+                        className="w-full bg-[#F4F7F5] border-b border-[#0213B0] text-lg font-bold text-[#0213B0] p-2 outline-none"
+                        placeholder="Step title"
+                      />
+                      <textarea
+                        aria-label="Step description"
+                        value={step.plainLanguageDescription}
+                        onChange={(e) => changeStep(index, { plainLanguageDescription: e.target.value })}
+                        className="w-full bg-[#F4F7F5] border-b border-[#0213B0] text-xs text-[#0213B0] leading-relaxed p-2 min-h-[100px] resize-none outline-none"
+                        placeholder="Step description"
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <h3 className="text-xl font-bold text-[#0213B0] mb-3 leading-snug">{step.name}</h3>
+                      <p className="text-xs text-[#0213B0] leading-relaxed opacity-90">{step.plainLanguageDescription || step.technicalDescription}</p>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {editingWorkflow && (
+            <div className="flex justify-center mt-6">
+              <button
+                type="button"
+                className="trial-secondary-button text-xs px-6 py-2.5 inline-flex items-center gap-2"
+                onClick={addStep}
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add step</span>
+              </button>
+            </div>
+          )}
+
+          {error && <p className="trial-error text-center mt-4" role="alert">{error}</p>}
+
+          {/* Centered Actions Footer */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            {editingWorkflow ? (
+              <>
+                <button
+                  type="button"
+                  className="trial-secondary-button"
+                  onClick={() => setEditingWorkflow(false)}
+                >
+                  Done editing
+                </button>
+                <button
+                  type="button"
+                  className="trial-primary-button"
+                  onClick={() => void recommend()}
+                  disabled={busy || !steps.length}
+                >
+                  {busy ? <><LoaderCircle className="spin w-4 h-4 mr-2" /> Finding AI stack…</> : "Looks good — Find my AI stack"}
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="trial-secondary-button inline-flex items-center gap-2"
+                  onClick={() => setEditingWorkflow(true)}
+                >
+                  <Pencil className="w-4 h-4" />
+                  <span>Edit workflow</span>
+                </button>
+                <button
+                  type="button"
+                  className="trial-primary-button"
+                  onClick={() => void recommend()}
+                  disabled={busy || !steps.length}
+                >
+                  {busy ? <><LoaderCircle className="spin w-4 h-4 mr-2" /> Finding AI stack…</> : "Looks good — Find my AI stack"}
+                </button>
+              </>
+            )}
+          </div>
+        </section>
+      )}
 
       {phase === "processing" && <section className="trial-processing" aria-live="polite"><div className="trial-processing-orbit"><Sparkles /><i /><i /></div><p>ANALYSING YOUR WORK</p><h1>{loadingMessages[loadingIndex]}</h1><div className="trial-loading-bar"><span key={loadingIndex} /></div><small>Using current tool, pricing, and evidence data. No artificial wait.</small></section>}
 
