@@ -5980,3 +5980,8 @@ input[type="checkbox"]:checked::after,
 .trial-job-label, .trial-job-label * {
   color: #FFFFF1 !important;
 }
+
+/* Remove bottom margin for results section heading */
+.trial-results-section .trial-section-heading {
+  margin-bottom: 0 !important;
+}
