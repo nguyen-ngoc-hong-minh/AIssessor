@@ -5233,7 +5233,7 @@ input::placeholder {
   flex-direction: column !important;
   justify-content: flex-start !important;
   align-items: center !important;
-  padding: 88px 28px 48px !important;
+  padding: 92px 28px 110px !important;
   width: 100% !important;
   max-width: 1440px !important;
   margin: 0 auto !important;
@@ -5244,7 +5244,7 @@ input::placeholder {
   .editorial-app-main,
   .editorial-app-main.is-workspace-page,
   .editorial-app-main.is-long-page {
-    padding: 72px 16px 32px !important;
+    padding: 92px 14px 110px !important;
   }
 }
 
@@ -5897,9 +5897,18 @@ input[type="checkbox"]:checked::after,
 .trial-parameters,
 .trial-workflow,
 section.trial-results {
-  padding: 108px 28px 58px !important;
+  padding: 92px 28px 110px !important;
   max-width: 1080px !important;
   margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+  .trial-parameters,
+  .trial-workflow,
+  section.trial-results {
+    padding: 92px 14px 110px !important;
+  }
 }
 
 div.trial-results,
