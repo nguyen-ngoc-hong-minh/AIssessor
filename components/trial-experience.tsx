@@ -440,20 +440,15 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
           </div>
 
           {/* Feature Cards Grid */}
-          <div className="flex flex-wrap justify-center gap-6 w-full max-w-5xl mx-auto">
+          <div className="trial-workflow-cards-grid">
             {steps.map((step, index) => (
               <div
-                className="feature glass-card pricing-deck-card flex flex-col justify-between p-8 w-full md:max-w-[320px] flex-1 min-w-[280px]"
+                className="trial-workflow-card"
                 key={step.id}
-                style={{
-                  border: "1.5px solid #0213B0",
-                  borderRadius: "0.25rem",
-                  backgroundColor: "transparent",
-                }}
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <div className="f-num font-mono text-xs text-[#0213B0] tracking-widest font-bold">
+                    <div className="font-mono text-xs text-[#0213B0] tracking-widest font-bold">
                       {String(index + 1).padStart(2, "0")}
                     </div>
                     {editingWorkflow && (
@@ -521,7 +516,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
           </div>
 
           {editingWorkflow && (
-            <div className="flex justify-center mt-6">
+            <div className="trial-workflow-add-btn-wrap">
               <button
                 type="button"
                 className="trial-secondary-button text-xs px-6 py-2.5 inline-flex items-center gap-2"
@@ -536,7 +531,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
           {error && <p className="trial-error text-center mt-4" role="alert">{error}</p>}
 
           {/* Centered Actions Footer */}
-          <div className="flex items-center justify-center gap-4 mt-8">
+          <div className="trial-workflow-actions-footer">
             {editingWorkflow ? (
               <>
                 <button

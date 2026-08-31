@@ -5983,6 +5983,52 @@ div.trial-results,
   margin: 0 !important;
 }
 
+/* ==========================================================================
+   TRIAL WORKFLOW CARDS GRID & ACTION BUTTONS SPACING
+   ========================================================================== */
+.trial-workflow-cards-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: center !important;
+  gap: 24px !important;
+  width: 100% !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+}
+
+.trial-workflow-card {
+  min-height: 280px !important;
+  padding: 32px !important;
+  flex: 1 1 280px !important;
+  max-width: 330px !important;
+  width: 100% !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  background-color: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.trial-workflow-add-btn-wrap {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 32px !important;
+  width: 100% !important;
+}
+
+.trial-workflow-actions-footer {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 16px !important;
+  margin-top: 48px !important;
+  margin-bottom: 32px !important;
+  width: 100% !important;
+}
+
 .trial-progress,
 .trial-progress.result {
   max-width: 480px !important;
