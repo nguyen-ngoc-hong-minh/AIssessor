@@ -5230,7 +5230,7 @@ input::placeholder {
   flex-direction: column !important;
   justify-content: center !important;
   align-items: center !important;
-  padding: 80px clamp(24px, 5vw, 72px) !important;
+  padding: 0 !important;
   margin: 0 auto !important;
   box-sizing: border-box !important;
 }
