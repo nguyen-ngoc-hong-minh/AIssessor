@@ -41,9 +41,6 @@ export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
         <div className="auth-clean-card">
           <div className="auth-clean-header">
             <h1 className="auth-clean-title">{isSignIn ? "Sign in" : "Sign up"}</h1>
-            <p className="auth-clean-subtitle">
-              {isSignIn ? "Sign in to access your saved AI strategy and dashboard" : "Create your account to get started"}
-            </p>
           </div>
 
           {!authConfigured ? (
@@ -63,20 +60,17 @@ export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
                     header: "hidden",
                     headerTitle: "hidden",
                     headerSubtitle: "hidden",
-                    socialButtonsBlockButtonContainer: "flex flex-col gap-2.5 w-full mb-4",
-                    socialButtonsBlockButton: "rounded bg-[#F4F7F5] dark:bg-[#0213B0]/20 border border-[#0213B0] dark:border-[#FFFFF1] text-[#0213B0] dark:text-[#FFFFF1] hover:opacity-80 text-xs py-3 px-4 font-bold uppercase transition-all w-full flex items-center justify-center gap-2",
-                    socialButtonsBlockButtonText: "text-[#0213B0] dark:text-[#FFFFF1] text-xs font-bold font-mono tracking-wider",
-                    dividerLine: "bg-[#0213B0]/20 dark:bg-[#FFFFF1]/20",
-                    dividerText: "text-[#0213B0] dark:text-[#FFFFF1] text-[11px] font-mono uppercase px-2",
-                    formFieldLabel: "text-[#0213B0] dark:text-[#FFFFF1] text-xs font-mono font-bold uppercase mb-1.5 block",
-                    formFieldInput: "bg-[#F4F7F5] dark:bg-[#0213B0]/10 border-b-2 border-[#0213B0] dark:border-[#FFFFF1] text-[#0213B0] dark:text-[#FFFFF1] text-sm px-3.5 py-3 outline-none transition-all w-full mb-4 rounded-none",
-                    formButtonPrimary: "bg-[#0213B0] text-[#FFFFF1] dark:bg-[#FFFFF1] dark:text-[#0213B0] hover:opacity-90 text-xs font-bold uppercase tracking-wider py-3.5 transition-all w-full mt-2 mb-4 rounded shadow-none border border-[#0213B0] dark:border-[#FFFFF1]",
-                    footer: "bg-transparent border-t border-[#0213B0]/15 dark:border-[#FFFFF1]/15 pt-4 mt-2 text-xs text-[#0213B0] dark:text-[#FFFFF1] text-center",
-                    footerActionText: "text-[#0213B0] dark:text-[#FFFFF1] text-xs opacity-80",
-                    footerActionLink: "text-[#0213B0] dark:text-[#FFFFF1] hover:underline font-bold text-xs ml-1 underline",
-                    identityPreviewText: "text-[#0213B0] dark:text-[#FFFFF1] font-mono text-xs",
-                    identityPreviewEditButton: "text-[#0213B0] dark:text-[#FFFFF1] font-bold text-xs underline ml-2",
-                    formResendCodeLink: "text-[#0213B0] dark:text-[#FFFFF1] underline text-xs font-bold",
+                    dividerLine: "bg-[#0213B0]/20",
+                    dividerText: "text-[#0213B0] text-[11px] font-mono uppercase px-2",
+                    formFieldLabel: "text-[#0213B0] text-sm font-bold mb-2 block",
+                    formFieldInput: "bg-[#F4F7F5] border-none border-b-[1.5px] border-[#0213B0] text-[#0213B0] text-sm px-4 py-3.5 outline-none transition-none w-full mb-4 rounded-none placeholder:text-[#0213B0]/60",
+                    formButtonPrimary: "bg-[#0213B0] text-[#FFFFF1] hover:bg-[#0213B0] active:bg-[#0213B0] text-xs font-bold uppercase tracking-wider py-3.5 w-full mt-2 mb-4 rounded border border-[#0213B0] transition-none shadow-none",
+                    footer: "bg-transparent border-t border-[#0213B0]/15 pt-4 mt-2 text-xs text-[#0213B0] text-center",
+                    footerActionText: "text-[#0213B0] text-xs opacity-80",
+                    footerActionLink: "text-[#0213B0] hover:underline font-bold text-xs ml-1 underline",
+                    identityPreviewText: "text-[#0213B0] font-mono text-xs",
+                    identityPreviewEditButton: "text-[#0213B0] font-bold text-xs underline ml-2",
+                    formResendCodeLink: "text-[#0213B0] underline text-xs font-bold",
                   },
                 }}
               />
@@ -96,20 +90,17 @@ export function AuthScreen({ mode }: { mode: "sign-in" | "sign-up" }) {
                     header: "hidden",
                     headerTitle: "hidden",
                     headerSubtitle: "hidden",
-                    socialButtonsBlockButtonContainer: "flex flex-col gap-2.5 w-full mb-4",
-                    socialButtonsBlockButton: "rounded bg-[#F4F7F5] dark:bg-[#0213B0]/20 border border-[#0213B0] dark:border-[#FFFFF1] text-[#0213B0] dark:text-[#FFFFF1] hover:opacity-80 text-xs py-3 px-4 font-bold uppercase transition-all w-full flex items-center justify-center gap-2",
-                    socialButtonsBlockButtonText: "text-[#0213B0] dark:text-[#FFFFF1] text-xs font-bold font-mono tracking-wider",
-                    dividerLine: "bg-[#0213B0]/20 dark:bg-[#FFFFF1]/20",
-                    dividerText: "text-[#0213B0] dark:text-[#FFFFF1] text-[11px] font-mono uppercase px-2",
-                    formFieldLabel: "text-[#0213B0] dark:text-[#FFFFF1] text-xs font-mono font-bold uppercase mb-1.5 block",
-                    formFieldInput: "bg-[#F4F7F5] dark:bg-[#0213B0]/10 border-b-2 border-[#0213B0] dark:border-[#FFFFF1] text-[#0213B0] dark:text-[#FFFFF1] text-sm px-3.5 py-3 outline-none transition-all w-full mb-4 rounded-none",
-                    formButtonPrimary: "bg-[#0213B0] text-[#FFFFF1] dark:bg-[#FFFFF1] dark:text-[#0213B0] hover:opacity-90 text-xs font-bold uppercase tracking-wider py-3.5 transition-all w-full mt-2 mb-4 rounded shadow-none border border-[#0213B0] dark:border-[#FFFFF1]",
-                    footer: "bg-transparent border-t border-[#0213B0]/15 dark:border-[#FFFFF1]/15 pt-4 mt-2 text-xs text-[#0213B0] dark:text-[#FFFFF1] text-center",
-                    footerActionText: "text-[#0213B0] dark:text-[#FFFFF1] text-xs opacity-80",
-                    footerActionLink: "text-[#0213B0] dark:text-[#FFFFF1] hover:underline font-bold text-xs ml-1 underline",
-                    identityPreviewText: "text-[#0213B0] dark:text-[#FFFFF1] font-mono text-xs",
-                    identityPreviewEditButton: "text-[#0213B0] dark:text-[#FFFFF1] font-bold text-xs underline ml-2",
-                    formResendCodeLink: "text-[#0213B0] dark:text-[#FFFFF1] underline text-xs font-bold",
+                    dividerLine: "bg-[#0213B0]/20",
+                    dividerText: "text-[#0213B0] text-[11px] font-mono uppercase px-2",
+                    formFieldLabel: "text-[#0213B0] text-sm font-bold mb-2 block",
+                    formFieldInput: "bg-[#F4F7F5] border-none border-b-[1.5px] border-[#0213B0] text-[#0213B0] text-sm px-4 py-3.5 outline-none transition-none w-full mb-4 rounded-none placeholder:text-[#0213B0]/60",
+                    formButtonPrimary: "bg-[#0213B0] text-[#FFFFF1] hover:bg-[#0213B0] active:bg-[#0213B0] text-xs font-bold uppercase tracking-wider py-3.5 w-full mt-2 mb-4 rounded border border-[#0213B0] transition-none shadow-none",
+                    footer: "bg-transparent border-t border-[#0213B0]/15 pt-4 mt-2 text-xs text-[#0213B0] text-center",
+                    footerActionText: "text-[#0213B0] text-xs opacity-80",
+                    footerActionLink: "text-[#0213B0] hover:underline font-bold text-xs ml-1 underline",
+                    identityPreviewText: "text-[#0213B0] font-mono text-xs",
+                    identityPreviewEditButton: "text-[#0213B0] font-bold text-xs underline ml-2",
+                    formResendCodeLink: "text-[#0213B0] underline text-xs font-bold",
                   },
                 }}
               />
