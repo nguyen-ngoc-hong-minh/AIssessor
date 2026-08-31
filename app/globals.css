@@ -5591,14 +5591,14 @@ button[variant="ghost"],
 }
 
 /* 5. TYPE 3 BOXES (Inputs / Forms) */
-/* Fill #F4F7F5, border bottom ONLY, sharp corners */
+/* Fill #FFFFF1, border bottom ONLY, sharp corners */
 input:not([type="checkbox"]):not([type="radio"]), 
 select, 
 textarea,
 .cl-input, 
 .cl-select, 
 .cl-textarea {
-  background-color: #F4F7F5 !important;
+  background-color: #FFFFF1 !important;
   border: none !important;
   border-bottom: 1.5px solid #0213B0 !important;
   border-radius: 0 !important;
