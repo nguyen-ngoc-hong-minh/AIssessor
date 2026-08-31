@@ -5766,10 +5766,7 @@ select:not(.trial-budget-row select), .cl-select {
   animation: none !important;
 }
 
-/* Ensure no transforms on hover anywhere except pseudo-elements (checkbox ticks) */
-*:not(::after):not(::before):hover {
-  transform: none !important;
-}
+
 
 /* Fix dashboard left alignment */
 .dashboard-create-bar {
@@ -5780,4 +5777,25 @@ select:not(.trial-budget-row select), .cl-select {
 .dash-content-block {
   padding: 0 !important;
   background: transparent !important;
+}
+
+
+/* ==========================================================================
+   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 27 (Ultimate Hover Kill)
+   ========================================================================== */
+
+/* Nuke ALL transforms on hover with overwhelming specificity */
+html body *:hover,
+html body *[class]:hover,
+html body *[class][class]:hover,
+html body *[id]:hover {
+  transform: none !important;
+}
+
+/* Ensure checkbox ticks survive by specifically restoring their transform 
+   (Even though pseudo elements shouldn't be affected by *:hover, just to be safe) */
+input[type="checkbox"]:checked::after,
+.cl-checkboxInput:checked::after,
+.cl-checkbox__input:checked::after {
+  transform: translate(-50%, -50%) rotate(45deg) !important;
 }
