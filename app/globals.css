@@ -4480,15 +4480,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 
 /* 2. Ensure inputs and form elements are sharp and have proper contrast */
 .trial-page input, 
-.trial-page select, 
-.trial-page textarea, 
-.trial-page button,
-.trial-field-wide,
-.trial-field-half,
-.trial-choice-grid button,
-fieldset {
-  border-radius: 0px !important;
-}
+
 
 /* The Swiss Art Direction Accents for the Intro Hero */
 /* Adding a subtle blueprint grid specifically to the intro section */
@@ -4586,10 +4578,7 @@ fieldset {
 }
 
 /* 4. Swiss Art Direction Form Styling */
-.trial-page * {
-  border-radius: 0px !important;
-  box-shadow: none !important;
-}
+
 
 .trial-form fieldset {
   background-color: transparent !important;
@@ -4767,10 +4756,7 @@ html, body {
    ========================================================================== */
 
 /* Enforce zero border radius and no drop shadow for ALL elements in signed-in app */
-.editorial-app-shell * {
-  border-radius: 0px !important;
-  box-shadow: none !important;
-}
+
 
 /* Update Signed-in Home Option Cards */
 .signed-home-option {
@@ -4811,10 +4797,7 @@ html, body {
 }
 
 /* Also ensure user profile button and auth buttons lose their shadows */
-.cl-userButtonTrigger, .cl-userButtonAvatarBox, .cl-userButtonAvatarImage {
-  border-radius: 0px !important;
-  box-shadow: none !important;
-}
+
 
 /* DUO-TONE ALL NOTIFICATIONS AND SAVE STATES */
 .signed-home-save-state, .signed-home-save-state.is-success, .signed-home-save-state.is-error {
@@ -4850,10 +4833,7 @@ html, body, .trial-page, .editorial-app-shell, .editorial-app-main, :root[data-t
 }
 
 /* 2. Reset everything to square by default */
-*, *::before, *::after {
-  border-radius: 0px !important;
-  box-shadow: none !important;
-}
+
 
 /* 3. Type 3 Box (Input Fields) */
 input:not([type="checkbox"]):not([type="radio"]), 
@@ -5118,4 +5098,87 @@ input[type="checkbox"]:checked::after,
   border-width: 0 2px 2px 0 !important;
   transform: translate(-50%, -50%) rotate(45deg) !important;
   color: transparent !important; /* Override the tick character if any */
+}
+
+
+/* ==========================================================================
+   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 3 (FINAL)
+   ========================================================================== */
+
+/* Update all 1px and 2px borders to 1.5px */
+.trial-secondary-button,
+.signed-home-history,
+.cl-socialButtonsBlockButton,
+.info-tip > div,
+.trial-progress span {
+  border: 1.5px solid #0213B0 !important;
+}
+
+/* 6. Option Pickers (Segmented Control Style for Budget, Tools, Frequency) */
+/* The outer container gets the border and padding */
+.trial-form .trial-choice-grid,
+.trial-form .trial-budget-row,
+.trial-form .trial-tool-picker,
+.trial-form .trial-choice-grid.four {
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  padding: 4px !important;
+  background-color: transparent !important;
+  gap: 4px !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+}
+
+/* The buttons inside act as pills (no border) */
+.trial-form .trial-choice-grid button,
+.trial-form .trial-budget-row button,
+.trial-form .trial-tool-picker button,
+.trial-form .trial-choice-grid.four button {
+  border: none !important;
+  background-color: transparent !important;
+  color: #0213B0 !important;
+  border-radius: 0.25rem !important;
+  flex: 1 1 auto;
+}
+
+/* Selected pill is solid blue */
+.trial-form .trial-choice-grid button[aria-pressed="true"],
+.trial-form .trial-budget-row button[aria-pressed="true"],
+.trial-form .trial-tool-picker button[aria-pressed="true"],
+.trial-form .trial-choice-grid.four button[aria-pressed="true"] {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+/* Checkboxes - EXACTLY SQUARE */
+input[type="checkbox"], 
+.cl-checkbox__input,
+.cl-formFieldInput[type="checkbox"] {
+  border: 1.5px solid #0213B0 !important;
+  width: 20px !important; 
+  height: 20px !important; 
+  box-sizing: border-box !important;
+}
+
+/* Checked state CSS checkmark thickness 1.5px */
+input[type="checkbox"]:checked::after, 
+.cl-checkbox__input:checked::after,
+.cl-formFieldInput[type="checkbox"]:checked::after {
+  border-width: 0 1.5px 1.5px 0 !important;
+}
+
+/* Input Fields - Border bottom 1.5px */
+input:not([type="checkbox"]):not([type="radio"]), 
+textarea, 
+select,
+.trial-form input,
+.trial-form textarea,
+.trial-form select,
+.cl-formFieldInput {
+  border-bottom: 1.5px solid #0213B0 !important;
+}
+input:not([type="checkbox"]):not([type="radio"]):focus, 
+textarea:focus, 
+select:focus {
+  border-bottom: 1.5px solid #0213B0 !important;
 }
