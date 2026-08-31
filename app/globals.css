@@ -4501,6 +4501,9 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   top: 28px !important;
   left: 28px !important;
   right: 28px !important;
+  width: calc(100vw - 56px) !important;
+  max-width: calc(100vw - 56px) !important;
+  box-sizing: border-box !important;
   padding: 0 !important;
   margin: 0 !important;
   height: 36px !important;
@@ -6504,6 +6507,8 @@ div.trial-results,
     top: 16px !important;
     left: 16px !important;
     right: 16px !important;
+    width: calc(100vw - 32px) !important;
+    max-width: calc(100vw - 32px) !important;
   }
   .trial-footer-nav {
     bottom: 16px !important;

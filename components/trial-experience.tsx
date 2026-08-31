@@ -325,7 +325,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         </>
       )}
       {!authenticatedBuilder && (
-        <header className="trial-header z-[100] relative w-full flex justify-between items-center">
+        <header className="trial-header">
           <Brand />
           
           <div className="flex items-center gap-3">
