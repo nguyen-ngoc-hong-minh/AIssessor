@@ -65,7 +65,7 @@ export function DashboardView() {
           <h1>What are you working on?</h1>
           
         </div>
-        <div className="dashboard-create-actions flex-col !items-start">
+        <div className="dashboard-create-actions !flex-row">
           <Link className="btn-primary" href="/strategy/new/one-off"><Plus aria-hidden="true" /> One-off project <ArrowUpRight aria-hidden="true" /></Link>
           <Link className="btn-primary" href="/strategy/new/monthly"><Repeat2 aria-hidden="true" /> Monthly workflow <ArrowUpRight aria-hidden="true" /></Link>
         </div>

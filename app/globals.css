@@ -5730,3 +5730,28 @@ select:not(.trial-budget-row select), .cl-select {
   border: none !important;
   border-radius: 0.25rem !important;
 }
+
+
+/* ==========================================================================
+   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 21 (Dashboard Layout tweaks)
+   ========================================================================== */
+
+/* Stack the title and the buttons vertically */
+.dashboard-create-bar {
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 24px !important;
+}
+
+/* Ensure buttons sit on the same row */
+.dashboard-create-actions {
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  gap: 16px !important;
+}
+
+/* Metric boxes style */
+.metric {
+  background-color: #CBF7EC !important;
+  border-radius: 0.25rem !important;
+}
