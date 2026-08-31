@@ -5314,3 +5314,51 @@ select option {
   background-size: 12px auto !important;
   padding-right: 40px !important; /* Leave space for the arrow */
 }
+
+
+/* ==========================================================================
+   STRICT DESIGN SYSTEM ENFORCEMENT - PASS 7 (Monthly Task Cards & Icons)
+   ========================================================================== */
+
+/* 1. Monthly Task Card Outer Border */
+.monthly-task-card {
+  border: 1.5px solid #0213B0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* 2. Monthly Task Icon Buttons (e.g. Trash) */
+.monthly-task-card-heading button,
+.monthly-task-card-heading button:hover,
+.monthly-task-card-heading button:focus,
+.monthly-task-card-heading button:active {
+  border: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #0213B0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  outline: none !important;
+}
+
+/* 3. Global Icon Hover Kill */
+/* Ensure NO icon buttons anywhere have rogue borders or color changes on hover */
+button svg, button:hover svg {
+  color: inherit !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+/* 4. Trial Step Actions (Arrow / Trash buttons in Workflow review) */
+.trial-step-actions button,
+.trial-step-actions button:hover,
+.trial-step-actions button:focus,
+.trial-step-actions button:active {
+  border: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #0213B0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+  outline: none !important;
+}
