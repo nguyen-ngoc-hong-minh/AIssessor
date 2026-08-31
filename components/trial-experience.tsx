@@ -126,6 +126,10 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   }
 
   function handleBack() {
+    if (authenticatedBuilder && phase === "parameters") {
+      router.push("/home");
+      return;
+    }
     if (phase === "type-selection") {
       setPhase("intro");
     } else if (phase === "parameters") {
@@ -155,7 +159,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
     }
   }
 
-  const canGoBack = phase !== "intro" && phase !== "processing";
+  const canGoBack = authenticatedBuilder ? phase !== "processing" : (phase !== "intro" && phase !== "processing");
   const canGoNext = phase !== "results" && phase !== "processing";
 
   function toggleTool(tool: string) {
