@@ -6004,20 +6004,7 @@ input[type="checkbox"]:checked::after,
   gap: 12px !important;
 }
 
-.trial-customize-job {
-  background-color: #0213B0 !important;
-  border: none !important;
-  border-radius: 0.25rem !important;
-  padding: 14px !important;
-  margin: 0 !important;
-  flex-direction: column !important;
-  align-items: flex-start !important;
-  gap: 4px !important;
-}
-
-.trial-customize-job small, .trial-customize-job strong, .trial-customize-job span {
-  color: #FFFFF1 !important;
-}
+/* trial-customize-job blue box removed */
 
 .trial-model-choice {
   background-color: transparent !important;
@@ -6031,8 +6018,7 @@ input[type="checkbox"]:checked::after,
 }
 
 .trial-model-choice[data-selected="true"] {
-  background-color: rgba(2, 19, 176, 0.08) !important;
-  border: 1.5px solid #0213B0 !important;
+  background-color: transparent !important;
 }
 
 
@@ -6041,11 +6027,116 @@ input[type="checkbox"]:checked::after,
 .trial-job-label *,
 .trial-job-label small, 
 .trial-job-label strong, 
-.trial-job-label span,
-.trial-customize-job, 
-.trial-customize-job *,
-.trial-customize-job small, 
-.trial-customize-job strong, 
-.trial-customize-job span {
+.trial-job-label span {
   color: #FFFFF1 !important;
+}
+
+/* ==========================================================================
+   PASS 64: REDESIGN ALTERNATIVE OPTIONS GRID & TYPOGRAPHY
+   ========================================================================== */
+
+/* 1. Revert the blue block for trial-customize-job */
+.trial-customize-job {
+  background-color: transparent !important;
+  padding: 0 !important;
+  margin-bottom: 24px !important;
+  display: block !important; /* Stack them instead of flex */
+}
+.trial-customize-job small, .trial-customize-job strong {
+  color: #0213B0 !important;
+  display: block !important;
+}
+
+/* 2. JOB same as WRITING AI */
+.trial-customize-job small {
+  font: 600 11px var(--font-mono) !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  margin-bottom: 8px !important;
+}
+
+/* 3. Generate Daily Exercise Plans same as Z.ai (Tool Card Title) */
+.trial-customize-job strong {
+  font: 600 clamp(22px, 2.6vw, 30px)/1.1 var(--font-sans) !important; overflow-wrap: anywhere !important;
+  letter-spacing: -.035em !important;
+}
+
+/* 4. BEST FIT same as USE THIS AI FOR */
+.trial-model-choice > span {
+  font: 600 9px var(--font-mono) !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  display: block !important;
+  margin-bottom: 8px !important;
+  color: #0213B0 !important;
+}
+
+/* 5. Z.ai (bottom) same as Generate Daily Exercise Plans (in blue box) */
+.trial-model-choice > strong {
+  font: 600 15px var(--font-sans) !important;
+  display: block !important;
+  color: #0213B0 !important;
+}
+
+/* 6. by z-ai... same as Receive user fitness parameters... */
+.trial-model-choice > small {
+  font: 12px/1.45 var(--font-body) !important;
+  display: block !important;
+  color: #0213B0 !important;
+  margin-top: 4px !important;
+}
+
+/* 7. Redesign the grid with internal lines ONLY */
+.trial-choice-grid {
+  gap: 0 !important;
+}
+
+.trial-model-choice {
+  background-color: transparent !important;
+  border: none !important;
+  border-right: 1.5px solid #0213B0 !important;
+  border-bottom: 1.5px solid #0213B0 !important;
+  border-radius: 0 !important;
+  padding: 24px !important;
+}
+.trial-model-choice[data-selected="true"] {
+  background-color: transparent !important; /* Keep it transparent, or maybe a light blue tint? User said "no fill". */
+}
+
+/* Remove right borders for the last items in rows */
+.trial-choice-grid:not(.four) .trial-model-choice:nth-child(3n) {
+  border-right: none !important;
+}
+.trial-choice-grid.four .trial-model-choice:nth-child(2n) {
+  border-right: none !important;
+}
+
+/* Remove bottom borders for the last row */
+.trial-choice-grid:not(.four) .trial-model-choice:nth-last-child(-n+3):nth-child(3n+1),
+.trial-choice-grid:not(.four) .trial-model-choice:nth-last-child(-n+3):nth-child(3n+1) ~ .trial-model-choice {
+  border-bottom: none !important;
+}
+.trial-choice-grid.four .trial-model-choice:nth-last-child(-n+2):nth-child(2n+1),
+.trial-choice-grid.four .trial-model-choice:nth-last-child(-n+2):nth-child(2n+1) ~ .trial-model-choice {
+  border-bottom: none !important;
+}
+
+/* 7b. Style the money/checkmark */
+.trial-model-choice > b {
+  color: #0213B0 !important;
+  font: 600 13px var(--font-sans) !important;
+  margin-top: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+.trial-model-choice > b svg {
+  width: 14px !important;
+  height: 14px !important;
+  stroke-width: 3 !important;
+}
+
+/* 8. Add a subtle hover effect since borders are fixed */
+.trial-model-choice:hover {
+  background-color: rgba(2, 19, 176, 0.04) !important;
 }
