@@ -68,8 +68,8 @@ function ResultSummary({ plan, monthly }: { plan: StrategyPlan; monthly: boolean
   const savings = plan.estimatedSavingsUsd;
   return (
     <section className="trial-result-hero" aria-labelledby="result-title">
-      <div><h1 id="result-title">{complete ? "Specific AI. Specific jobs." : `${plan.completeStepCount} of ${plan.steps.length} jobs matched.`}</h1></div>
-      <div className="trial-result-summary-cost"><small>KNOWN AI COST</small><strong>{money(plan.totalCostUsd, plan)}{monthly ? " / month" : ""}</strong>{savings > 0 && <span>{money(savings, plan)} potential saving</span>}</div>
+      <div><h1 id="result-title">{complete ? "Estimated cost" : `${plan.completeStepCount} of ${plan.steps.length} jobs matched.`}</h1></div>
+      <div className="trial-result-summary-cost"><strong>{money(plan.totalCostUsd, plan)}{monthly ? " / month" : ""}</strong>{savings > 0 && <span>{money(savings, plan)} potential saving</span>}</div>
     </section>
   );
 }

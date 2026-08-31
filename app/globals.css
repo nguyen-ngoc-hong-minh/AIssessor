@@ -5899,7 +5899,8 @@ input[type="checkbox"]:checked::after,
 /* 4. Cost Box in Hero */
 .trial-result-summary-cost {
   background-color: transparent !important;
-  border: 1.5px solid #0213B0 !important;
+  border: none !important;
+  border-left: 1.5px solid #0213B0 !important;
   border-radius: 0 !important;
 }
 
