@@ -5886,6 +5886,14 @@ input[type="checkbox"]:checked::after,
   border-radius: 24px !important;
   box-shadow: none !important;
   padding: 32px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.trial-tool-card > *, .trial-existing-card > *, .trial-tool-card-unmatched > *, .trial-tool-card-no-ai > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 /* 2b. Margin for job label span */
