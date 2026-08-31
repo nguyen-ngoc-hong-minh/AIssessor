@@ -1355,16 +1355,20 @@ html, body {
   transform: none;
 }
 
-/* Dashboard Page Route Transition Animation (Line-by-Line Slide Down Style) */
+/* Dashboard Page Route Transition Animation */
 .dash-page-transition {
-  animation: deckSlideEnter 0.65s var(--eq) forwards;
-  will-change: transform, opacity;
+  animation: none !important;
+  will-change: auto !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
   height: 100%;
-  max-height: 90vh;
+  max-height: none !important;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -6475,13 +6479,14 @@ div.trial-results,
   position: fixed !important;
   bottom: 28px !important;
   right: 28px !important;
-  z-index: 100 !important;
+  z-index: 9999 !important;
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
   background: transparent !important;
   border: none !important;
   padding: 0 !important;
+  margin: 0 !important;
 }
 
 .trial-footer-arrow-btn {
