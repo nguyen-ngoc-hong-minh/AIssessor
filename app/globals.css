@@ -5981,9 +5981,9 @@ input[type="checkbox"]:checked::after,
   color: #FFFFF1 !important;
 }
 
-/* Remove bottom margin for results section heading */
+/* 30px bottom margin for results section heading */
 .trial-results-section .trial-section-heading {
-  margin-bottom: 0 !important;
+  margin-bottom: 30px !important;
 }
 
 /* Alternative Options section styling to match Recommended Workflow */
