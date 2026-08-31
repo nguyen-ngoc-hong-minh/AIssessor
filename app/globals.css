@@ -6089,32 +6089,21 @@ input[type="checkbox"]:checked::after,
   
 }
 
-/* 7. Redesign the grid — horizontal lines only, no vertical lines */
+/* 7. Individual bordered boxes for each option */
 .trial-choice-grid {
-  gap: 0 !important;
+  gap: 12px !important;
 }
 
 .trial-model-choice {
   background-color: transparent !important;
-  border: none !important;
-  border-bottom: 1.5px solid #0213B0 !important;
-  border-radius: 0 !important;
-  padding: 8px !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  padding: 0 !important;
   display: flex !important;
   flex-direction: column !important;
 }
 
-/* Remove bottom border from the last row of items */
-.trial-choice-grid:not(.four) .trial-model-choice:nth-last-child(-n+3):nth-child(3n+1),
-.trial-choice-grid:not(.four) .trial-model-choice:nth-last-child(-n+3):nth-child(3n+1) ~ .trial-model-choice {
-  border-bottom: none !important;
-}
-.trial-choice-grid.four .trial-model-choice:nth-last-child(-n+2):nth-child(2n+1),
-.trial-choice-grid.four .trial-model-choice:nth-last-child(-n+2):nth-child(2n+1) ~ .trial-model-choice {
-  border-bottom: none !important;
-}
-
-/* Inner box that gets the background on hover/select */
+/* Inner box handles padding and hover fill */
 .trial-model-choice-inner {
   padding: 24px !important;
   border-radius: 0.25rem !important;
@@ -6134,18 +6123,10 @@ input[type="checkbox"]:checked::after,
   background-color: transparent !important;
 }
 
-/* Responsive: single column, every item gets a bottom line except the last */
+/* Responsive: single column */
 @media (max-width: 760px) {
   .trial-choice-grid {
     grid-template-columns: 1fr !important;
-  }
-  /* Reset all nth-child rules — every item gets a bottom border */
-  .trial-model-choice {
-    border-bottom: 1.5px solid #0213B0 !important;
-  }
-  /* Only the very last item loses its bottom border */
-  .trial-choice-grid .trial-model-choice:last-child {
-    border-bottom: none !important;
   }
 }
 
