@@ -30,9 +30,9 @@
 }
 
 .trial-page.is-embedded .trial-processing {
-  min-height: calc(100svh - 152px);
-  padding-top: 70px;
-  padding-bottom: 70px;
+  min-height: calc(100svh - 202px) !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
 }
 
 .trial-grid {
@@ -222,7 +222,7 @@
 .trial-step-arrow { position: absolute; left: 42px; bottom: -28px; width: 16px; color: var(--indigo-soft); z-index: 2; }
 .trial-workflow-actions { padding-top: 42px; display: flex; justify-content: space-between; gap: 16px; }
 
-.trial-processing { position: relative; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px; }
+.trial-processing { position: relative; min-height: calc(100svh - 202px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0; }
 .trial-processing-orbit { position: relative; width: 104px; height: 104px; display: grid; place-items: center; margin-bottom: 36px; }
 .trial-processing-orbit > svg { color: var(--pink-soft); width: 34px; }
 .trial-processing-orbit i { position: absolute; inset: 0; border: 1px solid rgba(165,180,252,.3); border-radius: 50%; animation: trialOrbit 2.5s linear infinite; }
@@ -411,7 +411,7 @@
 .trial-step-actions button { width: 31px; height: 31px; }
 .trial-step-arrow { display: none; }
 .trial-workflow-actions { padding-top: 24px; }
-.trial-processing { min-height: 82svh; padding: 110px 24px 60px; }
+.trial-processing { min-height: calc(100svh - 202px); padding: 0; }
 .trial-processing-orbit { width: 78px; height: 78px; margin-bottom: 24px; }
 .trial-processing h1 { margin: 15px 0 28px; font-size: clamp(34px, 5vw, 54px); }
 
@@ -6145,16 +6145,24 @@ div.trial-results,
 /* ==========================================================================
    TRIAL PROCESSING (CLEAN LOADING SCREEN)
    ========================================================================== */
-.trial-processing {
-  min-height: 100svh !important;
+.trial-processing,
+.trial-page .trial-processing,
+.trial-page.is-embedded .trial-processing,
+.editorial-app-main .trial-processing {
+  min-height: calc(100svh - 202px) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
   text-align: center !important;
-  padding: 24px !important;
+  padding: 0 !important;
   margin: 0 auto !important;
   width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.trial-page:not(.is-embedded) .trial-processing {
+  min-height: 100svh !important;
 }
 
 .trial-processing h1 {
@@ -6165,8 +6173,13 @@ div.trial-results,
   letter-spacing: -0.04em !important;
   line-height: 1.05 !important;
   margin: 0 !important;
+  padding: 0 !important;
   max-width: 850px !important;
   text-align: center !important;
+}
+
+:root[data-theme="dark"] .trial-processing h1 {
+  color: #FFFFF1 !important;
 }
 
 .trial-progress,
