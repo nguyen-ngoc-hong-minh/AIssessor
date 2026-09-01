@@ -3285,8 +3285,8 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   .feature-grid, .metric-grid, .more-grid { grid-template-columns: 1fr; }
   .timeline { grid-template-columns: 1fr; padding-top: 10px; }
   .tl-item { padding: 24px 16px 16px; }
-  .tl-item::before { top: 18px; left: 0; transform: none; }
-  .s-features-head, .s-metrics-head, .s-roadmap-head, .s-compare-head { margin-top: 40px; }
+  .s-features-head, .s-metrics-head, .s-roadmap-head { margin-top: 40px; }
+  .s-compare-head { margin-top: 0 !important; }
   .s-cover h1 { font-size: 44px; }
   .s-cta h2 { font-size: 42px; }
   .menu-panel { width: 94vw; max-height: 88vh; }
@@ -5302,6 +5302,8 @@ main.section,
 .editorial-app-main .trial-workflow,
 .editorial-app-main .trial-results,
 .editorial-app-main .trial-builder-container,
+.s-compare-head,
+.s-compare,
 .signed-home {
   padding: 0 !important;
   margin-top: 0 !important;
