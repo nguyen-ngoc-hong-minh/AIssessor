@@ -6787,13 +6787,15 @@ div.trial-results,
 }
 
 .brief-suggestion-btn:hover {
-  background-color: #0213B0 !important;
-  color: #FFFFF1 !important;
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border-color: #0213B0 !important;
+  transform: none !important;
 }
 
 .brief-suggestion-btn:hover svg {
-  color: #FFFFF1 !important;
-  stroke: #FFFFF1 !important;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 :root[data-theme="dark"] .brief-suggestion-btn {
@@ -6808,13 +6810,15 @@ div.trial-results,
 }
 
 :root[data-theme="dark"] .brief-suggestion-btn:hover {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border-color: #FFFFF1 !important;
+  transform: none !important;
 }
 
 :root[data-theme="dark"] .brief-suggestion-btn:hover svg {
-  color: #0213B0 !important;
-  stroke: #0213B0 !important;
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 
