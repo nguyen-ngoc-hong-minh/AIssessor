@@ -947,26 +947,35 @@ html, body {
 
 /* Persistent Chrome */
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 11px;
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: -0.02em;
-  position: fixed;
-  top: 32px;
-  left: 32px;
-  z-index: 100;
-  text-decoration: none;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 11px !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 700 !important;
+  font-size: 18px !important;
+  letter-spacing: -0.02em !important;
+  text-decoration: none !important;
+  opacity: 1 !important;
+  color: #0213B0 !important;
 }
 
 .brand-text {
-  background: linear-gradient(135deg, #a5b4fc 0%, #ec4899 50%, #818cf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: currentColor !important;
+  color: #0213B0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1 !important;
+  opacity: 1 !important;
+}
+
+:root[data-theme="dark"] .brand,
+:root[data-theme="dark"] .brand-text {
+  color: #FFFFF1 !important;
+  -webkit-text-fill-color: #FFFFF1 !important;
 }
 
 .dash-top-right-chrome {
@@ -4251,18 +4260,28 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   margin: 0 !important;
   padding: 0 !important;
   line-height: 1 !important;
+  color: #0213B0 !important;
+  opacity: 1 !important;
+  text-decoration: none !important;
 }
 
 .trial-header .brand-text {
+  font-family: var(--font-sans) !important;
   font-size: 18px !important;
   font-weight: 700 !important;
   line-height: 1 !important;
   letter-spacing: -0.02em !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: currentColor !important;
   color: #0213B0 !important;
+  opacity: 1 !important;
 }
 
+:root[data-theme="dark"] .trial-header .brand,
 :root[data-theme="dark"] .trial-header .brand-text {
   color: #FFFFF1 !important;
+  -webkit-text-fill-color: #FFFFF1 !important;
 }
 
 .trial-header-auth-btn {
@@ -6604,18 +6623,11 @@ div.trial-results,
 }
 
 /* 5. Staggered Header Reveal (Landing Page Only) */
-.trial-page:has(.trial-intro) .trial-header .brand,
 .trial-page:has(.trial-intro) .trial-header .theme-toggle-btn,
 .trial-page:has(.trial-intro) .trial-header .trial-header-auth-btn,
-.trial-header:has(+ .trial-intro) .brand,
 .trial-header:has(+ .trial-intro) .theme-toggle-btn,
 .trial-header:has(+ .trial-intro) .trial-header-auth-btn {
   animation: motionBlurReveal 1s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-}
-
-.trial-page:has(.trial-intro) .trial-header .brand,
-.trial-header:has(+ .trial-intro) .brand {
-  animation-delay: 0.9s !important;
 }
 
 .trial-page:has(.trial-intro) .trial-header .theme-toggle-btn,
