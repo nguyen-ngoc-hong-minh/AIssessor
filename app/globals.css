@@ -4540,10 +4540,10 @@ html, body {
   color: #FFFFF1 !important;
 }
 
-/* Invert the icon square */
+/* Icon styling */
 .signed-home-option-icon {
-  background-color: #FFFFF1 !important;
-  color: #0213B0 !important;
+  background-color: transparent !important;
+  color: #FFFFF1 !important;
 }
 
 /* Update History Button */
@@ -7086,13 +7086,15 @@ div.trial-results,
 }
 
 :root[data-theme="dark"] .signed-home-option .signed-home-option-icon {
-  background-color: #0213B0 !important;
-  color: #FFFFF1 !important;
+  background-color: transparent !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 :root[data-theme="dark"] .signed-home-option .signed-home-option-icon svg {
-  color: #FFFFF1 !important;
-  stroke: #FFFFF1 !important;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+  fill: none !important;
 }
 
 /* 6. Primary Buttons (Solid Cream #FFFFF1, Navy #0213B0 Text) */
