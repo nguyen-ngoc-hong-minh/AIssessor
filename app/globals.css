@@ -58,11 +58,11 @@
 
 .trial-intro {
   position: relative;
-  height: 100vh !important;
-  min-height: 100vh !important;
-  max-height: 100vh !important;
+  min-height: calc(100vh - 220px) !important;
+  height: calc(100vh - 220px) !important;
+  max-height: none !important;
   padding: 0 !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -322,7 +322,7 @@
   .trial-header { height: 76px; padding-inline: 18px; }
   .trial-header .brand-text { font-size: 16px; }
   .trial-header nav a { font-size: 12px; }
-  .trial-intro { padding: 0 !important; height: 100vh !important; min-height: 100vh !important; }
+  .trial-intro { padding: 0 !important; min-height: calc(100vh - 220px) !important; height: calc(100vh - 220px) !important; max-height: none !important; }
   .trial-intro h1 { font-size: clamp(42px, 13vw, 62px); }
   .trial-intro-body { font-size: 16px; }
   .trial-primary-button, .trial-secondary-button { width: 100%; }
@@ -359,11 +359,11 @@
 
 /* Compact one-page trial and model-first result layout. */
 .trial-intro {
-  height: 100vh !important;
-  min-height: 100vh !important;
-  max-height: 100vh !important;
+  min-height: calc(100vh - 220px) !important;
+  height: calc(100vh - 220px) !important;
+  max-height: none !important;
   padding: 0 !important;
-  margin: 0 !important;
+  margin: 0 auto !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -508,7 +508,7 @@
 .trial-customize-actions .trial-primary-button, .trial-customize-actions .trial-secondary-button, .trial-saved-actions .trial-primary-button, .trial-saved-actions .trial-secondary-button { white-space: nowrap; }
 
 @media (max-width: 760px) {
-  .trial-intro { height: 100vh !important; min-height: 100vh !important; padding: 0 !important; }
+  .trial-intro { min-height: calc(100vh - 220px) !important; height: calc(100vh - 220px) !important; max-height: none !important; padding: 0 !important; }
   .trial-animated-title { font-size: clamp(48px, 15vw, 70px) !important; }
   .trial-parameters, .trial-workflow, .trial-results { padding: 0 !important; }
   .trial-form { grid-template-columns: 1fr; }
@@ -5307,6 +5307,8 @@ main.section,
   width: 100% !important;
   max-width: 820px !important;
   min-height: calc(100vh - 220px) !important;
+  height: calc(100vh - 220px) !important;
+  max-height: none !important;
   padding: 0 !important;
   margin: 0 auto !important;
   display: flex !important;
