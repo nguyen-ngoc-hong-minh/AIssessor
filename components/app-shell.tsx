@@ -39,7 +39,7 @@ export function AppShell({
 
       {/* Top Header matching Trial Header without Sign In */}
       <header className="trial-header">
-        <Brand />
+        <Brand href="/home" />
         <div className="flex items-center gap-3">
           <VisualModeToggle />
         </div>

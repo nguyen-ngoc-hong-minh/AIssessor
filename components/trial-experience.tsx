@@ -125,6 +125,14 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
+  function goToHomepage(e?: React.MouseEvent) {
+    if (!authenticatedBuilder) {
+      if (e) e.preventDefault();
+      setPhase("intro");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
   function handleBack() {
     if (authenticatedBuilder && phase === "parameters") {
       router.push("/home");
@@ -340,7 +348,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       )}
       {!authenticatedBuilder && (
         <header className="trial-header">
-          <Brand />
+          <Brand onClick={goToHomepage} />
           
           <div className="flex items-center gap-3">
             <VisualModeToggle />
