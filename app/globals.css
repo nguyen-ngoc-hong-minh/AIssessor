@@ -7390,4 +7390,101 @@ div.trial-results,
   stroke: #FFFFF1 !important;
 }
 
+/* ==========================================================================
+   AUTH SCREEN (SIGN IN / SIGN UP): PRESERVE LIGHT MODE BOX IN DARK MODE
+   ========================================================================== */
+:root[data-theme="dark"] .cl-card,
+:root[data-theme="dark"] .cl-rootBox,
+:root[data-theme="dark"] .auth-clean-container .cl-card,
+:root[data-theme="dark"] .auth-clean-container .cl-rootBox,
+:root[data-theme="dark"] .auth-clean-container .cl-cardBox {
+  background-color: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+:root[data-theme="dark"] .cl-card h1,
+:root[data-theme="dark"] .cl-card h2,
+:root[data-theme="dark"] .cl-card h3,
+:root[data-theme="dark"] .cl-card p,
+:root[data-theme="dark"] .cl-card span,
+:root[data-theme="dark"] .cl-card a,
+:root[data-theme="dark"] .cl-card label,
+:root[data-theme="dark"] .cl-card div,
+:root[data-theme="dark"] .cl-headerTitle,
+:root[data-theme="dark"] .cl-headerSubtitle,
+:root[data-theme="dark"] .cl-formFieldLabel,
+:root[data-theme="dark"] .cl-dividerText,
+:root[data-theme="dark"] .cl-socialButtonsBlockButtonText,
+:root[data-theme="dark"] .cl-footerActionText,
+:root[data-theme="dark"] .cl-footerActionLink,
+:root[data-theme="dark"] .cl-internal-180wb59,
+:root[data-theme="dark"] .cl-internal-1f2h3nt,
+:root[data-theme="dark"] .cl-internal-1dauvpw,
+:root[data-theme="dark"] .cl-internal-b3fm6y,
+:root[data-theme="dark"] .cl-internal-1e9d89z,
+:root[data-theme="dark"] .cl-footer,
+:root[data-theme="dark"] .cl-footer * {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .cl-socialButtonsBlockButton {
+  background-color: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .cl-socialButtonsBlockButton * {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .cl-socialButtonsBlockButtonBadge,
+:root[data-theme="dark"] .cl-badge {
+  background-color: #FFFFF1 !important;
+  border: 1px solid #0213B0 !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .cl-dividerLine {
+  background-color: #0213B0 !important;
+  height: 1.5px !important;
+  border: none !important;
+}
+
+:root[data-theme="dark"] .cl-formFieldInput {
+  background-color: #F4F7F5 !important;
+  border: none !important;
+  border-bottom: 1.5px solid #0213B0 !important;
+  border-radius: 0 !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .cl-formFieldInput::placeholder {
+  color: #0213B0 !important;
+  opacity: 0.6 !important;
+}
+
+:root[data-theme="dark"] .cl-formButtonPrimary {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
+}
+
+:root[data-theme="dark"] .cl-formButtonPrimary:hover {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .cl-formButtonPrimary * {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .cl-footer {
+  background-color: transparent !important;
+  border-top: none !important;
+}
+
 
