@@ -50,8 +50,32 @@ function budgetLabel(amount: number, currency: Currency) {
   return `${currency === "AUD" ? "A$" : "$"}${amount}`;
 }
 
+function phaseToHash(p: Phase): string {
+  switch (p) {
+    case "intro": return "intro";
+    case "type-selection": return "choose-usage";
+    case "parameters": return "parameters";
+    case "workflow": return "workflow";
+    case "processing": return "processing";
+    case "results": return "results";
+    default: return "";
+  }
+}
+
+function hashToPhase(hash: string): Phase | null {
+  const clean = hash.replace(/^#/, "").toLowerCase();
+  if (clean === "intro" || clean === "start" || clean === "home") return "intro";
+  if (clean === "choose-usage" || clean === "usage" || clean === "type-selection" || clean === "plan") return "type-selection";
+  if (clean === "parameters" || clean === "form" || clean === "project" || clean === "monthly") return "parameters";
+  if (clean === "workflow") return "workflow";
+  if (clean === "processing" || clean === "loading") return "processing";
+  if (clean === "results" || clean === "result" || clean === "recommendation" || clean === "stack") return "results";
+  return null;
+}
+
 export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode } = {}) {
   const { isSignedIn } = useAuth();
+  const router = useRouter();
   const authenticatedBuilder = Boolean(signedInMode);
   const cacheKey = authenticatedBuilder ? `aissessor:builder:${signedInMode}` : "aissessor:trial";
   const parameterRef = useRef<HTMLDivElement>(null);
@@ -87,6 +111,43 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   const recurring = frequency === "monthly" || frequency === "ongoing";
   const budgets = useMemo(() => suggestedBudgets(currency), [currency]);
 
+  function transitionToPhase(nextPhase: Phase, options?: { replace?: boolean }) {
+    setPhase(nextPhase);
+    if (!authenticatedBuilder && typeof window !== "undefined") {
+      const targetHash = phaseToHash(nextPhase);
+      const hashStr = targetHash === "intro" ? "" : `#${targetHash}`;
+      if (options?.replace) {
+        window.history.replaceState(null, "", hashStr || window.location.pathname);
+      } else if (window.location.hash !== hashStr) {
+        window.history.pushState(null, "", hashStr || window.location.pathname);
+      }
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  useEffect(() => {
+    if (authenticatedBuilder || typeof window === "undefined") return;
+
+    function syncFromHash() {
+      const targetPhase = hashToPhase(window.location.hash);
+      if (targetPhase) {
+        setPhase(targetPhase);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else if (!window.location.hash || window.location.hash === "#") {
+        setPhase("intro");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    }
+
+    syncFromHash();
+    window.addEventListener("hashchange", syncFromHash);
+    window.addEventListener("popstate", syncFromHash);
+    return () => {
+      window.removeEventListener("hashchange", syncFromHash);
+      window.removeEventListener("popstate", syncFromHash);
+    };
+  }, [authenticatedBuilder]);
+
   useEffect(() => {
     const cached = sessionStorage.getItem(cacheKey);
     if (!cached) return;
@@ -96,7 +157,13 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       if (!saved.trialId || !saved.token || !saved.analysis) return;
       frame = window.requestAnimationFrame(() => {
         setTrialId(saved.trialId); setTrialToken(saved.token); setAnalysis(saved.analysis); setSteps(saved.steps);
-        if (saved.result) { setResult(saved.result); setPendingSave(saved.pendingSave ?? authenticatedBuilder); setPhase("results"); }
+        if (saved.result) {
+          setResult(saved.result);
+          setPendingSave(saved.pendingSave ?? authenticatedBuilder);
+          if (window.location.hash === "#results" || window.location.hash === "#workflow") {
+            transitionToPhase(hashToPhase(window.location.hash) || "results", { replace: true });
+          }
+        }
       });
     } catch { sessionStorage.removeItem(cacheKey); }
     return () => window.cancelAnimationFrame(frame);
@@ -121,15 +188,13 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   }, [isSignedIn, pendingSave]);
 
   function begin() {
-    setPhase("type-selection");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    transitionToPhase("type-selection");
   }
 
   function goToHomepage(e?: React.MouseEvent) {
     if (!authenticatedBuilder) {
       if (e) e.preventDefault();
-      setPhase("intro");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      transitionToPhase("intro");
     }
   }
 
@@ -139,15 +204,14 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       return;
     }
     if (phase === "type-selection") {
-      setPhase("intro");
+      transitionToPhase("intro");
     } else if (phase === "parameters") {
-      setPhase("type-selection");
+      transitionToPhase("type-selection");
     } else if (phase === "workflow") {
-      setPhase("parameters");
+      transitionToPhase("parameters");
     } else if (phase === "results") {
-      setPhase(activeMode === "monthly" ? "parameters" : "workflow");
+      transitionToPhase(activeMode === "monthly" ? "parameters" : "workflow");
     }
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function handleNext() {
@@ -158,8 +222,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         setActiveMode("one_off");
         setFrequency("once");
       }
-      setPhase("parameters");
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      transitionToPhase("parameters");
     } else if (phase === "parameters") {
       formRef.current?.requestSubmit();
     } else if (phase === "workflow") {
@@ -220,8 +283,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       if (activeMode === "monthly") {
         await recommend(body.trialId, body.token, body.analysis.workflowSteps);
       } else {
-        setPhase("workflow");
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        transitionToPhase("workflow");
       }
     } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't understand this project right now."); }
     finally { setBusy(false); }
@@ -285,12 +347,12 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
   }
 
   async function recommend(id = trialId, token = trialToken, nextSteps = steps) {
-    setError(""); setBusy(true); setLoadingIndex(0); setPhase("processing"); window.scrollTo({ top: 0, behavior: "smooth" });
+    setError(""); setBusy(true); setLoadingIndex(0); transitionToPhase("processing");
     try {
       const response = await fetch(`/api/trial/${id}/recommend`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token, workflowSteps: nextSteps }) });
       const body = await response.json() as Result | { code?: string; userMessage?: string; error?: string };
       if (!response.ok || !("plans" in body)) throw new Error(apiErrorMessage(body, "We couldn't build your AI stack right now."));
-      setResult(body); setPhase("results"); setPendingSave(authenticatedBuilder);
+      setResult(body); transitionToPhase("results"); setPendingSave(authenticatedBuilder);
       sessionStorage.setItem(cacheKey, JSON.stringify({ trialId, token: trialToken, analysis, steps, result: body, pendingSave: authenticatedBuilder }));
       if (authenticatedBuilder && isSignedIn) {
         try {
@@ -299,7 +361,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
           setError(saveError instanceof Error ? saveError.message : "We couldn't save your AI stack.");
         }
       }
-    } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't build your AI stack right now."); setPhase(activeMode === "monthly" ? "parameters" : "workflow"); }
+    } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't build your AI stack right now."); transitionToPhase(activeMode === "monthly" ? "parameters" : "workflow"); }
     finally { setBusy(false); }
   }
 
@@ -311,8 +373,6 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
     } catch (reason) { setError(reason instanceof Error ? reason.message : "We couldn't save your AI stack."); }
     finally { setBusy(false); }
   }
-
-  const router = useRouter();
 
   function markTrialForSave() {
     setPendingSave(true);
@@ -365,10 +425,10 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         </header>
       )}
 
-      {phase === "intro" && <section className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker">YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
+      {phase === "intro" && <section id="intro" className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker">YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
       {phase === "type-selection" && (
-        <section className="signed-home trial-enter">
+        <section id="choose-usage" className="signed-home trial-enter">
           <div className="signed-home-heading">
             <h1 id="signed-home-title">What would you like to plan?</h1>
             <div className="h-[30px]" />
@@ -381,8 +441,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
               onClick={() => {
                 setActiveMode("one_off");
                 setFrequency("once");
-                setPhase("parameters");
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                transitionToPhase("parameters");
               }}
             >
               <span className="signed-home-option-icon"><FolderPlus aria-hidden="true" /></span>
@@ -398,8 +457,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
               onClick={() => {
                 setActiveMode("monthly");
                 setFrequency("monthly");
-                setPhase("parameters");
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                transitionToPhase("parameters");
               }}
             >
               <span className="signed-home-option-icon"><CalendarRange aria-hidden="true" /></span>
@@ -412,7 +470,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       )}
 
 
-      {phase === "parameters" && <section className="trial-parameters trial-enter" ref={parameterRef}>{activeMode === "monthly" ? <div className="trial-progress monthly-progress"><span className="active">1</span><i /><span>2</span></div> : <div className="trial-progress"><span className="active">1</span><i /><span>2</span><i /><span>3</span></div>}<div className="trial-section-heading"><h2>{activeMode === "monthly" ? "Monthly Workflow" : "One-off Project"}</h2></div>
+      {phase === "parameters" && <section id="parameters" className="trial-parameters trial-enter" ref={parameterRef}>{activeMode === "monthly" ? <div className="trial-progress monthly-progress"><span className="active">1</span><i /><span>2</span></div> : <div className="trial-progress"><span className="active">1</span><i /><span>2</span><i /><span>3</span></div>}<div className="trial-section-heading"><h2>{activeMode === "monthly" ? "Monthly Workflow" : "One-off Project"}</h2></div>
           <form ref={formRef} onSubmit={analyse} className="trial-form">
             {activeMode === "monthly" ? <>
               <fieldset className="trial-field-wide"><legend>Recurring AI tasks <InfoTip label="Recurring AI tasks">Add each kind of work you repeat during the month. We&apos;ll recommend the best AI stack across all of them.</InfoTip></legend><div className="monthly-task-add"><input aria-label="Recurring task" value={monthlyTaskDraft} onChange={(event) => setMonthlyTaskDraft(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") { event.preventDefault(); addMonthlyTask(); } }} placeholder="e.g. Write a weekly research summary" /><button type="button" className="trial-secondary-button" onClick={addMonthlyTask}><Plus /> Add task</button></div></fieldset>
@@ -438,7 +496,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         </section>}
 
       {phase === "workflow" && (
-        <section className="trial-workflow trial-enter">
+        <section id="workflow" className="trial-workflow trial-enter">
           {/* Progress bar */}
           {activeMode === "monthly" ? (
             <div className="trial-progress monthly-progress">
@@ -597,13 +655,13 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
       )}
 
       {phase === "processing" && (
-        <section className="trial-processing" aria-live="polite">
+        <section id="processing" className="trial-processing" aria-live="polite">
           <h1>{loadingMessages[loadingIndex]}</h1>
         </section>
       )}
 
       {phase === "results" && result && (
-        <section className="trial-results trial-enter">
+        <section id="results" className="trial-results trial-enter">
           {activeMode === "monthly" ? (
             <div className="trial-progress monthly-progress">
               <span className="done"><Check className="w-3.5 h-3.5" /></span>
