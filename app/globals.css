@@ -6976,9 +6976,7 @@ div.trial-results,
 :root[data-theme="dark"] .trial-workflow-list textarea,
 :root[data-theme="dark"] .trial-other-tool input,
 :root[data-theme="dark"] .trial-date,
-:root[data-theme="dark"] .monthly-task-add input,
-:root[data-theme="dark"] .cl-formFieldInput,
-:root[data-theme="dark"] .cl-input {
+:root[data-theme="dark"] .monthly-task-add input {
   background-color: #3559FF !important;
   border: none !important;
   border-bottom: 1px solid #FFFFF1 !important;
@@ -7192,8 +7190,7 @@ div.trial-results,
 /* 6. Primary Buttons (Solid Cream #FFFFF1, Navy #0213B0 Text) */
 :root[data-theme="dark"] .trial-primary-button,
 :root[data-theme="dark"] .plan-cta-btn,
-:root[data-theme="dark"] .btn-primary,
-:root[data-theme="dark"] .cl-formButtonPrimary {
+:root[data-theme="dark"] .btn-primary {
   background-color: #FFFFF1 !important;
   color: #0213B0 !important;
   border: none !important;
@@ -7202,8 +7199,7 @@ div.trial-results,
 
 :root[data-theme="dark"] .trial-primary-button *,
 :root[data-theme="dark"] .plan-cta-btn *,
-:root[data-theme="dark"] .btn-primary *,
-:root[data-theme="dark"] .cl-formButtonPrimary * {
+:root[data-theme="dark"] .btn-primary * {
   color: #0213B0 !important;
 }
 
@@ -7408,10 +7404,10 @@ div.trial-results,
 :root[data-theme="dark"] .cl-card h2,
 :root[data-theme="dark"] .cl-card h3,
 :root[data-theme="dark"] .cl-card p,
-:root[data-theme="dark"] .cl-card span,
-:root[data-theme="dark"] .cl-card a,
+:root[data-theme="dark"] .cl-card a:not(.cl-formButtonPrimary),
 :root[data-theme="dark"] .cl-card label,
-:root[data-theme="dark"] .cl-card div,
+:root[data-theme="dark"] .cl-card span:not(.cl-formButtonPrimary *),
+:root[data-theme="dark"] .cl-card div:not(.cl-formButtonPrimary *),
 :root[data-theme="dark"] .cl-headerTitle,
 :root[data-theme="dark"] .cl-headerSubtitle,
 :root[data-theme="dark"] .cl-formFieldLabel,
@@ -7453,33 +7449,55 @@ div.trial-results,
   border: none !important;
 }
 
-:root[data-theme="dark"] .cl-formFieldInput {
+:root[data-theme="dark"] .cl-formFieldInput,
+:root[data-theme="dark"] .cl-input,
+:root[data-theme="dark"] .cl-card input:not([type="checkbox"]):not([type="radio"]) {
   background-color: #F4F7F5 !important;
+  background: #F4F7F5 !important;
   border: none !important;
   border-bottom: 1.5px solid #0213B0 !important;
   border-radius: 0 !important;
   color: #0213B0 !important;
+  padding: 12px 16px !important;
 }
 
-:root[data-theme="dark"] .cl-formFieldInput::placeholder {
+:root[data-theme="dark"] .cl-formFieldInput::placeholder,
+:root[data-theme="dark"] .cl-input::placeholder,
+:root[data-theme="dark"] .cl-card input::placeholder {
   color: #0213B0 !important;
   opacity: 0.6 !important;
 }
 
-:root[data-theme="dark"] .cl-formButtonPrimary {
+:root[data-theme="dark"] .cl-formButtonPrimary,
+:root[data-theme="dark"] button.cl-formButtonPrimary,
+:root[data-theme="dark"] .cl-card .cl-formButtonPrimary,
+:root[data-theme="dark"] .cl-card button.cl-formButtonPrimary {
   background-color: #0213B0 !important;
+  background: #0213B0 !important;
   color: #FFFFF1 !important;
   border: none !important;
   border-radius: 0.25rem !important;
 }
 
-:root[data-theme="dark"] .cl-formButtonPrimary:hover {
+:root[data-theme="dark"] .cl-formButtonPrimary:hover,
+:root[data-theme="dark"] button.cl-formButtonPrimary:hover,
+:root[data-theme="dark"] .cl-card .cl-formButtonPrimary:hover,
+:root[data-theme="dark"] .cl-card button.cl-formButtonPrimary:hover {
   background-color: #0213B0 !important;
+  background: #0213B0 !important;
   color: #FFFFF1 !important;
 }
 
-:root[data-theme="dark"] .cl-formButtonPrimary * {
+:root[data-theme="dark"] .cl-formButtonPrimary *,
+:root[data-theme="dark"] .cl-formButtonPrimary span,
+:root[data-theme="dark"] .cl-formButtonPrimary div,
+:root[data-theme="dark"] .cl-formButtonPrimary svg,
+:root[data-theme="dark"] button.cl-formButtonPrimary *,
+:root[data-theme="dark"] button.cl-formButtonPrimary span,
+:root[data-theme="dark"] button.cl-formButtonPrimary div,
+:root[data-theme="dark"] button.cl-formButtonPrimary svg {
   color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 :root[data-theme="dark"] .cl-footer {
