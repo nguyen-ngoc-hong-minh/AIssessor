@@ -4150,10 +4150,6 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 @media (max-width: 860px) {
-  .editorial-app-main.is-workspace-page {
-    padding: 100px 20px 120px !important;
-  }
-
   .signed-home-options {
     grid-template-columns: 1fr;
   }
@@ -4174,9 +4170,6 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 @media (max-width: 640px) {
-  .editorial-app-main.is-workspace-page {
-    padding: 92px 14px 110px !important;
-  }
 
   .signed-home-heading h1 {
     font-size: 2.7rem;
@@ -5244,8 +5237,8 @@ input::placeholder {
 /* Signed-in Workspace Home Layout (starts immediately at top with page padding) */
 /* ==========================================================================
    GLOBAL STANDARDIZED PAGE PADDING (ALL PAGES & TRIAL)
-   Desktop (> 768px): padding: 92px 28px 110px !important;
-   Mobile (<= 768px): padding: 92px 14px 110px !important;
+   Desktop (> 768px): padding: 110px 28px 110px !important;
+   Mobile (<= 768px): padding: 110px 28px 110px !important;
    ========================================================================== */
 
 .editorial-app-main,
@@ -5267,7 +5260,7 @@ main.section,
   flex-direction: column !important;
   justify-content: flex-start !important;
   align-items: center !important;
-  padding: 92px 28px 110px !important;
+  padding: 110px 28px 110px !important;
   width: 100% !important;
   max-width: 1440px !important;
   margin: 0 auto !important;
@@ -5287,7 +5280,7 @@ main.section,
   .onboarding-main,
   .how-it-works-main,
   .terms-main {
-    padding: 92px 14px 110px !important;
+    padding: 110px 28px 110px !important;
   }
 }
 
