@@ -4226,8 +4226,8 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   top: 28px !important;
   left: 28px !important;
   right: 28px !important;
-  width: calc(100vw - 56px) !important;
-  max-width: calc(100vw - 56px) !important;
+  width: auto !important;
+  max-width: none !important;
   box-sizing: border-box !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -6685,15 +6685,15 @@ div.trial-results,
 
 @media (max-width: 768px) {
   .trial-header {
-    top: 16px !important;
-    left: 16px !important;
-    right: 16px !important;
-    width: calc(100vw - 32px) !important;
-    max-width: calc(100vw - 32px) !important;
+    top: 28px !important;
+    left: 28px !important;
+    right: 28px !important;
+    width: auto !important;
+    max-width: none !important;
   }
   .trial-footer-nav {
-    bottom: 16px !important;
-    right: 16px !important;
+    bottom: 28px !important;
+    right: 28px !important;
   }
 }
 
