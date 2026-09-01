@@ -22,10 +22,18 @@ export const metadata: Metadata = {
 
 const themeScript = `
   (function() {
-    const savedTheme = localStorage.getItem('theme');
-    const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    const activeTheme = savedTheme === 'light' || savedTheme === 'dark' ? savedTheme : systemTheme;
-    document.documentElement.setAttribute('data-theme', activeTheme);
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const activeTheme = (savedTheme === 'light' || savedTheme === 'dark') ? savedTheme : (systemDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', activeTheme);
+
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+        if (!localStorage.getItem('theme')) {
+          document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+      });
+    } catch(e) {}
   })()
 `;
 

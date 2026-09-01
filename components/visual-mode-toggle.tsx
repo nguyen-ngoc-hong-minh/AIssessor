@@ -7,16 +7,30 @@ export function VisualModeToggle() {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-    const activeTheme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : systemTheme;
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    const frame = window.requestAnimationFrame(() => {
-      setTheme(activeTheme);
-      document.documentElement.setAttribute("data-theme", activeTheme);
-    });
+    const resolveTheme = (): "light" | "dark" => {
+      const saved = localStorage.getItem("theme");
+      if (saved === "light" || saved === "dark") return saved;
+      return mediaQuery.matches ? "dark" : "light";
+    };
 
-    return () => window.cancelAnimationFrame(frame);
+    const applyTheme = (next: "light" | "dark") => {
+      setTheme(next);
+      document.documentElement.setAttribute("data-theme", next);
+    };
+
+    applyTheme(resolveTheme());
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      const saved = localStorage.getItem("theme");
+      if (!saved) {
+        applyTheme(e.matches ? "dark" : "light");
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   const toggleTheme = () => {
