@@ -5713,7 +5713,7 @@ button[aria-pressed="true"] * {
 /* 3. TYPE 2 BOXES (Outline / Cards / Secondary Buttons) */
 /* Apply 1.5px border, 0.25rem radius, no shadow */
 .card, .glass-card, .ui-card, .pricing-deck-card,
-.cl-card, .cl-socialButtonsBlockButton, .cl-alert,
+.cl-socialButtonsBlockButton, .cl-alert,
 [class*="border-slate"], [class*="border-gray"], [class*="border-input"], [class*="border-border"],
 .trial-secondary-button,
 .btn-secondary,
@@ -7389,13 +7389,18 @@ div.trial-results,
 /* ==========================================================================
    AUTH SCREEN (SIGN IN / SIGN UP): PRESERVE LIGHT MODE BOX IN DARK MODE
    ========================================================================== */
+.cl-card,
+.cl-rootBox,
+.auth-clean-container .cl-card,
+.auth-clean-container .cl-rootBox,
+.auth-clean-container .cl-cardBox,
 :root[data-theme="dark"] .cl-card,
 :root[data-theme="dark"] .cl-rootBox,
 :root[data-theme="dark"] .auth-clean-container .cl-card,
 :root[data-theme="dark"] .auth-clean-container .cl-rootBox,
 :root[data-theme="dark"] .auth-clean-container .cl-cardBox {
   background-color: #FFFFF1 !important;
-  border: 1.5px solid #0213B0 !important;
+  border: none !important;
   border-radius: 0.25rem !important;
   box-shadow: none !important;
 }
