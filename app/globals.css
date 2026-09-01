@@ -8084,5 +8084,199 @@ div.trial-results,
   stroke: #0213B0 !important;
 }
 
+/* ==========================================================================
+   RESULTS PAGE 960PX MAX-WIDTH & ALTERNATIVE OPTIONS THEME ENFORCEMENT
+   ========================================================================== */
+
+/* 1. Results Page Constraint (Strict 960px Max Width & Centered) */
+.saved-result-route,
+.trial-results,
+div.trial-results,
+section.trial-results,
+.trial-results-content,
+.trial-result-hero,
+.trial-results-section,
+.trial-tools-grid,
+.trial-breakdown-card,
+.trial-next-steps-card {
+  max-width: 960px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. Alternative Options Section Title */
+:root:not([data-theme="dark"]) .trial-results-section #customize-models-title,
+.trial-results-section #customize-models-title {
+  color: #0213B0 !important;
+  font-size: 2.25rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+:root[data-theme="dark"] .trial-results-section #customize-models-title {
+  color: #FFFFF1 !important;
+  font-size: 2.25rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+}
+
+/* 3. Alternative Options Step Containers (Light: #F4F7F5 fill / Dark: #3559FF fill) */
+.trial-customize-step {
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 28px !important;
+  margin-bottom: 24px !important;
+}
+
+:root:not([data-theme="dark"]) .trial-customize-step,
+.trial-customize-step {
+  background-color: #F4F7F5 !important;
+  background: #F4F7F5 !important;
+  border: none !important;
+  color: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-customize-job small,
+:root:not([data-theme="dark"]) .trial-customize-job strong,
+.trial-customize-job small,
+.trial-customize-job strong {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-customize-step {
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  border: none !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-customize-job small,
+:root[data-theme="dark"] .trial-customize-job strong {
+  color: #FFFFF1 !important;
+}
+
+/* 4. Alternative Model Choice Cards (.trial-model-choice) */
+.trial-choice-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+  gap: 12px !important;
+}
+
+.trial-model-choice {
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  transition: none !important;
+}
+
+.trial-model-choice-inner {
+  padding: 18px !important;
+  border-radius: 0.25rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+/* Light Mode: Choice Card Default (Kem #FFFFF1 fill, Navy Border) */
+:root:not([data-theme="dark"]) .trial-model-choice,
+.trial-model-choice {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  color: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-model-choice-inner *,
+.trial-model-choice-inner * {
+  color: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-model-choice-inner > b svg,
+.trial-model-choice-inner > b svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+/* Light Mode: Choice Card Selected / Hover (Navy #0213B0 fill, White Text) */
+:root:not([data-theme="dark"]) .trial-model-choice[data-selected="true"],
+:root:not([data-theme="dark"]) .trial-model-choice:hover,
+.trial-model-choice[data-selected="true"],
+.trial-model-choice:hover {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-model-choice[data-selected="true"] *,
+:root:not([data-theme="dark"]) .trial-model-choice:hover *,
+.trial-model-choice[data-selected="true"] *,
+.trial-model-choice:hover * {
+  color: #FFFFF1 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-model-choice[data-selected="true"] > div > b svg,
+:root:not([data-theme="dark"]) .trial-model-choice:hover > div > b svg,
+.trial-model-choice[data-selected="true"] > div > b svg,
+.trial-model-choice:hover > div > b svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+/* Dark Mode: Choice Card Default (Navy #0213B0 fill, Kem Border #FFFFF1) */
+:root[data-theme="dark"] .trial-model-choice {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-model-choice-inner * {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-model-choice-inner > b svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+/* Dark Mode: Choice Card Selected / Hover (Kem #FFFFF1 fill, Navy Text #0213B0) */
+:root[data-theme="dark"] .trial-model-choice[data-selected="true"],
+:root[data-theme="dark"] .trial-model-choice:hover {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  border-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-model-choice[data-selected="true"] *,
+:root[data-theme="dark"] .trial-model-choice:hover * {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-model-choice[data-selected="true"] > div > b svg,
+:root[data-theme="dark"] .trial-model-choice:hover > div > b svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+/* 5. Customizer Actions Text & Status */
+:root:not([data-theme="dark"]) .trial-customize-actions p,
+.trial-customize-actions p {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-customize-actions p {
+  color: #FFFFF1 !important;
+}
+
+
 
 
