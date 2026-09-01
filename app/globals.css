@@ -4575,7 +4575,7 @@ html, body {
    ========================================================================== */
 
 /* 1. Global Background */
-html, body, .trial-page, .editorial-app-shell, .editorial-app-main, :root[data-theme="dark"] body, :root[data-theme="dark"] html, :root[data-theme="dark"] .trial-page {
+html, body, .trial-page, .editorial-app-shell, .editorial-app-main {
   background-color: #FFFFF1 !important;
   color: #0213B0 !important;
 }
@@ -6859,6 +6859,241 @@ div.trial-results,
 :root[data-theme="dark"] .brief-suggestion-btn:hover svg {
   color: #FFFFF1 !important;
   stroke: #FFFFF1 !important;
+}
+
+/* ==========================================================================
+   COMPREHENSIVE DARK MODE (USER SPECIFIED COLOR INVERSION)
+   - #FFFFF1  -->  #0213B0 (Surfaces / Backgrounds)
+   - #0213B0  -->  #FFFFF1 (Text / Borders / Highlights / Solid Buttons)
+   - #F4F7F5  -->  #3559FF (Inputs / Inactive Choices / Pills)
+   ========================================================================== */
+
+/* 1. Global Page Backgrounds & Canvas */
+:root[data-theme="dark"],
+:root[data-theme="dark"] html,
+:root[data-theme="dark"] body,
+:root[data-theme="dark"] #root,
+:root[data-theme="dark"] #__next,
+:root[data-theme="dark"] .trial-page,
+:root[data-theme="dark"] .editorial-app-shell,
+:root[data-theme="dark"] .editorial-app-main,
+:root[data-theme="dark"] .auth-page-clean,
+:root[data-theme="dark"] .pricing-main,
+:root[data-theme="dark"] .public-content,
+:root[data-theme="dark"] main,
+:root[data-theme="dark"] .app-shell,
+:root[data-theme="dark"] .dashboard-layout,
+:root[data-theme="dark"] .deck-bg,
+:root[data-theme="dark"] .trial-builder-container,
+:root[data-theme="dark"] .dash-page-transition,
+:root[data-theme="dark"] .signed-home {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+/* 2. All Typography, Headings, Paragraphs, Links, Labels */
+:root[data-theme="dark"] h1,
+:root[data-theme="dark"] h2,
+:root[data-theme="dark"] h3,
+:root[data-theme="dark"] h4,
+:root[data-theme="dark"] h5,
+:root[data-theme="dark"] h6,
+:root[data-theme="dark"] p,
+:root[data-theme="dark"] span,
+:root[data-theme="dark"] li,
+:root[data-theme="dark"] a,
+:root[data-theme="dark"] label,
+:root[data-theme="dark"] legend,
+:root[data-theme="dark"] strong,
+:root[data-theme="dark"] small,
+:root[data-theme="dark"] em,
+:root[data-theme="dark"] b,
+:root[data-theme="dark"] .brand-text,
+:root[data-theme="dark"] .brand,
+:root[data-theme="dark"] .trial-kicker,
+:root[data-theme="dark"] .trial-intro-body,
+:root[data-theme="dark"] .signed-home-heading h1,
+:root[data-theme="dark"] .trial-loading-title,
+:root[data-theme="dark"] .trial-loading-percentage,
+:root[data-theme="dark"] .brief-suggestions-title,
+:root[data-theme="dark"] .brief-suggestions-desc,
+:root[data-theme="dark"] .cl-headerTitle,
+:root[data-theme="dark"] .cl-headerSubtitle,
+:root[data-theme="dark"] .cl-dividerText,
+:root[data-theme="dark"] .cl-formFieldLabel,
+:root[data-theme="dark"] .cl-socialButtonsBlockButtonText {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+/* 3. Cards, Outlines, Modals & Containers (Cream #FFFFF1 border on Navy #0213B0) */
+:root[data-theme="dark"] .card,
+:root[data-theme="dark"] .glass-card,
+:root[data-theme="dark"] .ui-card,
+:root[data-theme="dark"] .pricing-deck-card,
+:root[data-theme="dark"] .cl-card,
+:root[data-theme="dark"] .cl-socialButtonsBlockButton,
+:root[data-theme="dark"] .cl-alert,
+:root[data-theme="dark"] .trial-secondary-button,
+:root[data-theme="dark"] .btn-secondary,
+:root[data-theme="dark"] button[variant="outline"],
+:root[data-theme="dark"] .trial-workflow-list article,
+:root[data-theme="dark"] .trial-tool-card,
+:root[data-theme="dark"] .trial-task-card,
+:root[data-theme="dark"] .trial-breakdown-card,
+:root[data-theme="dark"] .trial-next-steps-card,
+:root[data-theme="dark"] .trial-model-choice,
+:root[data-theme="dark"] .monthly-task-card,
+:root[data-theme="dark"] .signed-home-option,
+:root[data-theme="dark"] .trial-header,
+:root[data-theme="dark"] .trial-header .theme-toggle-btn,
+:root[data-theme="dark"] .trial-header-auth-btn,
+:root[data-theme="dark"] .dash-user-pill,
+:root[data-theme="dark"] .brief-suggestions-panel,
+:root[data-theme="dark"] .brief-suggestion-btn,
+:root[data-theme="dark"] .trial-footer-arrow-btn,
+:root[data-theme="dark"] .trial-workflow-card,
+:root[data-theme="dark"] .trial-results-section,
+:root[data-theme="dark"] .trial-compare-card,
+:root[data-theme="dark"] .trial-pricing-card,
+:root[data-theme="dark"] .info-tip > div,
+:root[data-theme="dark"] table,
+:root[data-theme="dark"] th,
+:root[data-theme="dark"] td {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border-color: #FFFFF1 !important;
+  color: #FFFFF1 !important;
+}
+
+/* 4. Form Inputs, Textareas, Selects & Details (was #F4F7F5 -> now #3559FF) */
+:root[data-theme="dark"] input:not([type="checkbox"]):not([type="radio"]),
+:root[data-theme="dark"] textarea,
+:root[data-theme="dark"] select,
+:root[data-theme="dark"] .trial-form input,
+:root[data-theme="dark"] .trial-form textarea,
+:root[data-theme="dark"] .trial-form select,
+:root[data-theme="dark"] .trial-workflow-list input,
+:root[data-theme="dark"] .trial-workflow-list textarea,
+:root[data-theme="dark"] .trial-other-tool input,
+:root[data-theme="dark"] .trial-date,
+:root[data-theme="dark"] .monthly-task-add input,
+:root[data-theme="dark"] .trial-custom-budget,
+:root[data-theme="dark"] .trial-custom-budget input,
+:root[data-theme="dark"] .cl-formFieldInput,
+:root[data-theme="dark"] .cl-input,
+:root[data-theme="dark"] .trial-form .trial-choice-grid button:not([aria-pressed="true"]),
+:root[data-theme="dark"] .trial-tool-picker button:not([aria-pressed="true"]),
+:root[data-theme="dark"] .trial-form .trial-budget-row button:not([aria-pressed="true"]),
+:root[data-theme="dark"] .trial-form .trial-budget-row select,
+:root[data-theme="dark"] .trial-advanced,
+:root[data-theme="dark"] details.trial-advanced,
+:root[data-theme="dark"] .trial-advanced-static,
+:root[data-theme="dark"] .monthly-task-controls select {
+  background-color: #3559ff !important;
+  background: #3559ff !important;
+  color: #FFFFF1 !important;
+  border: 1.5px solid #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] input::placeholder,
+:root[data-theme="dark"] textarea::placeholder,
+:root[data-theme="dark"] .trial-form input::placeholder,
+:root[data-theme="dark"] .trial-form textarea::placeholder {
+  color: rgba(255, 255, 241, 0.7) !important;
+}
+
+/* 5. Solid Primary Buttons & Active Choice States (White #FFFFF1 Background, Navy #0213B0 Text) */
+:root[data-theme="dark"] .trial-primary-button,
+:root[data-theme="dark"] .plan-cta-btn,
+:root[data-theme="dark"] .btn-primary,
+:root[data-theme="dark"] .cl-formButtonPrimary,
+:root[data-theme="dark"] button[aria-pressed="true"],
+:root[data-theme="dark"] .trial-form .trial-choice-grid button[aria-pressed="true"],
+:root[data-theme="dark"] .trial-tool-picker button[aria-pressed="true"],
+:root[data-theme="dark"] .trial-form .trial-budget-row button[aria-pressed="true"],
+:root[data-theme="dark"] .trial-job-label {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: none !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button *,
+:root[data-theme="dark"] .plan-cta-btn *,
+:root[data-theme="dark"] .btn-primary *,
+:root[data-theme="dark"] .cl-formButtonPrimary *,
+:root[data-theme="dark"] button[aria-pressed="true"] *,
+:root[data-theme="dark"] .trial-form .trial-choice-grid button[aria-pressed="true"] *,
+:root[data-theme="dark"] .trial-tool-picker button[aria-pressed="true"] *,
+:root[data-theme="dark"] .trial-form .trial-budget-row button[aria-pressed="true"] *,
+:root[data-theme="dark"] .trial-job-label * {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button svg,
+:root[data-theme="dark"] .plan-cta-btn svg,
+:root[data-theme="dark"] .btn-primary svg,
+:root[data-theme="dark"] button[aria-pressed="true"] svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+/* 6. Stepper Progress Dots & Connecting Lines in Dark Mode */
+:root[data-theme="dark"] .trial-progress span {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: 1.5px solid #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-progress span.active,
+:root[data-theme="dark"] .trial-progress span.done {
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-progress span.active *,
+:root[data-theme="dark"] .trial-progress span.done * {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-progress i {
+  background-color: #FFFFF1 !important;
+}
+
+/* 7. Hover effects in Dark Mode */
+:root[data-theme="dark"] .trial-secondary-button:hover,
+:root[data-theme="dark"] .trial-header-auth-btn:hover,
+:root[data-theme="dark"] .action-btn:hover,
+:root[data-theme="dark"] .trial-footer-arrow-btn:hover {
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border-color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button:hover *,
+:root[data-theme="dark"] .trial-header-auth-btn:hover *,
+:root[data-theme="dark"] .action-btn:hover *,
+:root[data-theme="dark"] .trial-footer-arrow-btn:hover * {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-header .theme-toggle-btn:hover {
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border-color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-header .theme-toggle-btn:hover svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 
