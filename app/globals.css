@@ -339,8 +339,6 @@
   .trial-budget-row select, .trial-budget-row button { flex: 1 1 calc(50% - 8px); }
   .trial-advanced-grid { grid-template-columns: 1fr; padding: 22px 18px; }
   .trial-advanced-grid .wide { grid-column: auto; }
-  .info-tip > div { position: fixed; left: 16px; right: 16px; bottom: 24px; width: auto; transform: none; }
-  .info-tip[open] > div, .info-tip:hover > div, .info-tip:focus-within > div { transform: none; }
   .trial-workflow-list article { padding: 18px 14px; gap: 10px; }
   .trial-step-actions { flex-wrap: wrap; }
   .trial-workflow-actions { flex-direction: column-reverse; }
@@ -7546,6 +7544,12 @@ div.trial-results,
   display: block !important;
 }
 
+.info-tip {
+  position: relative !important;
+  display: inline-flex !important;
+  vertical-align: middle !important;
+}
+
 /* Tooltip Popover Box */
 .info-tip > div,
 .info-tip-content {
@@ -7554,8 +7558,8 @@ div.trial-results,
   left: 0 !important;
   bottom: calc(100% + 8px) !important;
   width: max-content !important;
-  min-width: 220px !important;
-  max-width: min(320px, calc(100vw - 32px)) !important;
+  min-width: 200px !important;
+  max-width: min(280px, 80vw) !important;
   padding: 14px 16px !important;
   border-radius: 0.25rem !important;
   box-shadow: none !important;
@@ -7578,28 +7582,6 @@ div.trial-results,
   visibility: visible !important;
   pointer-events: auto !important;
   transform: translateY(0) !important;
-}
-
-@media (max-width: 768px) {
-  .info-tip {
-    position: static !important;
-  }
-
-  .info-tip > div,
-  .info-tip-content {
-    left: 16px !important;
-    right: 16px !important;
-    width: auto !important;
-    max-width: calc(100vw - 32px) !important;
-    transform: translateY(6px) !important;
-  }
-
-  .info-tip:hover > div,
-  .info-tip:focus-within > div,
-  .info-tip:hover .info-tip-content,
-  .info-tip:focus-within .info-tip-content {
-    transform: translateY(0) !important;
-  }
 }
 
 .info-tip > div strong,
