@@ -7004,30 +7004,48 @@ div.trial-results,
   stroke: #FFFFF1 !important;
 }
 
-/* 4. Choice Grid / Budget Row / Tool Picker (Unselected: #3559FF, Selected: #FFFFF1) */
-:root[data-theme="dark"] .trial-form .trial-choice-grid button:not([aria-pressed="true"]),
-:root[data-theme="dark"] .trial-tool-picker button:not([aria-pressed="true"]),
-:root[data-theme="dark"] .trial-form .trial-budget-row button:not([aria-pressed="true"]),
-:root[data-theme="dark"] .trial-form .trial-budget-row select {
-  background-color: #3559FF !important;
-  border: 1px solid #FFFFF1 !important;
+/* 4. Choice Grid / Budget Row / Tool Picker (Outer box: no fill, border kem; Selected: fill kem, no border; Unselected: no fill) */
+:root[data-theme="dark"] .trial-form .trial-choice-grid,
+:root[data-theme="dark"] .trial-form .trial-budget-row,
+:root[data-theme="dark"] .trial-form .trial-tool-picker,
+:root[data-theme="dark"] .trial-form .trial-choice-grid.four {
+  border: 1.5px solid #FFFFF1 !important;
   border-radius: 0.25rem !important;
+  background-color: transparent !important;
+}
+
+:root[data-theme="dark"] .trial-form .trial-choice-grid button,
+:root[data-theme="dark"] .trial-tool-picker button,
+:root[data-theme="dark"] .trial-form .trial-budget-row button,
+:root[data-theme="dark"] .trial-form .trial-choice-grid.four button {
+  border: none !important;
+  background-color: transparent !important;
   color: #FFFFF1 !important;
+  border-radius: 0.25rem !important;
 }
 
 :root[data-theme="dark"] .trial-form .trial-choice-grid button[aria-pressed="true"],
 :root[data-theme="dark"] .trial-tool-picker button[aria-pressed="true"],
-:root[data-theme="dark"] .trial-form .trial-budget-row button[aria-pressed="true"] {
+:root[data-theme="dark"] .trial-form .trial-budget-row button[aria-pressed="true"],
+:root[data-theme="dark"] .trial-form .trial-choice-grid.four button[aria-pressed="true"] {
   background-color: #FFFFF1 !important;
-  border: 1px solid #FFFFF1 !important;
-  border-radius: 0.25rem !important;
   color: #0213B0 !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
 }
 
 :root[data-theme="dark"] .trial-form .trial-choice-grid button[aria-pressed="true"] *,
 :root[data-theme="dark"] .trial-tool-picker button[aria-pressed="true"] *,
-:root[data-theme="dark"] .trial-form .trial-budget-row button[aria-pressed="true"] * {
+:root[data-theme="dark"] .trial-form .trial-budget-row button[aria-pressed="true"] *,
+:root[data-theme="dark"] .trial-form .trial-choice-grid.four button[aria-pressed="true"] * {
   color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-form .trial-budget-row select {
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
 }
 
 /* 5. Signed-in Home Option Cards (Mirrors light mode: Solid Cream Card #FFFFF1 with Navy Text) */
