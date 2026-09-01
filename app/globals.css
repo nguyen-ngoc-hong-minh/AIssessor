@@ -383,7 +383,7 @@
 @keyframes trialPanelIn { from { opacity: 0; transform: none; } to { opacity: 1; transform: none; } }
 .trial-enter { animation: trialPanelIn .55s var(--ee) both; }
 
-.trial-parameters, .trial-workflow, .trial-results { max-width: 1080px; padding: 108px 28px 58px; }
+.trial-parameters, .trial-workflow, .trial-results { max-width: 960px; padding: 108px 28px 58px; }
 .trial-progress { max-width: 480px; margin-bottom: 46px; grid-template-columns: 30px 1fr 30px 1fr 30px; gap: 8px; }
 .trial-progress > span { width: 30px; height: 30px; }
 .trial-progress > small { top: 40px; font-size: 10px; }
@@ -5305,7 +5305,7 @@ main.section,
 .trial-builder-container,
 .editorial-app-main .trial-builder-container {
   width: 100% !important;
-  max-width: 1080px !important;
+  max-width: 960px !important;
   margin: 0 auto !important;
   display: flex !important;
   flex-direction: column !important;
@@ -5318,7 +5318,7 @@ main.section,
 .editorial-app-main .trial-parameters,
 .trial-builder-container .trial-parameters {
   width: 100% !important;
-  max-width: 1080px !important;
+  max-width: 960px !important;
   margin: 0 auto !important;
   box-sizing: border-box !important;
 }
@@ -6148,7 +6148,7 @@ input[type="checkbox"]:checked::after,
 .trial-workflow,
 section.trial-results {
   padding: 0 !important;
-  max-width: 1080px !important;
+  max-width: 960px !important;
   margin: 0 auto !important;
   box-sizing: border-box !important;
 }
