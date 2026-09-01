@@ -620,7 +620,8 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
                   className="trial-secondary-button"
                   onClick={() => setEditingWorkflow(false)}
                 >
-                  Done editing
+                  <Check className="w-4 h-4" />
+                  <span>Done editing</span>
                 </button>
                 <button
                   type="button"
