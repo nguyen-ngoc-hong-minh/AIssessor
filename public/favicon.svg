@@ -2,17 +2,23 @@
   <defs>
     <style>
       :root {
-        fill: #3559FF;
+        fill: #0213B0;
       }
       .cls-1 {
-        fill: #3559FF;
+        fill: #0213B0;
       }
       @media (prefers-color-scheme: dark) {
+        :root {
+          fill: #3559FF;
+        }
         .cls-1 {
-          fill: #4E7BFF;
+          fill: #3559FF;
         }
       }
       @media (prefers-color-scheme: light) {
+        :root {
+          fill: #0213B0;
+        }
         .cls-1 {
           fill: #0213B0;
         }
