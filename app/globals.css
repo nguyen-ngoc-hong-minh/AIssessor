@@ -7240,6 +7240,7 @@ div.trial-results,
 }
 
 /* 7b. Estimated Cost Hero Banner in Dark Mode (Border kem, Divider kem) */
+:root[data-theme="dark"] .trial-result-hero,
 :root[data-theme="dark"] .trial-result-summary {
   background-color: transparent !important;
   border: 1.5px solid #FFFFF1 !important;
@@ -7250,6 +7251,7 @@ div.trial-results,
   border-left: 1.5px solid #FFFFF1 !important;
 }
 
+:root[data-theme="dark"] .trial-result-hero h1,
 :root[data-theme="dark"] .trial-result-summary h1,
 :root[data-theme="dark"] .trial-result-summary-cost strong,
 :root[data-theme="dark"] .trial-result-summary-cost span,
