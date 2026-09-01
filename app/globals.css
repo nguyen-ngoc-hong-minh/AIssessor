@@ -7634,4 +7634,196 @@ div.trial-results,
   text-transform: none !important;
 }
 
+/* ==========================================================================
+   DASHBOARD PAGE STYLING (LIGHT & DARK THEME ENFORCEMENT)
+   ========================================================================== */
+
+/* 1. Header & Create Bar */
+.dashboard-create-bar {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.dashboard-create-bar h1 {
+  font-size: 2.25rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin: 0 !important;
+}
+
+:root:not([data-theme="dark"]) .dashboard-create-bar h1,
+.dashboard-create-bar h1 {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .dashboard-create-bar h1 {
+  color: #FFFFF1 !important;
+}
+
+/* 2. Metrics Grid Boxes */
+.dash-metrics-grid .metric {
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+:root:not([data-theme="dark"]) .dash-metrics-grid .metric,
+.dash-metrics-grid .metric {
+  background-color: transparent !important;
+  border: 1.5px solid #0213B0 !important;
+  color: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .dash-metrics-grid .metric *,
+.dash-metrics-grid .metric * {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .dash-metrics-grid .metric {
+  background-color: transparent !important;
+  border: 1.5px solid #FFFFF1 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .dash-metrics-grid .metric * {
+  color: #FFFFF1 !important;
+}
+
+/* 3. Strategy Consultation Cards (Light: #F4F7F5 fill / Dark: #3559FF fill) */
+.problem-card {
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+:root:not([data-theme="dark"]) .problem-card,
+.problem-card {
+  background-color: #F4F7F5 !important;
+  background: #F4F7F5 !important;
+  border: none !important;
+  color: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .problem-card h3,
+:root:not([data-theme="dark"]) .problem-card .font-mono,
+:root:not([data-theme="dark"]) .problem-card span,
+.problem-card h3,
+.problem-card .font-mono,
+.problem-card span {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .problem-card {
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  border: none !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .problem-card h3,
+:root[data-theme="dark"] .problem-card .font-mono,
+:root[data-theme="dark"] .problem-card span {
+  color: #FFFFF1 !important;
+}
+
+/* 4. Action Buttons Inside Cards (Duplicate / Delete) */
+.dash-action-btn {
+  width: 40px !important;
+  height: 40px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex: none !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+  transition: none !important;
+}
+
+:root:not([data-theme="dark"]) .dash-action-btn,
+.dash-action-btn {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  color: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .dash-action-btn svg,
+.dash-action-btn svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+  background: transparent !important;
+}
+
+:root:not([data-theme="dark"]) .dash-action-btn:hover,
+.dash-action-btn:hover {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+:root:not([data-theme="dark"]) .dash-action-btn:hover svg,
+.dash-action-btn:hover svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .dash-action-btn {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .dash-action-btn svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+  background: transparent !important;
+}
+
+:root[data-theme="dark"] .dash-action-btn:hover {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .dash-action-btn:hover svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+/* 5. User Profile Pill */
+.dash-user-pill {
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+:root:not([data-theme="dark"]) .dash-user-pill,
+.dash-user-pill {
+  background-color: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  color: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .dash-user-pill strong,
+.dash-user-pill strong {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .dash-user-pill {
+  background-color: #0213B0 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .dash-user-pill strong {
+  color: #FFFFF1 !important;
+}
+
 

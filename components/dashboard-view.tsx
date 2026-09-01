@@ -123,7 +123,7 @@ export function DashboardView() {
               </p>
             </div>
             <div className="flex justify-center w-full pt-4">
-              <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm rounded-full shadow-lg " href="/home">
+              <Link className="btn-primary inline-flex items-center gap-2 px-8 py-4 text-sm" href="/home">
                 <Plus className="w-4 h-4" />
                 <span>Create Your First Strategy</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -166,21 +166,19 @@ export function DashboardView() {
                     </Link>
 
                     <button
-                      className="text-[#0213B0] flex items-center justify-center w-12 h-12 flex-none"
-                      style={{ borderRadius: "0.25rem", background: "transparent" }}
+                      className="dash-action-btn"
                       onClick={() => duplicate(strategy._id)}
                       title="Duplicate strategy"
                     >
-                      <Copy className="w-5 h-5" />
+                      <Copy className="w-4 h-4" />
                     </button>
 
                     <button
-                      className="text-[#0213B0] flex items-center justify-center w-12 h-12 flex-none"
-                      style={{ borderRadius: "0.25rem", background: "transparent" }}
+                      className="dash-action-btn"
                       onClick={() => remove(strategy._id)}
                       title="Delete strategy"
                     >
-                      <Trash2 className="w-5 h-5" />
+                      <Trash2 className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
