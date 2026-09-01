@@ -328,8 +328,10 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
     <button type="button" className="trial-primary-button" onClick={handleSaveAndNavigateToSignIn}>Save my AI stack</button>
   );
 
+  const RootTag = authenticatedBuilder ? "div" : "main";
+
   return (
-    <main className={`trial-page ${authenticatedBuilder ? "is-embedded" : ""}`}>
+    <RootTag className={authenticatedBuilder ? "trial-builder-container w-full" : "trial-page"}>
       {!authenticatedBuilder && phase === "intro" && (
         <>
           <PixelTransition />
@@ -637,6 +639,6 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
           <ArrowRight className="w-4 h-4" />
         </button>
       </footer>
-    </main>
+    </RootTag>
   );
 }
