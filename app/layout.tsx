@@ -10,7 +10,7 @@ const dmSans = DM_Sans({ variable: "--font-dm-sans", subsets: ["latin"], display
 const jetBrainsMono = JetBrains_Mono({ variable: "--font-jetbrains-mono", subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = {
-  title: { default: "AIssessor — Build the right AI stack", template: "%s | AIssessor" },
+  title: { default: "AIssessor", template: "%s | AIssessor" },
   description: "Tell us what you’re working on. AIssessor finds the smallest AI stack that can do it within your budget.",
   icons: { icon: "/favicon.svg" },
   openGraph: {
