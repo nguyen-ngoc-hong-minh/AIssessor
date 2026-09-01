@@ -7227,7 +7227,6 @@ div.trial-results,
 :root[data-theme="dark"] .trial-header .theme-toggle-btn,
 :root[data-theme="dark"] .dash-user-pill,
 :root[data-theme="dark"] .trial-workflow-card,
-:root[data-theme="dark"] .trial-tool-card,
 :root[data-theme="dark"] .trial-task-card,
 :root[data-theme="dark"] .trial-breakdown-card,
 :root[data-theme="dark"] .trial-next-steps-card,
@@ -7240,8 +7239,67 @@ div.trial-results,
   border-radius: 0.25rem !important;
 }
 
-:root[data-theme="dark"] .trial-workflow-card .trial-job-label {
+/* 7b. Estimated Cost Hero Banner in Dark Mode (Border kem, Divider kem) */
+:root[data-theme="dark"] .trial-result-summary {
+  background-color: transparent !important;
+  border: 1.5px solid #FFFFF1 !important;
+  border-radius: 0.25rem !important;
+}
+
+:root[data-theme="dark"] .trial-result-summary-cost {
+  border-left: 1.5px solid #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-result-summary h1,
+:root[data-theme="dark"] .trial-result-summary-cost strong,
+:root[data-theme="dark"] .trial-result-summary-cost span,
+:root[data-theme="dark"] .trial-result-summary-cost small {
+  color: #FFFFF1 !important;
+}
+
+/* 7c. Recommended Model Cards in Dark Mode (Fill #3559FF, No Border) */
+:root[data-theme="dark"] .trial-tool-card,
+:root[data-theme="dark"] .trial-tool-card-unmatched,
+:root[data-theme="dark"] .trial-tool-card-no-ai {
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-tool-card h3,
+:root[data-theme="dark"] .trial-tool-card p,
+:root[data-theme="dark"] .trial-tool-card > span,
+:root[data-theme="dark"] .trial-tool-card-top > span,
+:root[data-theme="dark"] .trial-tool-meta strong,
+:root[data-theme="dark"] .trial-tool-card a,
+:root[data-theme="dark"] .trial-why summary,
+:root[data-theme="dark"] .trial-why p,
+:root[data-theme="dark"] .trial-why li {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-tool-card a svg,
+:root[data-theme="dark"] .trial-why summary svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+/* 7d. USE THIS AI FOR Box in Dark Mode (Fill #FFFFF1 Cream, No Border, Chữ Xanh Đậm #0213B0) */
+:root[data-theme="dark"] .trial-job-label {
   background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: none !important;
+  border-radius: 0.25rem !important;
+  padding: 14px !important;
+}
+
+:root[data-theme="dark"] .trial-job-label,
+:root[data-theme="dark"] .trial-job-label *,
+:root[data-theme="dark"] .trial-job-label small,
+:root[data-theme="dark"] .trial-job-label strong,
+:root[data-theme="dark"] .trial-job-label span {
   color: #0213B0 !important;
 }
 
