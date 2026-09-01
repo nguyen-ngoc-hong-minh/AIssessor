@@ -9,10 +9,10 @@
       }
       @media (prefers-color-scheme: dark) {
         :root {
-          fill: #3559FF;
+          fill: #FFFFF1;
         }
         .cls-1 {
-          fill: #3559FF;
+          fill: #FFFFF1;
         }
       }
       @media (prefers-color-scheme: light) {
