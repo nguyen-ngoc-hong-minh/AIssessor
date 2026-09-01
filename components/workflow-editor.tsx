@@ -4,6 +4,7 @@ import { ArrowLeft, ArrowRight, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IntegrationNotice } from "./integration-notice";
+import { LoadingCounter } from "./loading-counter";
 import { integrationsConfigured } from "./providers";
 import { apiErrorMessage } from "@/lib/client/api-error";
 
@@ -124,7 +125,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
 
   if (!integrationsConfigured) return <IntegrationNotice />;
   if (error && !data) return <div className="card empty-state"><h2>Workflow unavailable</h2><p>{error}</p></div>;
-  if (!data) return <div className="card empty-state"><h2>Understanding your work…</h2><p>Loading the validated workflow from Convex.</p></div>;
+  if (!data) return <div className="trial-processing" aria-live="polite"><LoadingCounter label="Understanding your work…" /></div>;
 
   const projectTitle = data.strategy.originalInput || data.strategy.title || "Workflow Review";
 

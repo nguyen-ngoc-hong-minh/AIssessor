@@ -12,6 +12,7 @@ import { Brand } from "./brand";
 import { BriefSuggestions } from "./brief-suggestions";
 import { InfoTip } from "./info-tip";
 import { PixelCanvas } from "./pixel-canvas";
+import { LoadingCounter } from "./loading-counter";
 import { PixelTransition } from "./pixel-transition";
 import { TrialResults } from "./trial-results";
 import { VisualModeToggle } from "./visual-mode-toggle";
@@ -656,7 +657,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
 
       {phase === "processing" && (
         <section id="processing" className="trial-processing" aria-live="polite">
-          <h1>{loadingMessages[loadingIndex]}</h1>
+          <LoadingCounter label={loadingMessages[loadingIndex]} />
         </section>
       )}
 
