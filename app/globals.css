@@ -6688,4 +6688,133 @@ div.trial-results,
   box-sizing: border-box !important;
 }
 
+/* ==========================================================================
+   BRIEF AI PLANNING SUGGESTIONS
+   ========================================================================== */
+.brief-suggestions-panel {
+  margin-top: 16px !important;
+  padding: 16px !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  background-color: transparent !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+}
+
+:root[data-theme="dark"] .brief-suggestions-panel {
+  border-color: #FFFFF1 !important;
+}
+
+.brief-suggestions-head {
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 10px !important;
+}
+
+.brief-suggestions-icon {
+  width: 16px !important;
+  height: 16px !important;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+  flex-shrink: 0 !important;
+  margin-top: 2px !important;
+}
+
+:root[data-theme="dark"] .brief-suggestions-icon {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+.brief-suggestions-title {
+  font-family: var(--font-sans) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #0213B0 !important;
+  margin: 0 0 4px 0 !important;
+  letter-spacing: -0.01em !important;
+}
+
+:root[data-theme="dark"] .brief-suggestions-title {
+  color: #FFFFF1 !important;
+}
+
+.brief-suggestions-desc {
+  font-family: var(--font-body) !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  color: #0213B0 !important;
+  opacity: 0.85 !important;
+  margin: 0 !important;
+}
+
+:root[data-theme="dark"] .brief-suggestions-desc {
+  color: #FFFFF1 !important;
+}
+
+.brief-suggestions-grid {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin-top: 14px !important;
+}
+
+.brief-suggestion-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 32px !important;
+  padding: 0 12px !important;
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  white-space: nowrap !important;
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  cursor: pointer !important;
+  gap: 6px !important;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.brief-suggestion-btn svg {
+  width: 12px !important;
+  height: 12px !important;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+.brief-suggestion-btn:hover {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+.brief-suggestion-btn:hover svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .brief-suggestion-btn {
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border-color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .brief-suggestion-btn svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .brief-suggestion-btn:hover {
+  background-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .brief-suggestion-btn:hover svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
 
