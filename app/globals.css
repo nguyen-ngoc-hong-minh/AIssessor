@@ -7389,11 +7389,19 @@ div.trial-results,
 /* ==========================================================================
    AUTH SCREEN (SIGN IN / SIGN UP): PRESERVE LIGHT MODE BOX IN DARK MODE
    ========================================================================== */
+/* Light Mode Sign In Card with Navy Border */
 .cl-card,
 .cl-rootBox,
 .auth-clean-container .cl-card,
 .auth-clean-container .cl-rootBox,
-.auth-clean-container .cl-cardBox,
+.auth-clean-container .cl-cardBox {
+  background-color: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+/* Dark Mode Sign In Card without Border */
 :root[data-theme="dark"] .cl-card,
 :root[data-theme="dark"] .cl-rootBox,
 :root[data-theme="dark"] .auth-clean-container .cl-card,
