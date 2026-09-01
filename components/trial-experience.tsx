@@ -529,7 +529,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
               >
                 <div className="trial-workflow-card-body">
                   <div className="flex items-center justify-between gap-2">
-                    <div className="font-mono text-xs text-[#0213B0] tracking-widest font-bold">
+                    <div className="trial-step-num font-mono text-xs tracking-widest font-bold">
                       {String(index + 1).padStart(2, "0")}
                     </div>
                     {editingWorkflow && (
@@ -540,7 +540,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
                           disabled={index === 0}
                           aria-label="Move left"
                           title="Move left"
-                          className="p-1 rounded hover:bg-[#0213B0]/10 text-[#0213B0] disabled:opacity-30 cursor-pointer"
+                          className="trial-card-action-btn p-1 rounded hover:bg-black/5 disabled:opacity-30 cursor-pointer"
                         >
                           <ArrowLeft className="w-3.5 h-3.5" />
                         </button>
@@ -550,7 +550,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
                           disabled={index === steps.length - 1}
                           aria-label="Move right"
                           title="Move right"
-                          className="p-1 rounded hover:bg-[#0213B0]/10 text-[#0213B0] disabled:opacity-30 cursor-pointer"
+                          className="trial-card-action-btn p-1 rounded hover:bg-black/5 disabled:opacity-30 cursor-pointer"
                         >
                           <ArrowRight className="w-3.5 h-3.5" />
                         </button>

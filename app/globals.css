@@ -7293,4 +7293,37 @@ div.trial-results,
   stroke: #0213B0 !important;
 }
 
+/* Step Card Numbers and Actions */
+.trial-workflow-card .trial-step-num,
+.trial-step-num {
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  color: #0213B0 !important;
+}
+
+.trial-workflow-card .trial-card-action-btn {
+  color: #0213B0 !important;
+}
+
+.trial-workflow-card .trial-card-action-btn svg {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-workflow-card .trial-step-num,
+:root[data-theme="dark"] .trial-step-num {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-workflow-card .trial-card-action-btn {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-workflow-card .trial-card-action-btn svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
 
