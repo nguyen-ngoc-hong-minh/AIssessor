@@ -616,29 +616,31 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         </section>
       )}
 
-      <footer className="trial-footer-nav" aria-label="Trial page navigation">
-        <button
-          type="button"
-          className="trial-footer-arrow-btn"
-          onClick={handleBack}
-          disabled={!canGoBack}
-          aria-label="Previous step"
-          title="Previous step"
-        >
-          <ArrowLeft className="w-4 h-4" />
-        </button>
+      {phase !== "intro" && phase !== "type-selection" && phase !== "processing" && (
+        <footer className="trial-footer-nav" aria-label="Trial page navigation">
+          <button
+            type="button"
+            className="trial-footer-arrow-btn"
+            onClick={handleBack}
+            disabled={!canGoBack}
+            aria-label="Previous step"
+            title="Previous step"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
 
-        <button
-          type="button"
-          className="trial-footer-arrow-btn"
-          onClick={handleNext}
-          disabled={!canGoNext}
-          aria-label="Next step"
-          title="Next step"
-        >
-          <ArrowRight className="w-4 h-4" />
-        </button>
-      </footer>
+          <button
+            type="button"
+            className="trial-footer-arrow-btn"
+            onClick={handleNext}
+            disabled={!canGoNext}
+            aria-label="Next step"
+            title="Next step"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </footer>
+      )}
     </RootTag>
   );
 }
