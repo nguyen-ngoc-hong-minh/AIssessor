@@ -8,6 +8,7 @@ import { formatUsdInCurrency, type SupportedCurrency } from "@/lib/currency";
 import { candidateId, customizeStrategyPlan } from "@/lib/recommendation/customize";
 import type { CandidateScore, StepRecommendation, StrategyPlan } from "@/lib/recommendation/types";
 import { IntegrationNotice } from "./integration-notice";
+import { LoadingCounter } from "./loading-counter";
 import { integrationsConfigured } from "./providers";
 import { TrialResults } from "./trial-results";
 
@@ -169,7 +170,7 @@ export function ResultsView({ strategyId }: { strategyId: string }) {
 
   if (!integrationsConfigured) return <IntegrationNotice />;
   if (error) return <div className="trial-results-state"><DatabaseZap /><h2>Strategy temporarily unavailable</h2><p>{error}. Your previous consultation is still safe.</p></div>;
-  if (!result) return <div className="trial-results-state"><span /><h2>Matching your saved AI stack</h2><p>Checking the latest recommendation and costs.</p></div>;
+  if (!result) return <div className="trial-processing" aria-live="polite"><LoadingCounter label="Matching your saved AI stack…" /></div>;
 
   const basePlan = result.plans.find((item) => item.variant === "recommended") ?? result.plans[0];
   const plan = customizeStrategyPlan(basePlan, customSelections);
