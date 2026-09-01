@@ -5436,6 +5436,7 @@ a.trial-primary-button,
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
+  white-space: nowrap !important;
   background-color: #0213B0 !important;
   background-image: none !important;
   color: #FFFFF1 !important;
@@ -5457,6 +5458,7 @@ a.trial-primary-button,
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
+  white-space: nowrap !important;
   color: #FFFFF1 !important;
 }
 
@@ -5520,6 +5522,7 @@ a.trial-header-auth-btn,
   font-weight: 700 !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
+  white-space: nowrap !important;
   background-color: #FFFFF1 !important;
   background-image: none !important;
   color: #0213B0 !important;
@@ -6207,7 +6210,9 @@ div.trial-results,
   width: 100% !important;
 }
 
-.trial-workflow-actions-footer {
+.trial-workflow-actions-footer,
+.trial-workflow-actions,
+.trial-saved-actions {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -6215,6 +6220,29 @@ div.trial-results,
   margin-top: 48px !important;
   margin-bottom: 32px !important;
   width: 100% !important;
+}
+
+@media (max-width: 640px) {
+  .trial-workflow-actions-footer,
+  .trial-workflow-actions,
+  .trial-saved-actions {
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+    align-items: center !important;
+  }
+
+  .trial-workflow-actions-footer > button,
+  .trial-workflow-actions-footer > a,
+  .trial-workflow-actions > button,
+  .trial-workflow-actions > a,
+  .trial-saved-actions > button,
+  .trial-saved-actions > a {
+    width: 100% !important;
+    max-width: 320px !important;
+    justify-content: center !important;
+    white-space: nowrap !important;
+  }
 }
 
 /* ==========================================================================

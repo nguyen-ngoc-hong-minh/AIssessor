@@ -236,7 +236,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
       {error && <p className="text-red-400 text-sm font-medium text-center mt-4">{error}</p>}
 
       {/* Centered Actions Footer */}
-      <div className="flex items-center justify-center gap-4">
+      <div className="trial-workflow-actions-footer">
         {editing ? (
           <>
             <button
