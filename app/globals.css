@@ -7895,4 +7895,194 @@ div.trial-results,
   color: #FFFFF1 !important;
 }
 
+/* ==========================================================================
+   WORKFLOW PAGE & BUTTON CONTRAST ENFORCEMENT
+   ========================================================================== */
+
+/* 1. Workflow Cards (Light: Fill Kem #FFFFF1, Border Navy #0213B0 / Dark: Fill Navy #0213B0, Border Kem #FFFFF1) */
+:root:not([data-theme="dark"]) .trial-workflow-card,
+.trial-workflow-card {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 0.25rem !important;
+  color: #0213B0 !important;
+  box-shadow: none !important;
+}
+
+:root:not([data-theme="dark"]) .trial-workflow-card h2,
+:root:not([data-theme="dark"]) .trial-workflow-card h3,
+:root:not([data-theme="dark"]) .trial-workflow-card p,
+:root:not([data-theme="dark"]) .trial-workflow-card span,
+.trial-workflow-card h2,
+.trial-workflow-card h3,
+.trial-workflow-card p,
+.trial-workflow-card span {
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-workflow-card {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  border-radius: 0.25rem !important;
+  color: #FFFFF1 !important;
+  box-shadow: none !important;
+}
+
+:root[data-theme="dark"] .trial-workflow-card h2,
+:root[data-theme="dark"] .trial-workflow-card h3,
+:root[data-theme="dark"] .trial-workflow-card p,
+:root[data-theme="dark"] .trial-workflow-card span {
+  color: #FFFFF1 !important;
+}
+
+/* 2. Workflow Inputs & Textareas */
+:root:not([data-theme="dark"]) .trial-workflow-card input:not([type="checkbox"]),
+:root:not([data-theme="dark"]) .trial-workflow-card textarea,
+.trial-workflow-card input:not([type="checkbox"]),
+.trial-workflow-card textarea {
+  background-color: #F4F7F5 !important;
+  border: none !important;
+  border-bottom: 1.5px solid #0213B0 !important;
+  border-radius: 0 !important;
+  color: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-workflow-card input::placeholder,
+:root:not([data-theme="dark"]) .trial-workflow-card textarea::placeholder,
+.trial-workflow-card input::placeholder,
+.trial-workflow-card textarea::placeholder {
+  color: rgba(2, 19, 176, 0.6) !important;
+}
+
+:root[data-theme="dark"] .trial-workflow-card input:not([type="checkbox"]),
+:root[data-theme="dark"] .trial-workflow-card textarea {
+  background-color: #3559FF !important;
+  border: none !important;
+  border-bottom: 1.5px solid #FFFFF1 !important;
+  border-radius: 0 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-workflow-card input::placeholder,
+:root[data-theme="dark"] .trial-workflow-card textarea::placeholder {
+  color: rgba(255, 255, 241, 0.7) !important;
+}
+
+/* 3. Secondary Buttons (.trial-secondary-button, Add step, Cancel, Edit workflow, Done editing) */
+:root:not([data-theme="dark"]) .trial-secondary-button,
+.trial-secondary-button {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  color: #0213B0 !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+:root:not([data-theme="dark"]) .trial-secondary-button *,
+.trial-secondary-button * {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-secondary-button:hover,
+.trial-secondary-button:hover {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-secondary-button:hover *,
+.trial-secondary-button:hover * {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  color: #FFFFF1 !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button * {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button:hover {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  border-color: #FFFFF1 !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-secondary-button:hover * {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+/* 4. Primary Buttons (.trial-primary-button, Save workflow, Looks good) */
+:root:not([data-theme="dark"]) .trial-primary-button,
+.trial-primary-button {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: none !important;
+  color: #FFFFF1 !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+:root:not([data-theme="dark"]) .trial-primary-button *,
+.trial-primary-button * {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-primary-button:hover,
+.trial-primary-button:hover {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+}
+
+:root:not([data-theme="dark"]) .trial-primary-button:hover *,
+.trial-primary-button:hover * {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: none !important;
+  color: #0213B0 !important;
+  border-radius: 0.25rem !important;
+  box-shadow: none !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button * {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button:hover {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .trial-primary-button:hover * {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+
 

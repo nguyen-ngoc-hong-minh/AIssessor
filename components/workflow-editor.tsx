@@ -130,21 +130,19 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
   const projectTitle = data.strategy.originalInput || data.strategy.title || "Workflow Review";
 
   return (
-    <div className="s-compare w-full max-w-6xl mx-auto pb-6">
-      {/* Header */}
-      <div className="s-compare-head flex flex-col items-center justify-center">
-        <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight text-center max-w-[700px] mx-auto leading-tight">
-          Here&apos;s how we understand your workflow.
-        </h1>
+    <div className="trial-section trial-workflow w-full max-w-6xl mx-auto pb-6">
+      {/* Heading */}
+      <div className="trial-section-heading">
+        <h2>Here&apos;s how we understand your workflow</h2>
       </div>
 
       {/* Feature Cards Grid */}
-      <div className="flex flex-wrap justify-center gap-6 w-full">
+      <div className="trial-workflow-cards-grid">
         {steps.map((step, index) => (
-          <div className="feature glass-card pricing-deck-card flex flex-col justify-between p-8 w-full max-w-[320px]" key={step._id}>
-            <div>
-              <div className="flex items-center justify-between gap-2 mb-4">
-                <div className="f-num font-mono text-xs text-indigo-soft tracking-widest">
+          <div className="trial-workflow-card" key={step._id}>
+            <div className="trial-workflow-card-body">
+              <div className="flex items-center justify-between gap-2">
+                <div className="trial-step-num font-mono text-xs tracking-widest font-bold">
                   {String(index + 1).padStart(2, "0")}
                 </div>
                 {editing && (
@@ -152,27 +150,30 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
                     <button
                       type="button"
                       onClick={() => move(index, -1)}
+                      disabled={index === 0}
                       aria-label="Move left"
                       title="Move left"
-                      className="p-1 rounded-full hover:bg-white/10 text-ink-2 hover:text-white transition-colors"
+                      className="trial-card-action-btn p-1 rounded hover:bg-black/5 disabled:opacity-30 cursor-pointer"
                     >
                       <ArrowLeft className="w-3.5 h-3.5" />
                     </button>
                     <button
                       type="button"
                       onClick={() => move(index, 1)}
+                      disabled={index === steps.length - 1}
                       aria-label="Move right"
                       title="Move right"
-                      className="p-1 rounded-full hover:bg-white/10 text-ink-2 hover:text-white transition-colors"
+                      className="trial-card-action-btn p-1 rounded hover:bg-black/5 disabled:opacity-30 cursor-pointer"
                     >
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                     <button
                       type="button"
                       onClick={() => remove(index)}
+                      disabled={steps.length <= 1}
                       aria-label="Delete step"
                       title="Delete step"
-                      className="p-1 rounded-full hover:bg-white/10 text-red-400 hover:text-red-300 transition-colors"
+                      className="trial-card-action-btn p-1 rounded hover:bg-red-500/10 text-red-600 disabled:opacity-30 cursor-pointer"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -181,51 +182,52 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
               </div>
 
               {editing ? (
-                <div className="space-y-6 mt-4">
+                <div className="space-y-4">
                   <input
                     aria-label="Step name"
                     value={step.name}
                     onChange={(e) => change(index, { name: e.target.value })}
-                    className="bg-transparent border-none outline-none p-0 text-xl font-semibold text-white mb-1 w-full focus:ring-0 focus:outline-none"
+                    className="w-full text-lg font-bold p-2 outline-none"
                     placeholder="Step title"
                   />
                   <textarea
                     aria-label="Step description"
                     value={step.description}
                     onChange={(event) => change(index, { description: event.target.value })}
-                    className="bg-transparent border-none outline-none p-0 text-xs text-ink-2 leading-relaxed w-full min-h-[100px] resize-none focus:ring-0 focus:outline-none"
+                    className="w-full text-xs leading-relaxed p-2 min-h-[100px] resize-none outline-none"
                     placeholder="Step description"
                   />
                 </div>
               ) : (
                 <>
-                  <h3 className="text-xl font-semibold text-white mb-3">{step.name}</h3>
-                  <p className="text-xs text-ink-2 leading-relaxed">{step.description}</p>
+                  <h3 className="text-xl font-bold leading-snug">{step.name}</h3>
+                  <p className="text-xs leading-relaxed opacity-90">{step.description}</p>
                 </>
               )}
-            </div>
 
-            {editing && (
-              <div className="pt-3 mt-4">
-                <label className="inline-flex items-center gap-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={Boolean(step.requirements.noAIEligible)}
-                    onChange={(e) => change(index, { requirements: { ...step.requirements, noAIEligible: e.target.checked } })}
-                    className="cursor-pointer flex-none"
-                  />
-                  <span className="text-[11px] font-mono text-ink-3">Manual / No AI</span>
-                </label>
-              </div>
-            )}
+              {editing && (
+                <div className="pt-3 mt-auto">
+                  <label className="inline-flex items-center gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(step.requirements.noAIEligible)}
+                      onChange={(e) => change(index, { requirements: { ...step.requirements, noAIEligible: e.target.checked } })}
+                      className="cursor-pointer flex-none"
+                    />
+                    <span className="text-[11px] font-mono">Manual / No AI</span>
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>
 
       {editing && (
-        <div className="flex justify-center mt-6">
+        <div className="trial-workflow-add-btn-wrap">
           <button
-            className="btn-secondary text-xs px-6 py-3 rounded-full inline-flex items-center gap-2"
+            type="button"
+            className="trial-secondary-button"
             onClick={add}
           >
             <Plus className="w-4 h-4" />
@@ -234,7 +236,7 @@ export function WorkflowEditor({ strategyId }: { strategyId: string }) {
         </div>
       )}
 
-      {error && <p className="text-red-400 text-sm font-medium text-center mt-4">{error}</p>}
+      {error && <p className="trial-error text-center mt-4" role="alert">{error}</p>}
 
       {/* Centered Actions Footer */}
       <div className="trial-workflow-actions-footer">
