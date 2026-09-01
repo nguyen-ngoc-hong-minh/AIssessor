@@ -5252,7 +5252,7 @@ input::placeholder {
 .editorial-app-main.is-workspace-page,
 .editorial-app-main.is-long-page,
 .trial-page:not(.is-embedded),
-.auth-page-clean,
+.auth-clean-container,
 .pricing-main,
 .public-content,
 main.public-content,
@@ -5279,7 +5279,7 @@ main.section,
   .editorial-app-main.is-workspace-page,
   .editorial-app-main.is-long-page,
   .trial-page:not(.is-embedded),
-  .auth-page-clean,
+  .auth-clean-container,
   .pricing-main,
   .public-content,
   main.public-content,
@@ -6669,8 +6669,10 @@ div.trial-results,
    ========================================================================== */
 .auth-page-clean {
   position: relative !important;
-  min-height: 100svh !important;
+  min-height: 100vh !important;
   width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
   background-color: #FFFFF1 !important;
   color: #0213B0 !important;
   display: flex !important;
@@ -6683,12 +6685,11 @@ div.trial-results,
 }
 
 .auth-clean-container {
-  min-height: 100svh !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: 108px 24px 48px !important;
+  flex: 1 !important;
   width: 100% !important;
   margin: 0 auto !important;
   box-sizing: border-box !important;
