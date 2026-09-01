@@ -5302,6 +5302,27 @@ main.section,
   margin-top: 0 !important;
 }
 
+.trial-builder-container,
+.editorial-app-main .trial-builder-container {
+  width: 100% !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+.trial-parameters,
+.trial-page .trial-parameters,
+.editorial-app-main .trial-parameters,
+.trial-builder-container .trial-parameters {
+  width: 100% !important;
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  box-sizing: border-box !important;
+}
+
 .trial-intro,
 .trial-page .trial-intro {
   width: 100% !important;
