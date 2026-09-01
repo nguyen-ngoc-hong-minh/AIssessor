@@ -6546,11 +6546,16 @@ div.trial-results,
 
 /* 2. Pixel Transition Bars (Curtain reveal on landing page) */
 .pixel-transition-bar {
+  background-color: #0213B0 !important;
   animation: pixelSlideUp var(--duration, 0.85s) cubic-bezier(0.85, 0, 0.15, 1) forwards !important;
   animation-delay: var(--delay, 0s) !important;
   border-radius: 0 !important;
   border: none !important;
   outline: none !important;
+}
+
+:root[data-theme="dark"] .pixel-transition-bar {
+  background-color: #FFFFF1 !important;
 }
 
 /* 3. Title text child spans should be visible inside the animated title */

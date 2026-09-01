@@ -29,7 +29,7 @@ export function PixelTransition() {
       {bars.map((_, i) => (
         <div
           key={i}
-          className="h-full bg-[#0213B0] pixel-transition-bar"
+          className="h-full pixel-transition-bar"
           style={{
             flex: 1,
             borderRadius: 0,
