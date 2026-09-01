@@ -7288,6 +7288,10 @@ div.trial-results,
   stroke: #FFFFF1 !important;
 }
 
+:root[data-theme="dark"] .trial-why {
+  border-top: 1.5px solid #FFFFF1 !important;
+}
+
 /* 7d. USE THIS AI FOR Box in Dark Mode (Fill #FFFFF1 Cream, No Border, Chữ Xanh Đậm #0213B0) */
 :root[data-theme="dark"] .trial-job-label {
   background-color: #FFFFF1 !important;
