@@ -5876,11 +5876,24 @@ hr, .cl-dividerLine {
 }
 
 .trial-secondary-button:hover,
-button[variant="outline"]:hover,
-button[variant="ghost"]:hover,
+.trial-header-auth-btn:hover,
 .btn-secondary:hover {
-  background-color: transparent !important;
-  color: #0213B0 !important;
+  background-color: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border-color: #0213B0 !important;
+}
+
+.trial-secondary-button:hover *,
+.trial-header-auth-btn:hover *,
+.btn-secondary:hover * {
+  color: #FFFFF1 !important;
+}
+
+.trial-secondary-button:hover svg,
+.trial-header-auth-btn:hover svg,
+.btn-secondary:hover svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 a:hover, button:hover {
