@@ -24,13 +24,16 @@ describe("analytics summaries", () => {
       { eventType: "page_view" as const, path: "/pricing", fromPath: "/", device: "Desktop", browser: "Chrome", occurredAt: now - 1 },
     ];
     const result = summarizeAnalytics(sessions, events, since, now);
-    expect(result.summary).toMatchObject({ visits: 2, uniqueVisitors: 1, pageViews: 3, bounceRate: 50, averageEngagementMs: 6_500, medianEngagementMs: 6_500, longestEngagementMs: 12_000, totalEngagementMs: 13_000, signedInSessions: 1 });
+    expect(result.summary).toMatchObject({ visits: 2, uniqueVisitors: 1, returningVisitors: 1, returnRate: 100, pageViews: 3, bounceRate: 50, averageEngagementMs: 6_500, medianEngagementMs: 6_500, longestEngagementMs: 12_000, totalEngagementMs: 13_000, signedInSessions: 1 });
     expect(result.stayTime).toContainEqual({ label: "Under 10 seconds", count: 1, percentage: 50 });
     expect(result.stayTime).toContainEqual({ label: "10–30 seconds", count: 1, percentage: 50 });
     expect(result.pages[0]).toMatchObject({ path: "/", views: 2, entries: 2, exits: 1 });
     expect(result.acquisition).toContainEqual({ label: "google.com", count: 1 });
     expect(result.journeys[0]).toEqual({ label: "/ → /pricing", count: 1 });
     expect(result.interactions[0]).toEqual({ label: "See pricing · /", count: 1 });
+    expect(result.returningProfiles[0]).toMatchObject({ label: "Visitor 01", visits: 2, location: "VN", device: "Mobile", browser: "Safari" });
+    expect(result.topClickedControl).toEqual({ label: "See pricing", count: 1 });
+    expect(result.longestStayPage).toMatchObject({ path: "/pricing", views: 1, averageEngagementMs: 5_000 });
     expect(result.daily).toHaveLength(2);
   });
 });

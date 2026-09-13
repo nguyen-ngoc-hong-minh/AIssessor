@@ -79,7 +79,32 @@ function ranked<T>(values: T[], key: (value: T) => string, limit = 10) {
 }
 
 export function summarizeAnalytics(sessions: AnalyticsSession[], events: AnalyticsEvent[], since: number, now: number) {
-  const uniqueVisitors = new Set(sessions.map((session) => session.visitorHash)).size;
+  const visitorSessions = new Map<string, AnalyticsSession[]>();
+  for (const session of sessions) {
+    const visits = visitorSessions.get(session.visitorHash) ?? [];
+    visits.push(session);
+    visitorSessions.set(session.visitorHash, visits);
+  }
+  const uniqueVisitors = visitorSessions.size;
+  const returningVisitors = [...visitorSessions.values()].filter((visits) => visits.length > 1);
+  const returningProfiles = returningVisitors
+    .map((visits) => {
+      const firstVisit = visits.reduce((first, visit) => Math.min(first, visit.startedAt), Number.POSITIVE_INFINITY);
+      const latest = visits.reduce((last, visit) => visit.lastSeenAt > last.lastSeenAt ? visit : last);
+      const knownLocation = visits.filter((visit) => visit.city || visit.country).sort((a, b) => b.lastSeenAt - a.lastSeenAt)[0];
+      return {
+        visits: visits.length,
+        firstVisitAt: firstVisit,
+        lastSeenAt: latest.lastSeenAt,
+        location: [knownLocation?.city, knownLocation?.country].filter(Boolean).join(", ") || "Unknown location",
+        device: latest.device,
+        browser: latest.browser,
+        activeTimeMs: visits.reduce((total, visit) => total + visit.engagedMs, 0),
+      };
+    })
+    .sort((a, b) => b.visits - a.visits || b.lastSeenAt - a.lastSeenAt)
+    .slice(0, 50)
+    .map((profile, index) => ({ ...profile, label: `Visitor ${String(index + 1).padStart(2, "0")}` }));
   const pageViews = sessions.reduce((sum, session) => sum + session.pageViews, 0);
   const engagedMs = sessions.reduce((sum, session) => sum + session.engagedMs, 0);
   const visitTimes = sessions.map((session) => session.engagedMs).sort((a, b) => a - b);
@@ -123,9 +148,17 @@ export function summarizeAnalytics(sessions: AnalyticsSession[], events: Analyti
 
   const journeys = events.filter((event) => event.eventType === "page_view" && event.fromPath && event.fromPath !== event.path);
   const interactions = events.filter((event) => event.eventType === "click" || event.eventType === "form_submit");
+  const clicks = events.filter((event) => event.eventType === "click");
+  const topClickedControl = ranked(clicks, (event) => event.targetLabel || event.targetType || "Unlabeled control", 1)[0] ?? null;
+  const longestStayPage = [...pageMap.values()]
+    .filter((page) => page.views > 0)
+    .map((page) => ({ path: page.path, views: page.views, totalEngagementMs: page.engagedMs, averageEngagementMs: Math.round(page.engagedMs / page.views) }))
+    .sort((a, b) => b.averageEngagementMs - a.averageEngagementMs || b.totalEngagementMs - a.totalEngagementMs)[0] ?? null;
   return {
     summary: {
       visits: sessions.length, uniqueVisitors, pageViews,
+      returningVisitors: returningVisitors.length,
+      returnRate: uniqueVisitors ? Math.round((returningVisitors.length / uniqueVisitors) * 1000) / 10 : 0,
       bounceRate: sessions.length ? Math.round((bounces / sessions.length) * 1000) / 10 : 0,
       averageEngagementMs: sessions.length ? Math.round(engagedMs / sessions.length) : 0,
       medianEngagementMs, longestEngagementMs: visitTimes.at(-1) ?? 0, totalEngagementMs: engagedMs,
@@ -137,6 +170,9 @@ export function summarizeAnalytics(sessions: AnalyticsSession[], events: Analyti
     }),
     daily,
     pages: [...pageMap.values()].map((page) => ({ ...page, averageEngagementMs: page.views ? Math.round(page.engagedMs / page.views) : 0 })).sort((a, b) => b.views - a.views).slice(0, 12),
+    returningProfiles,
+    topClickedControl,
+    longestStayPage,
     acquisition: ranked(sessions, (session) => session.referrerDomain || "Direct"),
     locations: ranked(sessions, (session) => [session.city, session.country].filter(Boolean).join(", ") || "Unknown"),
     devices: ranked(sessions, (session) => `${session.device} · ${session.browser}`),

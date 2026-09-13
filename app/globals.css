@@ -3599,13 +3599,19 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .analytics-refresh { gap: 8px; padding: 10px 15px; border: 1px solid var(--line); }
 .analytics-refresh svg, .analytics-loading svg { width: 15px; height: 15px; }
 .analytics-refresh:disabled { opacity: .55; cursor: wait; }
-.analytics-summary { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; }
+.analytics-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .analytics-summary article, .analytics-panel { border: 1px solid var(--line); background: linear-gradient(135deg, rgba(255,255,255,.065), rgba(255,255,255,.025)); box-shadow: 0 24px 70px rgba(0,0,0,.16); backdrop-filter: blur(34px); }
-.analytics-summary article { min-height: 170px; border-radius: 20px; padding: 20px; display: flex; flex-direction: column; }
+.analytics-summary article { min-height: 176px; border-radius: 20px; padding: 22px; display: flex; flex-direction: column; }
 .analytics-summary svg { width: 18px; height: 18px; color: var(--indigo-soft); margin-bottom: auto; }
 .analytics-summary span { margin-top: 22px; color: var(--ink-3); font: 10px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
-.analytics-summary strong { margin-top: 8px; font: 600 clamp(24px, 2.2vw, 36px)/1 var(--font-sans); letter-spacing: -.035em; white-space: nowrap; }
+.analytics-summary strong { margin-top: 8px; font: 650 clamp(27px, 2.5vw, 40px)/1 var(--font-sans); letter-spacing: -.035em; white-space: nowrap; }
 .analytics-summary small { margin-top: 8px; color: var(--ink-3); font: 12px/1.35 var(--font-body); }
+.analytics-highlights { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.analytics-highlight-card { min-width: 0; min-height: 230px; padding: 26px 30px; border: 1px solid var(--ink); border-radius: 24px; background: var(--bg); }
+.analytics-highlight-card > div { display: flex; align-items: center; gap: 9px; color: var(--ink-3); font: 10px var(--font-mono); letter-spacing: .11em; text-transform: uppercase; }
+.analytics-highlight-card svg { width: 17px; height: 17px; color: var(--indigo-soft); }
+.analytics-highlight-metric { display: block; margin-top: 24px; color: var(--ink); font: 650 clamp(42px, 5vw, 68px)/1 var(--font-sans); letter-spacing: -.05em; }
+.analytics-highlight-card p { margin-top: 12px; color: var(--ink-2); font: 14px/1.5 var(--font-body); overflow-wrap: anywhere; }
 .analytics-panel { border-radius: 24px; overflow: hidden; }
 .analytics-panel > header { display: flex; justify-content: space-between; align-items: flex-start; padding: 24px 26px 18px; border-bottom: 1px solid var(--line-2); }
 .analytics-panel h2 { font: 600 18px/1.2 var(--font-sans); letter-spacing: -.02em; }
@@ -3641,6 +3647,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 .analytics-table .analytics-table-head { min-height: 42px; color: var(--ink-3); font: 9px var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
 .analytics-table strong { overflow: hidden; text-overflow: ellipsis; color: var(--ink); font: 500 12px var(--font-mono); }
 .analytics-table span { color: var(--ink-2); font: 12px var(--font-body); }
+.analytics-returning-table > div { min-width: 1050px; grid-template-columns: minmax(110px, .8fr) minmax(60px, .4fr) minmax(150px, 1fr) minmax(180px, 1.2fr) repeat(2, minmax(105px, .75fr)) minmax(95px, .65fr); }
 .analytics-bottom-grid { grid-template-columns: minmax(300px, .8fr) minmax(520px, 1.2fr); }
 .analytics-activity > div { max-height: 460px; overflow-y: auto; }
 .analytics-activity article { display: grid; grid-template-columns: 8px minmax(0, 1fr) auto; gap: 13px; align-items: center; min-height: 62px; padding: 10px 24px; border-bottom: 1px solid var(--line-2); }
@@ -3671,6 +3678,9 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   .analytics-refresh { font-size: 0; }
   .analytics-summary { grid-template-columns: repeat(2, 1fr); }
   .analytics-summary article { min-height: 150px; padding: 16px; }
+  .analytics-summary strong { font-size: clamp(23px, 7vw, 32px); }
+  .analytics-highlights { grid-template-columns: 1fr; }
+  .analytics-highlight-card { min-height: 190px; padding: 22px; }
   .analytics-grid { grid-template-columns: 1fr; }
   .analytics-stay-body { min-width: 0; padding: 18px; }
   .analytics-stay-stats { grid-template-columns: 1fr; }
@@ -8280,7 +8290,5 @@ section.trial-results,
 :root[data-theme="dark"] .trial-customize-actions p {
   color: #FFFFF1 !important;
 }
-
-
 
 
