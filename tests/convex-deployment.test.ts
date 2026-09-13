@@ -9,6 +9,8 @@ describe("Convex deployment migration", () => {
   it("redirects the retired deployment to the active deployment", () => {
     expect(resolveConvexUrl("https://scrupulous-deer-129.convex.cloud/"))
       .toBe(ACTIVE_CONVEX_URL);
+    expect(resolveConvexUrl("https://perceptive-snake-642.convex.cloud/"))
+      .toBe("https://terrific-hamster-925.convex.cloud");
   });
 
   it("keeps an explicitly configured non-retired deployment", () => {
