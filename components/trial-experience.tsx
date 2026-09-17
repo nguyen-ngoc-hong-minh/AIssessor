@@ -1,7 +1,7 @@
 "use client";
 
 import { SignInButton, useAuth } from "@clerk/nextjs";
-import { ArrowLeft, ArrowRight, Check, ChevronDown, LoaderCircle, Plus, Sparkles, Trash2, FolderPlus, CalendarRange, ArrowUpRight, Pencil } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, ChevronDown, LoaderCircle, Plus, Sparkles, Trash2, FolderPlus, CalendarRange, ArrowUpRight, Pencil, ListChecks } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
@@ -426,7 +426,7 @@ export function TrialExperience({ signedInMode }: { signedInMode?: SignedInMode 
         </header>
       )}
 
-      {phase === "intro" && <section id="intro" className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker">YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><small className="trial-intro-note">No sign-up required.</small></div></section>}
+      {phase === "intro" && <section id="intro" className="trial-intro"><div className="trial-intro-copy"><p className="trial-kicker">YOUR AI STACK ADVISOR</p><h1 className="trial-animated-title"><span>Find your</span><em>suitable AI.</em></h1><p className="trial-intro-body">Describe the work. Get the specific AI model for each job, the way to access it, and the real estimated cost.</p><div className="trial-intro-actions"><button className="trial-primary-button trial-intro-cta" onClick={begin}>Try it for free <ArrowRight /></button><Link className="trial-directory-link" href="/tasks"><ListChecks aria-hidden="true" /> Explore AI tasks <ArrowUpRight aria-hidden="true" /></Link></div><small className="trial-intro-note">No sign-up required.</small></div></section>}
 
       {phase === "type-selection" && (
         <section id="choose-usage" className="signed-home trial-enter">
