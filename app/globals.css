@@ -5575,6 +5575,8 @@ a.trial-primary-button,
 .trial-secondary-button,
 .trial-header-auth-btn,
 .signed-home-history,
+.trial-directory-link,
+a.trial-directory-link,
 .btn-secondary,
 .action-btn,
 a.action-btn,
@@ -5604,12 +5606,14 @@ a.trial-header-auth-btn,
   gap: 8px !important;
   box-shadow: none !important;
   transform: none !important;
+  box-sizing: border-box !important;
   transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
 }
 
 .trial-secondary-button *,
 .trial-header-auth-btn *,
 .signed-home-history *,
+.trial-directory-link *,
 .action-btn * {
   font-family: var(--font-jetbrains-mono), monospace !important;
   font-size: 12px !important;
@@ -5622,6 +5626,7 @@ a.trial-header-auth-btn,
 .trial-secondary-button svg,
 .trial-header-auth-btn svg,
 .signed-home-history svg,
+.trial-directory-link svg,
 .action-btn svg,
 .monthly-task-add button svg {
   color: #0213B0 !important;
@@ -5634,6 +5639,8 @@ a.trial-header-auth-btn,
 .trial-secondary-button:hover,
 .trial-header-auth-btn:hover,
 .signed-home-history:hover,
+.trial-directory-link:hover,
+a.trial-directory-link:hover,
 .action-btn:hover,
 a.action-btn:hover,
 button.action-btn:hover,
@@ -5645,6 +5652,7 @@ button.action-btn:hover,
 .trial-secondary-button:hover *,
 .trial-header-auth-btn:hover *,
 .signed-home-history:hover *,
+.trial-directory-link:hover *,
 .action-btn:hover * {
   color: #FFFFF1 !important;
 }
@@ -5652,6 +5660,7 @@ button.action-btn:hover,
 .trial-secondary-button:hover svg,
 .trial-header-auth-btn:hover svg,
 .signed-home-history:hover svg,
+.trial-directory-link:hover svg,
 .action-btn:hover svg,
 .monthly-task-add button:hover svg {
   color: #FFFFF1 !important;
@@ -5661,6 +5670,8 @@ button.action-btn:hover,
 :root[data-theme="dark"] .trial-secondary-button,
 :root[data-theme="dark"] .trial-header-auth-btn,
 :root[data-theme="dark"] .signed-home-history,
+:root[data-theme="dark"] .trial-directory-link,
+:root[data-theme="dark"] a.trial-directory-link,
 :root[data-theme="dark"] .action-btn,
 :root[data-theme="dark"] a.action-btn,
 :root[data-theme="dark"] button.action-btn,
@@ -5673,6 +5684,7 @@ button.action-btn:hover,
 :root[data-theme="dark"] .trial-secondary-button svg,
 :root[data-theme="dark"] .trial-header-auth-btn svg,
 :root[data-theme="dark"] .signed-home-history svg,
+:root[data-theme="dark"] .trial-directory-link svg,
 :root[data-theme="dark"] .action-btn svg,
 :root[data-theme="dark"] .monthly-task-add button svg {
   color: #FFFFF1 !important;
@@ -5682,6 +5694,8 @@ button.action-btn:hover,
 :root[data-theme="dark"] .trial-secondary-button:hover,
 :root[data-theme="dark"] .trial-header-auth-btn:hover,
 :root[data-theme="dark"] .signed-home-history:hover,
+:root[data-theme="dark"] .trial-directory-link:hover,
+:root[data-theme="dark"] a.trial-directory-link:hover,
 :root[data-theme="dark"] .action-btn:hover,
 :root[data-theme="dark"] a.action-btn:hover,
 :root[data-theme="dark"] button.action-btn:hover,
@@ -5693,6 +5707,7 @@ button.action-btn:hover,
 :root[data-theme="dark"] .trial-secondary-button:hover *,
 :root[data-theme="dark"] .trial-header-auth-btn:hover *,
 :root[data-theme="dark"] .signed-home-history:hover *,
+:root[data-theme="dark"] .trial-directory-link:hover *,
 :root[data-theme="dark"] .action-btn:hover * {
   color: #0213B0 !important;
 }
@@ -5700,6 +5715,7 @@ button.action-btn:hover,
 :root[data-theme="dark"] .trial-secondary-button:hover svg,
 :root[data-theme="dark"] .trial-header-auth-btn:hover svg,
 :root[data-theme="dark"] .signed-home-history:hover svg,
+:root[data-theme="dark"] .trial-directory-link:hover svg,
 :root[data-theme="dark"] .action-btn:hover svg,
 :root[data-theme="dark"] .monthly-task-add button:hover svg {
   color: #0213B0 !important;
@@ -6711,38 +6727,16 @@ div.trial-results,
 }
 
 .trial-directory-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 52px;
-  padding: 0 20px;
-  color: #0213B0;
-  border: 1.5px solid #0213B0;
-  border-radius: 4px;
-  background: #FFFFF1;
-  font: 700 13px var(--font-body);
-  text-decoration: none;
-  transition: color .25s ease, background .25s ease, transform .25s ease;
-}
-
-.trial-directory-link:hover {
-  color: #FFFFF1;
-  background: #0213B0;
-  transform: translateY(-2px);
-}
-
-.trial-directory-link svg { width: 16px; height: 16px; }
-
-:root[data-theme="dark"] .trial-directory-link {
-  color: #FFFFF1;
-  border-color: #FFFFF1;
-  background: #0213B0;
-}
-
-:root[data-theme="dark"] .trial-directory-link:hover {
-  color: #0213B0;
-  background: #FFFFF1;
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 16px !important;
+  border-radius: 4px !important;
+  font-family: var(--font-jetbrains-mono), monospace !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  box-sizing: border-box !important;
 }
 
 @media (max-width: 600px) {
