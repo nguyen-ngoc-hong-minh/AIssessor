@@ -20,7 +20,6 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { directoryReviewedAt, directoryTools, taskCategories, type DirectoryTool, type TaskCategory } from "@/lib/task-directory";
 import { SiteHeader } from "./site-header";
-import { SiteFooter } from "./site-footer";
 import styles from "./task-directory.module.css";
 
 const PAGE_SIZE = 18;
@@ -490,8 +489,6 @@ export function TaskDirectory() {
           </div>
         </section>
       </main>
-
-      <SiteFooter />
     </div>
   );
 }
