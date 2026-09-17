@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UserButton, useUser } from "@clerk/react";
 import { Brand } from "./brand";
@@ -41,6 +42,9 @@ export function AppShell({
       <header className="trial-header">
         <Brand href="/home" />
         <div className="flex items-center gap-3">
+          <Link href="/tasks" className="trial-header-auth-btn">
+            AI Tasks
+          </Link>
           <VisualModeToggle />
         </div>
       </header>

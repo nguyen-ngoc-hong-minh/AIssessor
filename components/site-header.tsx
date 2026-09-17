@@ -12,6 +12,9 @@ export function SiteHeader() {
     <header className="trial-header">
       <Brand href="/" />
       <div className="flex items-center gap-3">
+        <Link href="/tasks" className="trial-header-auth-btn">
+          AI Tasks
+        </Link>
         <VisualModeToggle />
         {isSignedIn ? (
           <Link href="/dashboard" className="trial-header-auth-btn">
