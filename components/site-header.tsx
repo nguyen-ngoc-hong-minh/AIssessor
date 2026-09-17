@@ -16,7 +16,7 @@ export function SiteHeader() {
       <div className="flex items-center gap-3">
         {pathname !== "/tasks" && (
           <Link href="/tasks" className="trial-header-auth-btn">
-            AI Tasks
+            AI Tools
           </Link>
         )}
         <VisualModeToggle />
