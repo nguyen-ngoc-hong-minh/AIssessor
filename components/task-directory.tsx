@@ -59,6 +59,7 @@ type DisplayTool = {
   tagline: string;
   overview: string;
   website: string;
+  icon?: string;
   pricing: { summary: string; source: string };
   release: { title: string; date: string; summary: string; source: string };
   alternatives: string[];
@@ -76,8 +77,43 @@ const categoryIcons = {
   personal: UserRound,
 };
 
+function getFaviconUrl(websiteUrl: string): string {
+  try {
+    const url = new URL(websiteUrl);
+    return `https://www.google.com/s2/favicons?domain=${url.hostname}&sz=128`;
+  } catch {
+    return "";
+  }
+}
+
+function ToolAvatar({ name, icon, website, className }: { name: string; icon?: string; website?: string; className: string }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const logoUrl = icon || (website ? getFaviconUrl(website) : "");
+
+  if (!logoUrl || imgFailed) {
+    return <span className={className}>{name.slice(0, 2)}</span>;
+  }
+
+  return (
+    <span className={className}>
+      <img
+        src={logoUrl}
+        alt={`${name} logo`}
+        className={styles.toolLogoImg}
+        onError={() => setImgFailed(true)}
+        loading="lazy"
+      />
+    </span>
+  );
+}
+
 function normalizeVerifiedTool(tool: DirectoryTool): DisplayTool {
-  return { ...tool, profileType: "verified", sourceName: "Official product sources" };
+  return {
+    ...tool,
+    icon: getFaviconUrl(tool.website),
+    profileType: "verified",
+    sourceName: "Official product sources",
+  };
 }
 
 function normalizeIndexedTool(tool: IndexedTool): DisplayTool {
@@ -94,6 +130,7 @@ function normalizeIndexedTool(tool: IndexedTool): DisplayTool {
     tagline: tool.tagline,
     overview: tool.overview,
     website: tool.website,
+    icon: tool.icon || getFaviconUrl(tool.website),
     pricing: { summary: tool.pricing || "See provider for current pricing", source: sourceLink },
     release: {
       title: tool.version || "Current listing",
@@ -306,15 +343,15 @@ export function TaskDirectory() {
                       aria-pressed={isSelected}
                     >
                       <span className={styles.toolIndex}>{String(index + 1).padStart(2, "0")}</span>
-                      <span className={styles.toolMark} style={{ "--tool-accent": tool.accent } as React.CSSProperties}>
-                        {tool.name.slice(0, 2)}
-                      </span>
+                      <ToolAvatar
+                        name={tool.name}
+                        icon={tool.icon}
+                        website={tool.website}
+                        className={styles.toolMark}
+                      />
                       <div className={styles.toolInfo}>
                         <div className={styles.toolMeta}>
                           <span className={styles.subcategoryTag}>{tool.subcategory}</span>
-                          <span className={tool.profileType === "verified" ? styles.verifiedTag : styles.directoryTag}>
-                            {tool.profileType === "verified" ? "Verified" : "Directory"}
-                          </span>
                         </div>
                         <strong className={styles.toolName}>{tool.name}</strong>
                         <p className={styles.toolTagline}>{tool.tagline}</p>
@@ -359,18 +396,17 @@ export function TaskDirectory() {
             {/* Right Sticky Inspector */}
             <aside ref={inspectorRef} className={styles.inspector} aria-label={`${selectedTool.name} details`}>
               <div className={styles.inspectorBadgeRow}>
-                <span className={selectedTool.profileType === "verified" ? styles.profileBadgeVerified : styles.profileBadgeListing}>
-                  {selectedTool.profileType === "verified" ? <BadgeCheck aria-hidden="true" /> : <Database aria-hidden="true" />}
-                  {selectedTool.profileType === "verified" ? "Verified profile" : "Directory listing"}
-                </span>
                 <span className={styles.inspectorSubcat}>{selectedTool.subcategory}</span>
               </div>
 
               <div className={styles.inspectorHeader}>
                 <div className={styles.inspectorTitleGroup}>
-                  <span className={styles.largeMark} style={{ "--tool-accent": selectedTool.accent } as React.CSSProperties}>
-                    {selectedTool.name.slice(0, 2)}
-                  </span>
+                  <ToolAvatar
+                    name={selectedTool.name}
+                    icon={selectedTool.icon}
+                    website={selectedTool.website}
+                    className={styles.largeMark}
+                  />
                   <div>
                     <h3 className={styles.inspectorName}>{selectedTool.name}</h3>
                     <span className={styles.inspectorTask}>{selectedTool.task}</span>

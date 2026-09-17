@@ -22,10 +22,10 @@
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 110px clamp(20px, 4vw, 48px) 80px;
+  padding: 120px clamp(20px, 4vw, 48px) 100px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 48px;
   box-sizing: border-box;
   box-shadow: none !important;
 }
@@ -36,13 +36,13 @@
 .heroSection {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 22px;
 }
 
 .heroHeader {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .heroTitle {
@@ -139,6 +139,7 @@
    ========================================================================== */
 .categoriesSection {
   width: 100%;
+  margin-top: 4px;
 }
 
 .categoryGrid {
@@ -249,7 +250,8 @@
 .directorySection {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
+  margin-top: 8px;
 }
 
 .filterBar {
@@ -257,7 +259,8 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 16px;
+  margin-bottom: 4px;
 }
 
 .subcategoryNav {
@@ -336,29 +339,29 @@
 .directoryLayout {
   display: grid;
   grid-template-columns: minmax(360px, 0.95fr) minmax(460px, 1.05fr);
-  gap: 24px;
+  gap: 28px;
   align-items: start;
 }
 
 .toolColumn {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   min-width: 0;
 }
 
 .toolList {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 /* Inactive Tool Card - Type 2: Nền xám chữ xanh đậm ko viền */
 .toolCard {
   display: grid;
-  grid-template-columns: 24px 40px 1fr 18px;
+  grid-template-columns: 24px 44px 1fr 18px;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   width: 100%;
   min-height: 90px;
   padding: 14px 16px;
@@ -402,14 +405,14 @@
   opacity: 0.7;
 }
 
-/* Type 1: Nền xanh đậm chữ be ko viền (or beige mark inside active card) */
+/* Avatar / Logo Container */
 .toolMark,
 .largeMark {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
   background-color: #0213B0 !important;
   background: #0213B0 !important;
   color: #FFFFF1 !important;
@@ -418,6 +421,9 @@
   font: 700 13px var(--font-space-grotesk), sans-serif;
   text-transform: uppercase;
   flex-shrink: 0;
+  overflow: hidden;
+  padding: 3px;
+  box-sizing: border-box;
 }
 
 .toolCardActive .toolMark {
@@ -425,6 +431,22 @@
   background: #FFFFF1 !important;
   color: #0213B0 !important;
   border: none !important;
+}
+
+.largeMark {
+  width: 52px;
+  height: 52px;
+  font-size: 17px;
+  padding: 4px;
+}
+
+.toolLogoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 3px;
+  background-color: transparent;
+  display: block;
 }
 
 .toolInfo {
@@ -446,16 +468,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   opacity: 0.85;
-}
-
-.verifiedTag,
-.directoryTag {
-  font: 700 9px var(--font-jetbrains-mono), monospace;
-  padding: 1px 6px;
-  border-radius: 2px;
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  border: 1px solid currentColor !important;
 }
 
 .toolName {
@@ -588,43 +600,11 @@
 .inspectorBadgeRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-/* Type 3: Nền be chữ xanh đậm viền xanh đậm */
-.profileBadgeVerified,
-.profileBadgeListing {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 26px;
-  padding: 0 8px;
-  border-radius: 4px;
-  background-color: #FFFFF1 !important;
-  background: #FFFFF1 !important;
-  color: #0213B0 !important;
-  border: 1.5px solid #0213B0 !important;
-  box-shadow: none !important;
-  font: 700 10px var(--font-jetbrains-mono), monospace;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.profileBadgeVerified *,
-.profileBadgeListing * {
-  color: #0213B0 !important;
-}
-
-.profileBadgeVerified svg,
-.profileBadgeListing svg {
-  width: 13px;
-  height: 13px;
-  color: #0213B0 !important;
-  stroke: #0213B0 !important;
+  justify-content: flex-start;
 }
 
 .inspectorSubcat {
-  font: 700 10px var(--font-jetbrains-mono), monospace;
+  font: 700 11px var(--font-jetbrains-mono), monospace;
   color: #0213B0 !important;
   text-transform: uppercase;
   letter-spacing: .08em;
@@ -1019,8 +999,6 @@
 }
 
 :root[data-theme="dark"] .subcatBtn,
-:root[data-theme="dark"] .profileBadgeVerified,
-:root[data-theme="dark"] .profileBadgeListing,
 :root[data-theme="dark"] .specCard,
 :root[data-theme="dark"] .tradeoffCol,
 :root[data-theme="dark"] .alternativeBtn,
@@ -1032,8 +1010,6 @@
 }
 
 :root[data-theme="dark"] .subcatBtn *,
-:root[data-theme="dark"] .profileBadgeVerified *,
-:root[data-theme="dark"] .profileBadgeListing *,
 :root[data-theme="dark"] .specCard *,
 :root[data-theme="dark"] .tradeoffCol *,
 :root[data-theme="dark"] .alternativeBtn *,
