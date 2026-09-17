@@ -249,9 +249,6 @@ export function TaskDirectory() {
         <section className={styles.heroSection}>
           <div className={styles.heroHeader}>
             <h1 className={styles.heroTitle}>Find an AI tool for any task</h1>
-            <p className={styles.heroDesc}>
-              Search thousands of AI tools across creativity, work, and personal workflows. Compare pricing, release dates, and verified alternatives.
-            </p>
           </div>
 
           <div className={styles.searchContainer}>
@@ -322,9 +319,6 @@ export function TaskDirectory() {
                   </button>
                 );
               })}
-            </div>
-            <div className={styles.resultsSummary}>
-              <span>{filteredTools.length.toLocaleString()} {filteredTools.length === 1 ? "tool" : "tools"} matching</span>
             </div>
           </div>
 
