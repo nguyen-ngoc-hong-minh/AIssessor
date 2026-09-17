@@ -215,78 +215,94 @@ export function TaskDirectory() {
         </nav>
       </header>
 
-      <section className={styles.hero}>
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}><Sparkles aria-hidden="true" /> AI TASK DIRECTORY</p>
-          <h1>Find an AI tool<br />for the task.</h1>
-          <p>Search a broad AI discovery index, then open verified profiles when you need deeper pricing, release, strength, and trade-off research.</p>
-        </div>
-        <div>
-          <div className={styles.searchWrap}>
-            <Search aria-hidden="true" />
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => { setQuery(event.target.value); resetPage(); }}
-              placeholder="Search thousands of tools and tasks"
-              aria-label="Search tasks or AI tools"
-            />
-            {query && <button type="button" onClick={() => { setQuery(""); resetPage(); }} aria-label="Clear search"><X /></button>}
+      <section className={styles.heroSection}>
+        <div className={styles.heroMain}>
+          <div className={styles.heroCopy}>
+            <div className={styles.badgeRow}>
+              <span className={styles.eyebrow}><Sparkles aria-hidden="true" /> AI Task Directory</span>
+              {payload ? (
+                <span className={styles.countBadge}>
+                  <Database aria-hidden="true" /> <strong>{payload.counts.unique.toLocaleString()}</strong> tools
+                </span>
+              ) : (
+                <span className={styles.countBadge}>
+                  <LoaderCircle className={styles.spinner} aria-hidden="true" /> Loading...
+                </span>
+              )}
+              <span className={styles.verifiedBadge}>
+                <BadgeCheck aria-hidden="true" /> <strong>{directoryTools.length}</strong> verified
+              </span>
+            </div>
+            <h1 className={styles.heroTitle}>Find an AI tool for the task</h1>
+            <p className={styles.heroDesc}>
+              Compare tools by workflow, pricing models, verified releases, and alternatives.
+            </p>
           </div>
-          <div className={styles.indexSummary} aria-live="polite">
-            {payload ? <><Database aria-hidden="true" /><strong>{payload.counts.unique.toLocaleString()}</strong> tools indexed</> : <><LoaderCircle className={styles.spinner} aria-hidden="true" /> Loading directory</>}
-            <span><BadgeCheck aria-hidden="true" />{directoryTools.length} independently verified</span>
-          </div>
-        </div>
-      </section>
 
-      <section className={styles.categoryBand} aria-labelledby="category-heading">
-        <div className={styles.sectionLabel}>
-          <span>01</span>
-          <p id="category-heading">Choose a category</p>
+          <div className={styles.searchBox}>
+            <div className={styles.searchWrap}>
+              <Search aria-hidden="true" />
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => { setQuery(event.target.value); resetPage(); }}
+                placeholder="Search tools, tasks, or features..."
+                aria-label="Search tasks or AI tools"
+              />
+              {query && <button type="button" onClick={() => { setQuery(""); resetPage(); }} aria-label="Clear search"><X /></button>}
+            </div>
+          </div>
         </div>
-        <div className={styles.categoryGrid}>
+
+        <div className={styles.categoryBar} role="tablist" aria-label="Tool Categories">
           {taskCategories.map((item) => {
             const Icon = categoryIcons[item.id];
             const toolCount = allTools.filter((tool) => tool.category === item.id).length;
+            const isActive = item.id === category;
             return (
               <button
                 type="button"
+                role="tab"
                 key={item.id}
-                className={item.id === category ? styles.categoryActive : styles.categoryButton}
+                className={isActive ? styles.categoryTabActive : styles.categoryTab}
                 onClick={() => changeCategory(item.id)}
-                aria-pressed={item.id === category}
+                aria-selected={isActive}
               >
-                <span className={styles.categoryIcon}><Icon aria-hidden="true" /></span>
-                <span><strong>{item.label}</strong><small>{item.description}</small></span>
-                <b>{toolCount.toLocaleString()}</b>
+                <span className={styles.categoryTabIcon}><Icon aria-hidden="true" /></span>
+                <span className={styles.categoryTabDetails}>
+                  <strong>{item.label}</strong>
+                  <small>{item.description}</small>
+                </span>
+                <span className={styles.categoryTabBadge}>{toolCount.toLocaleString()}</span>
               </button>
             );
           })}
         </div>
       </section>
 
-      <section className={styles.directorySection} aria-labelledby="directory-heading">
-        <div className={styles.directoryTopline}>
-          <div>
-            <p className={styles.eyebrow}>02 / {activeCategory.label.toUpperCase()}</p>
-            <h2 id="directory-heading">Tasks and tools</h2>
+      <section className={styles.directorySection} aria-label="AI Tools Directory">
+        <div className={styles.filterBar}>
+          <div className={styles.subcategoryNav} aria-label={`${activeCategory.label} subcategories`}>
+            {["All tasks", ...activeCategory.subcategories].map((item) => (
+              <button
+                type="button"
+                key={item}
+                onClick={() => { setSubcategory(item); resetPage(); }}
+                className={subcategory === item ? styles.subcatActive : styles.subcatButton}
+                aria-pressed={subcategory === item}
+              >
+                {item}
+                <span className={styles.subcatCount}>
+                  {item === "All tasks"
+                    ? allTools.filter((tool) => tool.category === category).length
+                    : allTools.filter((tool) => tool.category === category && tool.subcategory === item).length}
+                </span>
+              </button>
+            ))}
           </div>
-          <p>{filteredTools.length.toLocaleString()} matching {filteredTools.length === 1 ? "tool" : "tools"}</p>
-        </div>
-
-        <div className={styles.subcategoryNav} aria-label={`${activeCategory.label} subcategories`}>
-          {["All tasks", ...activeCategory.subcategories].map((item) => (
-            <button
-              type="button"
-              key={item}
-              onClick={() => { setSubcategory(item); resetPage(); }}
-              aria-pressed={subcategory === item}
-            >
-              {item}
-              <span>{item === "All tasks" ? allTools.filter((tool) => tool.category === category).length : allTools.filter((tool) => tool.category === category && tool.subcategory === item).length}</span>
-            </button>
-          ))}
+          <div className={styles.resultsCount}>
+            <span>{filteredTools.length.toLocaleString()} {filteredTools.length === 1 ? "tool" : "tools"}</span>
+          </div>
         </div>
 
         <div className={styles.directoryLayout}>
