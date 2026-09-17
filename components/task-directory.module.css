@@ -710,7 +710,7 @@
   gap: 6px;
   min-height: 36px;
   padding: 0 14px;
-  border-radius: 4px;
+  border-radius: 4px !important;
   background-color: #0213B0 !important;
   background: #0213B0 !important;
   color: #FFFFF1 !important;
@@ -1094,6 +1094,7 @@
   stroke: #FFFFF1 !important;
 }
 
+/* Active / Highlighted Boxes in Dark Mode - Type 1: Nền be chữ xanh đậm ko viền (#FFFFF1 / #0213B0) */
 :root[data-theme="dark"] .categoryCardActive,
 :root[data-theme="dark"] .subcatBtnActive,
 :root[data-theme="dark"] .toolCardActive,
@@ -1101,9 +1102,9 @@
 :root[data-theme="dark"] .visitBtn,
 :root[data-theme="dark"] .resetBtn,
 :root[data-theme="dark"] .loadMoreBtn {
-  background-color: #0213B0 !important;
-  background: #0213B0 !important;
-  color: #FFFFF1 !important;
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
   border: none !important;
 }
 
@@ -1114,8 +1115,18 @@
 :root[data-theme="dark"] .visitBtn *,
 :root[data-theme="dark"] .resetBtn *,
 :root[data-theme="dark"] .loadMoreBtn * {
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .subcatBtnActive .subcatCount {
+  background: rgba(2, 19, 176, 0.15) !important;
+  color: #0213B0 !important;
+}
+
+:root[data-theme="dark"] .toolCardActive .textFallbackMark {
+  background-color: #0213B0 !important;
   color: #FFFFF1 !important;
-  stroke: #FFFFF1 !important;
 }
 
 :root[data-theme="dark"] .inspectorHeader::after {
@@ -1187,6 +1198,7 @@
   .visitBtn {
     width: 100%;
     justify-content: center;
+    border-radius: 4px !important;
   }
   .specGrid,
   .tradeoffGrid {
