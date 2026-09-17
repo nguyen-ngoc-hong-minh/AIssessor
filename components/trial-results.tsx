@@ -92,16 +92,15 @@ function StepToolCard({ step, tool, plan }: { step: StepRecommendation; tool: Se
       <div className="trial-job-label"><small>USE THIS AI FOR</small><strong>{step.step.name}</strong><span>{step.step.plainLanguageDescription}</span></div>
       <div className="trial-tool-meta"><strong>{costLabel}</strong><a href={tool.access.url} target="_blank" rel="noreferrer">Open {route} <ArrowUpRight /></a></div>
       <details className="trial-why">
-        <summary>Why this model? <span>Task fit, example, pros &amp; cons</span><ChevronDown /></summary>
+        <summary>Why this model? <span>Quick explanation</span><ChevronDown /></summary>
         <div className="trial-why-content">
-          <section className="trial-why-section trial-why-fit"><h4>Why it fits this task</h4><p>{explanation.fit}</p></section>
-          <section className="trial-why-section"><h4>What it can do here</h4><p>{explanation.canDo}</p></section>
-          <section className="trial-why-example"><Lightbulb /><div><h4>A simple example</h4><p>{explanation.example}</p><a href={tool.access.url} target="_blank" rel="noreferrer">Try this example in {route} <ArrowUpRight /></a></div></section>
-          <div className="trial-why-pros-cons">
-            <section><h4><CheckCircle2 /> Pros for this task</h4><ul>{explanation.pros.map((item) => <li key={item}>{item}</li>)}</ul></section>
-            <section><h4><AlertCircle /> Things to consider</h4><ul>{explanation.cons.map((item) => <li key={item}>{item}</li>)}</ul></section>
-          </div>
-          {evidence?.sourceUrl && <a className="trial-evidence-link" href={evidence.sourceUrl} target="_blank" rel="noreferrer">View supporting evidence from {evidence.source} <ArrowUpRight /></a>}
+          <section className="trial-why-overview"><h4>Why it fits</h4><p>{explanation.fit}</p><div className="trial-skill-tags">{explanation.skills.map((skill) => <span key={skill}>{skill}</span>)}</div></section>
+          <section className="trial-why-example"><Lightbulb /><div><h4>Example prompt</h4><p>{explanation.example}</p><a href={tool.access.url} target="_blank" rel="noreferrer">Try in {route} <ArrowUpRight /></a></div></section>
+          <section className="trial-why-tradeoffs">
+            <div><h4><CheckCircle2 /> Pros</h4><ul>{explanation.pros.map((item) => <li key={item}>{item}</li>)}</ul></div>
+            <div><h4><AlertCircle /> Watch-outs</h4><ul>{explanation.cons.map((item) => <li key={item}>{item}</li>)}</ul></div>
+          </section>
+          <footer className="trial-why-footer"><span>{explanation.evidence}</span>{evidence?.sourceUrl && <a href={evidence.sourceUrl} target="_blank" rel="noreferrer">Source: {evidence.source} <ArrowUpRight /></a>}</footer>
         </div>
       </details>
     </article>

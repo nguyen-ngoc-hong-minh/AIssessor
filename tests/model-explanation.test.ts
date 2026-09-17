@@ -18,12 +18,13 @@ describe("beginner-friendly model explanations", () => {
     });
 
     expect(result.fit).toContain("Concept and storyboard generation");
-    expect(result.fit).toContain("interpret images and visual references");
+    expect(result.fit).toContain("draft and rewrite clear text");
     expect(result.example).toContain("script and shot-by-shot storyboard");
     expect(result.pros.join(" ")).toContain("Example Studio");
-    expect(result.pros.join(" ")).toContain("shows where evidence is limited");
-    expect(result.cons.join(" ")).toContain("Test it with a small sample");
-    expect(result.cons.join(" ")).toContain("A person should review");
+    expect(result.skills).toEqual(["Planning", "Writing", "Visual analysis"]);
+    expect(result.evidence).toBe("Limited evidence");
+    expect(result.cons.join(" ")).toContain("Test a small sample");
+    expect(result.cons.join(" ")).toContain("Review the final output");
     expect(result.fit).not.toContain("general_writing");
   });
 
@@ -39,7 +40,7 @@ describe("beginner-friendly model explanations", () => {
       costLabel: "$1 estimated usage",
     });
 
-    expect(result.canDo).toContain("your project brief and source material");
+    expect(result.example).toContain("your project brief and source material");
     expect(result.example).toContain("completed result for Visual planning");
   });
 });

@@ -30,6 +30,36 @@ const CAPABILITY_DESCRIPTIONS: Record<Capability, string> = {
   multimodal_analysis: "reason across text, images, and other media",
 };
 
+const CAPABILITY_LABELS: Record<Capability, string> = {
+  text_generation: "Writing",
+  reasoning: "Planning",
+  coding: "Coding",
+  repository_editing: "Codebase editing",
+  test_generation: "Test creation",
+  deployment: "Deployment",
+  web_research: "Web research",
+  citation_support: "Citations",
+  long_context: "Long documents",
+  document_parsing: "Document reading",
+  spreadsheet_analysis: "Spreadsheets",
+  structured_data_output: "Structured output",
+  translation: "Translation",
+  image_generation: "Image creation",
+  image_understanding: "Visual analysis",
+  audio_generation: "Audio creation",
+  speech_to_text: "Transcription",
+  text_to_speech: "Voice generation",
+  video_generation: "Video creation",
+  video_editing: "Video editing",
+  presentation_generation: "Presentations",
+  ui_generation: "UI design",
+  browser_automation: "Browser tasks",
+  tool_use: "Connected tools",
+  agentic_execution: "Multi-step execution",
+  workflow_automation: "Automation",
+  multimodal_analysis: "Mixed-media analysis",
+};
+
 function sentenceList(items: string[]) {
   if (items.length === 0) return "support the required work";
   if (items.length === 1) return items[0];
@@ -47,12 +77,12 @@ function lowerFirst(value: string) {
 }
 
 function plainLimitation(value: string) {
-  if (/Some comparison fields are unavailable/i.test(value)) return "Some model details could not be compared. Check the linked provider page before making a final decision.";
-  if (/Privacy terms were not verified/i.test(value)) return "Privacy terms could not be verified. Do not upload sensitive material until you review the provider’s data policy.";
-  if (/Commercial-use terms were not verified/i.test(value)) return "Commercial-use terms could not be verified. Review the provider’s terms before publishing or selling the result.";
-  if (/Evidence confidence is limited/i.test(value)) return "There is limited evidence for this exact task. Test it with a small sample before committing the full project.";
-  if (/Task evidence is (\d+) days old/i.test(value)) return value.replace(/^Task evidence/i, "The supporting task evidence");
-  if (/manual tool handoffs?/i.test(value)) return "This step may require moving work between tools, which adds a little setup and review time.";
+  if (/Some comparison fields are unavailable/i.test(value)) return "Some comparison data is unavailable.";
+  if (/Privacy terms were not verified/i.test(value)) return "Review privacy terms before uploading sensitive files.";
+  if (/Commercial-use terms were not verified/i.test(value)) return "Check commercial-use rights before publishing.";
+  if (/Evidence confidence is limited/i.test(value)) return "Test a small sample first; evidence is limited.";
+  if (/Task evidence is (\d+) days old/i.test(value)) return "Some supporting evidence may be out of date.";
+  if (/manual tool handoffs?/i.test(value)) return "A manual handoff between tools may be needed.";
   return value;
 }
 
@@ -72,28 +102,23 @@ export type ModelExplanationInput = {
 
 export function buildModelExplanation(input: ModelExplanationInput) {
   const capabilities = input.coveredCapabilities.map((item) => CAPABILITY_DESCRIPTIONS[item]);
+  const skills = input.coveredCapabilities.map((item) => CAPABILITY_LABELS[item]).slice(0, 4);
   const task = phrase(input.stepName, "this workflow step");
-  const stepDescription = phrase(input.stepDescription, `Complete ${task}`);
   const source = phrase(input.inputDescription, "your project brief and source material");
   const output = phrase(input.outputDescription, `a completed result for ${task}`);
   const cons = [...new Set(input.limitations.map(plainLimitation))];
-  if (input.humanReviewRecommended) cons.push("A person should review the output for accuracy, brand fit, and final approval.");
-  if (cons.length === 0) cons.push("Results still depend on the quality of your instructions and source material. Test one representative output first.");
-  const evidenceSummary = input.evidenceConfidence === "High"
-    ? "Strong supporting evidence is available for this kind of task."
-    : input.evidenceConfidence === "Moderate"
-      ? "Relevant supporting evidence is available, although not every comparison field may be complete."
-      : "The recommendation clearly shows where evidence is limited instead of treating missing information as proven.";
+  if (input.humanReviewRecommended) cons.unshift("Review the final output for accuracy and brand fit.");
+  if (cons.length === 0) cons.push("Results depend on the quality of your instructions.");
 
   return {
-    fit: `${input.modelName} is matched to “${task}” because it can ${sentenceList(capabilities)}. That directly supports this job: ${lowerFirst(stepDescription)}.`,
-    canDo: `Use ${input.modelName} with ${lowerFirst(source)} to help produce ${lowerFirst(output)}.`,
-    example: `Give ${input.modelName} ${lowerFirst(source)} and ask it to create ${lowerFirst(output)}. Include your audience, tone, format, and any must-follow constraints.`,
+    fit: `${input.modelName} fits ${task} because it can ${sentenceList(capabilities.slice(0, 2))}.`,
+    example: `“Using ${lowerFirst(source)}, create ${lowerFirst(output)}.”`,
+    skills,
+    evidence: `${input.evidenceConfidence} evidence`,
     pros: [
-      `Covers the key needs for this step: ${sentenceList(capabilities)}.`,
-      evidenceSummary,
-      `You can access it through ${input.accessRoute}; ${input.costLabel.toLowerCase()}.`,
+      `Covers ${sentenceList(skills.map((item) => item.toLowerCase()))}.`,
+      `${input.costLabel} via ${input.accessRoute}.`,
     ],
-    cons: [...new Set(cons)],
+    cons: [...new Set(cons)].slice(0, 3),
   };
 }
