@@ -404,9 +404,10 @@ export function TaskDirectory() {
                 </a>
               </div>
 
-              <div className={styles.inspectorBlock}>
-                <span className={styles.blockHeading}>Overview</span>
-                <p className={styles.overviewText}>{selectedTool.overview}</p>
+              <div className={styles.jobBox}>
+                <small className={styles.jobBoxKicker}>USE THIS AI FOR</small>
+                <strong className={styles.jobBoxTitle}>{selectedTool.task}</strong>
+                <p className={styles.jobBoxDesc}>{selectedTool.overview}</p>
               </div>
 
               <div className={styles.specGrid}>

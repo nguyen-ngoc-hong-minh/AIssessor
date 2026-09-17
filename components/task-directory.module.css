@@ -1,39 +1,48 @@
 /* ==========================================================================
-   AI TASK DIRECTORY - DESIGN SYSTEM STYLES
+   AI TASK DIRECTORY - 3-BOX DESIGN SYSTEM (NO SHADOWS)
+   1. Nền xanh đậm chữ be ko viền (#0213B0 / #FFFFF1)
+   2. Nền xám chữ xanh đậm ko viền (#F4F7F5 / #0213B0)
+   3. Nền be chữ xanh đậm viền xanh đậm (#FFFFF1 / #0213B0 / 1.5px solid #0213B0)
    ========================================================================== */
 
 .pageWrap {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
-  color: var(--ink-2);
-  font-family: var(--font-body);
+  background-color: #FFFFF1;
+  background: #FFFFF1;
+  color: #0213B0;
+  font-family: var(--font-dm-sans), sans-serif;
+  position: relative;
+  box-shadow: none !important;
 }
 
 .mainContainer {
   flex: 1;
   width: 100%;
-  max-width: 1380px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 110px clamp(20px, 4vw, 48px) 80px;
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 32px;
   box-sizing: border-box;
+  box-shadow: none !important;
 }
 
-/* Hero Section */
+/* ==========================================================================
+   HERO SECTION & SEARCH BAR
+   ========================================================================== */
 .heroSection {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
 }
 
 .heroHeader {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .kickerRow {
@@ -44,58 +53,53 @@
 }
 
 .monoBadge {
-  color: var(--indigo-soft);
-  font: 600 12px/1.2 var(--font-mono);
-  letter-spacing: .16em;
+  color: #0213B0;
+  font: 700 12px/1.2 var(--font-jetbrains-mono), monospace;
+  letter-spacing: .12em;
   text-transform: uppercase;
 }
 
+/* Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .statBadge,
 .verifiedBadge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 3px 9px;
+  padding: 4px 10px;
   border-radius: 4px;
-  border: 1px solid var(--line);
-  background: var(--glass-bg);
-  font: 600 11px var(--font-mono);
-  color: var(--ink-2);
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  box-shadow: none !important;
+  font: 700 11px var(--font-jetbrains-mono), monospace;
 }
 
 .statBadge svg,
 .verifiedBadge svg {
   width: 13px;
   height: 13px;
-  color: var(--indigo-soft);
-}
-
-.verifiedBadge {
-  color: #10b981;
-  border-color: rgba(16, 185, 129, 0.25);
-  background: rgba(16, 185, 129, 0.08);
-}
-
-.verifiedBadge svg {
-  color: #10b981;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 .heroTitle {
   margin: 0;
-  font: 600 clamp(28px, 3.8vw, 44px)/1.15 var(--font-sans);
-  color: var(--ink);
-  letter-spacing: -0.04em;
+  font: 700 clamp(28px, 3.8vw, 42px)/1.15 var(--font-space-grotesk), sans-serif;
+  color: #0213B0;
+  letter-spacing: -0.03em;
 }
 
 .heroDesc {
   margin: 0;
   max-width: 720px;
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--ink-2);
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #0213B0;
+  opacity: 0.9;
 }
 
-/* Search Bar */
+/* Search Bar - Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .searchContainer {
   margin-top: 4px;
   max-width: 760px;
@@ -107,23 +111,19 @@
   gap: 12px;
   min-height: 48px;
   padding: 0 16px;
-  border: 1px solid var(--input-border);
-  border-radius: 10px;
-  background: var(--input-bg);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-  transition: border-color .2s ease, box-shadow .2s ease;
-}
-
-.searchBar:focus-within {
-  border-color: var(--indigo-soft);
-  box-shadow: 0 0 0 3px rgba(19, 108, 252, 0.15);
+  border-radius: 4px;
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  box-shadow: none !important;
 }
 
 .searchIcon {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: var(--indigo-soft);
+  color: #0213B0;
 }
 
 .searchBar input {
@@ -132,12 +132,13 @@
   border: 0;
   outline: 0;
   background: transparent;
-  color: var(--input-color);
-  font: 500 14px var(--font-body);
+  color: #0213B0;
+  font: 600 14px var(--font-dm-sans), sans-serif;
+  box-shadow: none !important;
 }
 
 .searchBar input::placeholder {
-  color: var(--input-placeholder);
+  color: rgba(2, 19, 176, 0.55);
 }
 
 .clearBtn {
@@ -145,20 +146,15 @@
   place-items: center;
   border: 0;
   background: transparent;
-  color: var(--ink-3);
+  color: #0213B0;
   cursor: pointer;
   padding: 4px;
-  border-radius: 4px;
-  transition: color .2s ease;
-}
-
-.clearBtn:hover {
-  color: var(--ink);
+  box-shadow: none !important;
 }
 
 .clearBtn svg {
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
 }
 
 .spinner {
@@ -169,7 +165,9 @@
   to { transform: rotate(360deg); }
 }
 
-/* Category Grid (Metric Card Style) */
+/* ==========================================================================
+   CATEGORY CARDS
+   ========================================================================== */
 .categoriesSection {
   width: 100%;
 }
@@ -180,30 +178,36 @@
   gap: 16px;
 }
 
+/* Type 2: Nền xám chữ xanh đậm ko viền */
 .categoryCard {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px 22px;
-  min-height: 136px;
-  border: 1.5px solid var(--line);
-  border-radius: 12px;
-  background: var(--glass-bg);
+  padding: 22px 24px;
+  min-height: 132px;
+  border-radius: 4px;
+  background-color: #F4F7F5 !important;
+  background: #F4F7F5 !important;
+  color: #0213B0 !important;
+  border: none !important;
+  box-shadow: none !important;
   text-align: left;
   cursor: pointer;
-  transition: border-color .2s ease, background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  transition: transform .15s ease;
 }
 
 .categoryCard:hover {
-  border-color: var(--indigo-soft);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: none !important;
 }
 
+/* Type 1: Nền xanh đậm chữ be ko viền */
 .categoryCardActive {
-  border-color: var(--indigo) !important;
-  background: color-mix(in srgb, var(--indigo) 8%, var(--glass-bg)) !important;
-  box-shadow: 0 0 0 1px var(--indigo), 0 8px 24px rgba(19, 108, 252, 0.12) !important;
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .categoryCardTop {
@@ -216,48 +220,48 @@
 .categoryIconWrap {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  background: rgba(19, 108, 252, 0.1);
-  color: var(--indigo-soft);
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  color: #0213B0;
 }
 
 .categoryCardActive .categoryIconWrap {
-  background: var(--indigo);
   color: #FFFFF1;
 }
 
 .categoryIconWrap svg {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
 }
 
 .categoryCountBadge {
-  font: 700 11px var(--font-mono);
-  color: var(--ink-3);
-  letter-spacing: 0.04em;
+  font: 700 11px var(--font-jetbrains-mono), monospace;
+  color: #0213B0;
 }
 
 .categoryCardActive .categoryCountBadge {
-  color: var(--indigo-soft);
+  color: #FFFFF1;
 }
 
 .categoryCardTitle {
   display: block;
-  font: 600 19px/1.2 var(--font-sans);
-  color: var(--ink);
+  font: 700 20px/1.2 var(--font-space-grotesk), sans-serif;
+  color: inherit;
   margin-bottom: 4px;
 }
 
 .categoryCardDesc {
   margin: 0;
-  font-size: 12.5px;
+  font-size: 13px;
   line-height: 1.45;
-  color: var(--ink-3);
+  color: inherit;
+  opacity: 0.85;
 }
 
-/* Directory Section */
+/* ==========================================================================
+   DIRECTORY SECTION & FILTERS
+   ========================================================================== */
 .directorySection {
   display: flex;
   flex-direction: column;
@@ -269,7 +273,7 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
 }
 
 .subcategoryNav {
@@ -278,30 +282,36 @@
   gap: 8px;
 }
 
+/* Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .subcatBtn {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
   min-height: 34px;
   padding: 0 12px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--glass-bg);
-  color: var(--ink-2);
-  font: 600 12px var(--font-body);
+  border-radius: 4px;
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  box-shadow: none !important;
+  font: 700 12px var(--font-dm-sans), sans-serif;
   cursor: pointer;
-  transition: border-color .2s ease, background .2s ease, color .2s ease;
+  transition: opacity .15s ease;
 }
 
 .subcatBtn:hover {
-  border-color: var(--indigo-soft);
-  color: var(--ink);
+  opacity: 0.85;
+  box-shadow: none !important;
 }
 
+/* Type 1: Nền xanh đậm chữ be ko viền */
 .subcatBtnActive {
-  border-color: var(--indigo) !important;
-  background: var(--indigo) !important;
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
   color: #FFFFF1 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .subcatCount {
@@ -310,24 +320,27 @@
   min-width: 18px;
   height: 18px;
   padding: 0 4px;
-  border-radius: 9px;
-  background: rgba(0, 0, 0, 0.08);
-  font: 700 10px var(--font-mono);
+  border-radius: 2px;
+  font: 700 10px var(--font-jetbrains-mono), monospace;
+  background: rgba(2, 19, 176, 0.1);
+  color: #0213B0;
 }
 
 .subcatBtnActive .subcatCount {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 241, 0.2);
   color: #FFFFF1;
 }
 
 .resultsSummary {
-  font: 600 11px var(--font-mono);
-  color: var(--ink-3);
+  font: 700 11px var(--font-jetbrains-mono), monospace;
+  color: #0213B0;
   text-transform: uppercase;
-  letter-spacing: .08em;
+  letter-spacing: .06em;
 }
 
-/* Dual Column Directory Layout */
+/* ==========================================================================
+   DUAL COLUMN DIRECTORY LAYOUT
+   ========================================================================== */
 .directoryLayout {
   display: grid;
   grid-template-columns: minmax(360px, 0.95fr) minmax(460px, 1.05fr);
@@ -338,7 +351,7 @@
 .toolColumn {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   min-width: 0;
 }
 
@@ -348,57 +361,71 @@
   gap: 8px;
 }
 
+/* Type 2: Nền xám chữ xanh đậm ko viền */
 .toolCard {
   display: grid;
-  grid-template-columns: 26px 42px 1fr 18px;
+  grid-template-columns: 24px 40px 1fr 18px;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   width: 100%;
-  min-height: 94px;
+  min-height: 90px;
   padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--glass-bg);
+  border-radius: 4px;
+  background-color: #F4F7F5 !important;
+  background: #F4F7F5 !important;
+  color: #0213B0 !important;
+  border: none !important;
+  box-shadow: none !important;
   text-align: left;
   cursor: pointer;
-  transition: border-color .2s ease, background .2s ease, transform .15s ease;
+  transition: transform .15s ease;
 }
 
 .toolCard:hover {
-  border-color: var(--indigo-soft);
-  background: color-mix(in srgb, var(--indigo) 4%, var(--glass-bg));
   transform: translateY(-1px);
+  box-shadow: none !important;
 }
 
+/* Type 1: Nền xanh đậm chữ be ko viền */
 .toolCardActive {
-  border-color: var(--indigo) !important;
-  background: color-mix(in srgb, var(--indigo) 8%, var(--glass-bg)) !important;
-  box-shadow: 0 0 0 1px var(--indigo);
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
 .toolIndex {
   align-self: start;
-  padding-top: 3px;
-  color: var(--ink-4);
-  font: 700 10px var(--font-mono);
+  padding-top: 2px;
+  color: inherit;
+  font: 700 10px var(--font-jetbrains-mono), monospace;
+  opacity: 0.7;
 }
 
-.toolCardActive .toolIndex {
-  color: var(--indigo-soft);
-}
-
+/* Type 1: Nền xanh đậm chữ be ko viền (or Type 3 inside active card) */
 .toolMark,
 .largeMark {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 8px;
-  color: #FFFFF1;
-  background: var(--tool-accent, var(--indigo));
-  font: 700 13px var(--font-sans);
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+  box-shadow: none !important;
+  font: 700 13px var(--font-space-grotesk), sans-serif;
   text-transform: uppercase;
   flex-shrink: 0;
+}
+
+.toolCardActive .toolMark {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: none !important;
 }
 
 .toolInfo {
@@ -409,43 +436,35 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .subcategoryTag {
-  font: 700 10px var(--font-mono);
-  color: var(--indigo-soft);
+  font: 700 10px var(--font-jetbrains-mono), monospace;
+  color: inherit;
   text-transform: uppercase;
   letter-spacing: .06em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  opacity: 0.85;
 }
 
 .verifiedTag,
 .directoryTag {
-  font: 700 9px var(--font-mono);
+  font: 700 9px var(--font-jetbrains-mono), monospace;
   padding: 1px 6px;
-  border-radius: 3px;
+  border-radius: 2px;
   text-transform: uppercase;
   letter-spacing: .04em;
-}
-
-.verifiedTag {
-  color: #10b981;
-  background: rgba(16, 185, 129, 0.12);
-}
-
-.directoryTag {
-  color: var(--ink-4);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid currentColor;
 }
 
 .toolName {
   display: block;
   margin-bottom: 2px;
-  font: 600 17px/1.2 var(--font-sans);
-  color: var(--ink);
+  font: 700 17px/1.2 var(--font-space-grotesk), sans-serif;
+  color: inherit;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -455,7 +474,8 @@
   margin: 0;
   font-size: 12.5px;
   line-height: 1.4;
-  color: var(--ink-3);
+  color: inherit;
+  opacity: 0.8;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -464,62 +484,60 @@
 .toolArrow {
   width: 16px;
   height: 16px;
-  color: var(--ink-4);
-  transition: transform .2s ease, color .2s ease;
+  color: inherit;
 }
 
-.toolCard:hover .toolArrow,
-.toolCardActive .toolArrow {
-  color: var(--indigo-soft);
-  transform: translate(2px, -2px);
-}
-
+/* Empty State - Type 2: Nền xám chữ xanh đậm ko viền */
 .emptyState {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 24px;
-  border: 1px dashed var(--line);
-  border-radius: 12px;
-  background: var(--glass-bg);
+  padding: 50px 24px;
+  border-radius: 4px;
+  background-color: #F4F7F5 !important;
+  background: #F4F7F5 !important;
+  color: #0213B0 !important;
+  border: none !important;
+  box-shadow: none !important;
   text-align: center;
 }
 
 .emptyState svg {
-  width: 32px;
-  height: 32px;
-  color: var(--indigo-soft);
-  margin-bottom: 12px;
+  width: 28px;
+  height: 28px;
+  color: #0213B0;
+  margin-bottom: 10px;
 }
 
 .emptyState h3 {
   margin: 0 0 6px;
-  font: 600 18px var(--font-sans);
-  color: var(--ink);
+  font: 700 18px var(--font-space-grotesk), sans-serif;
+  color: #0213B0;
 }
 
 .emptyState p {
-  margin: 0 0 16px;
+  margin: 0 0 14px;
   font-size: 13px;
-  color: var(--ink-3);
+  color: #0213B0;
+  opacity: 0.8;
 }
 
-.resetBtn {
-  min-height: 34px;
-  padding: 0 14px;
-  border: 0;
+/* Type 1: Nền xanh đậm chữ be ko viền */
+.resetBtn,
+.loadMoreBtn {
+  min-height: 38px;
+  padding: 0 16px;
   border-radius: 4px;
-  background: var(--indigo);
-  color: #FFFFF1;
-  font: 700 11px var(--font-mono);
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+  box-shadow: none !important;
+  font: 700 11px var(--font-jetbrains-mono), monospace;
   text-transform: uppercase;
   cursor: pointer;
-  transition: opacity .2s ease;
-}
-
-.resetBtn:hover {
-  opacity: .9;
+  transition: opacity .15s ease;
 }
 
 .loadMoreBtn {
@@ -527,47 +545,46 @@
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  min-height: 42px;
-  padding: 0 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--glass-bg);
-  color: var(--ink);
-  font: 700 12px var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: .04em;
-  cursor: pointer;
-  transition: border-color .2s ease, background .2s ease;
-}
-
-.loadMoreBtn:hover {
-  border-color: var(--indigo-soft);
-  background: color-mix(in srgb, var(--indigo) 6%, var(--glass-bg));
 }
 
 .loadMoreCount {
-  color: var(--ink-3);
+  color: #FFFFF1;
+  opacity: 0.8;
 }
 
-/* Right Sticky Inspector */
+.resetBtn:hover,
+.loadMoreBtn:hover {
+  opacity: 0.9;
+  box-shadow: none !important;
+}
+
+/* ==========================================================================
+   RIGHT STICKY INSPECTOR
+   ========================================================================== */
+/* Type 2: Nền xám chữ xanh đậm ko viền */
 .inspector {
   position: sticky;
   top: 104px;
   scroll-margin-top: 104px;
   padding: 24px;
-  border: 1.5px solid var(--line);
-  border-radius: 14px;
-  background: var(--glass-bg);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  background-color: #F4F7F5 !important;
+  background: #F4F7F5 !important;
+  color: #0213B0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .inspectorBadgeRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
 }
 
+/* Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .profileBadgeVerified,
 .profileBadgeListing {
   display: inline-flex;
@@ -576,32 +593,27 @@
   min-height: 26px;
   padding: 0 8px;
   border-radius: 4px;
-  font: 700 10px var(--font-mono);
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  box-shadow: none !important;
+  font: 700 10px var(--font-jetbrains-mono), monospace;
   letter-spacing: .06em;
   text-transform: uppercase;
-}
-
-.profileBadgeVerified {
-  color: #10b981;
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  background: rgba(16, 185, 129, 0.1);
-}
-
-.profileBadgeListing {
-  color: var(--ink-3);
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.03);
 }
 
 .profileBadgeVerified svg,
 .profileBadgeListing svg {
   width: 13px;
   height: 13px;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 .inspectorSubcat {
-  font: 700 10px var(--font-mono);
-  color: var(--indigo-soft);
+  font: 700 10px var(--font-jetbrains-mono), monospace;
+  color: #0213B0;
   text-transform: uppercase;
   letter-spacing: .08em;
 }
@@ -611,8 +623,8 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-bottom: 18px;
-  border-bottom: 1px solid var(--line);
+  padding-bottom: 16px;
+  border-bottom: 1.5px solid #0213B0;
 }
 
 .inspectorTitleGroup {
@@ -624,20 +636,22 @@
 .largeMark {
   width: 48px;
   height: 48px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .inspectorName {
   margin: 0 0 2px;
-  font: 600 22px/1.2 var(--font-sans);
-  color: var(--ink);
+  font: 700 22px/1.2 var(--font-space-grotesk), sans-serif;
+  color: #0213B0;
 }
 
 .inspectorTask {
-  font-size: 12px;
-  color: var(--ink-3);
+  font-size: 12.5px;
+  color: #0213B0;
+  opacity: 0.8;
 }
 
+/* Type 1: Nền xanh đậm chữ be ko viền */
 .visitBtn {
   display: inline-flex;
   align-items: center;
@@ -645,85 +659,121 @@
   min-height: 36px;
   padding: 0 14px;
   border-radius: 4px;
-  background: var(--indigo);
-  color: #FFFFF1;
-  font: 700 11px var(--font-mono);
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+  box-shadow: none !important;
+  font: 700 11px var(--font-jetbrains-mono), monospace;
   text-transform: uppercase;
   letter-spacing: .05em;
   text-decoration: none;
-  transition: opacity .2s ease, transform .15s ease;
+  transition: opacity .15s ease;
 }
 
 .visitBtn:hover {
-  opacity: .92;
-  transform: translateY(-1px);
+  opacity: 0.9;
+  box-shadow: none !important;
 }
 
 .visitBtn svg {
-  width: 13px;
-  height: 13px;
+  width: 14px;
+  height: 14px;
+  color: #FFFFF1;
 }
 
-.inspectorBlock {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
+/* Type 1: Nền xanh đậm chữ be ko viền (Job Box matching trial results) */
+.jobBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 20px;
+  border-radius: 4px;
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+  box-shadow: none !important;
 }
 
-.blockHeading {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--indigo-soft);
-  font: 700 10px var(--font-mono);
+.jobBoxKicker {
+  font: 700 10px var(--font-jetbrains-mono), monospace;
+  color: #FFFFF1;
+  opacity: 0.8;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
 
-.overviewText {
-  margin: 0;
-  font-size: 13.5px;
-  line-height: 1.6;
-  color: var(--ink-2);
+.jobBoxTitle {
+  font: 700 17px/1.2 var(--font-space-grotesk), sans-serif;
+  color: #FFFFF1;
 }
 
+.jobBoxDesc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #FFFFF1;
+  opacity: 0.9;
+}
+
+/* Spec Grid (Pricing & Release Cards) - Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .specGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
+  gap: 14px;
 }
 
 .specCard {
   display: flex;
   flex-direction: column;
+  padding: 16px;
+  border-radius: 4px;
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  box-shadow: none !important;
+}
+
+.blockHeading {
+  display: block;
+  margin-bottom: 6px;
+  color: #0213B0;
+  font: 700 10px var(--font-jetbrains-mono), monospace;
+  letter-spacing: .12em;
+  text-transform: uppercase;
 }
 
 .specSummary {
   margin: 0;
   font-size: 13px;
-  line-height: 1.5;
-  color: var(--ink-2);
+  line-height: 1.45;
+  color: #0213B0;
+  font-weight: 600;
 }
 
 .releaseTitle {
   display: block;
-  font: 600 13.5px var(--font-sans);
-  color: var(--ink);
+  font: 700 13.5px var(--font-space-grotesk), sans-serif;
+  color: #0213B0;
   margin-bottom: 2px;
 }
 
 .releaseDate {
   display: block;
-  font: 600 11px var(--font-mono);
-  color: var(--ink-4);
-  margin-bottom: 6px;
+  font: 700 10px var(--font-jetbrains-mono), monospace;
+  color: #0213B0;
+  opacity: 0.7;
+  margin-bottom: 4px;
 }
 
 .releaseSummary {
   margin: 0;
   font-size: 12px;
-  line-height: 1.45;
-  color: var(--ink-3);
+  line-height: 1.4;
+  color: #0213B0;
+  opacity: 0.85;
 }
 
 .sourceLink {
@@ -731,12 +781,8 @@
   align-items: center;
   gap: 4px;
   margin-top: 8px;
-  color: var(--indigo-soft);
-  font: 600 11px var(--font-body);
-  text-decoration: none;
-}
-
-.sourceLink:hover {
+  color: #0213B0;
+  font: 700 11px var(--font-dm-sans), sans-serif;
   text-decoration: underline;
 }
 
@@ -745,17 +791,23 @@
   height: 11px;
 }
 
+/* Tradeoffs Grid - Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .tradeoffGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
+  gap: 14px;
 }
 
 .tradeoffCol {
   display: flex;
   flex-direction: column;
+  padding: 16px;
+  border-radius: 4px;
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  box-shadow: none !important;
 }
 
 .proList,
@@ -773,28 +825,25 @@
   display: flex;
   gap: 7px;
   font-size: 12.5px;
-  line-height: 1.4;
-  color: var(--ink-2);
+  line-height: 1.35;
+  color: #0213B0;
 }
 
-.proList li svg {
-  flex-shrink: 0;
-  width: 14px;
-  height: 14px;
-  color: #10b981;
-  margin-top: 2px;
-}
-
+.proList li svg,
 .conList li svg {
   flex-shrink: 0;
   width: 14px;
   height: 14px;
-  color: #f43f5e;
+  color: #0213B0;
+  stroke: #0213B0;
   margin-top: 2px;
 }
 
+/* Alternatives Block */
 .alternativesBlock {
-  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .alternativeChips {
@@ -803,25 +852,27 @@
   gap: 6px;
 }
 
+/* Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .alternativeBtn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  min-height: 28px;
-  padding: 0 9px;
-  border: 1px solid var(--line);
+  min-height: 30px;
+  padding: 0 10px;
   border-radius: 4px;
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--ink-2);
-  font: 600 11px var(--font-body);
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  box-shadow: none !important;
+  font: 700 11px var(--font-dm-sans), sans-serif;
   cursor: pointer;
-  transition: border-color .2s ease, color .2s ease, background .2s ease;
+  transition: opacity .15s ease;
 }
 
 .alternativeBtn:hover {
-  border-color: var(--indigo-soft);
-  color: var(--ink);
-  background: rgba(19, 108, 252, 0.08);
+  opacity: 0.85;
+  box-shadow: none !important;
 }
 
 .alternativeBtn svg {
@@ -831,23 +882,28 @@
 
 .noAlternatives {
   font-size: 12px;
-  color: var(--ink-4);
+  color: #0213B0;
+  opacity: 0.7;
 }
 
+/* Citation Box - Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .citationBox {
   display: flex;
   gap: 12px;
-  padding: 14px;
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--indigo) 10%, var(--glass-bg));
-  border: 1px solid color-mix(in srgb, var(--indigo) 20%, transparent);
+  padding: 16px;
+  border-radius: 4px;
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  color: #0213B0 !important;
+  border: 1.5px solid #0213B0 !important;
+  box-shadow: none !important;
 }
 
 .citationIcon {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: var(--indigo-soft);
+  color: #0213B0;
   margin-top: 2px;
 }
 
@@ -858,8 +914,8 @@
 
 .citationTitle {
   display: block;
-  font: 700 11px var(--font-mono);
-  color: var(--ink);
+  font: 700 11px var(--font-jetbrains-mono), monospace;
+  color: #0213B0;
   margin-bottom: 3px;
 }
 
@@ -867,7 +923,8 @@
   margin: 0 0 8px;
   font-size: 11.5px;
   line-height: 1.45;
-  color: var(--ink-3);
+  color: #0213B0;
+  opacity: 0.85;
 }
 
 .citationLinks {
@@ -880,12 +937,8 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--indigo-soft);
-  font: 600 11px var(--font-body);
-  text-decoration: none;
-}
-
-.citationLinks a:hover {
+  color: #0213B0;
+  font: 700 11px var(--font-dm-sans), sans-serif;
   text-decoration: underline;
 }
 
@@ -894,7 +947,88 @@
   height: 10px;
 }
 
-/* Responsive */
+/* ==========================================================================
+   DARK MODE ADAPTATIONS (Strict compliance, NO shadows)
+   ========================================================================== */
+:root[data-theme="dark"] .pageWrap {
+  background-color: #152641 !important;
+  background: #152641 !important;
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .heroTitle,
+:root[data-theme="dark"] .heroDesc,
+:root[data-theme="dark"] .monoBadge,
+:root[data-theme="dark"] .resultsSummary {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .statBadge,
+:root[data-theme="dark"] .verifiedBadge,
+:root[data-theme="dark"] .searchBar,
+:root[data-theme="dark"] .subcatBtn,
+:root[data-theme="dark"] .profileBadgeVerified,
+:root[data-theme="dark"] .profileBadgeListing,
+:root[data-theme="dark"] .specCard,
+:root[data-theme="dark"] .tradeoffCol,
+:root[data-theme="dark"] .alternativeBtn,
+:root[data-theme="dark"] .citationBox {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: 1.5px solid #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .statBadge svg,
+:root[data-theme="dark"] .verifiedBadge svg,
+:root[data-theme="dark"] .searchIcon,
+:root[data-theme="dark"] .searchBar input,
+:root[data-theme="dark"] .searchBar input::placeholder,
+:root[data-theme="dark"] .clearBtn,
+:root[data-theme="dark"] .subcatCount,
+:root[data-theme="dark"] .profileBadgeVerified svg,
+:root[data-theme="dark"] .profileBadgeListing svg,
+:root[data-theme="dark"] .specCard *,
+:root[data-theme="dark"] .tradeoffCol *,
+:root[data-theme="dark"] .alternativeBtn *,
+:root[data-theme="dark"] .citationBox * {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .categoryCard,
+:root[data-theme="dark"] .toolCard,
+:root[data-theme="dark"] .inspector,
+:root[data-theme="dark"] .emptyState {
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+}
+
+:root[data-theme="dark"] .categoryCard *,
+:root[data-theme="dark"] .toolCard *,
+:root[data-theme="dark"] .inspector *,
+:root[data-theme="dark"] .emptyState * {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .categoryCardActive,
+:root[data-theme="dark"] .subcatBtnActive,
+:root[data-theme="dark"] .toolCardActive,
+:root[data-theme="dark"] .jobBox,
+:root[data-theme="dark"] .visitBtn,
+:root[data-theme="dark"] .resetBtn,
+:root[data-theme="dark"] .loadMoreBtn {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
 @media (max-width: 1024px) {
   .categoryGrid {
     grid-template-columns: 1fr;
@@ -917,7 +1051,7 @@
     align-items: flex-start;
   }
   .toolCard {
-    grid-template-columns: 22px 36px 1fr;
+    grid-template-columns: 20px 36px 1fr;
     min-height: 80px;
     padding: 12px;
     gap: 10px;
@@ -945,4 +1079,5 @@
     gap: 12px;
   }
 }
+
 
