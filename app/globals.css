@@ -7401,18 +7401,21 @@ div.trial-results,
 
 .trial-why-overview,
 .trial-why-example,
-.trial-why-tradeoffs {
-  border: 1px solid rgba(2, 19, 176, .24);
-  border-radius: .25rem;
-  padding: 13px 14px;
+.trial-why-tradeoffs > div {
+  background-color: #FFFFF1 !important;
+  background: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 4px !important;
+  padding: 14px 16px !important;
+  box-shadow: none !important;
 }
 
 .trial-why-overview h4,
 .trial-why-example h4,
 .trial-why-tradeoffs h4 {
   margin: 0 0 6px;
-  color: #0213B0;
-  font: 700 11px/1.3 var(--font-sans);
+  color: #0213B0 !important;
+  font: 700 11px/1.3 var(--font-jetbrains-mono), monospace !important;
   text-transform: uppercase;
   letter-spacing: .06em;
 }
@@ -7421,12 +7424,7 @@ div.trial-results,
 .trial-why-example p {
   margin: 0;
   color: #0213B0 !important;
-  font: 400 12px/1.5 var(--font-body) !important;
-}
-
-.trial-why-overview {
-  background: rgba(2, 19, 176, .055);
-  border-color: rgba(2, 19, 176, .36);
+  font: 400 12.5px/1.5 var(--font-dm-sans), sans-serif !important;
 }
 
 .trial-skill-tags {
@@ -7438,47 +7436,56 @@ div.trial-results,
 
 .trial-skill-tags span,
 .trial-why-footer > span {
-  border: 1px solid rgba(2, 19, 176, .25);
-  border-radius: 999px;
+  background-color: #FFFFF1 !important;
+  border: 1.5px solid #0213B0 !important;
+  border-radius: 4px !important;
   padding: 4px 8px;
-  color: #0213B0;
-  font: 600 9px/1.2 var(--font-sans);
+  color: #0213B0 !important;
+  font: 700 10px var(--font-jetbrains-mono), monospace !important;
+  letter-spacing: .02em;
+  box-shadow: none !important;
 }
 
 .trial-why-example {
   display: grid;
-  grid-template-columns: 18px 1fr;
-  gap: 10px;
-  background: #FFFFF1;
+  grid-template-columns: 20px 1fr;
+  gap: 12px;
 }
 
 .trial-why-example > svg {
-  width: 17px;
-  height: 17px;
-  color: #0213B0;
-  margin-top: 1px;
+  width: 18px;
+  height: 18px;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+  margin-top: 2px;
 }
 
 .trial-why-example a,
 .trial-why-footer a {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   margin-top: 8px;
   color: #0213B0 !important;
-  font: 700 10px/1.3 var(--font-sans) !important;
+  font: 700 11px/1.3 var(--font-dm-sans), sans-serif !important;
+  text-decoration: underline !important;
 }
 
 .trial-why-example a svg,
 .trial-why-footer a svg {
   width: 12px;
   height: 12px;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 .trial-why-tradeoffs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  gap: 12px;
+  border: none !important;
+  padding: 0 !important;
+  background: transparent !important;
 }
 
 .trial-why-tradeoffs h4 {
@@ -7490,27 +7497,31 @@ div.trial-results,
 .trial-why-tradeoffs h4 svg {
   width: 14px;
   height: 14px;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
   flex: none;
 }
 
 .trial-why-tradeoffs ul {
   display: grid;
-  gap: 5px;
+  gap: 6px;
   margin: 0;
-  padding: 0 0 0 15px !important;
+  padding: 0 0 0 16px !important;
   color: #0213B0 !important;
 }
 
 .trial-why-tradeoffs li {
   color: #0213B0 !important;
-  font: 400 10.5px/1.45 var(--font-body) !important;
+  font: 400 11.5px/1.45 var(--font-dm-sans), sans-serif !important;
 }
 
 .trial-why-footer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 10px;
   min-height: 22px;
+  margin-top: 4px;
 }
 
 .trial-why-footer a {
@@ -7524,6 +7535,15 @@ div.trial-results,
   .trial-why-footer a { margin-left: 0; }
 }
 
+:root[data-theme="dark"] .trial-why-overview,
+:root[data-theme="dark"] .trial-why-example,
+:root[data-theme="dark"] .trial-why-tradeoffs > div {
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  color: #FFFFF1 !important;
+}
+
 :root[data-theme="dark"] .trial-why > summary > span,
 :root[data-theme="dark"] .trial-why-overview h4,
 :root[data-theme="dark"] .trial-why-example h4,
@@ -7534,23 +7554,20 @@ div.trial-results,
 :root[data-theme="dark"] .trial-why-tradeoffs li,
 :root[data-theme="dark"] .trial-why-example a,
 :root[data-theme="dark"] .trial-why-footer a,
-:root[data-theme="dark"] .trial-skill-tags span,
-:root[data-theme="dark"] .trial-why-footer > span,
-:root[data-theme="dark"] .trial-why-example > svg {
+:root[data-theme="dark"] .trial-why-example > svg,
+:root[data-theme="dark"] .trial-why-tradeoffs h4 svg,
+:root[data-theme="dark"] .trial-why-example a svg,
+:root[data-theme="dark"] .trial-why-footer a svg {
   color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
-:root[data-theme="dark"] .trial-why-overview,
-:root[data-theme="dark"] .trial-why-example,
-:root[data-theme="dark"] .trial-why-tradeoffs,
 :root[data-theme="dark"] .trial-skill-tags span,
 :root[data-theme="dark"] .trial-why-footer > span {
-  border-color: rgba(255, 255, 241, .42);
-}
-
-:root[data-theme="dark"] .trial-why-overview,
-:root[data-theme="dark"] .trial-why-example {
-  background: rgba(255, 255, 241, .09);
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  border: 1.5px solid #FFFFF1 !important;
+  color: #FFFFF1 !important;
 }
 
 /* 7d. USE THIS AI FOR Box in Dark Mode (Fill #FFFFF1 Cream, No Border, Chữ Xanh Đậm #0213B0) */
