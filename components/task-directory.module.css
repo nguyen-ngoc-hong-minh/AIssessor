@@ -61,7 +61,7 @@
   opacity: 0.9;
 }
 
-/* Search Bar - Type 2: Nền xám chữ xanh đậm ko viền */
+/* Search Bar - Type 2: Nền xanh 3559FF chữ be ko viền */
 .searchContainer {
   margin-top: 4px;
   max-width: 760px;
@@ -74,9 +74,9 @@
   min-height: 48px;
   padding: 0 16px;
   border-radius: 4px;
-  background-color: #F4F7F5 !important;
-  background: #F4F7F5 !important;
-  color: #0213B0 !important;
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  color: #FFFFF1 !important;
   border: none !important;
   box-shadow: none !important;
 }
@@ -85,8 +85,8 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: #0213B0 !important;
-  stroke: #0213B0 !important;
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 .searchBar input {
@@ -96,7 +96,7 @@
   outline: 0;
   background-color: transparent !important;
   background: transparent !important;
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
   font: 600 14px var(--font-dm-sans), sans-serif;
   box-shadow: none !important;
   -webkit-appearance: none;
@@ -113,7 +113,7 @@
 }
 
 .searchBar input::placeholder {
-  color: rgba(2, 19, 176, 0.55) !important;
+  color: rgba(255, 255, 241, 0.7) !important;
 }
 
 .clearBtn {
@@ -121,7 +121,7 @@
   place-items: center;
   border: 0;
   background: transparent;
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
   cursor: pointer;
   padding: 4px;
   box-shadow: none !important;
@@ -130,8 +130,8 @@
 .clearBtn svg {
   width: 16px;
   height: 16px;
-  color: #0213B0 !important;
-  stroke: #0213B0 !important;
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 /* ==========================================================================
@@ -148,7 +148,7 @@
   gap: 16px;
 }
 
-/* Inactive Category - Type 2: Nền xám chữ xanh đậm ko viền */
+/* Inactive Category - Type 2: Nền xanh 3559FF chữ be ko viền */
 .categoryCard {
   display: flex;
   flex-direction: column;
@@ -156,9 +156,9 @@
   padding: 22px 24px;
   min-height: 132px;
   border-radius: 4px;
-  background-color: #F4F7F5 !important;
-  background: #F4F7F5 !important;
-  color: #0213B0 !important;
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  color: #FFFFF1 !important;
   border: none !important;
   box-shadow: none !important;
   text-align: left;
@@ -167,7 +167,7 @@
 }
 
 .categoryCard * {
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
 }
 
 .categoryCard:hover {
@@ -201,14 +201,14 @@
   width: 32px;
   height: 32px;
   border-radius: 4px;
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
 }
 
 .categoryIconWrap svg {
   width: 20px;
   height: 20px;
-  color: #0213B0 !important;
-  stroke: #0213B0 !important;
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 .categoryCardActive .categoryIconWrap {
@@ -222,11 +222,13 @@
 
 .categoryCountBadge {
   font: 700 11px var(--font-jetbrains-mono), monospace;
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
+  opacity: 0.9;
 }
 
 .categoryCardActive .categoryCountBadge {
   color: #FFFFF1 !important;
+  opacity: 1;
 }
 
 .categoryCardTitle {
@@ -374,6 +376,7 @@
   display: none;
 }
 
+/* Inactive Tool Card - Type 2: Nền xanh 3559FF chữ be ko viền */
 .toolCard {
   display: grid;
   grid-template-columns: 24px 44px 1fr 18px;
@@ -383,9 +386,9 @@
   min-height: 90px;
   padding: 14px 16px;
   border-radius: 4px;
-  background-color: #F4F7F5 !important;
-  background: #F4F7F5 !important;
-  color: #0213B0 !important;
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  color: #FFFFF1 !important;
   border: none !important;
   box-shadow: none !important;
   text-align: left;
@@ -394,7 +397,7 @@
 }
 
 .toolCard * {
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
 }
 
 .toolCard:hover {
@@ -421,7 +424,8 @@
   align-self: start;
   padding-top: 2px;
   font: 700 10px var(--font-jetbrains-mono), monospace;
-  opacity: 0.7;
+  opacity: 0.8;
+  color: #FFFFF1 !important;
 }
 
 /* Avatar / Logo Container */
@@ -524,7 +528,7 @@
   stroke: currentColor !important;
 }
 
-/* Empty State - Type 2: Nền xám chữ xanh đậm ko viền */
+/* Empty State - Type 2: Nền xanh 3559FF chữ be ko viền */
 .emptyState {
   display: flex;
   flex-direction: column;
@@ -532,37 +536,37 @@
   justify-content: center;
   padding: 50px 24px;
   border-radius: 4px;
-  background-color: #F4F7F5 !important;
-  background: #F4F7F5 !important;
-  color: #0213B0 !important;
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  color: #FFFFF1 !important;
   border: none !important;
   box-shadow: none !important;
   text-align: center;
 }
 
 .emptyState * {
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
 }
 
 .emptyState svg {
   width: 28px;
   height: 28px;
-  color: #0213B0 !important;
-  stroke: #0213B0 !important;
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
   margin-bottom: 10px;
 }
 
 .emptyState h3 {
   margin: 0 0 6px;
   font: 700 18px var(--font-space-grotesk), sans-serif;
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
 }
 
 .emptyState p {
   margin: 0 0 14px;
   font-size: 13px;
-  color: #0213B0 !important;
-  opacity: 0.8;
+  color: #FFFFF1 !important;
+  opacity: 0.85;
 }
 
 /* Type 1: Nền xanh đậm chữ be ko viền */
@@ -608,7 +612,7 @@
 /* ==========================================================================
    RIGHT STICKY INSPECTOR
    ========================================================================== */
-/* Type 2: Nền xám chữ xanh đậm ko viền */
+/* Type 2: Nền xanh 3559FF chữ be ko viền */
 .inspector {
   position: sticky;
   top: 104px;
@@ -619,9 +623,9 @@
   scroll-margin-top: 104px;
   padding: 24px;
   border-radius: 4px;
-  background-color: #F4F7F5 !important;
-  background: #F4F7F5 !important;
-  color: #0213B0 !important;
+  background-color: #3559FF !important;
+  background: #3559FF !important;
+  color: #FFFFF1 !important;
   border: none !important;
   box-shadow: none !important;
   display: flex;
@@ -638,12 +642,12 @@
 }
 
 .inspector::-webkit-scrollbar-thumb {
-  background: rgba(2, 19, 176, 0.2);
+  background: rgba(255, 255, 241, 0.25);
   border-radius: 3px;
 }
 
 .inspector::-webkit-scrollbar-thumb:hover {
-  background: rgba(2, 19, 176, 0.4);
+  background: rgba(255, 255, 241, 0.45);
 }
 
 .inspectorBadgeRow {
@@ -654,7 +658,7 @@
 
 .inspectorSubcat {
   font: 700 11px var(--font-jetbrains-mono), monospace;
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
   text-transform: uppercase;
   letter-spacing: .08em;
 }
@@ -677,7 +681,7 @@
   left: 0;
   right: 0;
   height: 1.5px;
-  background-color: #0213B0;
+  background-color: rgba(255, 255, 241, 0.4);
   border-radius: 0 !important;
 }
 
@@ -690,13 +694,13 @@
 .inspectorName {
   margin: 0 0 2px;
   font: 700 22px/1.2 var(--font-space-grotesk), sans-serif;
-  color: #0213B0 !important;
+  color: #FFFFF1 !important;
 }
 
 .inspectorTask {
   font-size: 12.5px;
-  color: #0213B0 !important;
-  opacity: 0.85;
+  color: #FFFFF1 !important;
+  opacity: 0.9;
 }
 
 /* Type 1: Nền xanh đậm chữ be ko viền */
@@ -1144,12 +1148,12 @@
     grid-template-columns: 1fr;
   }
   .toolCardDesktopSelected:not(.toolCardActive) {
-    background-color: #F4F7F5 !important;
-    background: #F4F7F5 !important;
-    color: #0213B0 !important;
+    background-color: #3559FF !important;
+    background: #3559FF !important;
+    color: #FFFFF1 !important;
   }
   .toolCardDesktopSelected:not(.toolCardActive) * {
-    color: #0213B0 !important;
+    color: #FFFFF1 !important;
   }
   .desktopInspector {
     display: none !important;
