@@ -4238,6 +4238,7 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
 }
 
 /* Restyled Header Elements (Fixed at Top, Perfectly Aligned with Footer) */
+header.trial-header,
 .trial-header {
   position: fixed !important;
   top: 0 !important;
@@ -4246,27 +4247,37 @@ input[type="range"].custom-range-slider::-moz-range-thumb {
   width: 100% !important;
   max-width: none !important;
   box-sizing: border-box !important;
-  padding: 0 clamp(20px, 4vw, 48px) !important;
+  padding: env(safe-area-inset-top, 0px) clamp(20px, 4vw, 48px) 0 !important;
   margin: 0 !important;
-  height: 72px !important;
+  height: calc(72px + env(safe-area-inset-top, 0px)) !important;
   align-items: center !important;
   display: flex !important;
   justify-content: space-between !important;
   z-index: 100 !important;
   background-color: #FFFFF1 !important;
   background: #FFFFF1 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  box-shadow: none !important;
   pointer-events: auto !important;
 }
 
+:root[data-theme="dark"] header.trial-header,
 :root[data-theme="dark"] .trial-header {
   background-color: #152641 !important;
   background: #152641 !important;
 }
 
 @media (max-width: 760px) {
+  header.trial-header,
   .trial-header {
-    height: 64px !important;
-    padding: 0 28px !important;
+    height: calc(64px + env(safe-area-inset-top, 0px)) !important;
+    padding: env(safe-area-inset-top, 0px) 28px 0 !important;
+    border-radius: 0 !important;
   }
 }
 
@@ -8535,4 +8546,14 @@ section.trial-results,
 
 :root[data-theme="dark"] .trial-customize-actions p {
   color: #FFFFF1 !important;
+}
+
+/* Ensure header is completely rectangular, full width and touching the top screen edge */
+header.trial-header,
+.trial-header {
+  border-radius: 0 !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
