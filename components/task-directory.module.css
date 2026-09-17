@@ -624,24 +624,27 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1.5px solid #0213B0;
+  padding-bottom: 18px;
+  position: relative;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.inspectorHeader::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background-color: #0213B0;
+  border-radius: 0 !important;
 }
 
 .inspectorTitleGroup {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.largeMark {
-  width: 48px;
-  height: 48px;
-  font-size: 16px;
-  background-color: #0213B0 !important;
-  background: #0213B0 !important;
-  color: #FFFFF1 !important;
-  border: none !important;
 }
 
 .inspectorName {
@@ -1073,6 +1076,10 @@
 :root[data-theme="dark"] .loadMoreBtn * {
   color: #FFFFF1 !important;
   stroke: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .inspectorHeader::after {
+  background-color: rgba(255, 255, 241, 0.4) !important;
 }
 
 /* ==========================================================================
