@@ -403,7 +403,8 @@
 }
 
 /* Active Tool Card - Type 1: Nền xanh đậm chữ be ko viền */
-.toolCardActive {
+.toolCardActive,
+.toolCardDesktopSelected {
   background-color: #0213B0 !important;
   background: #0213B0 !important;
   color: #FFFFF1 !important;
@@ -411,7 +412,8 @@
   box-shadow: none !important;
 }
 
-.toolCardActive * {
+.toolCardActive *,
+.toolCardDesktopSelected * {
   color: #FFFFF1 !important;
 }
 
@@ -1129,6 +1131,14 @@
   }
   .directoryLayout {
     grid-template-columns: 1fr;
+  }
+  .toolCardDesktopSelected:not(.toolCardActive) {
+    background-color: #F4F7F5 !important;
+    background: #F4F7F5 !important;
+    color: #0213B0 !important;
+  }
+  .toolCardDesktopSelected:not(.toolCardActive) * {
+    color: #0213B0 !important;
   }
   .desktopInspector {
     display: none !important;

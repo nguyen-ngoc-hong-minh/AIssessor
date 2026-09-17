@@ -289,9 +289,11 @@ export function TaskDirectory() {
   const [subcategory, setSubcategory] = useState("All tasks");
   const [query, setQuery] = useState("");
   const [selectedSlug, setSelectedSlug] = useState("midjourney");
+  const [mobileOpenSlug, setMobileOpenSlug] = useState<string | null>(null);
   const [payload, setPayload] = useState<DirectoryPayload | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [page, setPage] = useState(1);
+  const toolItemRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     let active = true;
@@ -370,13 +372,36 @@ export function TaskDirectory() {
   function changeCategory(nextCategory: TaskCategory) {
     setCategory(nextCategory);
     setSubcategory("All tasks");
+    setMobileOpenSlug(null);
     resetPage();
     const firstTool = allTools.find((tool) => tool.category === nextCategory);
     if (firstTool) setSelectedSlug(firstTool.slug);
   }
 
+  function scrollToToolItem(slug: string) {
+    setTimeout(() => {
+      const itemEl = toolItemRefs.current[slug];
+      if (itemEl) {
+        const headerOffset = typeof window !== "undefined" && window.innerWidth <= 760 ? 74 : 86;
+        const rect = itemEl.getBoundingClientRect();
+        const targetY = window.pageYOffset + rect.top - headerOffset;
+        window.scrollTo({
+          top: Math.max(0, targetY),
+          behavior: "smooth",
+        });
+      }
+    }, 60);
+  }
+
   function selectTool(slug: string) {
     setSelectedSlug(slug);
+    setMobileOpenSlug((prev) => {
+      const next = prev === slug ? null : slug;
+      if (next) {
+        scrollToToolItem(slug);
+      }
+      return next;
+    });
   }
 
   if (!selectedTool) return null;
@@ -398,12 +423,12 @@ export function TaskDirectory() {
               <input
                 type="search"
                 value={query}
-                onChange={(event) => { setQuery(event.target.value); resetPage(); }}
+                onChange={(event) => { setQuery(event.target.value); setMobileOpenSlug(null); resetPage(); }}
                 placeholder="Search tools, tasks, or features (e.g. Midjourney, video editing, code)..."
                 aria-label="Search tasks or AI tools"
               />
               {query && (
-                <button type="button" onClick={() => { setQuery(""); resetPage(); }} aria-label="Clear search" className={styles.clearBtn}>
+                <button type="button" onClick={() => { setQuery(""); setMobileOpenSlug(null); resetPage(); }} aria-label="Clear search" className={styles.clearBtn}>
                   <X />
                 </button>
               )}
@@ -418,20 +443,25 @@ export function TaskDirectory() {
               const Icon = categoryIcons[item.id];
               const toolCount = allTools.filter((tool) => tool.category === item.id).length;
               const isActive = item.id === category;
+
               return (
                 <button
                   type="button"
                   key={item.id}
-                  className={`${styles.categoryCard} ${isActive ? styles.categoryCardActive : ""}`}
                   onClick={() => changeCategory(item.id)}
+                  className={`${styles.categoryCard} ${isActive ? styles.categoryCardActive : ""}`}
                   aria-pressed={isActive}
                 >
                   <div className={styles.categoryCardTop}>
-                    <span className={styles.categoryIconWrap}><Icon aria-hidden="true" /></span>
-                    <span className={styles.categoryCountBadge}>{toolCount.toLocaleString()} tools</span>
+                    <div className={styles.categoryIconWrap}>
+                      <Icon aria-hidden="true" />
+                    </div>
+                    <span className={styles.categoryCountBadge}>{toolCount} tools</span>
                   </div>
-                  <strong className={styles.categoryCardTitle}>{item.label}</strong>
-                  <p className={styles.categoryCardDesc}>{item.description}</p>
+                  <div>
+                    <strong className={styles.categoryCardTitle}>{item.label}</strong>
+                    <p className={styles.categoryCardDesc}>{item.description}</p>
+                  </div>
                 </button>
               );
             })}
@@ -451,7 +481,7 @@ export function TaskDirectory() {
                   <button
                     type="button"
                     key={item}
-                    onClick={() => { setSubcategory(item); resetPage(); }}
+                    onClick={() => { setSubcategory(item); setMobileOpenSlug(null); resetPage(); }}
                     className={`${styles.subcatBtn} ${isSelected ? styles.subcatBtnActive : ""}`}
                     aria-pressed={isSelected}
                   >
@@ -468,14 +498,21 @@ export function TaskDirectory() {
             <div className={styles.toolColumn}>
               <div className={styles.toolList} aria-live="polite">
                 {visibleTools.map((tool, index) => {
-                  const isSelected = selectedTool.slug === tool.slug;
+                  const isMobileOpen = mobileOpenSlug === tool.slug;
+                  const isDesktopSelected = selectedTool.slug === tool.slug;
                   return (
-                    <div key={tool.slug} className={styles.toolItemWrapper}>
+                    <div
+                      key={tool.slug}
+                      ref={(el) => {
+                        toolItemRefs.current[tool.slug] = el;
+                      }}
+                      className={styles.toolItemWrapper}
+                    >
                       <button
                         type="button"
-                        className={`${styles.toolCard} ${isSelected ? styles.toolCardActive : ""}`}
+                        className={`${styles.toolCard} ${isDesktopSelected ? styles.toolCardDesktopSelected : ""} ${isMobileOpen ? styles.toolCardActive : ""}`}
                         onClick={() => selectTool(tool.slug)}
-                        aria-pressed={isSelected}
+                        aria-pressed={isDesktopSelected || isMobileOpen}
                       >
                         <span className={styles.toolIndex}>{String(index + 1).padStart(2, "0")}</span>
                         <ToolAvatar
@@ -494,7 +531,7 @@ export function TaskDirectory() {
                         <ArrowUpRight className={styles.toolArrow} aria-hidden="true" />
                       </button>
 
-                      {isSelected && (
+                      {isMobileOpen && (
                         <div className={styles.mobileInspectorWrap}>
                           <InspectorDetails
                             selectedTool={selectedTool}
@@ -503,7 +540,9 @@ export function TaskDirectory() {
                               setCategory(alt.category);
                               setSubcategory("All tasks");
                               setSelectedSlug(alt.slug);
+                              setMobileOpenSlug(alt.slug);
                               resetPage();
+                              scrollToToolItem(alt.slug);
                             }}
                           />
                         </div>
