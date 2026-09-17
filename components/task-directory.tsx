@@ -9,7 +9,6 @@ import {
   Check,
   Database,
   ExternalLink,
-  LoaderCircle,
   Palette,
   Search,
   Sparkles,
@@ -212,22 +211,6 @@ export function TaskDirectory() {
         {/* Header Block & Search */}
         <section className={styles.heroSection}>
           <div className={styles.heroHeader}>
-            <div className={styles.kickerRow}>
-              <span className={styles.monoBadge}>[ AI TASK DIRECTORY ]</span>
-              {payload ? (
-                <span className={styles.statBadge}>
-                  <Database aria-hidden="true" /> {payload.counts.unique.toLocaleString()} tools indexed
-                </span>
-              ) : (
-                <span className={styles.statBadge}>
-                  <LoaderCircle className={styles.spinner} aria-hidden="true" /> Loading directory...
-                </span>
-              )}
-              <span className={styles.verifiedBadge}>
-                <BadgeCheck aria-hidden="true" /> {directoryTools.length} verified profiles
-              </span>
-            </div>
-
             <h1 className={styles.heroTitle}>Find an AI tool for any task</h1>
             <p className={styles.heroDesc}>
               Search thousands of AI tools across creativity, work, and personal workflows. Compare pricing, release dates, and verified alternatives.

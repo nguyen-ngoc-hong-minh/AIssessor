@@ -45,44 +45,6 @@
   gap: 10px;
 }
 
-.kickerRow {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
-
-.monoBadge {
-  color: #0213B0;
-  font: 700 12px/1.2 var(--font-jetbrains-mono), monospace;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-
-/* Type 3: Nền be chữ xanh đậm viền xanh đậm */
-.statBadge,
-.verifiedBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  background-color: #FFFFF1 !important;
-  background: #FFFFF1 !important;
-  color: #0213B0 !important;
-  border: 1.5px solid #0213B0 !important;
-  box-shadow: none !important;
-  font: 700 11px var(--font-jetbrains-mono), monospace;
-}
-
-.statBadge svg,
-.verifiedBadge svg {
-  width: 13px;
-  height: 13px;
-  color: #0213B0 !important;
-  stroke: #0213B0 !important;
-}
-
 .heroTitle {
   margin: 0;
   font: 700 clamp(28px, 3.8vw, 42px)/1.15 var(--font-space-grotesk), sans-serif;
@@ -123,7 +85,8 @@
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: #0213B0;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 .searchBar input {
@@ -132,13 +95,13 @@
   border: 0;
   outline: 0;
   background: transparent;
-  color: #0213B0;
+  color: #0213B0 !important;
   font: 600 14px var(--font-dm-sans), sans-serif;
   box-shadow: none !important;
 }
 
 .searchBar input::placeholder {
-  color: rgba(2, 19, 176, 0.55);
+  color: rgba(2, 19, 176, 0.55) !important;
 }
 
 .clearBtn {
@@ -146,7 +109,7 @@
   place-items: center;
   border: 0;
   background: transparent;
-  color: #0213B0;
+  color: #0213B0 !important;
   cursor: pointer;
   padding: 4px;
   box-shadow: none !important;
@@ -155,14 +118,8 @@
 .clearBtn svg {
   width: 16px;
   height: 16px;
-}
-
-.spinner {
-  animation: directory-spin .8s linear infinite;
-}
-
-@keyframes directory-spin {
-  to { transform: rotate(360deg); }
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 /* ==========================================================================
@@ -178,7 +135,7 @@
   gap: 16px;
 }
 
-/* Type 2: Nền xám chữ xanh đậm ko viền */
+/* Inactive Category - Type 2: Nền xám chữ xanh đậm ko viền */
 .categoryCard {
   display: flex;
   flex-direction: column;
@@ -196,18 +153,26 @@
   transition: transform .15s ease;
 }
 
+.categoryCard * {
+  color: #0213B0 !important;
+}
+
 .categoryCard:hover {
   transform: translateY(-2px);
   box-shadow: none !important;
 }
 
-/* Type 1: Nền xanh đậm chữ be ko viền */
+/* Active Category - Type 1: Nền xanh đậm chữ be ko viền */
 .categoryCardActive {
   background-color: #0213B0 !important;
   background: #0213B0 !important;
   color: #FFFFF1 !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+.categoryCardActive * {
+  color: #FFFFF1 !important;
 }
 
 .categoryCardTop {
@@ -223,25 +188,32 @@
   width: 32px;
   height: 32px;
   border-radius: 4px;
-  color: #0213B0;
-}
-
-.categoryCardActive .categoryIconWrap {
-  color: #FFFFF1;
+  color: #0213B0 !important;
 }
 
 .categoryIconWrap svg {
   width: 20px;
   height: 20px;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+.categoryCardActive .categoryIconWrap {
+  color: #FFFFF1 !important;
+}
+
+.categoryCardActive .categoryIconWrap svg {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 .categoryCountBadge {
   font: 700 11px var(--font-jetbrains-mono), monospace;
-  color: #0213B0;
+  color: #0213B0 !important;
 }
 
 .categoryCardActive .categoryCountBadge {
-  color: #FFFFF1;
+  color: #FFFFF1 !important;
 }
 
 .categoryCardTitle {
@@ -256,7 +228,7 @@
   font-size: 13px;
   line-height: 1.45;
   color: inherit;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 /* ==========================================================================
@@ -282,7 +254,7 @@
   gap: 8px;
 }
 
-/* Type 3: Nền be chữ xanh đậm viền xanh đậm */
+/* Inactive Subcategory - Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .subcatBtn {
   display: inline-flex;
   align-items: center;
@@ -300,18 +272,26 @@
   transition: opacity .15s ease;
 }
 
+.subcatBtn * {
+  color: #0213B0 !important;
+}
+
 .subcatBtn:hover {
   opacity: 0.85;
   box-shadow: none !important;
 }
 
-/* Type 1: Nền xanh đậm chữ be ko viền */
+/* Active Subcategory - Type 1: Nền xanh đậm chữ be ko viền */
 .subcatBtnActive {
   background-color: #0213B0 !important;
   background: #0213B0 !important;
   color: #FFFFF1 !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+.subcatBtnActive * {
+  color: #FFFFF1 !important;
 }
 
 .subcatCount {
@@ -323,17 +303,17 @@
   border-radius: 2px;
   font: 700 10px var(--font-jetbrains-mono), monospace;
   background: rgba(2, 19, 176, 0.1);
-  color: #0213B0;
+  color: #0213B0 !important;
 }
 
 .subcatBtnActive .subcatCount {
   background: rgba(255, 255, 241, 0.2);
-  color: #FFFFF1;
+  color: #FFFFF1 !important;
 }
 
 .resultsSummary {
   font: 700 11px var(--font-jetbrains-mono), monospace;
-  color: #0213B0;
+  color: #0213B0 !important;
   text-transform: uppercase;
   letter-spacing: .06em;
 }
@@ -361,7 +341,7 @@
   gap: 8px;
 }
 
-/* Type 2: Nền xám chữ xanh đậm ko viền */
+/* Inactive Tool Card - Type 2: Nền xám chữ xanh đậm ko viền */
 .toolCard {
   display: grid;
   grid-template-columns: 24px 40px 1fr 18px;
@@ -381,12 +361,16 @@
   transition: transform .15s ease;
 }
 
+.toolCard * {
+  color: #0213B0 !important;
+}
+
 .toolCard:hover {
   transform: translateY(-1px);
   box-shadow: none !important;
 }
 
-/* Type 1: Nền xanh đậm chữ be ko viền */
+/* Active Tool Card - Type 1: Nền xanh đậm chữ be ko viền */
 .toolCardActive {
   background-color: #0213B0 !important;
   background: #0213B0 !important;
@@ -395,15 +379,18 @@
   box-shadow: none !important;
 }
 
+.toolCardActive * {
+  color: #FFFFF1 !important;
+}
+
 .toolIndex {
   align-self: start;
   padding-top: 2px;
-  color: inherit;
   font: 700 10px var(--font-jetbrains-mono), monospace;
   opacity: 0.7;
 }
 
-/* Type 1: Nền xanh đậm chữ be ko viền (or Type 3 inside active card) */
+/* Type 1: Nền xanh đậm chữ be ko viền (or beige mark inside active card) */
 .toolMark,
 .largeMark {
   display: grid;
@@ -441,7 +428,6 @@
 
 .subcategoryTag {
   font: 700 10px var(--font-jetbrains-mono), monospace;
-  color: inherit;
   text-transform: uppercase;
   letter-spacing: .06em;
   white-space: nowrap;
@@ -457,14 +443,13 @@
   border-radius: 2px;
   text-transform: uppercase;
   letter-spacing: .04em;
-  border: 1px solid currentColor;
+  border: 1px solid currentColor !important;
 }
 
 .toolName {
   display: block;
   margin-bottom: 2px;
   font: 700 17px/1.2 var(--font-space-grotesk), sans-serif;
-  color: inherit;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -474,8 +459,7 @@
   margin: 0;
   font-size: 12.5px;
   line-height: 1.4;
-  color: inherit;
-  opacity: 0.8;
+  opacity: 0.85;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -484,7 +468,8 @@
 .toolArrow {
   width: 16px;
   height: 16px;
-  color: inherit;
+  color: inherit !important;
+  stroke: currentColor !important;
 }
 
 /* Empty State - Type 2: Nền xám chữ xanh đậm ko viền */
@@ -503,23 +488,28 @@
   text-align: center;
 }
 
+.emptyState * {
+  color: #0213B0 !important;
+}
+
 .emptyState svg {
   width: 28px;
   height: 28px;
-  color: #0213B0;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
   margin-bottom: 10px;
 }
 
 .emptyState h3 {
   margin: 0 0 6px;
   font: 700 18px var(--font-space-grotesk), sans-serif;
-  color: #0213B0;
+  color: #0213B0 !important;
 }
 
 .emptyState p {
   margin: 0 0 14px;
   font-size: 13px;
-  color: #0213B0;
+  color: #0213B0 !important;
   opacity: 0.8;
 }
 
@@ -540,6 +530,11 @@
   transition: opacity .15s ease;
 }
 
+.resetBtn *,
+.loadMoreBtn * {
+  color: #FFFFF1 !important;
+}
+
 .loadMoreBtn {
   display: flex;
   align-items: center;
@@ -548,8 +543,8 @@
 }
 
 .loadMoreCount {
-  color: #FFFFF1;
-  opacity: 0.8;
+  color: #FFFFF1 !important;
+  opacity: 0.85;
 }
 
 .resetBtn:hover,
@@ -603,6 +598,11 @@
   text-transform: uppercase;
 }
 
+.profileBadgeVerified *,
+.profileBadgeListing * {
+  color: #0213B0 !important;
+}
+
 .profileBadgeVerified svg,
 .profileBadgeListing svg {
   width: 13px;
@@ -613,7 +613,7 @@
 
 .inspectorSubcat {
   font: 700 10px var(--font-jetbrains-mono), monospace;
-  color: #0213B0;
+  color: #0213B0 !important;
   text-transform: uppercase;
   letter-spacing: .08em;
 }
@@ -637,22 +637,30 @@
   width: 48px;
   height: 48px;
   font-size: 16px;
+  background-color: #0213B0 !important;
+  background: #0213B0 !important;
+  color: #FFFFF1 !important;
+  border: none !important;
 }
 
 .inspectorName {
   margin: 0 0 2px;
   font: 700 22px/1.2 var(--font-space-grotesk), sans-serif;
-  color: #0213B0;
+  color: #0213B0 !important;
 }
 
 .inspectorTask {
   font-size: 12.5px;
-  color: #0213B0;
-  opacity: 0.8;
+  color: #0213B0 !important;
+  opacity: 0.85;
 }
 
 /* Type 1: Nền xanh đậm chữ be ko viền */
-.visitBtn {
+.visitBtn,
+.visitBtn:visited,
+.visitBtn:hover,
+.visitBtn:active,
+.visitBtn:focus {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -671,18 +679,25 @@
   transition: opacity .15s ease;
 }
 
-.visitBtn:hover {
-  opacity: 0.9;
-  box-shadow: none !important;
+.visitBtn *,
+.visitBtn span {
+  color: #FFFFF1 !important;
 }
 
 .visitBtn svg {
   width: 14px;
   height: 14px;
-  color: #FFFFF1;
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
+  fill: none !important;
 }
 
-/* Type 1: Nền xanh đậm chữ be ko viền (Job Box matching trial results) */
+.visitBtn:hover {
+  opacity: 0.9;
+  box-shadow: none !important;
+}
+
+/* Type 1: Nền xanh đậm chữ be ko viền (Job Box) */
 .jobBox {
   display: flex;
   flex-direction: column;
@@ -696,25 +711,29 @@
   box-shadow: none !important;
 }
 
+.jobBox * {
+  color: #FFFFF1 !important;
+}
+
 .jobBoxKicker {
   font: 700 10px var(--font-jetbrains-mono), monospace;
-  color: #FFFFF1;
-  opacity: 0.8;
+  color: #FFFFF1 !important;
+  opacity: 0.85;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
 
 .jobBoxTitle {
   font: 700 17px/1.2 var(--font-space-grotesk), sans-serif;
-  color: #FFFFF1;
+  color: #FFFFF1 !important;
 }
 
 .jobBoxDesc {
   margin: 0;
   font-size: 13px;
   line-height: 1.55;
-  color: #FFFFF1;
-  opacity: 0.9;
+  color: #FFFFF1 !important;
+  opacity: 0.92;
 }
 
 /* Spec Grid (Pricing & Release Cards) - Type 3: Nền be chữ xanh đậm viền xanh đậm */
@@ -736,10 +755,14 @@
   box-shadow: none !important;
 }
 
+.specCard * {
+  color: #0213B0 !important;
+}
+
 .blockHeading {
   display: block;
   margin-bottom: 6px;
-  color: #0213B0;
+  color: #0213B0 !important;
   font: 700 10px var(--font-jetbrains-mono), monospace;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -749,22 +772,22 @@
   margin: 0;
   font-size: 13px;
   line-height: 1.45;
-  color: #0213B0;
+  color: #0213B0 !important;
   font-weight: 600;
 }
 
 .releaseTitle {
   display: block;
   font: 700 13.5px var(--font-space-grotesk), sans-serif;
-  color: #0213B0;
+  color: #0213B0 !important;
   margin-bottom: 2px;
 }
 
 .releaseDate {
   display: block;
   font: 700 10px var(--font-jetbrains-mono), monospace;
-  color: #0213B0;
-  opacity: 0.7;
+  color: #0213B0 !important;
+  opacity: 0.75;
   margin-bottom: 4px;
 }
 
@@ -772,16 +795,17 @@
   margin: 0;
   font-size: 12px;
   line-height: 1.4;
-  color: #0213B0;
+  color: #0213B0 !important;
   opacity: 0.85;
 }
 
-.sourceLink {
+.sourceLink,
+.sourceLink:visited {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   margin-top: 8px;
-  color: #0213B0;
+  color: #0213B0 !important;
   font: 700 11px var(--font-dm-sans), sans-serif;
   text-decoration: underline;
 }
@@ -789,6 +813,8 @@
 .sourceLink svg {
   width: 11px;
   height: 11px;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 /* Tradeoffs Grid - Type 3: Nền be chữ xanh đậm viền xanh đậm */
@@ -810,6 +836,10 @@
   box-shadow: none !important;
 }
 
+.tradeoffCol * {
+  color: #0213B0 !important;
+}
+
 .proList,
 .conList {
   display: flex;
@@ -826,7 +856,7 @@
   gap: 7px;
   font-size: 12.5px;
   line-height: 1.35;
-  color: #0213B0;
+  color: #0213B0 !important;
 }
 
 .proList li svg,
@@ -834,8 +864,8 @@
   flex-shrink: 0;
   width: 14px;
   height: 14px;
-  color: #0213B0;
-  stroke: #0213B0;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
   margin-top: 2px;
 }
 
@@ -852,7 +882,7 @@
   gap: 6px;
 }
 
-/* Type 3: Nền be chữ xanh đậm viền xanh đậm */
+/* Inactive Alternative Btn - Type 3: Nền be chữ xanh đậm viền xanh đậm */
 .alternativeBtn {
   display: inline-flex;
   align-items: center;
@@ -870,19 +900,25 @@
   transition: opacity .15s ease;
 }
 
-.alternativeBtn:hover {
-  opacity: 0.85;
-  box-shadow: none !important;
+.alternativeBtn * {
+  color: #0213B0 !important;
 }
 
 .alternativeBtn svg {
   width: 11px;
   height: 11px;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
+}
+
+.alternativeBtn:hover {
+  opacity: 0.85;
+  box-shadow: none !important;
 }
 
 .noAlternatives {
   font-size: 12px;
-  color: #0213B0;
+  color: #0213B0 !important;
   opacity: 0.7;
 }
 
@@ -899,11 +935,16 @@
   box-shadow: none !important;
 }
 
+.citationBox * {
+  color: #0213B0 !important;
+}
+
 .citationIcon {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: #0213B0;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
   margin-top: 2px;
 }
 
@@ -915,7 +956,7 @@
 .citationTitle {
   display: block;
   font: 700 11px var(--font-jetbrains-mono), monospace;
-  color: #0213B0;
+  color: #0213B0 !important;
   margin-bottom: 3px;
 }
 
@@ -923,7 +964,7 @@
   margin: 0 0 8px;
   font-size: 11.5px;
   line-height: 1.45;
-  color: #0213B0;
+  color: #0213B0 !important;
   opacity: 0.85;
 }
 
@@ -933,11 +974,12 @@
   gap: 10px;
 }
 
-.citationLinks a {
+.citationLinks a,
+.citationLinks a:visited {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: #0213B0;
+  color: #0213B0 !important;
   font: 700 11px var(--font-dm-sans), sans-serif;
   text-decoration: underline;
 }
@@ -945,6 +987,8 @@
 .citationLinks a svg {
   width: 10px;
   height: 10px;
+  color: #0213B0 !important;
+  stroke: #0213B0 !important;
 }
 
 /* ==========================================================================
@@ -958,13 +1002,10 @@
 
 :root[data-theme="dark"] .heroTitle,
 :root[data-theme="dark"] .heroDesc,
-:root[data-theme="dark"] .monoBadge,
 :root[data-theme="dark"] .resultsSummary {
   color: #FFFFF1 !important;
 }
 
-:root[data-theme="dark"] .statBadge,
-:root[data-theme="dark"] .verifiedBadge,
 :root[data-theme="dark"] .searchBar,
 :root[data-theme="dark"] .subcatBtn,
 :root[data-theme="dark"] .profileBadgeVerified,
@@ -979,15 +1020,14 @@
   border: 1.5px solid #FFFFF1 !important;
 }
 
-:root[data-theme="dark"] .statBadge svg,
-:root[data-theme="dark"] .verifiedBadge svg,
 :root[data-theme="dark"] .searchIcon,
 :root[data-theme="dark"] .searchBar input,
 :root[data-theme="dark"] .searchBar input::placeholder,
 :root[data-theme="dark"] .clearBtn,
-:root[data-theme="dark"] .subcatCount,
-:root[data-theme="dark"] .profileBadgeVerified svg,
-:root[data-theme="dark"] .profileBadgeListing svg,
+:root[data-theme="dark"] .clearBtn svg,
+:root[data-theme="dark"] .subcatBtn *,
+:root[data-theme="dark"] .profileBadgeVerified *,
+:root[data-theme="dark"] .profileBadgeListing *,
 :root[data-theme="dark"] .specCard *,
 :root[data-theme="dark"] .tradeoffCol *,
 :root[data-theme="dark"] .alternativeBtn *,
@@ -1011,6 +1051,7 @@
 :root[data-theme="dark"] .inspector *,
 :root[data-theme="dark"] .emptyState * {
   color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 :root[data-theme="dark"] .categoryCardActive,
@@ -1024,6 +1065,17 @@
   background: #0213B0 !important;
   color: #FFFFF1 !important;
   border: none !important;
+}
+
+:root[data-theme="dark"] .categoryCardActive *,
+:root[data-theme="dark"] .subcatBtnActive *,
+:root[data-theme="dark"] .toolCardActive *,
+:root[data-theme="dark"] .jobBox *,
+:root[data-theme="dark"] .visitBtn *,
+:root[data-theme="dark"] .resetBtn *,
+:root[data-theme="dark"] .loadMoreBtn * {
+  color: #FFFFF1 !important;
+  stroke: #FFFFF1 !important;
 }
 
 /* ==========================================================================
@@ -1079,5 +1131,6 @@
     gap: 12px;
   }
 }
+
 
 
