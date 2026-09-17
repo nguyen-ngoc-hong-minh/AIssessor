@@ -357,6 +357,20 @@
 }
 
 /* Inactive Tool Card - Type 2: Nền xám chữ xanh đậm ko viền */
+.toolItemWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.desktopInspector {
+  display: block;
+}
+
+.mobileInspectorWrap {
+  display: none;
+}
+
 .toolCard {
   display: grid;
   grid-template-columns: 24px 44px 1fr 18px;
@@ -1113,6 +1127,15 @@
   .directoryLayout {
     grid-template-columns: 1fr;
   }
+  .desktopInspector {
+    display: none !important;
+  }
+  .mobileInspectorWrap {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    width: 100%;
+  }
   .inspector {
     position: static;
     max-height: none;
@@ -1130,10 +1153,10 @@
     align-items: flex-start;
   }
   .toolCard {
-    grid-template-columns: 20px 36px 1fr;
+    grid-template-columns: 22px 44px 1fr;
     min-height: 80px;
-    padding: 12px;
-    gap: 10px;
+    padding: 14px 16px;
+    gap: 16px;
   }
   .toolArrow {
     display: none;

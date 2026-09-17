@@ -159,6 +159,131 @@ function normalizeIndexedTool(tool: IndexedTool): DisplayTool {
   };
 }
 
+function InspectorDetails({
+  selectedTool,
+  selectedAlternatives,
+  onSelectAlternative,
+}: {
+  selectedTool: DisplayTool;
+  selectedAlternatives: DisplayTool[];
+  onSelectAlternative: (alt: DisplayTool) => void;
+}) {
+  return (
+    <div className={styles.inspector}>
+      <div className={styles.inspectorBadgeRow}>
+        <span className={styles.inspectorSubcat}>{selectedTool.subcategory}</span>
+      </div>
+
+      <div className={styles.inspectorHeader}>
+        <div className={styles.inspectorTitleGroup}>
+          <ToolAvatar
+            name={selectedTool.name}
+            icon={selectedTool.icon}
+            website={selectedTool.website}
+            className={styles.largeMark}
+          />
+          <div>
+            <h3 className={styles.inspectorName}>{selectedTool.name}</h3>
+            <span className={styles.inspectorTask}>{selectedTool.task}</span>
+          </div>
+        </div>
+        <a
+          href={selectedTool.website}
+          target="_blank"
+          rel="noreferrer"
+          className={styles.visitBtn}
+        >
+          <span>Visit tool</span>
+          <ArrowUpRight aria-hidden="true" />
+        </a>
+      </div>
+
+      <div className={styles.jobBox}>
+        <small className={styles.jobBoxKicker}>USE THIS AI FOR</small>
+        <strong className={styles.jobBoxTitle}>{selectedTool.task}</strong>
+        <p className={styles.jobBoxDesc}>{selectedTool.overview}</p>
+      </div>
+
+      <div className={styles.specGrid}>
+        <div className={styles.specCard}>
+          <span className={styles.blockHeading}>Pricing</span>
+          <p className={styles.specSummary}>{selectedTool.pricing.summary}</p>
+          <a href={selectedTool.pricing.source} target="_blank" rel="noreferrer" className={styles.sourceLink}>
+            Check source <ExternalLink aria-hidden="true" />
+          </a>
+        </div>
+        <div className={styles.specCard}>
+          <span className={styles.blockHeading}>Latest release</span>
+          <strong className={styles.releaseTitle}>{selectedTool.release.title}</strong>
+          <small className={styles.releaseDate}>{selectedTool.release.date}</small>
+          <p className={styles.releaseSummary}>{selectedTool.release.summary}</p>
+          <a href={selectedTool.release.source} target="_blank" rel="noreferrer" className={styles.sourceLink}>
+            Check release <ExternalLink aria-hidden="true" />
+          </a>
+        </div>
+      </div>
+
+      <div className={styles.tradeoffGrid}>
+        <div className={styles.tradeoffCol}>
+          <span className={styles.blockHeading}>Strengths</span>
+          <ul className={styles.proList}>
+            {selectedTool.pros.map((item) => (
+              <li key={item}><Check aria-hidden="true" /><span>{item}</span></li>
+            ))}
+          </ul>
+        </div>
+        <div className={styles.tradeoffCol}>
+          <span className={styles.blockHeading}>Limitations</span>
+          <ul className={styles.conList}>
+            {selectedTool.cons.map((item) => (
+              <li key={item}><X aria-hidden="true" /><span>{item}</span></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <div className={styles.alternativesBlock}>
+        <span className={styles.blockHeading}>Alternatives</span>
+        <div className={styles.alternativeChips}>
+          {selectedAlternatives.length > 0 ? selectedAlternatives.map((alternative) => (
+            <button
+              type="button"
+              key={alternative.slug}
+              onClick={() => onSelectAlternative(alternative)}
+              className={styles.alternativeBtn}
+            >
+              <span>{alternative.name}</span>
+              <ArrowUpRight aria-hidden="true" />
+            </button>
+          )) : (
+            <span className={styles.noAlternatives}>No close matches indexed yet</span>
+          )}
+        </div>
+      </div>
+
+      <div className={styles.citationBox}>
+        <BookOpen aria-hidden="true" className={styles.citationIcon} />
+        <div className={styles.citationContent}>
+          <span className={styles.citationTitle}>
+            {selectedTool.profileType === "verified" ? "Official sources" : `Indexed via ${selectedTool.sourceName}`}
+          </span>
+          <p className={styles.citationDesc}>
+            {selectedTool.profileType === "verified" ? `Verified as of ${directoryReviewedAt}.` : "Direct listing index. Verify current fit, features, and pricing before purchase."}
+          </p>
+          <div className={styles.citationLinks}>
+            {selectedTool.sources.map((source) => (
+              <a key={`${source.label}-${source.url}`} href={source.url} target="_blank" rel="noreferrer">
+                <span>{source.label}</span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function TaskDirectory() {
   const [category, setCategory] = useState<TaskCategory>("creativity");
   const [subcategory, setSubcategory] = useState("All tasks");
@@ -167,7 +292,6 @@ export function TaskDirectory() {
   const [payload, setPayload] = useState<DirectoryPayload | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [page, setPage] = useState(1);
-  const inspectorRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let active = true;
@@ -177,36 +301,56 @@ export function TaskDirectory() {
         return response.json() as Promise<DirectoryPayload>;
       })
       .then((data) => {
-        if (active) setPayload(data);
+        if (!active) return;
+        setPayload(data);
       })
       .catch(() => {
-        if (active) setLoadError(true);
+        if (!active) return;
+        setLoadError(true);
       });
-    return () => { active = false; };
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   const allTools = useMemo(() => {
     const verified = directoryTools.map(normalizeVerifiedTool);
-    const verifiedWebsites = new Set(verified.map((tool) => tool.website.replace(/\/$/, "").toLowerCase()));
-    const indexed = (payload?.tools ?? [])
-      .filter((tool) => !verifiedWebsites.has(tool.website.replace(/\/$/, "").toLowerCase()))
-      .map(normalizeIndexedTool);
-    return [...verified, ...indexed];
+    const indexed = (payload?.tools ?? []).map(normalizeIndexedTool);
+    const existing = new Set(verified.map((tool) => tool.slug));
+    const supplemental = indexed.filter((tool) => !existing.has(tool.slug));
+    return [...verified, ...supplemental];
   }, [payload]);
 
-  const activeCategory = taskCategories.find((item) => item.id === category) ?? taskCategories[0];
+  const activeCategory = useMemo(() => {
+    return taskCategories.find((item) => item.id === category) ?? taskCategories[0];
+  }, [category]);
+
   const filteredTools = useMemo(() => {
-    const normalizedQuery = query.trim().toLowerCase();
+    const normalized = query.trim().toLowerCase();
+
     return allTools.filter((tool) => {
-      const categoryMatch = tool.category === category;
-      const subcategoryMatch = subcategory === "All tasks" || tool.subcategory === subcategory;
-      const queryMatch = !normalizedQuery || [tool.name, tool.task, tool.tagline, tool.subcategory]
-        .join(" ")
-        .toLowerCase()
-        .includes(normalizedQuery);
-      return categoryMatch && subcategoryMatch && queryMatch;
+      if (tool.category !== category) return false;
+      if (subcategory !== "All tasks" && tool.subcategory !== subcategory) return false;
+
+      if (!normalized) return true;
+
+      const searchable = [
+        tool.name,
+        tool.task,
+        tool.tagline,
+        tool.overview,
+        tool.subcategory,
+        tool.pricing.summary,
+        tool.release.title,
+        ...tool.alternatives,
+        ...tool.pros,
+        ...tool.cons,
+      ].join(" ").toLowerCase();
+
+      return searchable.includes(normalized);
     });
-  }, [allTools, category, query, subcategory]);
+  }, [allTools, category, subcategory, query]);
 
   const visibleTools = filteredTools.slice(0, page * PAGE_SIZE);
   const selectedTool = filteredTools.find((tool) => tool.slug === selectedSlug) ?? filteredTools[0] ?? allTools.find((tool) => tool.slug === selectedSlug) ?? allTools[0];
@@ -233,9 +377,6 @@ export function TaskDirectory() {
 
   function selectTool(slug: string) {
     setSelectedSlug(slug);
-    if (window.matchMedia("(max-width: 1100px)").matches) {
-      window.requestAnimationFrame(() => inspectorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
-    }
   }
 
   if (!selectedTool) return null;
@@ -329,29 +470,45 @@ export function TaskDirectory() {
                 {visibleTools.map((tool, index) => {
                   const isSelected = selectedTool.slug === tool.slug;
                   return (
-                    <button
-                      type="button"
-                      key={tool.slug}
-                      className={`${styles.toolCard} ${isSelected ? styles.toolCardActive : ""}`}
-                      onClick={() => selectTool(tool.slug)}
-                      aria-pressed={isSelected}
-                    >
-                      <span className={styles.toolIndex}>{String(index + 1).padStart(2, "0")}</span>
-                      <ToolAvatar
-                        name={tool.name}
-                        icon={tool.icon}
-                        website={tool.website}
-                        className={styles.toolMark}
-                      />
-                      <div className={styles.toolInfo}>
-                        <div className={styles.toolMeta}>
-                          <span className={styles.subcategoryTag}>{tool.subcategory}</span>
+                    <div key={tool.slug} className={styles.toolItemWrapper}>
+                      <button
+                        type="button"
+                        className={`${styles.toolCard} ${isSelected ? styles.toolCardActive : ""}`}
+                        onClick={() => selectTool(tool.slug)}
+                        aria-pressed={isSelected}
+                      >
+                        <span className={styles.toolIndex}>{String(index + 1).padStart(2, "0")}</span>
+                        <ToolAvatar
+                          name={tool.name}
+                          icon={tool.icon}
+                          website={tool.website}
+                          className={styles.toolMark}
+                        />
+                        <div className={styles.toolInfo}>
+                          <div className={styles.toolMeta}>
+                            <span className={styles.subcategoryTag}>{tool.subcategory}</span>
+                          </div>
+                          <strong className={styles.toolName}>{tool.name}</strong>
+                          <p className={styles.toolTagline}>{tool.tagline}</p>
                         </div>
-                        <strong className={styles.toolName}>{tool.name}</strong>
-                        <p className={styles.toolTagline}>{tool.tagline}</p>
-                      </div>
-                      <ArrowUpRight className={styles.toolArrow} aria-hidden="true" />
-                    </button>
+                        <ArrowUpRight className={styles.toolArrow} aria-hidden="true" />
+                      </button>
+
+                      {isSelected && (
+                        <div className={styles.mobileInspectorWrap}>
+                          <InspectorDetails
+                            selectedTool={selectedTool}
+                            selectedAlternatives={selectedAlternatives}
+                            onSelectAlternative={(alt) => {
+                              setCategory(alt.category);
+                              setSubcategory("All tasks");
+                              setSelectedSlug(alt.slug);
+                              resetPage();
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
                   );
                 })}
 
@@ -387,118 +544,18 @@ export function TaskDirectory() {
               )}
             </div>
 
-            {/* Right Sticky Inspector */}
-            <aside ref={inspectorRef} className={styles.inspector} aria-label={`${selectedTool.name} details`}>
-              <div className={styles.inspectorBadgeRow}>
-                <span className={styles.inspectorSubcat}>{selectedTool.subcategory}</span>
-              </div>
-
-              <div className={styles.inspectorHeader}>
-                <div className={styles.inspectorTitleGroup}>
-                  <ToolAvatar
-                    name={selectedTool.name}
-                    icon={selectedTool.icon}
-                    website={selectedTool.website}
-                    className={styles.largeMark}
-                  />
-                  <div>
-                    <h3 className={styles.inspectorName}>{selectedTool.name}</h3>
-                    <span className={styles.inspectorTask}>{selectedTool.task}</span>
-                  </div>
-                </div>
-                <a
-                  href={selectedTool.website}
-                  target="_blank"
-                  rel="noreferrer"
-                  className={styles.visitBtn}
-                >
-                  <span>Visit tool</span>
-                  <ArrowUpRight aria-hidden="true" />
-                </a>
-              </div>
-
-              <div className={styles.jobBox}>
-                <small className={styles.jobBoxKicker}>USE THIS AI FOR</small>
-                <strong className={styles.jobBoxTitle}>{selectedTool.task}</strong>
-                <p className={styles.jobBoxDesc}>{selectedTool.overview}</p>
-              </div>
-
-              <div className={styles.specGrid}>
-                <div className={styles.specCard}>
-                  <span className={styles.blockHeading}>Pricing</span>
-                  <p className={styles.specSummary}>{selectedTool.pricing.summary}</p>
-                  <a href={selectedTool.pricing.source} target="_blank" rel="noreferrer" className={styles.sourceLink}>
-                    Check source <ExternalLink aria-hidden="true" />
-                  </a>
-                </div>
-                <div className={styles.specCard}>
-                  <span className={styles.blockHeading}>Latest release</span>
-                  <strong className={styles.releaseTitle}>{selectedTool.release.title}</strong>
-                  <small className={styles.releaseDate}>{selectedTool.release.date}</small>
-                  <p className={styles.releaseSummary}>{selectedTool.release.summary}</p>
-                  <a href={selectedTool.release.source} target="_blank" rel="noreferrer" className={styles.sourceLink}>
-                    Check release <ExternalLink aria-hidden="true" />
-                  </a>
-                </div>
-              </div>
-
-              <div className={styles.tradeoffGrid}>
-                <div className={styles.tradeoffCol}>
-                  <span className={styles.blockHeading}>Strengths</span>
-                  <ul className={styles.proList}>
-                    {selectedTool.pros.map((item) => (
-                      <li key={item}><Check aria-hidden="true" /><span>{item}</span></li>
-                    ))}
-                  </ul>
-                </div>
-                <div className={styles.tradeoffCol}>
-                  <span className={styles.blockHeading}>Limitations</span>
-                  <ul className={styles.conList}>
-                    {selectedTool.cons.map((item) => (
-                      <li key={item}><X aria-hidden="true" /><span>{item}</span></li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className={styles.alternativesBlock}>
-                <span className={styles.blockHeading}>Alternatives</span>
-                <div className={styles.alternativeChips}>
-                  {selectedAlternatives.length > 0 ? selectedAlternatives.map((alternative) => (
-                    <button
-                      type="button"
-                      key={alternative.slug}
-                      onClick={() => { setCategory(alternative.category); setSubcategory("All tasks"); setSelectedSlug(alternative.slug); resetPage(); }}
-                      className={styles.alternativeBtn}
-                    >
-                      <span>{alternative.name}</span>
-                      <ArrowUpRight aria-hidden="true" />
-                    </button>
-                  )) : (
-                    <span className={styles.noAlternatives}>No close matches indexed yet</span>
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.citationBox}>
-                <BookOpen aria-hidden="true" className={styles.citationIcon} />
-                <div className={styles.citationContent}>
-                  <span className={styles.citationTitle}>
-                    {selectedTool.profileType === "verified" ? "Official sources" : `Indexed via ${selectedTool.sourceName}`}
-                  </span>
-                  <p className={styles.citationDesc}>
-                    {selectedTool.profileType === "verified" ? `Verified as of ${directoryReviewedAt}.` : "Direct listing index. Verify current fit, features, and pricing before purchase."}
-                  </p>
-                  <div className={styles.citationLinks}>
-                    {selectedTool.sources.map((source) => (
-                      <a key={`${source.label}-${source.url}`} href={source.url} target="_blank" rel="noreferrer">
-                        <span>{source.label}</span>
-                        <ExternalLink aria-hidden="true" />
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
+            {/* Right Sticky Inspector (Desktop only) */}
+            <aside className={styles.desktopInspector} aria-label={`${selectedTool.name} details`}>
+              <InspectorDetails
+                selectedTool={selectedTool}
+                selectedAlternatives={selectedAlternatives}
+                onSelectAlternative={(alt) => {
+                  setCategory(alt.category);
+                  setSubcategory("All tasks");
+                  setSelectedSlug(alt.slug);
+                  resetPage();
+                }}
+              />
             </aside>
           </div>
         </section>
