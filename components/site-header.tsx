@@ -59,6 +59,7 @@ export function SiteHeader() {
             <span>Mode Switcher</span>
           </Link>
           <Link href="/pricing">Pricing</Link>
+          <Link href="/tasks">Directory</Link>
           <AuthActions />
           <div className="flex items-center pl-2 border-l border-white/10">
             <VisualModeToggle />

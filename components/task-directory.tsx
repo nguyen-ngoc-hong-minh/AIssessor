@@ -19,8 +19,8 @@ import {
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { directoryReviewedAt, directoryTools, taskCategories, type DirectoryTool, type TaskCategory } from "@/lib/task-directory";
-import { Brand } from "./brand";
-import { VisualModeToggle } from "./visual-mode-toggle";
+import { SiteHeader } from "./site-header";
+import { SiteFooter } from "./site-footer";
 import styles from "./task-directory.module.css";
 
 const PAGE_SIZE = 18;
@@ -206,212 +206,292 @@ export function TaskDirectory() {
   if (!selectedTool) return null;
 
   return (
-    <main className={styles.page}>
-      <header className={styles.header}>
-        <Brand />
-        <nav className={styles.headerNav} aria-label="Task directory navigation">
-          <Link href="/" className={styles.backLink}><ArrowLeft aria-hidden="true" /> Back home</Link>
-          <VisualModeToggle />
-        </nav>
-      </header>
+    <div className={styles.pageWrap}>
+      <SiteHeader />
 
-      <section className={styles.heroSection}>
-        <div className={styles.heroMain}>
-          <div className={styles.heroCopy}>
-            <div className={styles.badgeRow}>
-              <span className={styles.eyebrow}><Sparkles aria-hidden="true" /> AI Task Directory</span>
+      <main className={styles.mainContainer}>
+        {/* Header Block & Search */}
+        <section className={styles.heroSection}>
+          <div className={styles.heroHeader}>
+            <div className={styles.kickerRow}>
+              <span className={styles.monoBadge}>[ AI TASK DIRECTORY ]</span>
               {payload ? (
-                <span className={styles.countBadge}>
-                  <Database aria-hidden="true" /> <strong>{payload.counts.unique.toLocaleString()}</strong> tools
+                <span className={styles.statBadge}>
+                  <Database aria-hidden="true" /> {payload.counts.unique.toLocaleString()} tools indexed
                 </span>
               ) : (
-                <span className={styles.countBadge}>
-                  <LoaderCircle className={styles.spinner} aria-hidden="true" /> Loading...
+                <span className={styles.statBadge}>
+                  <LoaderCircle className={styles.spinner} aria-hidden="true" /> Loading directory...
                 </span>
               )}
               <span className={styles.verifiedBadge}>
-                <BadgeCheck aria-hidden="true" /> <strong>{directoryTools.length}</strong> verified
+                <BadgeCheck aria-hidden="true" /> {directoryTools.length} verified profiles
               </span>
             </div>
-            <h1 className={styles.heroTitle}>Find an AI tool for the task</h1>
+
+            <h1 className={styles.heroTitle}>Find an AI tool for any task</h1>
             <p className={styles.heroDesc}>
-              Compare tools by workflow, pricing models, verified releases, and alternatives.
+              Search thousands of AI tools across creativity, work, and personal workflows. Compare pricing, release dates, and verified alternatives.
             </p>
           </div>
 
-          <div className={styles.searchBox}>
-            <div className={styles.searchWrap}>
-              <Search aria-hidden="true" />
+          <div className={styles.searchContainer}>
+            <div className={styles.searchBar}>
+              <Search className={styles.searchIcon} aria-hidden="true" />
               <input
                 type="search"
                 value={query}
                 onChange={(event) => { setQuery(event.target.value); resetPage(); }}
-                placeholder="Search tools, tasks, or features..."
+                placeholder="Search tools, tasks, or features (e.g. Midjourney, video editing, code)..."
                 aria-label="Search tasks or AI tools"
               />
-              {query && <button type="button" onClick={() => { setQuery(""); resetPage(); }} aria-label="Clear search"><X /></button>}
+              {query && (
+                <button type="button" onClick={() => { setQuery(""); resetPage(); }} aria-label="Clear search" className={styles.clearBtn}>
+                  <X />
+                </button>
+              )}
             </div>
           </div>
-        </div>
+        </section>
 
-        <div className={styles.categoryBar} role="tablist" aria-label="Tool Categories">
-          {taskCategories.map((item) => {
-            const Icon = categoryIcons[item.id];
-            const toolCount = allTools.filter((tool) => tool.category === item.id).length;
-            const isActive = item.id === category;
-            return (
-              <button
-                type="button"
-                role="tab"
-                key={item.id}
-                className={isActive ? styles.categoryTabActive : styles.categoryTab}
-                onClick={() => changeCategory(item.id)}
-                aria-selected={isActive}
-              >
-                <span className={styles.categoryTabIcon}><Icon aria-hidden="true" /></span>
-                <span className={styles.categoryTabDetails}>
-                  <strong>{item.label}</strong>
-                  <small>{item.description}</small>
-                </span>
-                <span className={styles.categoryTabBadge}>{toolCount.toLocaleString()}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
-
-      <section className={styles.directorySection} aria-label="AI Tools Directory">
-        <div className={styles.filterBar}>
-          <div className={styles.subcategoryNav} aria-label={`${activeCategory.label} subcategories`}>
-            {["All tasks", ...activeCategory.subcategories].map((item) => (
-              <button
-                type="button"
-                key={item}
-                onClick={() => { setSubcategory(item); resetPage(); }}
-                className={subcategory === item ? styles.subcatActive : styles.subcatButton}
-                aria-pressed={subcategory === item}
-              >
-                {item}
-                <span className={styles.subcatCount}>
-                  {item === "All tasks"
-                    ? allTools.filter((tool) => tool.category === category).length
-                    : allTools.filter((tool) => tool.category === category && tool.subcategory === item).length}
-                </span>
-              </button>
-            ))}
-          </div>
-          <div className={styles.resultsCount}>
-            <span>{filteredTools.length.toLocaleString()} {filteredTools.length === 1 ? "tool" : "tools"}</span>
-          </div>
-        </div>
-
-        <div className={styles.directoryLayout}>
-          <div className={styles.toolColumn}>
-            <div className={styles.toolList} aria-live="polite">
-              {visibleTools.map((tool, index) => (
+        {/* Category Cards (Signature Metric Grid Style) */}
+        <section className={styles.categoriesSection} aria-label="Task Categories">
+          <div className={styles.categoryGrid}>
+            {taskCategories.map((item) => {
+              const Icon = categoryIcons[item.id];
+              const toolCount = allTools.filter((tool) => tool.category === item.id).length;
+              const isActive = item.id === category;
+              return (
                 <button
                   type="button"
-                  key={tool.slug}
-                  className={selectedTool.slug === tool.slug ? styles.toolActive : styles.toolButton}
-                  onClick={() => selectTool(tool.slug)}
-                  aria-pressed={selectedTool.slug === tool.slug}
+                  key={item.id}
+                  className={`${styles.categoryCard} ${isActive ? styles.categoryCardActive : ""}`}
+                  onClick={() => changeCategory(item.id)}
+                  aria-pressed={isActive}
                 >
-                  <span className={styles.toolIndex}>{String(index + 1).padStart(2, "0")}</span>
-                  <span className={styles.toolMark} style={{ "--tool-accent": tool.accent } as React.CSSProperties}>{tool.name.slice(0, 2)}</span>
-                  <span className={styles.toolCopy}>
-                    <small>{tool.subcategory} · {tool.profileType === "verified" ? "Verified" : "Directory"} · {tool.task}</small>
-                    <strong>{tool.name}</strong>
-                    <span>{tool.tagline}</span>
-                  </span>
-                  <ArrowUpRight aria-hidden="true" />
+                  <div className={styles.categoryCardTop}>
+                    <span className={styles.categoryIconWrap}><Icon aria-hidden="true" /></span>
+                    <span className={styles.categoryCountBadge}>{toolCount.toLocaleString()} tools</span>
+                  </div>
+                  <strong className={styles.categoryCardTitle}>{item.label}</strong>
+                  <p className={styles.categoryCardDesc}>{item.description}</p>
                 </button>
-              ))}
-              {filteredTools.length === 0 && (
-                <div className={styles.emptyState}>
-                  <Search aria-hidden="true" />
-                  <h3>No matching tools</h3>
-                  <p>Try a broader search or choose another task category.</p>
-                  <button type="button" onClick={() => { setQuery(""); setSubcategory("All tasks"); resetPage(); }}>Clear filters</button>
-                </div>
-              )}
-              {loadError && (
-                <div className={styles.emptyState}>
-                  <Database aria-hidden="true" />
-                  <h3>Discovery index unavailable</h3>
-                  <p>The verified profiles are still available. Reload to retry the full directory.</p>
-                </div>
-              )}
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Directory Explorer: Subcategories + List + Inspector */}
+        <section className={styles.directorySection} aria-label="AI Tools Explorer">
+          <div className={styles.filterBar}>
+            <div className={styles.subcategoryNav} aria-label={`${activeCategory.label} subcategories`}>
+              {["All tasks", ...activeCategory.subcategories].map((item) => {
+                const count = item === "All tasks"
+                  ? allTools.filter((tool) => tool.category === category).length
+                  : allTools.filter((tool) => tool.category === category && tool.subcategory === item).length;
+                const isSelected = subcategory === item;
+                return (
+                  <button
+                    type="button"
+                    key={item}
+                    onClick={() => { setSubcategory(item); resetPage(); }}
+                    className={`${styles.subcatBtn} ${isSelected ? styles.subcatBtnActive : ""}`}
+                    aria-pressed={isSelected}
+                  >
+                    <span>{item}</span>
+                    <span className={styles.subcatCount}>{count}</span>
+                  </button>
+                );
+              })}
             </div>
-            {visibleTools.length < filteredTools.length && (
-              <button type="button" className={styles.loadMore} onClick={() => setPage((current) => current + 1)}>
-                Show {Math.min(PAGE_SIZE, filteredTools.length - visibleTools.length)} more
-                <span>{visibleTools.length.toLocaleString()} / {filteredTools.length.toLocaleString()}</span>
-              </button>
-            )}
+            <div className={styles.resultsSummary}>
+              <span>{filteredTools.length.toLocaleString()} {filteredTools.length === 1 ? "tool" : "tools"} matching</span>
+            </div>
           </div>
 
-          <aside ref={inspectorRef} className={styles.inspector} aria-label={`${selectedTool.name} details`}>
-            <div className={styles.profileBadge} data-profile={selectedTool.profileType}>
-              {selectedTool.profileType === "verified" ? <BadgeCheck aria-hidden="true" /> : <Database aria-hidden="true" />}
-              {selectedTool.profileType === "verified" ? "Verified profile" : "Directory listing"}
-            </div>
-            <div className={styles.inspectorHeader}>
-              <div className={styles.inspectorTitle}>
-                <span className={styles.largeMark} style={{ "--tool-accent": selectedTool.accent } as React.CSSProperties}>{selectedTool.name.slice(0, 2)}</span>
-                <div><small>{selectedTool.subcategory}</small><h3>{selectedTool.name}</h3></div>
+          <div className={styles.directoryLayout}>
+            {/* Left Tool List */}
+            <div className={styles.toolColumn}>
+              <div className={styles.toolList} aria-live="polite">
+                {visibleTools.map((tool, index) => {
+                  const isSelected = selectedTool.slug === tool.slug;
+                  return (
+                    <button
+                      type="button"
+                      key={tool.slug}
+                      className={`${styles.toolCard} ${isSelected ? styles.toolCardActive : ""}`}
+                      onClick={() => selectTool(tool.slug)}
+                      aria-pressed={isSelected}
+                    >
+                      <span className={styles.toolIndex}>{String(index + 1).padStart(2, "0")}</span>
+                      <span className={styles.toolMark} style={{ "--tool-accent": tool.accent } as React.CSSProperties}>
+                        {tool.name.slice(0, 2)}
+                      </span>
+                      <div className={styles.toolInfo}>
+                        <div className={styles.toolMeta}>
+                          <span className={styles.subcategoryTag}>{tool.subcategory}</span>
+                          <span className={tool.profileType === "verified" ? styles.verifiedTag : styles.directoryTag}>
+                            {tool.profileType === "verified" ? "Verified" : "Directory"}
+                          </span>
+                        </div>
+                        <strong className={styles.toolName}>{tool.name}</strong>
+                        <p className={styles.toolTagline}>{tool.tagline}</p>
+                      </div>
+                      <ArrowUpRight className={styles.toolArrow} aria-hidden="true" />
+                    </button>
+                  );
+                })}
+
+                {filteredTools.length === 0 && (
+                  <div className={styles.emptyState}>
+                    <Search aria-hidden="true" />
+                    <h3>No matching tools found</h3>
+                    <p>Try searching for a different keyword or reset filters.</p>
+                    <button
+                      type="button"
+                      className={styles.resetBtn}
+                      onClick={() => { setQuery(""); setSubcategory("All tasks"); resetPage(); }}
+                    >
+                      Clear all filters
+                    </button>
+                  </div>
+                )}
+
+                {loadError && (
+                  <div className={styles.emptyState}>
+                    <Database aria-hidden="true" />
+                    <h3>Discovery index unavailable</h3>
+                    <p>Verified profiles are still accessible. Reload the page to retry the index.</p>
+                  </div>
+                )}
               </div>
-              <a href={selectedTool.website} target="_blank" rel="noreferrer">Visit tool <ArrowUpRight aria-hidden="true" /></a>
+
+              {visibleTools.length < filteredTools.length && (
+                <button type="button" className={styles.loadMoreBtn} onClick={() => setPage((current) => current + 1)}>
+                  <span>Show {Math.min(PAGE_SIZE, filteredTools.length - visibleTools.length)} more tools</span>
+                  <span className={styles.loadMoreCount}>{visibleTools.length.toLocaleString()} / {filteredTools.length.toLocaleString()}</span>
+                </button>
+              )}
             </div>
 
-            <div className={styles.detailBlock}>
-              <span>Overview</span>
-              <p>{selectedTool.overview}</p>
-            </div>
+            {/* Right Sticky Inspector */}
+            <aside ref={inspectorRef} className={styles.inspector} aria-label={`${selectedTool.name} details`}>
+              <div className={styles.inspectorBadgeRow}>
+                <span className={selectedTool.profileType === "verified" ? styles.profileBadgeVerified : styles.profileBadgeListing}>
+                  {selectedTool.profileType === "verified" ? <BadgeCheck aria-hidden="true" /> : <Database aria-hidden="true" />}
+                  {selectedTool.profileType === "verified" ? "Verified profile" : "Directory listing"}
+                </span>
+                <span className={styles.inspectorSubcat}>{selectedTool.subcategory}</span>
+              </div>
 
-            <div className={styles.detailGrid}>
-              <div className={styles.detailBlock}>
-                <span>Pricing</span>
-                <p>{selectedTool.pricing.summary}</p>
-                <a href={selectedTool.pricing.source} target="_blank" rel="noreferrer">Check source <ExternalLink aria-hidden="true" /></a>
+              <div className={styles.inspectorHeader}>
+                <div className={styles.inspectorTitleGroup}>
+                  <span className={styles.largeMark} style={{ "--tool-accent": selectedTool.accent } as React.CSSProperties}>
+                    {selectedTool.name.slice(0, 2)}
+                  </span>
+                  <div>
+                    <h3 className={styles.inspectorName}>{selectedTool.name}</h3>
+                    <span className={styles.inspectorTask}>{selectedTool.task}</span>
+                  </div>
+                </div>
+                <a
+                  href={selectedTool.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={styles.visitBtn}
+                >
+                  <span>Visit tool</span>
+                  <ArrowUpRight aria-hidden="true" />
+                </a>
               </div>
-              <div className={styles.detailBlock}>
-                <span>Latest release</span>
-                <strong>{selectedTool.release.title}</strong>
-                <small>{selectedTool.release.date}</small>
-                <p>{selectedTool.release.summary}</p>
-                <a href={selectedTool.release.source} target="_blank" rel="noreferrer">Check release source <ExternalLink aria-hidden="true" /></a>
-              </div>
-            </div>
 
-            <div className={styles.tradeoffGrid}>
-              <div>
-                <span>Pros</span>
-                <ul>{selectedTool.pros.map((item) => <li key={item}><Check aria-hidden="true" />{item}</li>)}</ul>
+              <div className={styles.inspectorBlock}>
+                <span className={styles.blockHeading}>Overview</span>
+                <p className={styles.overviewText}>{selectedTool.overview}</p>
               </div>
-              <div>
-                <span>Cons</span>
-                <ul>{selectedTool.cons.map((item) => <li key={item}><X aria-hidden="true" />{item}</li>)}</ul>
-              </div>
-            </div>
 
-            <div className={styles.alternatives}>
-              <span>Alternatives</span>
-              <div>{selectedAlternatives.length > 0 ? selectedAlternatives.map((alternative) => (
-                <button type="button" key={alternative.slug} onClick={() => { setCategory(alternative.category); setSubcategory("All tasks"); setSelectedSlug(alternative.slug); resetPage(); }}>{alternative.name}<ArrowUpRight /></button>
-              )) : <span>No close matches indexed yet</span>}</div>
-            </div>
-
-            <div className={styles.sources}>
-              <BookOpen aria-hidden="true" />
-              <div>
-                <span>{selectedTool.profileType === "verified" ? "Official sources" : `Indexed by ${selectedTool.sourceName}`}</span>
-                <p>{selectedTool.profileType === "verified" ? `Reviewed ${directoryReviewedAt}.` : "Discovery record only; verify claims, pricing, and fit before purchasing."}</p>
-                <div>{selectedTool.sources.map((source) => <a key={`${source.label}-${source.url}`} href={source.url} target="_blank" rel="noreferrer">{source.label}<ExternalLink /></a>)}</div>
+              <div className={styles.specGrid}>
+                <div className={styles.specCard}>
+                  <span className={styles.blockHeading}>Pricing</span>
+                  <p className={styles.specSummary}>{selectedTool.pricing.summary}</p>
+                  <a href={selectedTool.pricing.source} target="_blank" rel="noreferrer" className={styles.sourceLink}>
+                    Check source <ExternalLink aria-hidden="true" />
+                  </a>
+                </div>
+                <div className={styles.specCard}>
+                  <span className={styles.blockHeading}>Latest release</span>
+                  <strong className={styles.releaseTitle}>{selectedTool.release.title}</strong>
+                  <small className={styles.releaseDate}>{selectedTool.release.date}</small>
+                  <p className={styles.releaseSummary}>{selectedTool.release.summary}</p>
+                  <a href={selectedTool.release.source} target="_blank" rel="noreferrer" className={styles.sourceLink}>
+                    Check release <ExternalLink aria-hidden="true" />
+                  </a>
+                </div>
               </div>
-            </div>
-          </aside>
-        </div>
-      </section>
-    </main>
+
+              <div className={styles.tradeoffGrid}>
+                <div className={styles.tradeoffCol}>
+                  <span className={styles.blockHeading}>Strengths</span>
+                  <ul className={styles.proList}>
+                    {selectedTool.pros.map((item) => (
+                      <li key={item}><Check aria-hidden="true" /><span>{item}</span></li>
+                    ))}
+                  </ul>
+                </div>
+                <div className={styles.tradeoffCol}>
+                  <span className={styles.blockHeading}>Limitations</span>
+                  <ul className={styles.conList}>
+                    {selectedTool.cons.map((item) => (
+                      <li key={item}><X aria-hidden="true" /><span>{item}</span></li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className={styles.alternativesBlock}>
+                <span className={styles.blockHeading}>Alternatives</span>
+                <div className={styles.alternativeChips}>
+                  {selectedAlternatives.length > 0 ? selectedAlternatives.map((alternative) => (
+                    <button
+                      type="button"
+                      key={alternative.slug}
+                      onClick={() => { setCategory(alternative.category); setSubcategory("All tasks"); setSelectedSlug(alternative.slug); resetPage(); }}
+                      className={styles.alternativeBtn}
+                    >
+                      <span>{alternative.name}</span>
+                      <ArrowUpRight aria-hidden="true" />
+                    </button>
+                  )) : (
+                    <span className={styles.noAlternatives}>No close matches indexed yet</span>
+                  )}
+                </div>
+              </div>
+
+              <div className={styles.citationBox}>
+                <BookOpen aria-hidden="true" className={styles.citationIcon} />
+                <div className={styles.citationContent}>
+                  <span className={styles.citationTitle}>
+                    {selectedTool.profileType === "verified" ? "Official sources" : `Indexed via ${selectedTool.sourceName}`}
+                  </span>
+                  <p className={styles.citationDesc}>
+                    {selectedTool.profileType === "verified" ? `Verified as of ${directoryReviewedAt}.` : "Direct listing index. Verify current fit, features, and pricing before purchase."}
+                  </p>
+                  <div className={styles.citationLinks}>
+                    {selectedTool.sources.map((source) => (
+                      <a key={`${source.label}-${source.url}`} href={source.url} target="_blank" rel="noreferrer">
+                        <span>{source.label}</span>
+                        <ExternalLink aria-hidden="true" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+
+      <SiteFooter />
+    </div>
   );
 }
