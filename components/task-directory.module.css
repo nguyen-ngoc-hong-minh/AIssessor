@@ -216,9 +216,9 @@
   text-transform: uppercase;
 }
 .toolCopy { min-width: 0; }
-.toolCopy small { display: block; margin-bottom: 4px; color: var(--directory-blue); font: 700 10px var(--font-jetbrains-mono), monospace; letter-spacing: .1em; text-transform: uppercase; }
+.toolCopy small { display: block; overflow: hidden; margin-bottom: 6px; color: var(--directory-blue); font: 700 10px var(--font-jetbrains-mono), monospace; letter-spacing: .1em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
 .toolActive .toolCopy small { color: inherit; }
-.toolCopy strong { display: block; margin-bottom: 7px; font: 600 18px/1.2 var(--font-space-grotesk), sans-serif; }
+.toolCopy strong { display: block; overflow: hidden; margin-bottom: 7px; font: 600 22px/1.15 var(--font-space-grotesk), sans-serif; text-overflow: ellipsis; white-space: nowrap; }
 .toolCopy > span { display: block; overflow: hidden; color: rgba(7,20,58,.62); font-size: 13px; line-height: 1.45; text-overflow: ellipsis; white-space: nowrap; }
 .toolActive .toolCopy > span { color: rgba(255,255,241,.72); }
 .toolButton > svg,

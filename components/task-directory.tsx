@@ -303,9 +303,9 @@ export function TaskDirectory() {
                   <span className={styles.toolIndex}>{String(index + 1).padStart(2, "0")}</span>
                   <span className={styles.toolMark} style={{ "--tool-accent": tool.accent } as React.CSSProperties}>{tool.name.slice(0, 2)}</span>
                   <span className={styles.toolCopy}>
-                    <small>{tool.subcategory} · {tool.profileType === "verified" ? "Verified" : "Directory"}</small>
-                    <strong>{tool.task}</strong>
-                    <span>{tool.name} · {tool.tagline}</span>
+                    <small>{tool.subcategory} · {tool.profileType === "verified" ? "Verified" : "Directory"} · {tool.task}</small>
+                    <strong>{tool.name}</strong>
+                    <span>{tool.tagline}</span>
                   </span>
                   <ArrowUpRight aria-hidden="true" />
                 </button>
