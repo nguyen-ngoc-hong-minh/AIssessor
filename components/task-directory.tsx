@@ -91,11 +91,11 @@ function ToolAvatar({ name, icon, website, className }: { name: string; icon?: s
   const logoUrl = icon || (website ? getFaviconUrl(website) : "");
 
   if (!logoUrl || imgFailed) {
-    return <span className={className}>{name.slice(0, 2)}</span>;
+    return <span className={`${className} ${styles.textFallbackMark}`}>{name.slice(0, 2)}</span>;
   }
 
   return (
-    <span className={className}>
+    <span className={`${className} ${styles.logoMarkWrap}`}>
       <img
         src={logoUrl}
         alt={`${name} logo`}
