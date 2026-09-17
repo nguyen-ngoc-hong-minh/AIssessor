@@ -9,6 +9,7 @@ export type DirectoryTool = {
   tagline: string;
   overview: string;
   website: string;
+  icon?: string;
   pricing: {
     summary: string;
     source: string;
@@ -57,6 +58,7 @@ export const directoryTools: DirectoryTool[] = [
     tagline: "High-quality image generation with strong visual style.",
     overview: "Midjourney turns text and image references into polished visuals. It is a strong fit for concept art, campaign exploration, moodboards, and art-direction work where visual character matters more than exact production control.",
     website: "https://www.midjourney.com/",
+    icon: "/logos/midjourney.svg",
     pricing: {
       summary: "Subscription only. Plans currently start at US$10/month; higher tiers add more GPU time, relaxed generation, and privacy controls.",
       source: "https://docs.midjourney.com/hc/en-us/articles/27870484040333-Comparing-Midjourney-Plans",

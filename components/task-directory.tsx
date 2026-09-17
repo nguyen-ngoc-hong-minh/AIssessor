@@ -110,7 +110,7 @@ function ToolAvatar({ name, icon, website, className }: { name: string; icon?: s
 function normalizeVerifiedTool(tool: DirectoryTool): DisplayTool {
   return {
     ...tool,
-    icon: getFaviconUrl(tool.website),
+    icon: tool.icon || getFaviconUrl(tool.website),
     profileType: "verified",
     sourceName: "Official product sources",
   };
@@ -120,6 +120,7 @@ function normalizeIndexedTool(tool: IndexedTool): DisplayTool {
   const hasPricing = tool.pricing && tool.pricing !== "Pricing not listed" && !tool.pricing.startsWith("See provider");
   const hasRelease = tool.released && !tool.released.startsWith("Release date not listed");
   const sourceLink = tool.directoryUrl || tool.sourceUrl;
+  const isMidjourney = tool.slug.toLowerCase().includes("midjourney") || tool.name.toLowerCase() === "midjourney";
 
   return {
     slug: tool.slug,
@@ -130,7 +131,7 @@ function normalizeIndexedTool(tool: IndexedTool): DisplayTool {
     tagline: tool.tagline,
     overview: tool.overview,
     website: tool.website,
-    icon: tool.icon || getFaviconUrl(tool.website),
+    icon: isMidjourney ? "/logos/midjourney.svg" : (tool.icon || getFaviconUrl(tool.website)),
     pricing: { summary: tool.pricing || "See provider for current pricing", source: sourceLink },
     release: {
       title: tool.version || "Current listing",
