@@ -7351,6 +7351,152 @@ div.trial-results,
   border-top: 1.5px solid #FFFFF1 !important;
 }
 
+/* Beginner-friendly recommendation reasoning */
+.trial-why > summary {
+  gap: 12px !important;
+  flex-wrap: wrap;
+  min-height: 28px;
+}
+
+.trial-why > summary > span {
+  margin-left: auto;
+  color: rgba(2, 19, 176, .64) !important;
+  font: 500 11px/1.35 var(--font-body) !important;
+  letter-spacing: 0 !important;
+}
+
+.trial-why-content {
+  display: grid;
+  gap: 14px;
+  padding-top: 20px !important;
+}
+
+.trial-why-section,
+.trial-why-example,
+.trial-why-pros-cons > section {
+  border: 1px solid rgba(2, 19, 176, .24);
+  border-radius: .25rem;
+  padding: 18px;
+}
+
+.trial-why-section h4,
+.trial-why-example h4,
+.trial-why-pros-cons h4 {
+  margin: 0 0 8px;
+  color: #0213B0;
+  font: 700 13px/1.35 var(--font-sans);
+}
+
+.trial-why-section p,
+.trial-why-example p {
+  margin: 0;
+  color: #0213B0 !important;
+  font: 400 13px/1.65 var(--font-body) !important;
+}
+
+.trial-why-fit {
+  background: rgba(2, 19, 176, .055);
+  border-color: rgba(2, 19, 176, .36);
+}
+
+.trial-why-example {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  gap: 12px;
+  background: #FFFFF1;
+}
+
+.trial-why-example > svg {
+  width: 20px;
+  height: 20px;
+  color: #0213B0;
+  margin-top: 1px;
+}
+
+.trial-why-example a,
+.trial-evidence-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  color: #0213B0 !important;
+  font: 700 12px/1.4 var(--font-sans) !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.trial-why-example a svg,
+.trial-evidence-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+.trial-why-pros-cons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.trial-why-pros-cons h4 {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.trial-why-pros-cons h4 svg {
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.trial-why-pros-cons ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0 0 0 18px !important;
+  color: #0213B0 !important;
+}
+
+.trial-why-pros-cons li {
+  color: #0213B0 !important;
+  font: 400 12px/1.55 var(--font-body) !important;
+}
+
+.trial-evidence-link {
+  width: fit-content;
+  margin-top: 0;
+}
+
+@media (max-width: 640px) {
+  .trial-why > summary > span { width: 100%; margin-left: 0; }
+  .trial-why-pros-cons { grid-template-columns: 1fr; }
+}
+
+:root[data-theme="dark"] .trial-why > summary > span,
+:root[data-theme="dark"] .trial-why-section h4,
+:root[data-theme="dark"] .trial-why-example h4,
+:root[data-theme="dark"] .trial-why-pros-cons h4,
+:root[data-theme="dark"] .trial-why-section p,
+:root[data-theme="dark"] .trial-why-example p,
+:root[data-theme="dark"] .trial-why-pros-cons ul,
+:root[data-theme="dark"] .trial-why-pros-cons li,
+:root[data-theme="dark"] .trial-why-example a,
+:root[data-theme="dark"] .trial-evidence-link,
+:root[data-theme="dark"] .trial-why-example > svg {
+  color: #FFFFF1 !important;
+}
+
+:root[data-theme="dark"] .trial-why-section,
+:root[data-theme="dark"] .trial-why-example,
+:root[data-theme="dark"] .trial-why-pros-cons > section {
+  border-color: rgba(255, 255, 241, .42);
+}
+
+:root[data-theme="dark"] .trial-why-fit,
+:root[data-theme="dark"] .trial-why-example {
+  background: rgba(255, 255, 241, .09);
+}
+
 /* 7d. USE THIS AI FOR Box in Dark Mode (Fill #FFFFF1 Cream, No Border, Chữ Xanh Đậm #0213B0) */
 :root[data-theme="dark"] .trial-job-label {
   background-color: #FFFFF1 !important;
@@ -8345,4 +8491,3 @@ section.trial-results,
 :root[data-theme="dark"] .trial-customize-actions p {
   color: #FFFFF1 !important;
 }
-

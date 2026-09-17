@@ -1,9 +1,10 @@
 "use client";
 
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, Lightbulb } from "lucide-react";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { formatCurrency, formatUsdInCurrency, type SupportedCurrency } from "@/lib/currency";
+import { buildModelExplanation } from "@/lib/recommendation/model-explanation";
 import type { CandidateScore, StepRecommendation, StrategyPlan, SubscriptionSummary } from "@/lib/recommendation/types";
 
 type TrialResult = { usageType: "one_off" | "monthly"; plans: StrategyPlan[] };
@@ -48,12 +49,6 @@ function accessName(tool: SelectedTool) {
   return tool.access.productName ?? tool.model.provider;
 }
 
-function actionFor(tool: SelectedTool, plan: StrategyPlan) {
-  const subscription = subscriptionFor(tool, plan);
-  if (subscription?.alreadyOwned) return "KEEP";
-  return tool.access.accessMethod === "product" ? "ADD" : "USE";
-}
-
 function costFor(tool: SelectedTool, plan: StrategyPlan) {
   const subscription = subscriptionFor(tool, plan);
   if (subscription?.alreadyOwned) return "Already in your setup";
@@ -74,16 +69,41 @@ function ResultSummary({ plan, monthly }: { plan: StrategyPlan; monthly: boolean
 }
 
 function StepToolCard({ step, tool, plan }: { step: StepRecommendation; tool: SelectedTool; plan: StrategyPlan }) {
-  const action = actionFor(tool, plan);
   const route = accessName(tool);
-  const explanation = step.selected?.explanation.find((item) => item.trim()) ?? `Selected to complete ${step.step.name}.`;
+  const costLabel = costFor(tool, plan);
+  const explanation = buildModelExplanation({
+    modelName: tool.model.name,
+    stepName: step.step.name,
+    stepDescription: step.step.plainLanguageDescription,
+    inputDescription: step.step.inputDescription,
+    outputDescription: step.step.outputDescription,
+    coveredCapabilities: tool.coversCapabilities ?? [],
+    limitations: step.selected?.limitations ?? [],
+    evidenceConfidence: step.selected?.evidenceConfidence ?? "Limited",
+    humanReviewRecommended: step.step.humanReviewRecommended,
+    accessRoute: route,
+    costLabel,
+  });
+  const evidence = step.selected?.evidence?.find((item) => item.sourceUrl);
   return (
     <article className="trial-tool-card">
       <div className="trial-tool-card-top"><span>{roleFor(step.taskCategory)}</span></div>
       <div className="trial-model-identity"><h3>{tool.model.name}</h3><p>by {tool.model.provider}{route.toLowerCase() !== tool.model.provider.toLowerCase() ? <> · access via <strong>{route}</strong></> : null}</p></div>
       <div className="trial-job-label"><small>USE THIS AI FOR</small><strong>{step.step.name}</strong><span>{step.step.plainLanguageDescription}</span></div>
-            <div className="trial-tool-meta"><strong>{costFor(tool, plan)}</strong><a href={tool.access.url} target="_blank" rel="noreferrer">Open {route} <ArrowUpRight /></a></div>
-      <details className="trial-why"><summary>Why this model? <ChevronDown /></summary><div><p>{step.selected?.explanation.join(" ")}</p><ul><li>Specific model: {tool.model.name}</li><li>Access route: {route}</li><li>Covers: {tool.coversCapabilities.join(", ") || step.taskCategory.replaceAll("_", " ")}</li><li>Estimated usage: {money(tool.estimatedCostUsd, plan)}</li></ul></div></details>
+      <div className="trial-tool-meta"><strong>{costLabel}</strong><a href={tool.access.url} target="_blank" rel="noreferrer">Open {route} <ArrowUpRight /></a></div>
+      <details className="trial-why">
+        <summary>Why this model? <span>Task fit, example, pros &amp; cons</span><ChevronDown /></summary>
+        <div className="trial-why-content">
+          <section className="trial-why-section trial-why-fit"><h4>Why it fits this task</h4><p>{explanation.fit}</p></section>
+          <section className="trial-why-section"><h4>What it can do here</h4><p>{explanation.canDo}</p></section>
+          <section className="trial-why-example"><Lightbulb /><div><h4>A simple example</h4><p>{explanation.example}</p><a href={tool.access.url} target="_blank" rel="noreferrer">Try this example in {route} <ArrowUpRight /></a></div></section>
+          <div className="trial-why-pros-cons">
+            <section><h4><CheckCircle2 /> Pros for this task</h4><ul>{explanation.pros.map((item) => <li key={item}>{item}</li>)}</ul></section>
+            <section><h4><AlertCircle /> Things to consider</h4><ul>{explanation.cons.map((item) => <li key={item}>{item}</li>)}</ul></section>
+          </div>
+          {evidence?.sourceUrl && <a className="trial-evidence-link" href={evidence.sourceUrl} target="_blank" rel="noreferrer">View supporting evidence from {evidence.source} <ArrowUpRight /></a>}
+        </div>
+      </details>
     </article>
   );
 }
