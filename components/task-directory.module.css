@@ -61,7 +61,7 @@
   opacity: 0.9;
 }
 
-/* Search Bar - Type 3: Nền be chữ xanh đậm viền xanh đậm */
+/* Search Bar - Type 2: Nền xám chữ xanh đậm ko viền */
 .searchContainer {
   margin-top: 4px;
   max-width: 760px;
@@ -74,10 +74,10 @@
   min-height: 48px;
   padding: 0 16px;
   border-radius: 4px;
-  background-color: #FFFFF1 !important;
-  background: #FFFFF1 !important;
+  background-color: #F4F7F5 !important;
+  background: #F4F7F5 !important;
   color: #0213B0 !important;
-  border: 1.5px solid #0213B0 !important;
+  border: none !important;
   box-shadow: none !important;
 }
 
@@ -94,10 +94,22 @@
   min-width: 0;
   border: 0;
   outline: 0;
-  background: transparent;
+  background-color: transparent !important;
+  background: transparent !important;
   color: #0213B0 !important;
   font: 600 14px var(--font-dm-sans), sans-serif;
   box-shadow: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.searchBar input::-webkit-search-decoration,
+.searchBar input::-webkit-search-cancel-button,
+.searchBar input::-webkit-search-results-button,
+.searchBar input::-webkit-search-results-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
 }
 
 .searchBar input::placeholder {
@@ -1006,7 +1018,6 @@
   color: #FFFFF1 !important;
 }
 
-:root[data-theme="dark"] .searchBar,
 :root[data-theme="dark"] .subcatBtn,
 :root[data-theme="dark"] .profileBadgeVerified,
 :root[data-theme="dark"] .profileBadgeListing,
@@ -1020,11 +1031,6 @@
   border: 1.5px solid #FFFFF1 !important;
 }
 
-:root[data-theme="dark"] .searchIcon,
-:root[data-theme="dark"] .searchBar input,
-:root[data-theme="dark"] .searchBar input::placeholder,
-:root[data-theme="dark"] .clearBtn,
-:root[data-theme="dark"] .clearBtn svg,
 :root[data-theme="dark"] .subcatBtn *,
 :root[data-theme="dark"] .profileBadgeVerified *,
 :root[data-theme="dark"] .profileBadgeListing *,
@@ -1036,6 +1042,7 @@
   stroke: #FFFFF1 !important;
 }
 
+:root[data-theme="dark"] .searchBar,
 :root[data-theme="dark"] .categoryCard,
 :root[data-theme="dark"] .toolCard,
 :root[data-theme="dark"] .inspector,
@@ -1046,6 +1053,11 @@
   border: none !important;
 }
 
+:root[data-theme="dark"] .searchIcon,
+:root[data-theme="dark"] .searchBar input,
+:root[data-theme="dark"] .searchBar input::placeholder,
+:root[data-theme="dark"] .clearBtn,
+:root[data-theme="dark"] .clearBtn svg,
 :root[data-theme="dark"] .categoryCard *,
 :root[data-theme="dark"] .toolCard *,
 :root[data-theme="dark"] .inspector *,
