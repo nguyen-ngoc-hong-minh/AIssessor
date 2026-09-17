@@ -88,7 +88,7 @@ export function SignedInHome() {
           View previous consultations <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
         </Link>
         <Link className="signed-home-history" href="/tasks">
-          AI tools for tasks <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+          Browse AI tools <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
         </Link>
       </div>
     </section>
