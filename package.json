@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit",
     "convex:dev": "convex dev",
     "convex:deploy": "convex deploy",
+    "directory:scrape": "node scripts/scrape-taaft-directory.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern convex/_generated",
     "convex:codegen": "convex codegen"
   },

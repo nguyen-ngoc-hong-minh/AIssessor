@@ -94,6 +94,24 @@ When a changed evidence snapshot is stored, BENCHFLOW derives the affected task 
 
 See [BENCHMARK_SOURCES.md](./BENCHMARK_SOURCES.md) for source URLs, licenses, attribution, parser contracts, and unsupported-source reasons. `/admin/evidence` shows freshness, errors, counts, unchanged runs, unsupported sources, and the identity review queue.
 
+## AI task directory
+
+`/tasks` combines 12 independently reviewed product profiles with a larger discovery index. The generated index is stored at `public/data/task-directory.json` so the client can load it separately from the application bundle and paginate results.
+
+Directory records come from:
+
+- [There's An AI For That](https://taaft.com/tasks/): public task/search listings only. The scraper respects the site's published search-index content signal, ignores `/api/`, removes featured placements and mini tools, and stores factual listing metadata rather than long reviews or user comments.
+- [AutoVenture AI Tools Dataset](https://github.com/autoventure-projects/ai-tools-dataset): CC BY 4.0 dataset used with attribution.
+- [Open AI Tool Directory](https://github.com/diamitani/aitooldirectory): dataset published as free to use and reuse.
+
+Refresh the generated index with:
+
+```bash
+npm run directory:scrape
+```
+
+The scraper preserves previously collected TAAFT records if a public task page is temporarily rate-limited. Discovery listings are labeled separately from verified profiles in the UI; users are prompted to verify pricing, releases, and product claims before purchasing.
+
 ## Verification
 
 ```bash
