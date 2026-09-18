@@ -90,6 +90,10 @@ function ToolAvatar({ name, icon, website, className }: { name: string; icon?: s
   const [imgFailed, setImgFailed] = useState(false);
   const logoUrl = icon || (website ? getFaviconUrl(website) : "");
 
+  useEffect(() => {
+    setImgFailed(false);
+  }, [logoUrl]);
+
   if (!logoUrl || imgFailed) {
     return <span className={`${className} ${styles.textFallbackMark}`}>{name.slice(0, 2)}</span>;
   }
@@ -97,6 +101,7 @@ function ToolAvatar({ name, icon, website, className }: { name: string; icon?: s
   return (
     <span className={`${className} ${styles.logoMarkWrap}`}>
       <img
+        key={logoUrl}
         src={logoUrl}
         alt={`${name} logo`}
         className={styles.toolLogoImg}
@@ -178,6 +183,7 @@ function InspectorDetails({
       <div className={styles.inspectorHeader}>
         <div className={styles.inspectorTitleGroup}>
           <ToolAvatar
+            key={selectedTool.slug}
             name={selectedTool.name}
             icon={selectedTool.icon}
             website={selectedTool.website}
@@ -535,6 +541,7 @@ export function TaskDirectory() {
                       {isMobileOpen && (
                         <div className={styles.mobileInspectorWrap}>
                           <InspectorDetails
+                            key={selectedTool.slug}
                             selectedTool={selectedTool}
                             selectedAlternatives={selectedAlternatives}
                             onSelectAlternative={(alt) => {
@@ -587,6 +594,7 @@ export function TaskDirectory() {
             {/* Right Sticky Inspector (Desktop only) */}
             <aside className={styles.desktopInspector} aria-label={`${selectedTool.name} details`}>
               <InspectorDetails
+                key={selectedTool.slug}
                 selectedTool={selectedTool}
                 selectedAlternatives={selectedAlternatives}
                 onSelectAlternative={(alt) => {
