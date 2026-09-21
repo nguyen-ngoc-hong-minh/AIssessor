@@ -10,7 +10,9 @@ describe("Convex deployment migration", () => {
     expect(resolveConvexUrl("https://scrupulous-deer-129.convex.cloud/"))
       .toBe(ACTIVE_CONVEX_URL);
     expect(resolveConvexUrl("https://perceptive-snake-642.convex.cloud/"))
-      .toBe("https://terrific-hamster-925.convex.cloud");
+      .toBe(ACTIVE_CONVEX_URL);
+    expect(resolveConvexUrl("https://terrific-hamster-925.convex.cloud/"))
+      .toBe(ACTIVE_CONVEX_URL);
   });
 
   it("keeps an explicitly configured non-retired deployment", () => {
